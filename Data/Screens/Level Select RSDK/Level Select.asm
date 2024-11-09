@@ -350,8 +350,7 @@ LevelSelectRSDK_SwitchSide:
 		and.b	(Ctrl_1_pressed).w,d1
 		beq.s	.return
 		move.w	(LevelSelectRSDK_vertical_count).w,d0
-		move.b	.table(pc,d0.w),d0
-		move.w	d0,(LevelSelectRSDK_vertical_count).w
+		move.b	.table(pc,d0.w),(LevelSelectRSDK_vertical_count+1).w
 		sfx	sfx_Switch,1
 ; ---------------------------------------------------------------------------
 
