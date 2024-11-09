@@ -8,7 +8,7 @@ DebugMode_Speed:		= $80
 
 Debug_Mode:
 		tst.b	(Debug_placement_routine).w
-		bne.s	.control
+		bne.w	.control
 		addq.b	#2,(Debug_placement_routine).w
 		move.l	mappings(a0),(Debug_saved_mappings).w			; save mappings
 		cmpi.b	#PlayerID_Death,routine(a0)						; is player dead?
