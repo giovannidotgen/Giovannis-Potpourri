@@ -18,6 +18,8 @@ SBZ2_ScreenInit:
 SBZ2_ScreenEvent:
 		move.w	(Screen_shaking_offset).w,d0					; shake foreground
 		add.w	d0,(Camera_Y_pos_copy).w
+
+		; update FG
 		jmp	(DrawTilesAsYouMove).w
 
 ; =============== S U B R O U T I N E =======================================

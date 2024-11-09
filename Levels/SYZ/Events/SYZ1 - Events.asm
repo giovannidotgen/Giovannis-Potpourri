@@ -24,6 +24,8 @@ SYZ3_ScreenEvent:
 		clr.b	(Screen_event_flag).w					; clear redraw flag
 
 .draw
+
+		; update FG
 		jmp	(DrawTilesAsYouMove).w
 
 ; =============== S U B R O U T I N E =======================================
