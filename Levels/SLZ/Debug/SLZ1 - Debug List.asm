@@ -1,0 +1,42 @@
+; ---------------------------------------------------------------------------
+; SLZ debug mode item lists
+; ---------------------------------------------------------------------------
+
+				; object, mappings, subtype, frame, VRAM, palette, priority
+Debug_SLZ1: dbglistheader
+	dbglistobj Obj_Ring, Map_Ring, 0, 0, ArtTile_Ring, 1, 1
+	dbglistobj Obj_Monitor, Map_Monitor, 1, 2, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 2, 3, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 3, 4, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 4, 5, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 5, 6, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 6, 7, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 7, 8, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, 8, 9, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_Monitor, Map_Monitor, $A, $B, ArtTile_Monitors, 0, 0
+	dbglistobj Obj_PathSwap, Map_PathSwap, 9, 1, ArtTile_Ring, 1, 0
+	dbglistobj Obj_PathSwap, Map_PathSwap, $D, 5, ArtTile_Ring, 1, 0
+	dbglistobj Obj_Spring, Map_Spring, $81, 0, $494, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $82, 0, $494, 0, 0
+	dbglistobj Obj_Spring, Map_Spring, $90, 3, $4A0, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $92, 3, $4A0, 0, 0
+	dbglistobj Obj_Spring, Map_Spring, $A0, 6, $494, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, $494, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, $48C, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, $484, 0, 0
+	dbglistobj Obj_Elevator, Map_Elev, 0, 0, 0, 2, 0
+	dbglistobj Obj_CollapseFloor, Map_CFlo, 0, 2, $41C, 2, 0
+	dbglistobj Obj_FloatingPlatform, Map_Plat_SLZ, 0, 0, 0, 2, 0
+	dbglistobj Obj_CirclingPlatform, Map_Circ, 0, 0, 0, 2, 0
+	dbglistobj Obj_Staircase, Map_Offscreen, 0, 0, 0, 2, 0
+	dbglistobj Obj_Fan, Map_Fan, 0, 0, $3E8, 2, 0
+	dbglistobj Obj_Seesaw, Map_Seesaw, 0, 0, $37A, 0, 0
+	dbglistobj Obj_LavaMaker, Map_Fire, 0, 0, $434, 0, 0
+	dbglistobj Obj_StillSprite, Map_StillSprites, 3, 3, $42C, 2, 0
+	dbglistobj Obj_BombBadnik, Map_Bomb, 0, 0, $500, 0, 0
+	dbglistobj Obj_Orbinaut, Map_Orb, 2, 0, $55B, 1, 0
+	dbglistobj Obj_Animal, Map_Animals1, 0, 2, $592, 0, 0
+	dbglistobj Obj_StarPost, Map_StarPost, 1, 0, $5EC, 0, 0
+	dbglistobj Obj_EggCapsule, Map_EggCapsule, 1, 0, $494, 0, 0
+	dbglistobj Obj_EggCapsule_Flying, Map_EggCapsule, 1, 0, $494, 0, 0
+Debug_SLZ1_end
