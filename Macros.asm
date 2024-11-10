@@ -255,6 +255,11 @@ objanimalending macro address, mappings, vram, xvel, yvel
     endm
 ; ---------------------------------------------------------------------------
 
+LargeGrassEntry macro ptr,frame,width
+	offsetTableEntry.w ptr
+	dc.b frame,(width/2)
+    endm
+
 StillSpritesEntry macro prio,vram,pal,pri,height,width
 	dc.w sprite_priority(prio),make_art_tile(vram,pal,pri)
 	dc.b (height/2),(width/2)
