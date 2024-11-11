@@ -264,6 +264,14 @@ Touch_Monitor:
 		bne.s	.return									; if not, branch
 		cmpi.b	#AniIDSonAni_Roll,anim(a0)				; is player in his rolling animation?
 		beq.s	.okaytodestroy							; if so, branch
+		cmpi.b	#PlayerID_Sonic,character_id(a0)		; is player Sonic?
+		bne.s	.notsonic								; if not, branch
+		
+		cmpi.b	#AniIDSonAni_DropDash,anim(a0)			; is player in his Drop Dash animation?
+		beq.s	.okaytodestroy							; if so, branch
+		rts
+		
+.notsonic	
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)		; is player Knuckles?
 		bne.s	.return									; if not, return
 		cmpi.b	#1,double_jump_flag(a0)					; is Knuckles gliding?
@@ -287,6 +295,14 @@ Touch_Enemy:
 		beq.s	.checkhurtenemy							; if so, branch
 		cmpi.b	#AniIDSonAni_Roll,anim(a0)				; is player in their rolling animation?
 		beq.s	.checkhurtenemy							; if so, branch
+		
+		cmpi.b	#PlayerID_Sonic,character_id(a0)		; GIO: is player Sonic?
+		bne.s	.notsonic								; GIO: if not, branch
+		cmpi.b	#AniIDSonAni_DropDash,anim(a0)			; GIO: is Sonic charging a Drop Dash?
+		beq.s	.checkhurtenemy							; GIO: if so, branch
+		bra.w	Touch_ChkHurt							
+		
+.notsonic:		
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)		; is player Knuckles?
 		bne.s	.notknuckles								; if not, branch
 		cmpi.b	#1,double_jump_flag(a0)					; is Knuckles gliding?

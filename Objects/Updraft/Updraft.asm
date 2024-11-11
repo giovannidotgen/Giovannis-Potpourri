@@ -52,7 +52,7 @@ Obj_Updraft:
 		asr.w	#6,d1
 		add.w	d1,y_pos(a1)
 		bset	#Status_InAir,status(a1)
-		bclr	#Status_RollJump,status(a1)
+;		bclr	#Status_RollJump,status(a1)
 
 		; clr
 		moveq	#0,d0

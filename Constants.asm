@@ -229,6 +229,7 @@ AniIDSonAni_20 =					id(ptr_AniSonic20)					; 20	(Unused?)
 AniIDSonAni_21 =					id(ptr_AniSonic21)					; 21	(Unused?)
 AniIDSonAni_Carry =					id(ptr_SonAni_Carry)					; 22
 AniIDSonAni_Carry2 =				id(ptr_SonAni_Carry2)				; 23
+AniIDSonAni_DropDash =				id(ptr_SonAni_DropDash)				; 24 (GIO)
 
 ; ---------------------------------------------------------------------------
 ; Tails animation IDs
@@ -352,7 +353,7 @@ bitUp:								equ 0
 ; ---------------------------------------------------------------------------
 
 object_size_bits =						6
-object_size =							$4A									; the size of an object's status table entry
+object_size =							$50									; the size of an object's status table entry
 next_object =							object_size
 
 ; ---------------------------------------------------------------------------
@@ -422,7 +423,7 @@ respawn_addr =						objoff_48							; word ; the address of this object's entry 
 ; ---------------------------------------------------------------------------
 
 ground_vel =							objoff_1C							; word ; overall velocity along ground, not updated when in the air
-double_jump_property =				objoff_25							; byte ; remaining frames of flight / 2 for Tails, gliding-related for Knuckles
+double_jump_property =				objoff_25							; byte ; remaining frames of flight / 2 for Tails, gliding-related for Knuckles [GIO: Drop Dash charge time for Sonic]
 flip_angle =							objoff_27							; byte ; angle about horizontal axis (360 degrees = 256)
 status_secondary =					objoff_2B							; byte ; see SCHG for details
 air_left =							objoff_2C							; byte
@@ -574,9 +575,10 @@ Status_Facing						= 0
 Status_InAir							= 1
 Status_Roll							= 2
 Status_OnObj						= 3
-Status_RollJump						= 4
+Status_RollJump						= 4	; GIO: Deprecated in Giovanni's Potpourri and derivatives
 Status_Push							= 5
 Status_Underwater					= 6
+Status_DropDashLock					= 7	; GIO: Used only by Sonic. Prevents him from initiating a Drop Dash.
 
 ; ---------------------------------------------------------------------------
 ; Player status secondary variables
@@ -584,11 +586,15 @@ Status_Underwater					= 6
 
 Status_Shield							= 0
 Status_Invincible						= 1
-Status_SpeedShoes					= 2
-
+Status_SpeedShoes						= 2
+Status_DropDash							= 3 ; GIO: Used only by Sonic. Determines whether or not a Drop Dash Charge was initiated.
 Status_FireShield						= 4
 Status_LtngShield						= 5
 Status_BublShield						= 6
+
+Status_FireShieldByte					= 1<<Status_FireShield
+Status_LtngShieldByte					= 1<<Status_LtngShield
+Status_BublShieldByte					= 1<<Status_BublShield
 
 ; ---------------------------------------------------------------------------
 ; Object status variables

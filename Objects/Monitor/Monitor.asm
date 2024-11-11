@@ -116,6 +116,13 @@ SolidObject_Monitor_SonicKnux:
 		bne.s	Monitor_ChkOverEdge								; if so, branch
 		cmpi.b	#AniIDSonAni_Roll,anim(a1)						; is Sonic/Knux in their rolling animation?
 		beq.s	.return											; if so, return
+		cmpi.b	#PlayerID_Sonic,character_id(a1)				; is character Sonic?
+		bne.s	.notsonic
+		cmpi.b	#AniIDSonAni_DropDash,anim(a1)					; is Sonic in his Drop Dash animation?
+		beq.s	.return											; if so, return
+		bra.s	.solid
+
+.notsonic		
 		cmpi.b	#PlayerID_Knuckles,character_id(a1)				; is character Knuckles?
 		bne.s	.solid											; if not, branch
 		cmpi.b	#1,double_jump_flag(a1)							; is Knuckles gliding?

@@ -507,6 +507,7 @@ locret_11034:
 
 ; Sonic_Spin_Freespace:
 Sonic_MdJump:
+		bsr.w	Sonic_DropDash
 		bsr.w	Sonic_JumpHeight
 		bsr.w	Sonic_ChgJumpDir
 		bsr.w	Player_LevelBound
@@ -1138,8 +1139,8 @@ Sonic_ChgJumpDir:
 		move.w	Max_speed-Max_speed(a4),d6
 		move.w	Acceleration-Max_speed(a4),d5
 		asl.w	d5
-		btst	#Status_RollJump,status(a0)					; did Sonic jump from rolling?
-		bne.s	Sonic_Jump_ResetScr						; if yes, branch to skip midair control
+;		btst	#Status_RollJump,status(a0)					; did Sonic jump from rolling?
+;		bne.s	Sonic_Jump_ResetScr						; if yes, branch to skip midair control
 		move.w	x_vel(a0),d0
 		btst	#button_left,(Ctrl_1_logical).w
 		beq.s	loc_11682								; if not holding left, branch
@@ -1410,6 +1411,9 @@ loc_1182E:
 		add.w	d0,y_vel(a0)								; make Sonic jump (in Y)
 		bset	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)	
 		addq.w	#4,sp
 		move.b	#1,jumping(a0)
 		clr.b	stick_to_convex(a0)
@@ -1474,7 +1478,7 @@ Sonic_InstaAndShieldMoves:
 		moveq	#btnABC,d0								; are buttons A, B, or C being pressed?
 		and.b	(Ctrl_1_pressed_logical).w,d0
 		beq.s	locret_118FE								; if not, branch
-		bclr	#Status_RollJump,status(a0)
+;		bclr	#Status_RollJump,status(a0)
 
 Sonic_FireShield:
 		btst	#Status_Invincible,status_secondary(a0)			; first, does Sonic have invincibility?
@@ -1529,16 +1533,81 @@ Sonic_InstaShield:
 locret_11A14:
 		rts
 
+; ---------------------------------------------------------------------------
+; Subroutine allowing Sonic to charge a Drop Dash.
+; Based on a conversion by giovanni.gen
+; Also see Sonic_PerformDropDash
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Sonic_DropDash:
+		tst.b 	(WindTunnel_flag).w			; Is Sonic in a wind tunnel? (e.g. LZ's underwater wind tunnels)
+		bne.w	Sonic_DropCancel3			; If so, cancel the Drop Dash
+		btst 	#Status_DropDash,status_secondary(a0) 	; Is the Drop Dash in the middle of a charge?
+		bne.s  	Sonic_DropCharge 			; If yes, branch		
+		btst	#Status_Invincible,status_secondary(a0)		; Is Sonic invincible?
+		bne.s	.skip										; If so, skip checking for shields
+		move.b	status_secondary(a0),d0
+		andi.b	#(Status_FireShieldByte+Status_LtngShieldByte+Status_BublShieldByte),d0	; Does Sonic have any elemental shield?
+		bne.w	Sonic_DropCancel3							; If so, cancel the Drop Dash
+.skip:
+		tst.b	jumping(a0)					; Is Sonic Jumping?
+		beq.w	Sonic_DropCancel1			; If not, stop the Drop Dash from charging
+		move.b 	(Ctrl_1_pressed_logical).w,d0 ; Grab current controller inputs
+		andi.b 	#btnABC,d0						; Is A, B or C being pressed?
+		beq.w  	locret_11A14 			; If not, return	
+		btst 	#Status_DropDashLock,status(a0) 	; Can the Drop Dash be performed at all?
+		bne.w  	locret_11A14 			; If not, return
+		bset 	#Status_DropDash,status_secondary(a0) 	; Mark the Drop Dash Charge as initiated
+		rts
+	
+Sonic_DropCharge:
+		cmpi.b 	#20,double_jump_property(a0) 	; Was a Drop Dash Charge completed?
+		beq.s  	Sonic_DropSustain				; If so, branch
+		move.b 	(Ctrl_1_held_logical).w,d0 		; Grab current controller inputs
+		andi.b 	#btnABC,d0						; Is A, B or C being held?	
+		beq.s  	Sonic_DropCancel1				; If not, cancel the Drop Dash charge
+		cmpi.b 	#AniIDSonAni_Roll,anim(a0)   	; Is Sonic in his rolling animation?
+		bne.s  	Sonic_DropCancel1				; If not, cancel the Drop Dash charge
+		addi.b 	#1,double_jump_property(a0)   	; Add 1 to the Drop Dash charge frame counter
+		cmpi.b 	#20,double_jump_property(a0) 	; Has it become 20?
+		bne.w  	locret_11A14 					; If not, return
+		move.b 	#AniIDSonAni_DropDash,anim(a0) 	; Set Sonic's animation
+		sfx		sfx_Roll,1
+
+Sonic_DropSustain:
+		move.b 	(Ctrl_1_held_logical).w,d0 			; grab current controller inputs
+		andi.b 	#btnABC,d0							; Is A, B or C being held?	
+		beq.s  	Sonic_DropCancel2					; If not, cancel the Drop Dash
+		rts
+	
+; Cancel the Drop Dash, but allow a charge to be reinitiated	
+Sonic_DropCancel1:
+		bclr	#Status_DropDash,status_secondary(a0)
+		clr.b	double_jump_property(a0)
+		rts
+	
+; Reset Sonic's animation
+Sonic_DropCancel2:
+		move.b 	#AniIDSonAni_Roll,anim(a0) 					; set Sonic's animation back to rolling	
+; Cancel the Drop Dash, and prevent further ones to be charged during this jump
+Sonic_DropCancel3:	
+		bclr	#Status_DropDash,status_secondary(a0)
+		bset 	#Status_DropDashLock,status(a0)		; set drop dash lock flag
+		clr.b	double_jump_property(a0)
+		rts
+
 ; =============== S U B R O U T I N E =======================================
 
 SonicKnux_Spindash:
 		tst.b	spin_dash_flag(a0)
 		bne.s	loc_11C5E
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)
-		bne.s	locret_11A14
+		bne.w	locret_11A14
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_pressed_logical).w,d0
-		beq.s	locret_11A14
+		beq.w	locret_11A14
 		move.b	#AniIDSonAni_SpinDash,anim(a0)
 		sfx	sfx_SpinDash
 		addq.w	#4,sp
@@ -1936,16 +2005,16 @@ loc_11F44:
 		clr.w	x_vel(a0)	; stop Sonic since he hit a wall
 
 loc_11F56:
-		bsr.s	sub_11FD6
+		bsr.w	sub_11FD6
 		tst.w	d1
-		bpl.s	locret_11FD4
+		bpl.w	locret_11FD4
 		move.b	y_vel(a0),d2
 		addq.b	#8,d2
 		neg.b	d2
 		cmp.b	d2,d1
 		bge.s	loc_11F6E
 		cmp.b	d2,d0
-		blt.s		locret_11FD4
+		blt.w	locret_11FD4
 
 loc_11F6E:
 		move.b	d3,angle(a0)
@@ -1970,7 +2039,13 @@ loc_11F7A:
 loc_11F9C:
 		clr.w	y_vel(a0)
 		move.w	x_vel(a0),ground_vel(a0)
-		bra.w	Player_TouchFloor
+		bsr.w	Player_TouchFloor
+		bsr.w	Sonic_PerformDropDash
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)			
+		rts
+		
 ; ---------------------------------------------------------------------------
 
 loc_11FAE:
@@ -1983,10 +2058,18 @@ loc_11FC2:
 		bsr.w	Player_TouchFloor
 		move.w	y_vel(a0),ground_vel(a0)
 		tst.b	d3
-		bpl.s	locret_11FD4
+		bpl.s	.dodropdash
 		neg.w	ground_vel(a0)
 
-locret_11FD4:
+.dodropdash:
+		bsr.w	Sonic_PerformDropDash
+		cmpi.b	#PlayerID_Sonic,character_id(a0)
+		bne.s	locret_11FD4
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)
+
+locret_11FD4:	
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -2078,7 +2161,12 @@ loc_12084:
 		move.b	d3,angle(a0)
 		clr.w	y_vel(a0)
 		move.w	x_vel(a0),ground_vel(a0)
-		bra.w	Player_TouchFloor
+		bsr.w	Player_TouchFloor
+		bsr.w	Sonic_PerformDropDash
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)	
+		rts
 ; ---------------------------------------------------------------------------
 
 Player_HitCeilingAndWalls:
@@ -2115,11 +2203,19 @@ loc_120D2:
 
 loc_120EA:
 		move.b	d3,angle(a0)
-		bsr.s	Player_TouchFloor
+		bsr.w	Player_TouchFloor
 		move.w	y_vel(a0),ground_vel(a0)
 		tst.b	d3
-		bpl.s	locret_12100
+		bpl.s	.dodropdash
 		neg.w	ground_vel(a0)
+
+.dodropdash:
+		bsr.w	Sonic_PerformDropDash
+		cmpi.b	#PlayerID_Sonic,character_id(a0)
+		bne.s	locret_12100
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)
 
 locret_12100:
 		rts
@@ -2170,6 +2266,12 @@ loc_12158:
 		move.b	d3,angle(a0)
 		clr.w	y_vel(a0)
 		move.w	x_vel(a0),ground_vel(a0)
+		bsr.w	Player_TouchFloor
+		bsr.w	Sonic_PerformDropDash
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)	
+		rts		
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2211,27 +2313,136 @@ loc_121D2:
 loc_121D8:
 		bclr	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
-		bclr	#Status_RollJump,status(a0)
+;		bclr	#Status_RollJump,status(a0)
 		moveq	#0,d0
 		move.b	d0,jumping(a0)
 		move.w	d0,(Chain_bonus_counter).w
 		move.b	d0,flip_angle(a0)
 		move.b	d0,flip_type(a0)
 		move.b	d0,flips_remaining(a0)
-		move.b	d0,scroll_delay_counter(a0)
+		move.b	d0,scroll_delay_counter(a0)	
+		
+		btst	#Status_DropDashLock,status(a0)
+		beq.s	.skip
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)
+.skip:
+		
 		tst.b	double_jump_flag(a0)
 		beq.s	locret_12230
 		btst	#Status_Invincible,status_secondary(a0)			; don't bounce when invincible
 		bne.s	loc_1222A
 		btst	#Status_BublShield,status_secondary(a0)
 		beq.s	loc_1222A
-		bsr.s	BubbleShield_Bounce
+		bsr.w	BubbleShield_Bounce
 
 loc_1222A:
 		clr.b	double_jump_flag(a0)
 
 locret_12230:
 		rts
+
+; ---------------------------------------------------------------------------
+; Subroutine allowing Sonic to perform a Drop Dash.
+; Based on a conversion by giovanni.gen
+; Also see Sonic_DropDash
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Sonic_PerformDropDash:
+		cmpi.b	#PlayerID_Sonic,character_id(a0)	; is the character performing this actually Sonic?
+		bne.w	.return
+		cmpi.b	#20,double_jump_property(a0)	; is the Drop Dash fully charged?
+		blo.w	.return							; if not, return
+
+		move.w	#$800,d2				; minimum speed
+		move.w	#$C00,d3				; maximum speed
+		
+		; At the time of writing, Sonic Clean Engine does not implement Super Sonic.
+		; If you do, please uncomment these lines.
+		; tst.b	(Super_Sonic_flag).w	; is player super?
+		; beq.s	.checkorientation		; if not, branch
+		
+		; move.w	#$C00,d2				; else, use alt values
+		; move.w	#$D00,d3
+
+.checkorientation:	
+		move.w  ground_vel(a0),d4
+		; These lines are only useful in conjunction with the Rolling Jump Lock, not present in Sonic 1 SCE
+		; btst	#button_left,(Ctrl_1_Held_Logical).w ; is left being pressed?
+		; bne.s	.mathleft	; if yes, branch	
+		; btst	#button_right,(Ctrl_1_Held_Logical).w ; is right being pressed?
+		; bne.s	.mathright	; if yes, branch		
+		btst    #0,status(a0) ; if neither are being pressed, check orientation
+		beq.s   .mathright
+	
+.mathleft:				; drop dash speed mathematics from Sonic Mania (facing left)
+		neg.w	d2					; negate base value
+		neg.w	d3					; negate base value
+
+		bset    #0,status(a0)   	; force orientation to correct one
+		tst.w   x_vel(a0)			; check if speed is greater than 0
+		bgt.s   .slopeleft 			; if yes, branch
+		asr.w   #2,d4           	; divide ground speed by 4
+		add.w   d2,d4           	; add speed base to ground speed
+		cmp.w   d3,d4           	; check if current speed is lower than speed cap
+		bgt.s   .end 	; if not, branch
+		move.w  d3,d4				; if yes, cap speed
+		bra.s   .end
+.slopeleft:
+		tst.b	angle(a0)      		; check if Sonic is on a flat surface
+		beq.s   .backwardsleft  	; if yes, branch
+		asr.w   #1,d4           	; divide ground speed by 2
+		add.w   d2,d4          		; add speed base to ground speed
+		bra.s   .end
+.backwardsleft:
+		move.w  d2,d4 				; move speed base to ground speed
+		bra.s   .end
+	
+.mathright:
+		bclr    #0,status(a0) 			; force orientation to correct one			
+		tst.w	x_vel(a0)					; check if speed is lower than 0
+		blt.s   .sloperight 	; if yes, branch
+		asr.w   #2,d4           		; divide ground speed by 4
+		add.w   d2,d4           		; add speed base to ground speed
+		cmp.w   d3,d4           		; check if current speed is lower than speed cap
+		blt.s   .end 		; if not, branch
+		move.w  d3,d4			  		; if yes, cap speed
+		bra.s   .end
+.sloperight:
+		tst.b	angle(a0)      		; check if Sonic is on a flat surface
+		beq.s   .backwardsright 	; if yes, branch
+		asr.w   #1,d4           		; divide ground speed by 2
+		add.w   d2,d4           		; add speed base to ground speed
+		bra.s   .end
+.backwardsright:
+		move.w  d2,d4					; move speed base to ground speed 
+
+.end:	
+		move.w	d4,ground_vel(a0)
+
+		move.w	#$1000,(H_scroll_frame_offset).w
+		bsr.w	Reset_Player_Position_Array
+		move.b	#$E,y_radius(a0)
+		move.b	#7,x_radius(a0)
+		move.b	#AniIDSonAni_Roll,anim(a0)
+		addq.w	#5,y_pos(a0)	; add the difference between Sonic's rolling and standing heights
+		bset	#Status_Roll,status(a0)
+		
+		; TODO: Dust for releasing the Drop Dash
+		; move.b	#4,(Sonic_Dust+anim).w
+		; move.w	x_pos(a0),(Sonic_Dust+x_pos).w
+		; move.w	y_pos(a0),(Sonic_Dust+y_pos).w
+		; move.b	status(a0),(Sonic_Dust+status).w
+		; andi.b	#1,(Sonic_Dust+status).w	
+		
+		; If you add support for Super forms, make sure that Sonic CD's dash release SFX is usued instead.
+		sfx		sfx_Dash,1
+	
+.return:
+		rts	
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2271,6 +2482,8 @@ BubbleShield_Bounce:
 
 Sonic_Hurt:
 
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDash,status_secondary(a0)
 	if GameDebug
 		tst.b	(Debug_mode_flag).w
 		beq.s	+

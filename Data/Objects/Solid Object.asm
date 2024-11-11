@@ -998,7 +998,7 @@ loc_1E42E:
 
 loc_1E44C:
 		tst.b	(Reverse_gravity_flag).w
-		bne.s	loc_1E4D6
+		bne.w	loc_1E4D6
 		move.w	y_pos(a0),d0
 		sub.w	d3,d0
 
@@ -1009,15 +1009,15 @@ loc_1E45A:
 		add.w	d2,d1
 		addq.w	#4,d1
 		sub.w	d1,d0
-		bhi.s	locret_1E4D4
+		bhi.w	locret_1E4D4
 		cmpi.w	#-16,d0
-		blo.s		locret_1E4D4
+		blo.w	locret_1E4D4
 		tst.b	object_control(a1)
-		bmi.s	locret_1E4D4
+		bmi.w	locret_1E4D4
 		cmpi.b	#PlayerID_Death,routine(a1)							; has player just died?
-		bhs.s	locret_1E4D4											; if yes, branch
+		bhs.w	locret_1E4D4											; if yes, branch
 		tst.w	(Debug_placement_mode).w							; is debug mode on?
-		bne.s	locret_1E4D4											; if yes, branch
+		bne.w	locret_1E4D4											; if yes, branch
 		add.w	d0,d2
 		addq.w	#3,d2
 		move.w	d2,y_pos(a1)
@@ -1039,9 +1039,30 @@ loc_1E4A0:
 		bset	d6,status(a0)
 		bclr	#Status_InAir,status(a1)
 		beq.s	locret_1E4D4
+		
+		; GIO: i fucking hate the drop dash
+		cmpi.b	#PlayerID_Sonic,character_id(a1)	; check if player is Sonic
+		bne.s	.skipchecks
+		cmpi.l	#Obj_Spring,(a0)					; is object uninitialized spring?
+		beq.s	.canceldropdash
+		cmpi.l	#Obj_Spring_Up,(a0)					; is object upwards facing spring?
+		beq.s	.canceldropdash
+		cmpi.l	#Obj_Spring_UpDiag,(a0)					; is object diagonal upwards facing spring?
+		beq.s	.canceldropdash		
+		cmpi.l	#Obj_Spring_Up_NoSolid,(a0)					; is object upwards facing spring that is not solid?			
+		bne.s	.skipchecks
+	
+	.canceldropdash:
+		clr.b	double_jump_property(a1)			; clear the Drop Dash charge timer
+		
+	.skipchecks:	
 		move.w	a0,-(sp)
 		movea.w	a1,a0
 		jsr	Player_TouchFloor(pc)
+		bsr.w	Sonic_PerformDropDash
+		clr.b	double_jump_property(a0)
+		bclr	#Status_DropDashLock,status(a0)
+		bclr	#Status_DropDash,status_secondary(a0)			
 		movea.w	(sp)+,a0
 
 locret_1E4D4:
@@ -1070,7 +1091,7 @@ loc_1E4D6:
 		sub.w	d1,d2
 		subq.w	#4,d2
 		move.w	d2,y_pos(a1)
-		bra.s	RideObject_SetRide
+		bra.w	RideObject_SetRide
 ; ---------------------------------------------------------------------------
 
 SolidObjCheckSloped2:

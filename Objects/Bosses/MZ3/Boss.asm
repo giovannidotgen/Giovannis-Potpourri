@@ -447,7 +447,7 @@ Obj74_MakeFlame:
 
 		; if you make a different object size, you need to change this code
 
-	if object_size<>$4A
+	if object_size<>$50
 		fatal "Warning! The object size is different!"
 	endif
 
