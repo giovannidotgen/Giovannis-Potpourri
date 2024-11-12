@@ -2432,11 +2432,11 @@ Sonic_PerformDropDash:
 		bset	#Status_Roll,status(a0)
 		
 		; TODO: Dust for releasing the Drop Dash
-		; move.b	#4,(Sonic_Dust+anim).w
-		; move.w	x_pos(a0),(Sonic_Dust+x_pos).w
-		; move.w	y_pos(a0),(Sonic_Dust+y_pos).w
-		; move.b	status(a0),(Sonic_Dust+status).w
-		; andi.b	#1,(Sonic_Dust+status).w	
+		move.b	#5,(Dust+anim).w
+		move.b	status(a0),(Dust+status).w
+		move.w	x_pos(a0),(Dust+x_pos).w
+		move.w	y_pos(a0),(Dust+y_pos).w
+		andi.b	#1,(Dust+status).w	
 		
 		; If you add support for Super forms, make sure that Sonic CD's dash release SFX is usued instead.
 		sfx		sfx_Dash,1

@@ -43,11 +43,39 @@ Obj_DashDust:
 
 .index
 		bra.s	.splash												; 1
-		bra.s	.spindashdust											; 2
+		bra.s	.brawtospindashdust									; 2
+		bra.s	.fromground											; 3 (LBZ1 only?)
+		bra.s	.fromground											; 4 (is actually handled by different code)
 
 ; =============== S U B R O U T I N E =======================================
 
-.fromground															; 3 (LBZ1 only?)
+.dropdash:															; 5
+		tst.b	prev_anim(a0)
+		bne.s	.ddanim
+		move.w	x_pos(a2),x_pos(a0)
+		move.w	y_pos(a2),y_pos(a0)
+		clr.b	status(a0)
+		andi.w	#drawing_mask,art_tile(a0)
+	
+	
+.ddanim:
+		lea	Ani_DashSplashDrown(pc),a1
+		jsr	(Animate_Sprite).w
+
+		; check reset frame
+		tst.b	anim(a0)												; changed by Animate_Sprite
+		beq.w	.reset
+		bsr.w	DashDust_Load_DPLC
+		jmp	(Draw_Sprite).w	
+		
+; --------------------------------------------------------------------------	
+	
+.brawtospindashdust:
+		bra.w	.spindashdust
+	
+; --------------------------------------------------------------------------	
+
+.fromground															
 		tst.b	prev_anim(a0)
 		bne.s	.anim
 		move.w	x_pos(a2),x_pos(a0)
@@ -257,5 +285,7 @@ Obj_DashDust_SkidDust:
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Spin Dust/Object Data/Anim - Dash Splash Drown.asm"
+Map_DashDust:	
 		include "Objects/Spin Dust/Object Data/Map - Dash Dust.asm"
+DPLC_DashSplashDrown:		
 		include "Objects/Spin Dust/Object Data/DPLC - Dash Splash Drown.asm"
