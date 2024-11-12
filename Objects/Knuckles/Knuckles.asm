@@ -882,7 +882,7 @@ Knuckles_Wall_Climb:
 		moveq	#9,d2
 		add.w	y_pos(a0),d2
 		move.w	x_pos(a0),d3
-		bsr.w	sub_F828
+		jsr	(sub_F828).w
 
 		; check if Knuckles has room below him
 		tst.w	d1
@@ -929,7 +929,7 @@ Knuckles_Wall_Climb:
 		move.w	y_pos(a0),d2
 		addq.w	#8,d2
 		move.w	x_pos(a0),d3
-		bsr.w	sub_F828
+		jsr	(sub_F828).w
 
 		; Check if Knuckles has room above him.
 		tst.w	d1
@@ -987,7 +987,7 @@ Knuckles_Wall_Climb:
 		moveq	#9,d2
 		add.w	y_pos(a0),d2
 		move.w	x_pos(a0),d3
-		bsr.w	sub_F828
+		jsr	(sub_F828).w
 
 		; Check if Knuckles has room below him.
 		tst.w	d1
