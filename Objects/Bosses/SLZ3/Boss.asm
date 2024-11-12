@@ -590,10 +590,10 @@ BossSpikeBall_SpikeBall_LaunchCharacter:
 		; set
 		move.w	a0,-(sp)
 		movea.w	a2,a0
-		lea	(loc_11790).l,a3										; Sonic/Knux
+		lea	(SonicKnux_ChkRoll).l,a3								; Sonic/Knux
 		cmpa.w	#Player_1,a0										; is this the main character?
 		beq.s	.proll											; if so, branch
-		lea	(loc_14FBA).l,a3										; Tails
+		lea	(Tails_ChkRoll).l,a3									; Tails
 
 .proll
 		jsr	(a3)
