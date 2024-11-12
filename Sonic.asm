@@ -245,9 +245,6 @@ EndOfHeader
 ; ---------------------------------------------------------------------------
 ; Objects Subroutines
 ; ---------------------------------------------------------------------------
-		rept 8
-		dc.b	"IF THIS DOESN'T BOOT I'M KILLING MYSELF"
-		endr
 		include "Data/Objects/Animate Raw.asm"
 		include "Data/Objects/Animate Sprite.asm"
 		include "Data/Objects/Calc Angle.asm"
@@ -468,6 +465,7 @@ EndOfHeader
 		; Sonic
 		include "Objects/Sonic/Object Data/Anim - Sonic.asm"
 		include "Objects/Sonic/Object Data/Map - Sonic.asm"
+		DPLC_Sonic:
 		include "Objects/Sonic/Object Data/DPLC - Sonic.asm"
 
 		; Tails

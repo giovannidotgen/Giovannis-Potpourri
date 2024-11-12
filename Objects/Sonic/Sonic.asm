@@ -1574,7 +1574,7 @@ Sonic_DropCharge:
 		cmpi.b 	#20,double_jump_property(a0) 	; Has it become 20?
 		bne.w  	locret_11A14 					; If not, return
 		move.b 	#AniIDSonAni_DropDash,anim(a0) 	; Set Sonic's animation
-		sfx		sfx_Roll,1
+		sfx		sfx_DropDash,1
 
 Sonic_DropSustain:
 		move.b 	(Ctrl_1_held_logical).w,d0 			; grab current controller inputs

@@ -84,5 +84,5 @@ AniSonic20:			dc.b 9, 8, 9, $FF
 AniSonic21:			dc.b 3, 7, $FD, 0
 SonAni_Carry:		dc.b $B, $90, $91, $92, $91, $FF
 SonAni_Carry2:		dc.b $B, $90, $91, $92, $91, $FD, 0
-SonAni_DropDash:	dc.b $1F, $96, $FF	; TEMPORARY
+SonAni_DropDash:	dc.b $1, $DB, $DC, $FF	; TEMPORARY
 	even
