@@ -5192,6 +5192,8 @@ Sound_43_Ptr:	offsetBankTableEntry.w Sound_43
 Sound_44_Ptr:	offsetBankTableEntry.w Sound_44
 Sound_45_Ptr:	offsetBankTableEntry.w Sound_45
 Sound_46_Ptr:	offsetBankTableEntry.w Sound_46
+Sound_47_Ptr:	offsetBankTableEntry.w Sound_47
+Sound_48_Ptr:	offsetBankTableEntry.w Sound_48
 
 ; Continuous
 Sound_C01_Ptr:	offsetBankTableEntry.w Sound_C01
@@ -5276,6 +5278,8 @@ Sound_43:	include "Sound/SFX/Snd - Mecha Transform.asm"
 Sound_44:	include "Sound/SFX/Snd - Signpost Rotation.asm"
 Sound_45:	include "Sound/SFX/Snd - Hidden Bonus.asm"
 Sound_46:	include "Sound/SFX/Snd - Big Ring.asm"
+Sound_47:	include "Sound/SFX/Snd - Thump.asm"
+Sound_48:	include "Sound/SFX/Snd - Crash.asm"
 
 ; Continuous
 Sound_C01:	include "Sound/SFX/Continuous/Snd - Robotnik Siren.asm"

@@ -137,6 +137,8 @@ sfx_MechaTransform		ds.b 1		; $43
 sfx_SignpostRotation		ds.b 1		; $44
 sfx_HiddenBonus			ds.b 1		; $45
 sfx_BigRing				ds.b 1		; $46
+sfx_Thump				ds.b 1		; $47
+sfx_Crash				ds.b 1		; $48
 
 ; Continuous
 sfx__FirstContinuous =	*			; ID of the first continuous sound effect
