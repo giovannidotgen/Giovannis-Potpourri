@@ -60,12 +60,13 @@ Obj_FireShield:
 .nothighpriority2
 		lea	Ani_FireShield(pc),a1
 		jsr	(Animate_Sprite).w
-		move.w	#priority_1,priority(a0)							; layer shield over player sprite
+		move.w	#priority_1,d0									; layer shield over player sprite
 		cmpi.b	#$F,mapping_frame(a0)							; are these the frames that display in front of the player?
 		blo.s		.overplayer										; if so, branch
-		move.w	#priority_4,priority(a0)							; if not, layer shield behind player sprite
+		move.w	#priority_4,d0									; if not, layer shield behind player sprite
 
 .overplayer
+		move.w	d0,priority(a0)
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -145,12 +146,13 @@ Obj_LightningShield:
 .display
 		lea	Ani_LightningShield(pc),a1
 		jsr	(Animate_Sprite).w
-		move.w	#priority_1,priority(a0)							; layer shield over player sprite
+		move.w	#priority_1,d0									; layer shield over player sprite
 		cmpi.b	#$E,mapping_frame(a0)							; are these the frames that display in front of the player?
 		blo.s		.overplayer										; if so, branch
-		move.w	#priority_4,priority(a0)							; if not, layer shield behind player sprite
+		move.w	#priority_4,d0									; if not, layer shield behind player sprite
 
 .overplayer
+		move.w	d0,priority(a0)
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
