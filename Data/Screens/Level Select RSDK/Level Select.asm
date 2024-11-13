@@ -648,16 +648,15 @@ LevelSelectRSDK_LoadText:
 		dbf	d1,.nload
 
 		; SBZ
-		lea	-$9D6(a1),a1
 		moveq	#'1',d0													; write (act) '1'
 		add.w	d3,d0
-		move.w	d0,(a1)
+		move.w	d0,-$9D6(a1)
 		moveq	#'2',d0													; write (act) '2'
 		add.w	d3,d0
-		move.w	d0,$80(a1)
+		move.w	d0,-$956(a1)
 		moveq	#'3',d0													; write (act) '3'
 		add.w	d3,d0
-		move.w	d0,$100(a1)
+		move.w	d0,-$8D6(a1)
 
 		; copy buffer
 		lea	(LevelSelectRSDK_buffer).l,a1
