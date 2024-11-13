@@ -172,7 +172,8 @@ LevelSelectRSDKScreen:
 		move.b	#GameModeID_LevelScreen,(Game_mode).w					; set screen mode to Level
 		move.w	(LevelSelectRSDK_vertical_count).w,d2
 		add.w	d2,d2
-		move.w	.index(pc,d2.w),d2
+		lea	TitleLevelSelectScreen.index(pc),a0
+		move.w	(a0,d2.w),d2
 		move.w	d2,(Current_zone_and_act).w
 		move.w	d2,(Apparent_zone_and_act).w
 		clr.b	(Current_special_stage).w
@@ -197,28 +198,6 @@ LevelSelectRSDKScreen:
 		clr.l	(a1)+
 		clr.l	(a1)+
 		rts
-; ---------------------------------------------------------------------------
-
-.index
-		dc.w bytes_to_word(LevelID_GHZ,0)
-		dc.w bytes_to_word(LevelID_GHZ,1)
-		dc.w bytes_to_word(LevelID_GHZ,2)
-		dc.w bytes_to_word(LevelID_MZ,0)
-		dc.w bytes_to_word(LevelID_MZ,1)
-		dc.w bytes_to_word(LevelID_MZ,2)
-		dc.w bytes_to_word(LevelID_SYZ,0)
-		dc.w bytes_to_word(LevelID_SYZ,1)
-		dc.w bytes_to_word(LevelID_SYZ,2)
-		dc.w bytes_to_word(LevelID_LZ,0)
-		dc.w bytes_to_word(LevelID_LZ,1)
-		dc.w bytes_to_word(LevelID_LZ,2)
-		dc.w bytes_to_word(LevelID_SLZ,0)
-		dc.w bytes_to_word(LevelID_SLZ,1)
-		dc.w bytes_to_word(LevelID_SLZ,2)
-		dc.w bytes_to_word(LevelID_SBZ,0)
-		dc.w bytes_to_word(LevelID_SBZ,1)
-		dc.w bytes_to_word(LevelID_LZ,3)
-		dc.w bytes_to_word(LevelID_SBZ,2)
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -239,15 +218,15 @@ LevelSelectRSDK_Controls:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.getcharacter							; 0
-		bra.s	.getmusic							; 2
-		bra.s	.getsound							; 4
+		bra.s	.getcharacter												; 0
+		bra.s	.getmusic												; 2
+		bra.s	.getsound												; 4
 
 ; ---------------------------------------------------------------------------
 ; Play sample
 ; ---------------------------------------------------------------------------
 
-		; get sample														; 10
+		; get sample														; 6
 		moveq	#LevelSelectRSDK_MaxSampleNumber,d2					; set max count
 		move.w	(LevelSelectRSDK_sample_count).w,d3
 		lea	(LevelSelectRSDK_control_timer).w,a3
@@ -394,7 +373,7 @@ LevelSelectRSDK_SwitchSide:
 LevelSelectRSDK_UpdateIcons:
 
 		; check
-		moveq	#0,d1
+		moveq	#0,d1													; is used to load art
 		move.w	(LevelSelectRSDK_vertical_count).w,d1
 		cmp.w	(LevelSelectRSDK_vertical_count_prev).w,d1
 		beq.s	LevelSelectRSDK_SwitchSide.return
@@ -659,15 +638,13 @@ LevelSelectRSDK_LoadText:
 		moveq	#'1',d0													; write (act) '1'
 		add.w	d3,d0
 		move.w	d0,(a1)
-		lea	$80(a1),a1													; next line
 		moveq	#'2',d0													; write (act) '2'
 		add.w	d3,d0
-		move.w	d0,(a1)
-		lea	$80(a1),a1													; next line
+		move.w	d0,$80(a1)
 		moveq	#'3',d0													; write (act) '3'
 		add.w	d3,d0
-		move.w	d0,(a1)
-		lea	$100(a1),a1													; next line
+		move.w	d0,$100(a1)
+		lea	$200(a1),a1													; next line
 		dbf	d1,.nload
 
 		; SBZ
@@ -675,14 +652,12 @@ LevelSelectRSDK_LoadText:
 		moveq	#'1',d0													; write (act) '1'
 		add.w	d3,d0
 		move.w	d0,(a1)
-		lea	$80(a1),a1													; next line
 		moveq	#'2',d0													; write (act) '2'
 		add.w	d3,d0
-		move.w	d0,(a1)
-		lea	$80(a1),a1													; next line
+		move.w	d0,$80(a1)
 		moveq	#'3',d0													; write (act) '3'
 		add.w	d3,d0
-		move.w	d0,(a1)
+		move.w	d0,$100(a1)
 
 		; copy buffer
 		lea	(LevelSelectRSDK_buffer).l,a1
