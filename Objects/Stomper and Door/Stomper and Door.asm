@@ -113,6 +113,7 @@ Obj_ScrapStomp:
 		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ
 		bne.s	.offscreen2									; if not, branch
 		clr.b	(Scrap_stomp_flag).w
+		clr.b	(Screen_shaking_flag).w
 
 .offscreen2
 		move.w	respawn_addr(a0),d0							; get address in respawn table
@@ -133,7 +134,7 @@ ScrapStomp_TypeIndex: offsetTable
 		offsetTableEntry.w .type05		; 5
 ; ---------------------------------------------------------------------------
 
-.type01:
+.type01
 		tst.b	sto_active(a0)
 		bne.s	.isactive01
 		lea	(Level_trigger_array).w,a2
@@ -141,29 +142,29 @@ ScrapStomp_TypeIndex: offsetTable
 		move.b	objoff_3E(a0),d0
 		btst	#0,(a2,d0.w)
 		beq.s	.loc_15DC2
-		move.b	#1,sto_active(a0)
+		st	sto_active(a0)
 
-.isactive01:
+.isactive01
 		move.w	objoff_3C(a0),d0
 		cmp.w	objoff_3A(a0),d0
 		beq.s	.loc_15DE0
 		addq.w	#2,objoff_3A(a0)
 
-.loc_15DC2:
+.loc_15DC2
 		move.w	objoff_3A(a0),d0
 		btst	#0,status(a0)
 		beq.s	.noflip01
 		neg.w	d0
 		addi.w	#$80,d0
 
-.noflip01:
+.noflip01
 		move.w	sto_origX(a0),d1
 		sub.w	d0,d1
 		move.w	d1,x_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-.loc_15DE0:
+.loc_15DE0
 		addq.b	#1,subtype(a0)
 		move.w	#3*60,objoff_36(a0)
 		clr.b	sto_active(a0)
@@ -174,33 +175,33 @@ ScrapStomp_TypeIndex: offsetTable
 		bra.s	.loc_15DC2
 ; ---------------------------------------------------------------------------
 
-.type02:
+.type02
 		tst.b	sto_active(a0)
 		bne.s	.isactive02
 		subq.w	#1,objoff_36(a0)
 		bne.s	.loc_15E1E
-		move.b	#1,sto_active(a0)
+		st	sto_active(a0)
 
-.isactive02:
+.isactive02
 		tst.w	objoff_3A(a0)
 		beq.s	.loc_15E3C
 		subq.w	#2,objoff_3A(a0)
 
-.loc_15E1E:
+.loc_15E1E
 		move.w	objoff_3A(a0),d0
 		btst	#0,status(a0)
 		beq.s	.noflip02
 		neg.w	d0
 		addi.w	#$80,d0
 
-.noflip02:
+.noflip02
 		move.w	sto_origX(a0),d1
 		sub.w	d0,d1
 		move.w	d1,x_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-.loc_15E3C:
+.loc_15E3C
 		subq.b	#1,subtype(a0)
 		clr.b	sto_active(a0)
 		move.w	respawn_addr(a0),d0							; get address in respawn table
@@ -210,7 +211,7 @@ ScrapStomp_TypeIndex: offsetTable
 		bra.s	.loc_15E1E
 ; ---------------------------------------------------------------------------
 
-.type03:
+.type03
 		tst.b	sto_active(a0)
 		bne.s	.isactive03
 		tst.w	objoff_3A(a0)
@@ -219,34 +220,34 @@ ScrapStomp_TypeIndex: offsetTable
 		bra.s	.loc_15E8E
 ; ---------------------------------------------------------------------------
 
-.loc_15E6A:
+.loc_15E6A
 		subq.w	#1,objoff_36(a0)
 		bpl.s	.loc_15E8E
 		move.w	#1*60,objoff_36(a0)
-		move.b	#1,sto_active(a0)
+		st	sto_active(a0)
 
-.isactive03:
+.isactive03
 		addq.w	#8,objoff_3A(a0)
 		move.w	objoff_3A(a0),d0
 		cmp.w	objoff_3C(a0),d0
 		bne.s	.loc_15E8E
 		clr.b	sto_active(a0)
 
-.loc_15E8E:
+.loc_15E8E
 		move.w	objoff_3A(a0),d0
 		btst	#0,status(a0)
 		beq.s	.noflip03
 		neg.w	d0
 		addi.w	#$38,d0
 
-.noflip03:
+.noflip03
 		move.w	sto_origY(a0),d1
 		add.w	d0,d1
 		move.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-.type04:
+.type04
 		tst.b	sto_active(a0)
 		bne.s	.isactive04
 		tst.w	objoff_3A(a0)
@@ -255,13 +256,13 @@ ScrapStomp_TypeIndex: offsetTable
 		bra.s	.loc_15EF0
 ; ---------------------------------------------------------------------------
 
-.loc_15EBE:
+.loc_15EBE
 		subq.w	#1,objoff_36(a0)
 		bpl.s	.loc_15EF0
 		move.w	#1*60,objoff_36(a0)
-		move.b	#1,sto_active(a0)
+		st	sto_active(a0)
 
-.isactive04:
+.isactive04
 		move.w	objoff_3A(a0),d0
 		cmp.w	objoff_3C(a0),d0
 		beq.s	.loc_15EE0
@@ -269,27 +270,27 @@ ScrapStomp_TypeIndex: offsetTable
 		bra.s	.loc_15EF0
 ; ---------------------------------------------------------------------------
 
-.loc_15EE0:
+.loc_15EE0
 		subq.w	#1,objoff_36(a0)
 		bpl.s	.loc_15EF0
 		move.w	#1*60,objoff_36(a0)
 		clr.b	sto_active(a0)
 
-.loc_15EF0:
+.loc_15EF0
 		move.w	objoff_3A(a0),d0
 		btst	#0,status(a0)
 		beq.s	.noflip04
 		neg.w	d0
 		addi.w	#$38,d0
 
-.noflip04:
+.noflip04
 		move.w	sto_origY(a0),d1
 		add.w	d0,d1
 		move.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-.type05:
+.type05
 		tst.b	sto_active(a0)
 		bne.s	.loc_15F3E
 		lea	(Level_trigger_array).w,a2
@@ -297,27 +298,37 @@ ScrapStomp_TypeIndex: offsetTable
 		move.b	objoff_3E(a0),d0
 		btst	#0,(a2,d0.w)
 		beq.s	.locret_15F5C
-		move.b	#1,sto_active(a0)
+		st	sto_active(a0)
+		st	(Screen_shaking_flag).w
 		move.w	respawn_addr(a0),d0							; get address in respawn table
 		beq.s	.loc_15F3E									; if it's zero, it isn't remembered
 		movea.w	d0,a2										; load address into a2
 		bset	#0,(a2)
 
-.loc_15F3E:
+.loc_15F3E
 		subq.w	#1,x_pos(a0)
 		addi.l	#$8000,y_pos(a0)
 		move.w	x_pos(a0),sto_origX(a0)
 		cmpi.w	#$980,x_pos(a0)								; LZ4
 		beq.s	.loc_15F5E
 
-.locret_15F5C:
+		; play sfx
+		move.w	(Level_frame_counter).w,d0
+		subq.w	#1,d0
+		andi.w	#$F,d0
+		bne.s	.locret_15F5C
+		sfx	sfx_Rumble2,1
+; ---------------------------------------------------------------------------
+
+.locret_15F5C
 		rts
 ; ---------------------------------------------------------------------------
 
-.loc_15F5E:
+.loc_15F5E
 		clr.b	subtype(a0)
 		clr.b	sto_active(a0)
-		rts
+		move.w	#$14,(Screen_shaking_flag).w
+		sfx	sfx_Crash,1
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Stomper and Door/Object Data/Map - Stomper and Door.asm"
