@@ -5194,6 +5194,7 @@ Sound_45_Ptr:	offsetBankTableEntry.w Sound_45
 Sound_46_Ptr:	offsetBankTableEntry.w Sound_46
 Sound_47_Ptr:	offsetBankTableEntry.w Sound_47
 Sound_48_Ptr:	offsetBankTableEntry.w Sound_48
+Sound_49_Ptr:	offsetBankTableEntry.w Sound_49
 
 ; Continuous
 Sound_C01_Ptr:	offsetBankTableEntry.w Sound_C01
@@ -5202,6 +5203,7 @@ Sound_C03_Ptr:	offsetBankTableEntry.w Sound_C03
 Sound_C04_Ptr:	offsetBankTableEntry.w Sound_C04
 Sound_C05_Ptr:	offsetBankTableEntry.w Sound_C05
 Sound_C06_Ptr:	offsetBankTableEntry.w Sound_C06
+Sound_C07_Ptr:	offsetBankTableEntry.w Sound_C07
 
 Sound_End_Ptr
 ; ---------------------------------------------------------------------------
@@ -5280,6 +5282,7 @@ Sound_45:	include "Sound/SFX/Snd - Hidden Bonus.asm"
 Sound_46:	include "Sound/SFX/Snd - Big Ring.asm"
 Sound_47:	include "Sound/SFX/Snd - Thump.asm"
 Sound_48:	include "Sound/SFX/Snd - Crash.asm"
+Sound_49:	include "Sound/SFX/Snd - Rumble 2.asm"
 
 ; Continuous
 Sound_C01:	include "Sound/SFX/Continuous/Snd - Robotnik Siren.asm"
@@ -5288,6 +5291,7 @@ Sound_C03:	include "Sound/SFX/Continuous/Snd - Lava Fall.asm"
 Sound_C04:	include "Sound/SFX/Continuous/Snd - Rising.asm"
 Sound_C05:	include "Sound/SFX/Continuous/Snd - Wind Quiet.asm"
 Sound_C06:	include "Sound/SFX/Continuous/Snd - Water Skid.asm"
+Sound_C07:	include "Sound/SFX/Continuous/Snd - Rumble.asm"
 
 	finishBank
 

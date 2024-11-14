@@ -139,6 +139,7 @@ sfx_HiddenBonus			ds.b 1		; $45
 sfx_BigRing				ds.b 1		; $46
 sfx_Thump				ds.b 1		; $47
 sfx_Crash				ds.b 1		; $48
+sfx_Rumble2				ds.b 1		; $49
 
 ; Continuous
 sfx__FirstContinuous =	*			; ID of the first continuous sound effect
@@ -148,6 +149,7 @@ sfx_LavaFall				ds.b 1		; $03
 sfx_Rising				ds.b 1		; $04
 sfx_WindQuiet			ds.b 1		; $05
 sfx_WaterSkid			ds.b 1		; $06
+sfx_Rumble				ds.b 1		; $07
 
 sfx__End =				*			; next ID after the last sound effect
 
