@@ -846,8 +846,8 @@ HyperTouch_Harmful:
 
 HyperTouch_Special:
 		ori.b	#3,collision_property(a1)
-		cmpi.w	#3,(Player_mode).w						; are we in Knuckles Alone mode?
-		bne.s	.sonicortails								; if not, branch
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w	; are we in Knuckles Alone mode?
+		blo.s		.sonicortails								; if not, branch
 		move.w	x_pos(a1),(Player_2+x_pos).w	; ???
 		move.w	y_pos(a1),(Player_2+y_pos).w	; ???
 

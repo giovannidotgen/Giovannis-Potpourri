@@ -19,7 +19,7 @@ SuperHyper_PalCycle:
 
 		; Tails and Knuckles only
 		; only Sonic has a fade-in; Tails and Knuckles just *pop* into their normal Super/Hyper palette cycle
-		cmpi.w	#2,(Player_mode).w
+		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
 		blo.s		SuperHyper_PalCycle_FadeIn
 
 		; set
@@ -66,7 +66,7 @@ locret_37EC:
 ; ---------------------------------------------------------------------------
 
 SuperHyper_PalCycle_Revert:									; runs the fade in transition backwards
-		cmpi.w	#2,(Player_mode).w							; if Tails or Knuckles, branch, making this code Sonic-specific
+		cmpi.w	#PlayerModeID_Tails,(Player_mode).w			; if Tails or Knuckles, branch, making this code Sonic-specific
 		bhs.s	SuperHyper_PalCycle_RevertNotSonic
 
 		; run frame timer
@@ -96,7 +96,7 @@ SuperHyper_PalCycle_RevertNotSonic:
 		move.w	d0,(Palette_frame).w
 		move.b	d0,(Super_palette_status).w					; 0 = off
 		move.b	d0,(Palette_frame_Tails).w
-		cmpi.w	#3,(Player_mode).w							; if Knuckles, branch, making this code Tails-specific
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; if Knuckles, branch, making this code Tails-specific
 		bhs.s	SuperHyper_PalCycle_RevertKnuckles
 
 		; load
@@ -112,10 +112,10 @@ SuperHyper_PalCycle_RevertKnuckles:
 ; ---------------------------------------------------------------------------
 
 SuperHyper_PalCycle_Normal:
-		cmpi.w	#2,(Player_mode).w							; if Tails...
+		cmpi.w	#PlayerModeID_Tails,(Player_mode).w			; if Tails...
 		beq.w	SuperHyper_PalCycle_NormalTails
-		cmpi.w	#3,(Player_mode).w							; ...or Knuckles, branch, making this code Sonic-specific
-		beq.w	SuperHyper_PalCycle_NormalKnuckles
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; ...or Knuckles, branch, making this code Sonic-specific
+		bhs.w	SuperHyper_PalCycle_NormalKnuckles
 		tst.b	(Super_Sonic_Knux_flag).w						; if Hyper Sonic, branch
 		bmi.s	SuperHyper_PalCycle_HyperSonic
 
