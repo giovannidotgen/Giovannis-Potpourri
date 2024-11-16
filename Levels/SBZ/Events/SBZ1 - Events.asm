@@ -59,7 +59,7 @@ SBZ1_BackgroundEvent:
 		move.w	-$F8(a5),4(a5)					; update distant brown buildings
 		move.w	-$F6(a5),8(a5)					; update upper black buildings
 		move.w	-$F4(a5),$C(a5)					; update lower black buildings
-		moveq	#$20,d6
+		moveq	#512/16,d6
 		moveq	#(SBZ1_BGDrawArray_end-SBZ1_BGDrawArray)/2,d5
 		jsr	(Draw_BG).w
 

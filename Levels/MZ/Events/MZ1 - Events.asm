@@ -54,7 +54,7 @@ MZ1_BackgroundEvent:
 		move.w	-$EA(a5),4(a5)					; update mountains
 		move.w	-$E8(a5),8(a5)					; update bushes
 		move.w	-$E6(a5),$C(a5)					; update wall
-		moveq	#$20,d6
+		moveq	#512/16,d6
 		moveq	#(MZ1_BGDrawArray_end-MZ1_BGDrawArray)/2,d5
 		jsr	(Draw_BG).w
 
