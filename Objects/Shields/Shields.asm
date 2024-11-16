@@ -511,6 +511,10 @@ Obj_Invincibility:
 		move.b	#4,objoff_34(a0)
 
 .main
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	.delete
+		tst.b	(Super_Tails_flag).w
+		bne.s	.delete
 		movea.w	parent(a0),a1										; a1=character
 		btst	#Status_Invincible,status_secondary(a1)					; should the player still have a invincible?
 		beq.s	.delete											; if not, delete
@@ -559,6 +563,10 @@ Obj_Invincibility:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_188E8:
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	Obj_Invincibility.delete
+		tst.b	(Super_Tails_flag).w
+		bne.s	Obj_Invincibility.delete
 		movea.w	parent(a0),a1										; a1=character
 		btst	#Status_Invincible,status_secondary(a1)					; should the player still have a invincible?
 		beq.s	Obj_Invincibility.delete							; if not, delete
