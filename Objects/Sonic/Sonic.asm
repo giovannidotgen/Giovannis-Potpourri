@@ -1662,7 +1662,7 @@ Sonic_Transform:
 		move.w	#$A00,Max_speed-Max_speed(a4)
 		move.w	#$30,Acceleration-Max_speed(a4)
 		move.w	#$100,Deceleration-Max_speed(a4)
-		move.b	#0,invincibility_timer(a0)
+		clr.b	invincibility_timer(a0)
 		bset	#Status_Invincible,status_secondary(a0)
 		sfx	sfx_SuperTransform
 		music	mus_Invincible,1								; play invincibility theme
@@ -1765,8 +1765,8 @@ SonicKnux_SuperHyper:
 .revertToNormal
 		move.b	#2,(Super_palette_status).w
 		move.w	#$1E,(Palette_frame).w
-		move.b	#0,(Super_Sonic_Knux_flag).w
-		move.b	#0,(Super_Tails_flag).w
+		clr.b	(Super_Sonic_Knux_flag).w
+		clr.b	(Super_Tails_flag).w
 		st	(Player_prev_frame).w
 		tst.b	character_id(a0)									; is this Sonic?
 		bne.s	.notSonic
@@ -2928,7 +2928,7 @@ loc_12780:
 		move.b	1(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_1279C
-		move.b	#0,anim_frame(a0)
+		clr.b	anim_frame(a0)
 		move.b	1(a1),d0
 
 loc_1279C:

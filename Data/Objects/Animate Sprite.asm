@@ -389,7 +389,7 @@ Animate_MultiSprite:
 .chk_end_FF
 		addq.b	#1,d2								; code FF - repeat animation from beginning
 		bne.s	.chk_end_FE
-		move.b	#0,d1
+		moveq	#0,d1
 		move.b	1(a1),d2
 		bra.s	.next
 ; ---------------------------------------------------------------------------

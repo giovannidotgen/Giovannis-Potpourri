@@ -2237,7 +2237,7 @@ Knux_Transform:
 		move.w	#$800,Max_speed-Max_speed(a4)
 		move.w	#$18,Acceleration-Max_speed(a4)
 		move.w	#$C0,Deceleration-Max_speed(a4)
-		move.b	#0,invincibility_timer(a0)
+		clr.b	invincibility_timer(a0)
 		bset	#Status_Invincible,status_secondary(a0)
 		sfx	sfx_SuperTransform
 		music	mus_Invincible,1								; play invincibility theme
