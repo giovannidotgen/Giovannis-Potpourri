@@ -231,7 +231,7 @@ Obj_SuperTailsBirds_GetDestination:
 .done
 		move.w	x_pos(a0),(Player_2+x_pos).w
 		move.w	y_pos(a0),(Player_2+y_pos).w
-		move.b	#2,(Player_2+anim).w
+		move.b	#AniIDSonAni_Roll,(Player_2+anim).w
 		rts
 
 ; =============== S U B R O U T I N E =======================================
