@@ -319,8 +319,7 @@ loc_1D850:
 		bra.w	Monitor_Give_Lightning_Shield	; C
 		bra.w	Monitor_Give_Bubble_Shield		; E
 		bra.w	Monitor_Give_Invincibility			; 10
-		bra.s	Monitor_Give_Eggman			; 12
-		rts		; nop
+		bra.w	Monitor_Give_SuperSonic			; 12
 ; ---------------------------------------------------------------------------
 
 		; give blue shield							; 14
@@ -406,6 +405,66 @@ Monitor_Give_Invincibility:
 		move.l	#Obj_Invincibility,(Invincibility_stars+address).w
 		move.w	a1,(Invincibility_stars+parent).w
 		rts
+; ---------------------------------------------------------------------------
+
+Monitor_Give_SuperSonic:
+
+	if SonKnuxTransform
+		addi.w	#50,(Ring_count).w
+		move.b	#1,(Super_palette_status).w
+		move.b	#$F,(Palette_timer).w
+		move.b	#1,(Super_Sonic_Knux_flag).w
+		move.w	#60,(Super_frame_count).w
+		move.b	#AniIDSupSonAni_Transform,anim(a1)				; enter 'transformation' animation
+
+		; check player
+		lea	(Max_speed).w,a4
+		cmpi.b	#PlayerID_Tails,character_id(a1)					; is player Tails?
+		bne.s	.notTails											; if not, branch
+		lea	(Max_speed_P2).w,a4
+
+		; Tails
+		clr.b	(Super_Sonic_Knux_flag).w
+		move.b	#1,(Super_Tails_flag).w
+		move.b	#AniIDTailsAni_Transform,anim(a1)					; enter 'transformation' animation
+		move.l	#Obj_SuperTailsBirds,(Invincibility_stars).w
+		bra.s	.speed
+; ---------------------------------------------------------------------------
+
+.notTails
+		bhs.s	.hyperKnuckles
+
+		; Sonic
+		move.w	#$A00,Max_speed-Max_speed(a4)					; set max speed
+		move.w	#$30,Acceleration-Max_speed(a4)					; set acceleration
+		move.w	#$100,Deceleration-Max_speed(a4)					; set deceleration
+
+		; set
+		st	(Super_Sonic_Knux_flag).w
+		move.l	#Map_SuperSonic,mappings(a1)
+		move.l	#Obj_HyperSonic_Stars,(Invincibility_stars).w
+		move.l	#Obj_HyperSonicKnux_Trail,(Super_stars).w
+		bra.s	.continued
+; ---------------------------------------------------------------------------
+
+.hyperKnuckles
+		st	(Super_Sonic_Knux_flag).w
+		move.l	#Obj_HyperSonicKnux_Trail,(Super_stars).w
+
+.speed
+		move.w	#$800,Max_speed-Max_speed(a4)					; set max speed
+		move.w	#$18,Acceleration-Max_speed(a4)					; set acceleration
+		move.w	#$C0,Deceleration-Max_speed(a4)					; set deceleration
+
+.continued
+		move.b	#$81,object_control(a1)
+		clr.b	invincibility_timer(a1)
+		bset	#Status_Invincible,status_secondary(a1)
+		sfx	sfx_SuperTransform
+		music	mus_Invincible,1									; play invincibility theme
+	else
+		rts
+	endif
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Monitor/Object Data/Anim - Monitor.asm"

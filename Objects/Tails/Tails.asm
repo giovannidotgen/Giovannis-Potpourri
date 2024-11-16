@@ -291,6 +291,13 @@ Tails_ChkShoes:												; checks if Speed Shoes have expired and disables the
 		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)		; set Max_speed
 		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)			; set Acceleration
 		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)		; set Deceleration
+		tst.b	(Super_Tails_flag).w
+		beq.s	.nots
+		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
+		move.w	#$18,Acceleration_P2-Max_speed_P2(a4)
+		move.w	#$C0,Deceleration_P2-Max_speed_P2(a4)
+
+.nots
 		bclr	#Status_SpeedShoes,status_secondary(a0)
 		moveq	#0,d0
 		jmp	(Change_Music_Tempo).w							; slow down tempo
@@ -1308,6 +1315,13 @@ Tails_InWater:
 		move.w	#$300,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#6,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$40,Deceleration_P2-Max_speed_P2(a4)
+		tst.b	(Super_Tails_flag).w
+		beq.s	loc_1468E
+		move.w	#$400,Max_speed_P2-Max_speed_P2(a4)
+		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)
+		move.w	#$60,Deceleration_P2-Max_speed_P2(a4)
+
+loc_1468E:
 		cmpi.w	#4,(Tails_CPU_routine).w
 		beq.s	loc_1469C
 		tst.b	object_control(a0)
@@ -1331,6 +1345,13 @@ loc_146BA:
 		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)
+		tst.b	(Super_Tails_flag).w
+		beq.s	loc_146F4
+		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
+		move.w	#$18,Acceleration_P2-Max_speed_P2(a4)
+		move.w	#$C0,Deceleration_P2-Max_speed_P2(a4)
+
+loc_146F4:
 		cmpi.b	#PlayerID_Hurt,routine(a0)
 		beq.s	loc_14718
 		cmpi.w	#4,(Tails_CPU_routine).w
@@ -1814,6 +1835,11 @@ loc_14B24:
 		subq.w	#2,(a5)
 
 loc_14B26:
+		tst.b	(Super_Tails_flag).w
+		beq.s	loc_14B30
+		moveq	#$C,d5
+
+loc_14B30:
 		moveq	#btnLR,d0
 		and.b	(Ctrl_2_logical).w,d0
 		bne.s	loc_14B5C
@@ -2026,6 +2052,11 @@ Tails_RollSpeed:
 		asl.w	d6
 		move.w	Acceleration_P2-Max_speed_P2(a4),d5
 		asr.w	d5
+		tst.b	(Super_Tails_flag).w
+		beq.s	loc_14D46
+		moveq	#6,d5
+
+loc_14D46:
 		moveq	#$20,d4
 		tst.b	spin_dash_flag(a0)
 		bmi.w	loc_14DF0
@@ -2411,6 +2442,22 @@ Tails_Test_For_Flight:
 		beq.s	locret_1511A
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
 		bne.s	loc_15156
+
+		if SonKnuxTransform
+		tst.b	(Super_Tails_flag).w
+		bne.s	loc_1515C
+
+	if CheckChaosEmer
+		cmpi.b	#7,(Chaos_emerald_count).w
+		blo.s		loc_1515C
+	endif
+
+		cmpi.w	#50,(Ring_count).w
+		blo.s		loc_1515C
+		tst.b	(Level_results_flag).w						; is level over?
+		beq.s	Tails_Transform						; if not, branch
+		endif
+
 		bra.s	loc_1515C
 ; ---------------------------------------------------------------------------
 
@@ -2438,6 +2485,24 @@ loc_1518C:
 		move.b	#1,double_jump_flag(a0)
 		move.b	#(8*60)/2,double_jump_property(a0)
 		bra.w	Tails_Set_Flying_Animation
+
+; =============== S U B R O U T I N E =======================================
+
+Tails_Transform:
+		move.b	#1,(Super_palette_status).w				; set Super/Hyper palette status to 'fading'
+		move.b	#$F,(Palette_timer).w
+		move.b	#1,(Super_Tails_flag).w					; set flag to Super Tails
+		move.w	#60,(Super_frame_count).w
+		move.b	#$81,object_control(a0)
+		move.b	#AniIDTailsAni_Transform,anim(a0)		; enter 'transformation' animation
+		move.l	#Obj_SuperTailsBirds,(Invincibility_stars).w	; load Super Flickies object
+		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
+		move.w	#$18,Acceleration_P2-Max_speed_P2(a4)
+		move.w	#$C0,Deceleration_P2-Max_speed_P2(a4)
+		clr.b	invincibility_timer(a0)
+		bset	#Status_Invincible,status_secondary(a0)
+		sfx	sfx_SuperTransform
+		music	mus_Invincible,1							; play invincibility theme
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2503,6 +2568,11 @@ loc_152A8:
 		move.b	spin_dash_counter(a0),d0
 		add.w	d0,d0
 		move.w	word_1530E(pc,d0.w),ground_vel(a0)
+		tst.b	(Super_Tails_flag).w
+		beq.s	loc_152C8
+		move.w	word_15320(pc,d0.w),ground_vel(a0)
+
+loc_152C8:
 		move.w	ground_vel(a0),d0
 		subi.w	#$800,d0
 		add.w	d0,d0

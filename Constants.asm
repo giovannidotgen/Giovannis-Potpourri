@@ -239,6 +239,7 @@ ptrsize :=	2
 idstart :=	0
 
 AniIDTailsAni_Run2 =					id(ptr_TailsAni_Run2)					; 1F
+AniIDTailsAni_Transform =			id(ptr_TailsAni_Transform)			; 29
 
 ; ---------------------------------------------------------------------------
 ; Knuckles animation IDs

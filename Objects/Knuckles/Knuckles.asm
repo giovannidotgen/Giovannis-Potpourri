@@ -152,6 +152,7 @@ loc_165D8:
 
 .display
 		bsr.s	Knuckles_Display
+		bsr.w	SonicKnux_SuperHyper
 		bsr.w	Sonic_RecordPos
 		bsr.w	Knuckles_Water
 		move.b	(Primary_Angle).w,next_tilt(a0)
@@ -240,6 +241,13 @@ Knux_ChkShoes:										; checks if Speed Shoes have expired and disables them i
 		move.w	#$600,Max_speed-Max_speed(a4)		; set Max_speed
 		move.w	#$C,Acceleration-Max_speed(a4)		; set Acceleration
 		move.w	#$80,Deceleration-Max_speed(a4)		; set Deceleration
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.nots
+		move.w	#$800,Max_speed-Max_speed(a4)
+		move.w	#$18,Acceleration-Max_speed(a4)
+		move.w	#$C0,Deceleration-Max_speed(a4)
+
+.nots
 		bclr	#Status_SpeedShoes,status_secondary(a0)
 		moveq	#0,d0
 		jmp	(Change_Music_Tempo).w					; slow down tempo
@@ -268,6 +276,13 @@ Knuckles_InWater:
 		move.w	#$300,Max_speed-Max_speed(a4)
 		move.w	#6,Acceleration-Max_speed(a4)
 		move.w	#$40,Deceleration-Max_speed(a4)
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.nots
+		move.w	#$400,Max_speed-Max_speed(a4)
+		move.w	#$C,Acceleration-Max_speed(a4)
+		move.w	#$60,Deceleration-Max_speed(a4)
+
+.nots
 		tst.b	object_control(a0)
 		bne.s	locret_166F4
 		asr.w	x_vel(a0)
@@ -287,6 +302,13 @@ loc_1676E:
 		move.w	#$600,Max_speed-Max_speed(a4)
 		move.w	#$C,Acceleration-Max_speed(a4)
 		move.w	#$80,Deceleration-Max_speed(a4)
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.nots
+		move.w	#$800,Max_speed-Max_speed(a4)
+		move.w	#$18,Acceleration-Max_speed(a4)
+		move.w	#$C0,Deceleration-Max_speed(a4)
+
+.nots
 		cmpi.b	#PlayerID_Hurt,routine(a0)
 		beq.s	loc_167C4
 		tst.b	object_control(a0)
@@ -490,10 +512,24 @@ Knuckles_Gliding_HitWall:
 		bclr	#Status_Facing,status(a0)
 		jsr	(CheckRightCeilingDist).w
 		or.w	d0,d1
-		bne.s	.checkFloorRight
+		bne.w	.checkFloorRight
 
 .success:
-		sfx	sfx_Grab
+		moveq	#signextendB(sfx_Grab),d0
+
+		; if Hyper Knuckles glides into a wall at a high-enough
+		; speed, then make the screen shake and harm all enemies
+		; on-screen
+		tst.b	(Super_Sonic_Knux_flag).w
+		bpl.s	.noQuake
+		cmpi.w	#$480,ground_vel(a0)
+		blo.s		.noQuake
+		move.w	#$14,(Glide_screen_shake).w
+		bsr.w	HyperAttackTouchResponse
+		moveq	#signextendB(sfx_Thump),d0
+
+.noQuake:
+		jsr	(Play_SFX).w
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
 		move.b	#4,double_jump_flag(a0)
@@ -545,7 +581,7 @@ Knuckles_Gliding_HitWall:
 		cmpi.w	#12,d1
 		bhs.s	.fail
 		sub.w	d1,y_pos(a0)
-		bra.s	.success
+		bra.w	.success
 ; ---------------------------------------------------------------------------
 ; loc_16A58:
 .checkFloorRight:
@@ -773,6 +809,12 @@ Knuckles_Wall_Climb:
 .moveUp:
 		subq.w	#1,y_pos(a0)
 
+		; Super Knuckles and Hyper Knuckles climb walls faster.
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notSuperOrHyper1
+		subq.w	#1,y_pos(a0)
+
+.notSuperOrHyper1:
 		moveq	#1,d1	; Climbing animation delta: make the animation play forwards.
 
 		; Don't let Knuckles climb through the level's upper boundary.
@@ -845,6 +887,12 @@ Knuckles_Wall_Climb:
 .moveDown_ReverseGravity:
 		subq.w	#1,y_pos(a0)
 
+		; Super Knuckles and Hyper Knuckles climb walls faster.
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notSuperOrHyper2
+		subq.w	#1,y_pos(a0)
+
+.notSuperOrHyper2:
 		moveq	#-1,d1	; Climbing animation delta: make the animation play backwards.
 		bra.w	.finishMoving
 ; ---------------------------------------------------------------------------
@@ -903,6 +951,12 @@ Knuckles_Wall_Climb:
 .moveDown:
 		addq.w	#1,y_pos(a0)
 
+		; Super Knuckles and Hyper Knuckles climb walls faster.
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notSuperOrHyper3
+		addq.w	#1,y_pos(a0)
+
+.notSuperOrHyper3:
 		moveq	#-1,d1	; climbing animation delta: make the animation play backwards.
 		bra.s	.finishMoving
 ; ---------------------------------------------------------------------------
@@ -945,6 +999,12 @@ Knuckles_Wall_Climb:
 .moveUp_ReverseGravity:
 		addq.w	#1,y_pos(a0)
 
+		; Super Knuckles and Hyper Knuckles climb walls faster.
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notSuperOrHyper4
+		addq.w	#1,y_pos(a0)
+
+.notSuperOrHyper4:
 		moveq	#1,d1	; Climbing animation delta: make the animation play forwards.
 
 		; Don't let Knuckles climb through the level's upper boundary.
@@ -1215,6 +1275,11 @@ Knuckles_Move_Glide:
 
 		; Increase Knuckles' speed.
 		addq.w	#4,d0
+
+		; Super Knuckles and Hyper Knuckles glide faster.
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.applySpeed
+		addq.w	#8,d0
 
 ; loc_17028:
 .applySpeed:
@@ -1562,6 +1627,11 @@ loc_1732C:
 		subq.w	#2,(a5)
 
 loc_1732E:
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	loc_17338
+		moveq	#$C,d5
+
+loc_17338:
 		moveq	#btnLR,d0
 		and.b	(Ctrl_1_logical).w,d0
 		bne.s	loc_17364
@@ -1772,6 +1842,11 @@ Knux_RollSpeed:
 		asl.w	d6
 		move.w	Acceleration-Max_speed(a4),d5
 		asr.w	d5
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	loc_1754E
+		moveq	#6,d5
+
+loc_1754E:
 		moveq	#$20,d4
 		tst.b	spin_dash_flag(a0)
 		bmi.w	loc_175F8
@@ -2091,6 +2166,24 @@ Knux_Test_For_Glide:
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_pressed_logical).w,d0
 		beq.s	locret_1782C
+
+		if SonKnuxTransform
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	loc_1786C
+
+	if CheckChaosEmer
+		cmpi.b	#7,(Chaos_emerald_count).w
+		blo.s		loc_1786C
+	endif
+
+		cmpi.w	#50,(Ring_count).w
+		blo.s		loc_1786C
+		tst.b	(Level_results_flag).w							; is level over?
+		beq.s	Knux_Transform							; if not, branch
+
+loc_1786C:
+		endif
+
 		bclr	#Status_Roll,status(a0)
 		move.w	#bytes_to_word(20/2,20/2),y_radius(a0)	; set y_radius and x_radius
 		bclr	#Status_RollJump,status(a0)
@@ -2115,6 +2208,39 @@ loc_178AE:
 		clr.b	(Gliding_collision_flags).w
 		bset	#Status_InAir,(Gliding_collision_flags).w
 		bra.w	Knuckles_Set_Gliding_Animation
+
+; =============== S U B R O U T I N E =======================================
+
+Knux_Transform:
+		move.b	#1,(Super_palette_status).w					; set Super/Hyper palette status to 'fading'
+		move.b	#$F,(Palette_timer).w
+		move.w	#60,(Super_frame_count).w
+		move.b	#$81,object_control(a0)
+		move.b	#AniIDSupSonAni_Transform,anim(a0)			; enter 'transformation' animation
+
+	if ~~SuperHyperSonKnux
+		; check
+		bra.s	.super
+	endif
+
+		; set
+		st	(Super_Sonic_Knux_flag).w						; set flag to Hyper Knuckles
+		move.l	#Obj_HyperSonicKnux_Trail,(Super_stars).w		; load After-Images object
+		bra.s	.continued
+; ---------------------------------------------------------------------------
+
+.super
+		move.b	#1,(Super_Sonic_Knux_flag).w					; set flag to Super Knuckles
+		move.l	#Obj_SuperSonicKnux_Stars,(Super_stars).w		; load Super Stars object
+
+.continued
+		move.w	#$800,Max_speed-Max_speed(a4)
+		move.w	#$18,Acceleration-Max_speed(a4)
+		move.w	#$C0,Deceleration-Max_speed(a4)
+		move.b	#0,invincibility_timer(a0)
+		bset	#Status_Invincible,status_secondary(a0)
+		sfx	sfx_SuperTransform
+		music	mus_Invincible,1								; play invincibility theme
 
 ; =============== S U B R O U T I N E =======================================
 
