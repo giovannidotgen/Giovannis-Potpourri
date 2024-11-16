@@ -78,7 +78,6 @@ Obj_SuperTailsBirds_Main:
 		tst.w	x_vel(a0)
 		beq.s	.x_flip_done
 		bpl.s	.face_right
-
 		bset	#0,render_flags(a0)
 		bra.s	.x_flip_done
 ; ---------------------------------------------------------------------------
@@ -114,12 +113,12 @@ Obj_SuperTailsBirds_FlyAway:
 		; set bird's destination to top-left of the screen
 		move.w	(Player_1+x_pos).w,d2
 		move.w	(Player_1+y_pos).w,d3
-		subi.w	#$C0,d2
-		subi.w	#$C0,d3
+		subi.w	#192,d2
+		subi.w	#192,d3
 
 		; check
-		tst.b	render_flags(a0)
-		bmi.s	Obj_SuperTailsBirds_Main.move
+		tst.b	render_flags(a0)										; object visible on the screen?
+		bmi.s	Obj_SuperTailsBirds_Main.move					; if yes, branch
 
 		; if sprite is off-screen, delete it
 		jmp	(Delete_Current_Sprite).w
@@ -146,8 +145,8 @@ Obj_SuperTailsBirds_GetDestination:
 		asr.w	#3,d0
 		asr.w	#4,d1
 		move.w	(Player_1+x_pos).w,d2
-		move.w	(Player_1+y_pos).w,d3
-		subi.w	#32,d3
+		moveq	#-32,d3
+		add.w	(Player_1+y_pos).w,d3
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.not_upside_down
 		addi.w	#32*2,d3
@@ -162,17 +161,17 @@ Obj_SuperTailsBirds_GetDestination:
 		movea.w	superTailsBirds_target_address(a0),a1
 		move.w	x_pos(a1),d2
 		move.w	y_pos(a1),d3
-		tst.b	render_flags(a1)
-		bpl.s	.enemy_off_screen
+		tst.b	render_flags(a1)										; object visible on the screen?
+		bpl.s	.enemy_off_screen								; if not, branch
 		move.w	x_pos(a0),d0
 		sub.w	d2,d0
-		addi.w	#$C,d0
-		cmpi.w	#$18,d0
+		addi.w	#12,d0
+		cmpi.w	#24,d0
 		bhs.s	.enemy_out_of_range
 		move.w	y_pos(a0),d1
 		sub.w	d3,d1
-		addi.w	#$C,d1
-		cmpi.w	#$18,d1
+		addi.w	#12,d1
+		cmpi.w	#24,d1
 		bhs.s	.enemy_out_of_range
 		bsr.s	.hit_enemy
 
@@ -239,7 +238,7 @@ Obj_SuperTailsBirds_GetDestination:
 Obj_SuperTailsBirds_Move:
 
 		; update the bird's x_vel
-		moveq	#$20,d1
+		moveq	#32,d1
 		cmp.w	x_pos(a0),d2
 		bge.s	.go_right
 		neg.w	d1
@@ -265,7 +264,7 @@ Obj_SuperTailsBirds_Move:
 
 		; update the bird's y_vel
 		and.w	(Screen_Y_wrap_value).w,d3
-		moveq	#$20,d1
+		moveq	#32,d1
 		sub.w	y_pos(a0),d3
 		bcc.s	loc_1A3CA
 		cmpi.w	#-$500,d3
@@ -345,8 +344,8 @@ Obj_SuperTailsBirds_FindTarget:
 ; =============== S U B R O U T I N E =======================================
 
 .check_if_object_valid
-		tst.b	render_flags(a1)
-		bpl.s	.invalid
+		tst.b	render_flags(a1)										; object visible on the screen?
+		bpl.s	.invalid											; if not, branch
 		tst.b	objoff_2D(a1)
 		bne.s	.invalid
 		andi.b	#$C0,d0

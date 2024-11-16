@@ -204,6 +204,7 @@ loc_1388C:
 
 .display
 		bsr.s	Tails_Display
+		bsr.w	Tails_Super
 		bsr.w	Sonic_RecordPos
 		bsr.w	Tails_Water
 		move.b	(Primary_Angle).w,next_tilt(a0)
