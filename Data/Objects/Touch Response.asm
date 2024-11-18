@@ -515,13 +515,13 @@ HurtCharacter:
 		clr.w	ground_vel(a0)
 
 		; set anim
-;		moveq	#AniIDSonAni_Hurt2,d1					; normal anim
+;		moveq	#AniIDSonAni_Hurt2,d0					; normal anim
 ;		btst	#Status_FireShield,shield_reaction(a2)
 ;		beq.s	.notfire
-;		moveq	#AniIDSonAni_HurtBW,d1					; fire anim
+;		moveq	#AniIDSonAni_HurtBW,d0					; fire anim
 
 ;.notfire
-;		move.b	d1,anim(a0)								; set hurt anim
+;		move.b	d0,anim(a0)								; set hurt anim
 
 		move.b	#AniIDSonAni_Hurt2,anim(a0)				; set hurt anim
 		move.b	#2*60,invulnerability_timer(a0)				; set temp invincible time to 2 seconds
