@@ -1,3 +1,26 @@
+# Giovanni's Potpourri
+
+This is a disassembly where I implement a variety of things onto Red Miso Studios' Sonic 1 in Sonic 3 of small to medium size.
+
+## Additions from source
+- Drop Dash, from Sonic Mania (the code for which was derived from my own Sonic 2 - Score Rush)
+
+## Known issues
+- Super Sonic's sprites have been disabled. I intend to address it through an approach distinct from that of the base game.
+
+## Usage conditions
+All code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets anyway, on account of the fact that giovanni.gen is not one such rightsholder.
+
+Credit is appreciated.
+
+## Giovanni's Potpourri - Credits
+
+Each mini-project has its own set of credits:
+### Drop Dash in Sonic 1 in Sonic 3
+Sprites source: Sample Sprite mod (Sonic 3 - Angel Island Revisited)
+
+Original description:
+
 # SONIC-1-IN-SONIC-3-S.C.E.-
 
 ## Disclaimer
