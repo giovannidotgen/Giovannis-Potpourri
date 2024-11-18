@@ -10,7 +10,7 @@ Obj_HyperSonicKnux_Trail:
 		move.l	#Map_Knuckles,mappings(a0)						; load Knuckles' mappings
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
 		bhs.s	.playingasknux									; if so, branch
-		move.l	#Map_SuperSonic,mappings(a0)					; if not, you must be Hyper Sonic, load Super/Hyper Sonic mappings
+		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic, but because GIO is a bitch, we're loading the sonic mappings instead
 
 .playingasknux
 		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)

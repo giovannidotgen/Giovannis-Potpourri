@@ -448,7 +448,7 @@ Monitor_Give_SuperSonic:
 
 		; set
 		st	(Super_Sonic_Knux_flag).w
-		move.l	#Map_SuperSonic,mappings(a1)
+	;	move.l	#Map_SuperSonic,mappings(a1)					; GIO: i am NOT doing that (yet)
 		move.l	#Obj_HyperSonic_Stars,(Invincibility_stars).w
 		move.l	#Obj_HyperSonicKnux_Trail,(Super_stars).w
 		bra.s	.continued

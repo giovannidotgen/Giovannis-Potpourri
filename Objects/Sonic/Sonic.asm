@@ -638,8 +638,8 @@ Sonic_NotRight:
 		subq.w	#2,d2						; Subtract 2: This is the margin for 'on edge'
 		add.w	x_pos(a0),d1					; Add Sonic's X position to object width
 		sub.w	x_pos(a1),d1					; Subtract object's X position from width+Sonic's X pos, giving you Sonic's distance from left edge of object
-		tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
-		bne.s	SuperSonic_Balance			; if so, branch
+		; tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
+		; bne.s	SuperSonic_Balance			; if so, branch
 		cmpi.w	#2,d1						; is Sonic within two units of object's left edge?
 		blt.s		Sonic_BalanceOnObjLeft		; if so, branch
 		cmp.w	d2,d1
@@ -1619,7 +1619,7 @@ Sonic_CheckTransform:
 		cmpi.w	#50,(Ring_count).w						; does Sonic have at least 50 rings?
 		blo.s		Sonic_InstaShield							; if not, perform Insta-Shield
 		tst.b	(Level_results_flag).w							; is level over?
-		beq.s	Sonic_Transform							; if not, branch
+		beq.w	Sonic_Transform							; if not, branch
 		endif
 
 Sonic_InstaShield:
@@ -1704,7 +1704,7 @@ Sonic_Transform:
 		move.b	#1,(Super_palette_status).w					; set Super/Hyper palette status to 'fading'
 		move.b	#$F,(Palette_timer).w
 		move.w	#60,(Super_frame_count).w
-		move.l	#Map_SuperSonic,mappings(a0)
+	;	move.l	#Map_SuperSonic,mappings(a0)				; GIO: i am NOT doing that (yet)
 		move.b	#$81,object_control(a0)
 		move.b	#AniIDSupSonAni_Transform,anim(a0)			; enter 'transformation' animation
 
@@ -2978,9 +2978,9 @@ sub_125E0:
 
 Animate_Sonic:
 		lea	(AniSonic).l,a1
-		tst.b	(Super_Sonic_Knux_flag).w
-		beq.s	.nots
-		lea	(AniSuperSonic).l,a1
+		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
+		; beq.s	.nots
+		; lea	(AniSuperSonic).l,a1
 
 .nots
 		moveq	#0,d0
@@ -3428,9 +3428,9 @@ Sonic_Load_PLC2:
 		move.b	d0,(Player_prev_frame).w
 		add.w	d0,d0
 		lea	(DPLC_Sonic).l,a2
-		tst.b	(Super_Sonic_Knux_flag).w
-		beq.s	.nots
-		lea	(DPLC_SuperSonic).l,a2
+		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
+		; beq.s	.nots
+		; lea	(DPLC_SuperSonic).l,a2
 
 .nots
 		adda.w	(a2,d0.w),a2
