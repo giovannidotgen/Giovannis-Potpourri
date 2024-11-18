@@ -9,7 +9,7 @@ This is a disassembly where I implement a variety of things onto Red Miso Studio
 - Super Sonic's sprites have been disabled. I intend to address it through an approach distinct from that of the base game.
 
 ## Usage conditions
-All code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that giovanni.gen does not hold the rights to do so.
+All code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that giovanni.gen does not hold the power to grant you such permission in the first place.
 
 Credit is appreciated.
 
