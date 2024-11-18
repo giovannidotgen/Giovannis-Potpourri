@@ -2331,6 +2331,8 @@ loc_121D8:
 		
 		tst.b	double_jump_flag(a0)
 		beq.s	locret_12230
+		cmpi.b	#20,double_jump_property(a0)					; GIO: is a Drop Dash fully charged somehow?
+		beq.s	loc_1222A										; GIO: if so, don't bounce
 		btst	#Status_Invincible,status_secondary(a0)			; don't bounce when invincible
 		bne.s	loc_1222A
 		btst	#Status_BublShield,status_secondary(a0)
