@@ -2631,13 +2631,11 @@ Sonic_PerformDropDash:
 		move.w	#$800,d2				; minimum speed
 		move.w	#$C00,d3				; maximum speed
 		
-		; At the time of writing, Sonic Clean Engine does not implement Super Sonic.
-		; If you do, please uncomment these lines.
-		; tst.b	(Super_Sonic_flag).w	; is player super?
-		; beq.s	.checkorientation		; if not, branch
+		tst.b	(Super_Sonic_Knux_flag).w	; is player super?
+		beq.s	.checkorientation		; if not, branch
 		
-		; move.w	#$C00,d2				; else, use alt values
-		; move.w	#$D00,d3
+		move.w	#$C00,d2				; else, use alt values
+		move.w	#$D00,d3
 
 .checkorientation:	
 		move.w  ground_vel(a0),d4
@@ -2702,15 +2700,19 @@ Sonic_PerformDropDash:
 		addq.w	#5,y_pos(a0)	; add the difference between Sonic's rolling and standing heights
 		bset	#Status_Roll,status(a0)
 		
-		; TODO: Dust for releasing the Drop Dash
 		move.b	#5,(Dust+anim).w
 		move.b	status(a0),(Dust+status).w
 		move.w	x_pos(a0),(Dust+x_pos).w
 		move.w	y_pos(a0),(Dust+y_pos).w
 		andi.b	#1,(Dust+status).w	
 		
-		; If you add support for Super forms, make sure that Sonic CD's dash release SFX is usued instead.
+		tst.b	(Super_Sonic_Knux_flag).w	; is player super?
+		bne.s	.alternatesfx		; if not, branch
 		sfx		sfx_Dash,1
+		
+	.alternatesfx:
+		sfx		sfx_PeelOutRelease,1
+	
 	
 .return:
 		rts	
