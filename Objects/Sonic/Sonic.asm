@@ -1931,10 +1931,16 @@ loc_11D5E:
 		move.b	spin_dash_counter(a0),d0
 		add.w	d0,d0
 		move.w	word_11CF2(pc,d0.w),ground_vel(a0)
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.nots
+		move.w	word_11D04(pc,d0.w),ground_vel(a0)
+
+.nots
 		btst	#Status_Facing,status(a0)
-		beq.s	+
+		beq.s	.notflipx
 		neg.w	ground_vel(a0)
-+
+
+.notflipx
 	endif
 
 		addq.w	#4,sp
