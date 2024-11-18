@@ -19,7 +19,7 @@ Each mini-project has its own set of credits:
 ### Drop Dash in Sonic 1 in Sonic 3
 Sprites source: Sample Sprite mod (Sonic 3 - Angel Island Revisited)
 
-Original description:
+### Original Description
 
 # SONIC-1-IN-SONIC-3-S.C.E.-
 
