@@ -34,3 +34,9 @@ ArtUnc_BubbleShield:					binclude "Objects/Shields/Uncompressed Art/Bubble Shiel
 	even
 ArtUnc_BlueShield:					binclude "Objects/Shields/Uncompressed Art/Blue Shield.unc"
 	even
+ArtUnc_SuperSonic_Stars:				binclude "Objects/Transform/Uncompressed Art/Super Sonic Stars.unc"
+	even
+ArtUnc_HyperSonicStars:				binclude "Objects/Transform/Uncompressed Art/Hyper Sonic Stars.unc"
+	even
+ArtUnc_SuperTailsBirds:				binclude "Objects/Transform/Uncompressed Art/Super Tails birds.unc"
+	even

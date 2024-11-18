@@ -71,7 +71,6 @@ Obj_Bumper:
 
 .notcarry
 		bset	#Status_InAir,status(a1)
-;		bclr	#Status_RollJump,status(a1)
 		bclr	#Status_Push,status(a1)
 		btst	#Status_Roll,status(a1)								; is the player rolling?
 		bne.s	.notroll										; if yes, branch

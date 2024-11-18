@@ -315,6 +315,12 @@ EndOfHeader
 		include "Data/Main/Water Effects.asm"
 
 ; ---------------------------------------------------------------------------
+; Animate Player Palette Subroutine
+; ---------------------------------------------------------------------------
+
+		include "Data/Main/Animate Player Palette.asm"
+
+; ---------------------------------------------------------------------------
 ; Interrupt Handler Subroutine
 ; ---------------------------------------------------------------------------
 
@@ -333,6 +339,8 @@ EndOfHeader
 		include "Objects/Sonic/Sonic.asm"
 		include "Objects/Spin Dust/Spin Dust.asm"
 		include "Objects/Shields/Shields.asm"
+		include "Objects/Transform/Stars.asm"
+		include "Objects/Transform/Trail.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to load Tails object
@@ -340,6 +348,7 @@ EndOfHeader
 
 		include "Objects/Tails/Tails.asm"
 		include "Objects/Tails/Tails(Tail).asm"
+		include "Objects/Transform/Birds.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to load Knuckles object
@@ -464,6 +473,7 @@ EndOfHeader
 
 		; Sonic
 		include "Objects/Sonic/Object Data/Anim - Sonic.asm"
+		include "Objects/Sonic/Object Data/Anim - Super Sonic.asm"
 		include "Objects/Sonic/Object Data/Map - Sonic.asm"
 		DPLC_Sonic:
 		include "Objects/Sonic/Object Data/DPLC - Sonic.asm"

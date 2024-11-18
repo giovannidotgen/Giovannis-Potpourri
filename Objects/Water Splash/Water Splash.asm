@@ -119,7 +119,7 @@ sub_38534:
 		bset	d6,status(a0)
 		move.w	x_pos(a1),sub2_x_pos-sub2_x_pos(a2)
 		move.w	(Water_level).w,sub2_y_pos-sub2_x_pos(a2)
-		move.b	#0,sub2_mapframe-sub2_x_pos(a2)
+		clr.b	sub2_mapframe-sub2_x_pos(a2)
 		bclr	#Status_Facing,status(a1)
 		tst.w	x_vel(a1)
 		bpl.s	locret_385D0

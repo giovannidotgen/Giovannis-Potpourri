@@ -240,6 +240,7 @@ ptrsize :=	2
 idstart :=	0
 
 AniIDTailsAni_Run2 =					id(ptr_TailsAni_Run2)					; 1F
+AniIDTailsAni_Transform =			id(ptr_TailsAni_Transform)			; 29
 
 ; ---------------------------------------------------------------------------
 ; Knuckles animation IDs
@@ -575,7 +576,7 @@ Status_Facing						= 0
 Status_InAir							= 1
 Status_Roll							= 2
 Status_OnObj						= 3
-Status_RollJump						= 4	; GIO: Deprecated in Giovanni's Potpourri and derivatives
+
 Status_Push							= 5
 Status_Underwater					= 6
 Status_DropDashLock					= 7	; GIO: Used only by Sonic. Prevents him from initiating a Drop Dash.
@@ -869,6 +870,9 @@ f_bgscrollvert							= Camera_max_Y_pos_changing		; alias from Sonic 1 (GitHub)
 v_trackpos							= Pos_table_index					; alias from Sonic 1 (GitHub)
 v_trackbyte							= Pos_table_index+1					; alias from Sonic 1 (GitHub)
 v_lookshift							= Distance_from_top					; alias from Sonic 1 (GitHub)
+Screen_shake_flag					= Screen_shaking_flag					; alias from Sonic 3K (GitHub)
+Screen_shake_offset					= Screen_shaking_offset				; alias from Sonic 3K (GitHub)
+Screen_shake_last_offset				= Screen_shaking_last_offset			; alias from Sonic 3K (GitHub)
 
 ; misc variables
 v_gamemode							= Game_mode						; alias from Sonic 1 (GitHub)

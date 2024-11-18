@@ -60,12 +60,13 @@ Obj_FireShield:
 .nothighpriority2
 		lea	Ani_FireShield(pc),a1
 		jsr	(Animate_Sprite).w
-		move.w	#priority_1,priority(a0)							; layer shield over player sprite
+		move.w	#priority_1,d0									; layer shield over player sprite
 		cmpi.b	#$F,mapping_frame(a0)							; are these the frames that display in front of the player?
 		blo.s		.overplayer										; if so, branch
-		move.w	#priority_4,priority(a0)							; if not, layer shield behind player sprite
+		move.w	#priority_4,d0									; if not, layer shield behind player sprite
 
 .overplayer
+		move.w	d0,priority(a0)
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -145,12 +146,13 @@ Obj_LightningShield:
 .display
 		lea	Ani_LightningShield(pc),a1
 		jsr	(Animate_Sprite).w
-		move.w	#priority_1,priority(a0)							; layer shield over player sprite
+		move.w	#priority_1,d0									; layer shield over player sprite
 		cmpi.b	#$E,mapping_frame(a0)							; are these the frames that display in front of the player?
 		blo.s		.overplayer										; if so, branch
-		move.w	#priority_4,priority(a0)							; if not, layer shield behind player sprite
+		move.w	#priority_4,d0									; if not, layer shield behind player sprite
 
 .overplayer
+		move.w	d0,priority(a0)
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -488,7 +490,7 @@ Obj_Invincibility:
 		; init
 		moveq	#0,d2
 		lea	off_187DE-6(pc),a2
-		lea	address(a0),a1
+		lea	(a0),a1
 		moveq	#4-1,d1
 
 .loop
@@ -509,6 +511,10 @@ Obj_Invincibility:
 		move.b	#4,objoff_34(a0)
 
 .main
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	.delete
+		tst.b	(Super_Tails_flag).w
+		bne.s	.delete
 		movea.w	parent(a0),a1										; a1=character
 		btst	#Status_Invincible,status_secondary(a1)					; should the player still have a invincible?
 		beq.s	.delete											; if not, delete
@@ -557,6 +563,10 @@ Obj_Invincibility:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_188E8:
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	Obj_Invincibility.delete
+		tst.b	(Super_Tails_flag).w
+		bne.s	Obj_Invincibility.delete
 		movea.w	parent(a0),a1										; a1=character
 		btst	#Status_Invincible,status_secondary(a1)					; should the player still have a invincible?
 		beq.s	Obj_Invincibility.delete							; if not, delete

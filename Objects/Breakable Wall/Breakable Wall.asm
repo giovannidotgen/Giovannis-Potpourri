@@ -50,6 +50,8 @@ loc_215B2:
 		move.w	d6,d0
 		andi.w	#p1_touch_side,d0
 		beq.s	loc_2162A
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	loc_215F4
 		cmpi.b	#PlayerID_Knuckles,character_id(a1)				; is player Knuckles?
 		beq.s	loc_215F4										; if yes, branch
 		btst	#Status_FireShield,shield_reaction(a1)
@@ -81,7 +83,7 @@ loc_215F4:
 
 loc_2162A:
 		btst	#p2_pushing_bit,status(a0)
-		beq.s	loc_215AC
+		beq.w	loc_215AC
 		lea	(Player_2).w,a1										; a1=character
 		move.w	objoff_32(a0),d1
 		cmpi.b	#AniIDSonAni_Roll,anim(a1)
