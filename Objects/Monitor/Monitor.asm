@@ -391,6 +391,10 @@ Monitor_Give_Bubble_Shield:
 ; ---------------------------------------------------------------------------
 
 Monitor_Give_Invincibility:
+		tst.b	(Super_Sonic_Knux_flag).w
+		bne.s	.return
+		tst.b	(Super_Tails_flag).w
+		bne.s	.return
 		bset	#Status_Invincible,status_secondary(a1)
 		move.b	#(20*60)/8,invincibility_timer(a1)
 		tst.b	(Music_results_flag).w									; don't change music if level is end
@@ -404,6 +408,8 @@ Monitor_Give_Invincibility:
 .skipmusic
 		move.l	#Obj_Invincibility,(Invincibility_stars+address).w
 		move.w	a1,(Invincibility_stars+parent).w
+
+.return
 		rts
 ; ---------------------------------------------------------------------------
 
