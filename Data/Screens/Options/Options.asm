@@ -11,9 +11,9 @@ Options_MaxCount:				= 7
 Options_MaxCharacters:			= 5
 Options_MaxMusicOpt:			= 2									; on/off
 Options_MaxSoundOpt:			= 2									; on/off
-Options_MaxMusicNumber:		= (mus__End-mus__First)-1
-Options_MaxSoundNumber:		= (sfx__End-sfx__First)-1
-Options_MaxSampleNumber:		= $10
+Options_MaxMusicNumber:		= (mus__Last-mus__First)
+Options_MaxSoundNumber:		= (sfx__Last-sfx__First)
+Options_MaxSampleNumber:		= (dac__Last-dac__First)
 
 ; RAM
 	phase ramaddr(RAM_start)
@@ -293,7 +293,7 @@ Options_Controls:
 
 		; play sfx
 		move.w	d3,d0
-		addq.w	#sfx__First,d0										; $00 is reserved for silence
+		addi.w	#sfx__First,d0										; skip music
 		jmp	(Play_SFX).w												; play sfx
 
 ; ---------------------------------------------------------------------------
@@ -312,7 +312,7 @@ Options_Controls:
 		and.b	(Ctrl_1_pressed).w,d1
 		beq.s	Options_FindUpDownControls.returnup
 		move.w	d3,d0
-		addq.w	#1,d0												; $00 is reserved for pause
+		addi.w	#dac__First,d0										; $80 is reserved for pause
 		jmp	(Play_Sample).w											; play sample
 
 ; ---------------------------------------------------------------------------

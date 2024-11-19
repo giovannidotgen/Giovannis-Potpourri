@@ -11,7 +11,7 @@ TitleLevelSelect_MaxCount:					= 22
 TitleLevelSelect_SpecialStageCount:			= 19
 TitleLevelSelect_MaxSpecialStages:			= ChaosEmer_Count
 TitleLevelSelect_MaxCharacters:			= 5
-TitleLevelSelect_MaxMusicNumber:			= ((mus__End-mus__First)-1) + ((sfx__End-sfx__First)-1)
+TitleLevelSelect_MaxMusicNumber:			= ((mus__Last-mus__First)-1) + ((sfx__Last-sfx__First)-1)
 
 ; RAM
 	phase ramaddr(RAM_start)
@@ -255,16 +255,7 @@ TitleLevelSelect_Controls:
 		; play music
 		move.w	d3,d0
 		addq.w	#mus__First,d0										; $00 is reserved for silence
-
-		; check music or sfx
-		lea	(Play_Music).w,a1
-		cmpi.w	#mus__End,d0
-		blo.s		.play
-		subi.w	#(mus__End-mus__First),d0
-		lea	(Play_SFX).w,a1
-
-.play
-		jsr	(a1)														; play music/sfx
+		jsr	(Play_Music).w											; play music/sfx
 
 		; get current music for cheats
 		move.w	d3,d0

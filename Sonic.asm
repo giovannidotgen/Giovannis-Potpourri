@@ -147,10 +147,10 @@ EndOfHeader
 		include "Data/Decompression/Kosinski Plus Module Decompression.asm"
 
 ; ---------------------------------------------------------------------------
-; Flamedriver - Functions Subroutine
+; Clone Driver - Functions Subroutine
 ; ---------------------------------------------------------------------------
 
-		include "Sound/Functions.asm"
+		include "Sound/Engine/Functions.asm"
 
 ; ---------------------------------------------------------------------------
 ; Fading Palettes Subroutine
@@ -560,11 +560,22 @@ EndOfHeader
 		include "Pointers/Uncompressed Data.asm"
 
 ; ---------------------------------------------------------------------------
-; Flamewing sound driver subroutines
+; Vladikcomper's Mega PCM 2.0 - DAC Sound Driver
 ; ---------------------------------------------------------------------------
 
-		include "Sound/Flamedriver.asm"
-		even
+		include "Sound/Engine/MegaPCM.asm"
+
+; ---------------------------------------------------------------------------
+; Clone sound driver subroutines
+; ---------------------------------------------------------------------------
+
+		include "Sound/Engine/Sonic 2 Clone Driver v2.asm"
+
+; ---------------------------------------------------------------------------
+; MegaCD Driver
+; ---------------------------------------------------------------------------
+
+		include "Sound/MSU/MSU.asm"
 
 ; ---------------------------------------------------------------
 ; Error handling module

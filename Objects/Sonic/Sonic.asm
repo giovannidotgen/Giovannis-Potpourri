@@ -250,8 +250,7 @@ Sonic_ChkShoes:										; checks if Speed Shoes have expired and disables them 
 
 .nots
 		bclr	#Status_SpeedShoes,status_secondary(a0)
-		moveq	#0,d0
-		jmp	(Change_Music_Tempo).w					; slow down tempo
+		music	mus_Slowdown,1						; slow down tempo
 ; ---------------------------------------------------------------------------
 
 Sonic_ExitChk:

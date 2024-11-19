@@ -23,9 +23,9 @@ LevelSelect_SampleTestCount:		= LevelSelect_SoundTestCount+1
 LevelSelect_MaxCount:			= 11
 LevelSelect_MaxSpecialStages:		= ChaosEmer_Count
 LevelSelect_MaxCharacters:		= 5
-LevelSelect_MaxMusicNumber:		= (mus__End-mus__First)-1
-LevelSelect_MaxSoundNumber:		= (sfx__End-sfx__First)-1
-LevelSelect_MaxSampleNumber:	= $10
+LevelSelect_MaxMusicNumber:		= (mus__Last-mus__First)
+LevelSelect_MaxSoundNumber:		= (sfx__Last-sfx__First)
+LevelSelect_MaxSampleNumber:	= (dac__Last-dac__First)
 
 ; RAM
 	phase ramaddr(RAM_start)
@@ -243,7 +243,7 @@ LevelSelect_Controls:
 
 		; play sample
 		move.w	d3,d0
-		addq.w	#1,d0												; $00 is reserved for pause
+		addi.w	#dac__First,d0										; $80 is reserved for pause
 		jmp	(Play_Sample).w											; play sample
 
 ; ---------------------------------------------------------------------------
@@ -322,7 +322,7 @@ LevelSelect_Controls:
 
 		; play music
 		move.w	d3,d0
-		addq.w	#mus__First,d0										; $00 is reserved for silence
+		addi.w	#sfx__First,d0										; skip music
 		jsr	(Play_Music).w											; play music
 
 		; get current music for cheats
@@ -362,7 +362,7 @@ LevelSelect_Controls:
 
 		; play sfx
 		move.w	d3,d0
-		addq.w	#sfx__First,d0										; $00 is reserved for silence
+		addi.w	#sfx__First,d0										; skip music
 		jmp	(Play_SFX).w												; play sfx
 
 ; ---------------------------------------------------------------------------

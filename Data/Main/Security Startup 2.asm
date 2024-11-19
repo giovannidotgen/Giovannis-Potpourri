@@ -44,9 +44,17 @@ Game_Program:
 		move.l	#Ref_Checksum_String,(Checksum_string).w			; set flag so checksum won't run again
 
 .init
+
+	if MSUMode
+		jsr	(Init_MSU_Driver).l
+		seq	(SegaCD_Mode).w
+	else
+		clr.b	(SegaCD_Mode).w
+	endif
+
 		jsr	(Init_DMA_Queue).w
 		jsr	(Init_VDP).w
-		jsr	(SndDrvInit).w
+		jsr	(SoundDriverLoad).w
 		jsr	(Init_Controllers).w
 
 	if SCEDebug
