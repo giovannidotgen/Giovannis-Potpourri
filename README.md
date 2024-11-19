@@ -3,7 +3,7 @@
 ## Disclaimer
 
 Source code with the Sonic 2 Clone Driver v2 (Mega PCM 2.0 version). Unstable version. I haven't tested how well the game works with this sound driver. You can use this version of the source code, but it's not recommended.
-Clone driver works poorly and is slow. The music from S3K sounds weird. I just recommend continuing to use the S3K Z80 driver...
+Clone driver works poorly and is slow. The music from S3K sounds weird. I just recommend continuing to use the S3K Z80 driver.
 
 This is a port of Sonic The Hedgehog (1991) to Sonic Clean Engine (S.C.E.), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
 
