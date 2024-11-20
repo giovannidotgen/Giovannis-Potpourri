@@ -1,5 +1,7 @@
 # SONIC-1-IN-SONIC-3-S.C.E.-
 
+![Title](https://i.imgur.com/VbQoOjT.png)
+
 ## Disclaimer
 
 Source code with the Sonic 2 Clone Driver v2 (Mega PCM 2.0 version). Unstable version. I haven't tested how well the game works with this sound driver. You can use this version of the source code, but it's not recommended.
