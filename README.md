@@ -75,6 +75,10 @@ You don't have to add the letters **'ENOZ' (ZONE)** because those letters are al
 ![19]
 ![20]
 ![21]
+![22]
+![23]
+![24]
+![25]
 
 [1]: https://i.imgur.com/EqCmjSK.png
 [2]: https://i.imgur.com/rtzOHYb.png
@@ -88,19 +92,21 @@ You don't have to add the letters **'ENOZ' (ZONE)** because those letters are al
 [10]: https://i.imgur.com/6bGlgfN.png
 [11]: https://i.imgur.com/fn5ETM9.png
 [12]: https://i.imgur.com/K0HpIgu.png
-[13]: https://i.imgur.com/haLN95q.png
-[14]: https://i.imgur.com/D0Eapq5.png
-[15]: https://i.imgur.com/QM5eUop.png
-[16]: https://i.imgur.com/82Rdk6v.png
-[17]: https://i.imgur.com/r6eKElG.png
-[18]: https://i.imgur.com/rmrbD5b.png
-[19]: https://i.imgur.com/g0tqv5L.png
-[20]: https://i.imgur.com/Xp8CwYa.png
-[21]: https://i.imgur.com/v39oNGQ.png
+[13]: https://i.imgur.com/BD7Uuzq.png
+[14]: https://i.imgur.com/haLN95q.png
+[15]: https://i.imgur.com/JT05cue.png
+[16]: https://i.imgur.com/X1m8pXp.png
+[17]: https://i.imgur.com/V6AfKYw.png
+[18]: https://i.imgur.com/D0Eapq5.png
+[19]: https://i.imgur.com/QM5eUop.png
+[20]: https://i.imgur.com/82Rdk6v.png
+[21]: https://i.imgur.com/r6eKElG.png
+[22]: https://i.imgur.com/rmrbD5b.png
+[23]: https://i.imgur.com/g0tqv5L.png
+[24]: https://i.imgur.com/Xp8CwYa.png
+[25]: https://i.imgur.com/v39oNGQ.png
 
 </details>
-
-
 
 ## Credits
 
