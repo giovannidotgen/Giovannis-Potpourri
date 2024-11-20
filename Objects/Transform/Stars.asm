@@ -12,7 +12,7 @@ Obj_SuperSonicKnux_Stars:
 		; init
 		move.l	#Map_SuperSonic_Stars,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates, multi-draw flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
 
 		; check
 		btst	#high_priority_bit,(Player_1+art_tile).w
@@ -120,7 +120,7 @@ Obj_HyperSonic_Stars_Init:
 		; init
 		move.l	#Map_HyperSonicStars,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates, multi-draw flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
 		move.b	#6,mapping_frame(a0)
 		cmpa.w	#Invincibility_stars,a0
 		beq.s	.isParent

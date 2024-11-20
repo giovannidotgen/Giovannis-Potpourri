@@ -991,3 +991,16 @@ Offset_ObjectsDuringTransition:
 		lea	next_object(a1),a1										; next slot
 		dbf	d2,.check
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+Offset_SomeObjectsDuringTransition:
+		tst.b	(Super_Tails_flag).w
+		bne.s	.super
+		rts
+; ---------------------------------------------------------------------------
+
+.super
+		lea	(Invincibility_stars).w,a1
+		moveq	#bytesToXcnt(Invincibility_stars_end-Invincibility_stars,object_size),d2
+		bra.s	Offset_ObjectsDuringTransition.check
