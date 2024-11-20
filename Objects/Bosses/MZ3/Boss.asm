@@ -587,8 +587,8 @@ Obj_BossFire_Scaled:
 		move.w	#$200,x_vel(a0)
 		move.w	#tiles_to_bytes($340),objoff_3A(a0)				; VRAM
 		move.l	#ArtScaled_RobotnikMZ,d0					; art pointer
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.artpointer
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; is Knuckles?
+		blo.s		.artpointer									; if not, branch
 		move.l	#ArtScaled_EggRoboMZ,d0					; art pointer
 
 .artpointer
