@@ -1720,8 +1720,8 @@ Sonic_HyperDash_Velocities:
 ; ---------------------------------------------------------------------------
 
 Tails_Super:
-		tst.b	(Super_Tails_flag).w
-		beq.w	SonicKnux_SuperHyper.return
+		tst.b	(Super_Tails_flag).w								; is Tails Super?
+		beq.w	SonicKnux_SuperHyper.return					; if not, branch
 		bra.s	SonicKnux_SuperHyper.continued
 
 ; =============== S U B R O U T I N E =======================================

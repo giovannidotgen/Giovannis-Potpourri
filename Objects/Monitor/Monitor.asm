@@ -390,10 +390,10 @@ Monitor_Give_Bubble_Shield:
 ; ---------------------------------------------------------------------------
 
 Monitor_Give_Invincibility:
-		tst.b	(Super_Sonic_Knux_flag).w
-		bne.s	.return
-		tst.b	(Super_Tails_flag).w
-		bne.s	.return
+		tst.b	(Super_Sonic_Knux_flag).w							; is Sonic Super/Hyper?
+		bne.s	.return											; if so, branch
+		tst.b	(Super_Tails_flag).w									; is Tails Super?
+		bne.s	.return											; if so, branch
 		bset	#Status_Invincible,status_secondary(a1)
 		move.b	#(20*60)/8,invincibility_timer(a1)
 		tst.b	(Music_results_flag).w									; don't change music if level is end
