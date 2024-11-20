@@ -25,6 +25,7 @@ Dust_P2:							ds.b object_size				; for Tails in a Sonic and Tails game
 Shield:								ds.b object_size
 									ds.b object_size				; unused
 Invincibility_stars:					ds.b object_size*4				; 4 objects
+Invincibility_stars_end					= *
 									ds.b object_size*2				; unused
 Water_Splash:						ds.b object_size				; Obj_WaterSplash is loaded here
 Wave_Splash:						ds.b object_size				; Obj_WaveSplash is loaded here

@@ -40,7 +40,7 @@ Obj_SuperTailsBirds_Init:
 		; init
 		move.l	#Map_SuperTails_Birds,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Player_1,0,1)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,16/2,16/2),render_flags(a0)	; set screen coordinates, multi-draw flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,16/2,16/2),render_flags(a0)	; set screen coordinates flag and height and width
 		move.w	(Player_1+x_pos).w,x_pos(a0)
 		move.w	(Player_1+y_pos).w,y_pos(a0)
 		subi.w	#$C0,x_pos(a0)
