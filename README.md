@@ -1,5 +1,7 @@
 # SONIC-1-IN-SONIC-3-S.C.E.-
 
+![Title](https://i.imgur.com/VbQoOjT.png)
+
 ## Disclaimer
 
 This is a port of Sonic The Hedgehog (1991) to Sonic Clean Engine (S.C.E.), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
