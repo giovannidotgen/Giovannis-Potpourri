@@ -49,6 +49,59 @@ You don't have to add the letters **'ENOZ' (ZONE)** because those letters are al
 
 - If you want to use other SMPS music you can use [Valley Bell's SMPS Research](https://forums.sonicretro.org/index.php?threads/valley-bells-smps-research.32473) or [vgm2smps](https://github.com/Ivan-YO/vgm2smps/releases).
 
+## Screenshots
+
+<details>
+<summary>Screenshots</summary>
+ 
+![1]
+![2]
+![3]
+![4]
+![5]
+![6]
+![7]
+![8]
+![9]
+![10]
+![11]
+![12]
+![13]
+![14]
+![15]
+![16]
+![17]
+![18]
+![19]
+![20]
+![21]
+
+[1]: https://i.imgur.com/EqCmjSK.png
+[2]: https://i.imgur.com/rtzOHYb.png
+[3]: https://i.imgur.com/6YTWpYb.png
+[4]: https://i.imgur.com/MLsX9YQ.png
+[5]: https://i.imgur.com/MlrJwEI.png
+[6]: https://i.imgur.com/l0QAfCO.png
+[7]: https://i.imgur.com/dRpyxOJ.png
+[8]: https://i.imgur.com/Ta9my76.png
+[9]: https://i.imgur.com/FtrAkRO.png
+[10]: https://i.imgur.com/6bGlgfN.png
+[11]: https://i.imgur.com/fn5ETM9.png
+[12]: https://i.imgur.com/K0HpIgu.png
+[13]: https://i.imgur.com/haLN95q.png
+[14]: https://i.imgur.com/D0Eapq5.png
+[15]: https://i.imgur.com/QM5eUop.png
+[16]: https://i.imgur.com/82Rdk6v.png
+[17]: https://i.imgur.com/r6eKElG.png
+[18]: https://i.imgur.com/rmrbD5b.png
+[19]: https://i.imgur.com/g0tqv5L.png
+[20]: https://i.imgur.com/Xp8CwYa.png
+[21]: https://i.imgur.com/v39oNGQ.png
+
+</details>
+
+
+
 ## Credits
 
 ### Red Miso Studios Staff
