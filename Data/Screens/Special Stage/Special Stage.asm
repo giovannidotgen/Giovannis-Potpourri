@@ -366,6 +366,20 @@ SpecialStageScreen:
 		move.w	#tiles_to_bytes($548),d2
 		jsr	(Queue_KosPlus_Module).w
 
+	if SuperHyperSonKnux
+		lea	(ArtKosPM_SSResultsHYPER).l,a1
+		cmpi.w	#PlayerModeID_Tails,(Player_mode).w										; is Tails?
+		bne.s	.nottails																	; if not, branch
+		lea	(ArtKosPM_SSResultsSUPER).l,a1
+
+.nottails
+	else
+		lea	(ArtKosPM_SSResultsSUPER).l,a1
+	endif
+
+		move.w	#tiles_to_bytes($4E0),d2
+		jsr	(Queue_KosPlus_Module).w
+
 		; load object
 		move.l	#Obj_SpecialStage_Results,(Dynamic_object_RAM+(object_size*29)+address).w	; load results screen object
 		jsr	(Pal_FadeFromWhite).w
@@ -1243,7 +1257,7 @@ SS_LoadData:
 		move.w	(a0)+,(a1)+																	; VRAM
 		dbf	d1,.loadm
 
-		; find ghost solids
+		; find all ghost solids
 		lea	(SStage_Ghost_Buffer).l,a1
 		lea	(SStage_BlockBuffer).l,a0
 		moveq	#$40-1,d1
