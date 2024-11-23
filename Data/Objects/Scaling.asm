@@ -197,7 +197,7 @@ sub_2479C:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		lea	$7C(a4),a4
 		rts
@@ -227,7 +227,7 @@ loc_24826:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		lea	$7C(a4),a4
 		rts
@@ -285,7 +285,7 @@ sub_24906:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		move.b	(a3)+,d0
 		move.b	(a3)+,d1
@@ -343,7 +343,7 @@ sub_24984:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		lea	$7C(a4),a4
 		rts
@@ -402,7 +402,7 @@ sub_24A10:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		lea	$7C(a4),a4
 		rts
@@ -469,7 +469,7 @@ sub_24AA4:
 		and.b	d7,d1
 		or.b	d1,d0
 		move.b	d0,(a4)+
-	endm
+	endr
 
 		lea	$7C(a4),a4
 		rts

@@ -612,7 +612,7 @@ bankswitch macro
 		rept 7
 			rrca
 			ld	(hl), a
-		endm
+		endr
 		ld	(hl), h							; The low bit of h is 0
 	endm
 
