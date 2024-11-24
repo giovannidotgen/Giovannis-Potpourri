@@ -6,9 +6,9 @@
 
 Title_BackgroundInit:
 		bsr.s	Title_Deform
-		jsr	(Reset_TileOffsetPositionEff).w
 
 		; update BG
+		jsr	(Reset_TileOffsetPositionEff).w
 		lea	GHZ1_BGDrawArray(pc),a4
 		lea	(H_scroll_table+$100).w,a5
 		clr.l	(a5)									; update clouds (draw the starting position)

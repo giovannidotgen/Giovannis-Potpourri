@@ -32,24 +32,11 @@ Obj_SpecialStage_Results:
 .create
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.return												; don't load the objects until the art has been loaded
-		jsr	(Create_New_Sprite3).w
-		bne.s	.return
-		lea	ObjArray_SSResults(pc),a2
-		move.w	(a2)+,d1												; make objects
 
-.loop
-		move.l	(a2)+,address(a1)
-		move.w	(a2)+,objoff_46(a1)
-		move.w	(a2)+,x_pos(a1)
-		move.w	(a2)+,y_pos(a1)
-		move.b	(a2)+,mapping_frame(a1)
-		move.b	(a2)+,width_pixels(a1)
-		move.b	#rfMulti,render_flags(a1)
-		move.l	#Map_Results,mappings(a1)
-		move.w	#make_art_tile($500,0,0),art_tile(a1)
-		move.w	a0,parent2(a1)
-		jsr	(Create_New_Sprite4).w
-		dbne	d1,.loop
+		; load text
+		lea	next_object(a0),a1
+		lea	ObjArray_SSResults(pc),a2
+		bsr.w	SpecialStage_Results_Load
 
 		; next
 		move.l	#.wait,address(a0)
@@ -126,11 +113,13 @@ Obj_SpecialStage_Results:
 ; ---------------------------------------------------------------------------
 
 .continue
+
+		; create continue player icon
 		jsr	(Create_New_Sprite3).w
 		bne.s	.setend
 		move.l	#Obj_2EBE8,address(a1)
 
-		; wait
+		; set wait
 		move.w	#4*60+30,objoff_2E(a0)								; set wait
 		sfx	sfx_Continue												; play extra continue sound
 
@@ -139,8 +128,33 @@ Obj_SpecialStage_Results:
 
 .endtimer
 		tst.w	objoff_2E(a0)
-		beq.s	.endr
+		beq.s	.checksuper
 		subq.w	#1,objoff_2E(a0)
+		rts
+; ---------------------------------------------------------------------------
+
+.checksuper
+		cmpi.b	#7,(Chaos_emerald_count).w
+		blo.s		.endr
+
+		; move text to the right
+		move.l	#Obj_2EC1E,d0
+		move.l	d0,(Dynamic_object_RAM+(object_size*44)+address).w
+		move.l	d0,(Dynamic_object_RAM+(object_size*45)+address).w
+		move.l	d0,(Dynamic_object_RAM+(object_size*46)+address).w
+		move.l	d0,(Dynamic_object_RAM+(object_size*47)+address).w
+		move.l	d0,(Dynamic_object_RAM+(object_size*48)+address).w
+
+		; set wait
+		moveq	#4,d0
+		move.w	d0,(Dynamic_object_RAM+(object_size*46)+objoff_2E).w
+		move.w	d0,(Dynamic_object_RAM+(object_size*48)+objoff_2E).w
+
+		; set
+		move.w	#5,objoff_30(a0)										; number of objects
+		move.l	#.waitsuper,address(a0)
+
+.return3
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -148,6 +162,54 @@ Obj_SpecialStage_Results:
 		move.b	#GameModeID_LevelScreen,(Game_mode).w				; set screen mode to Level
 		addq.w	#4*2,sp												; exit from object and current screen
 		rts
+; ---------------------------------------------------------------------------
+
+.waitsuper
+		tst.w	objoff_30(a0)											; wait until the last object has been deleted
+		bne.s	.return3
+
+		; create Super/Hyper text
+		lea	(Dynamic_object_RAM+(object_size*44)).w,a1
+		lea	ObjArray_SSResults2(pc),a2
+		bsr.s	SpecialStage_Results_Load
+
+		; wait
+		move.w	#4*60,objoff_2E(a0)									; set wait
+		move.l	#.endtimer2,address(a0)
+
+.endtimer2
+		tst.w	objoff_2E(a0)
+		beq.s	.endr
+		subq.w	#1,objoff_2E(a0)
+		rts
+
+; =============== S U B R O U T I N E =======================================
+
+SpecialStage_Results_Load:
+		move.w	(a2)+,d1												; make objects
+
+.loop
+		move.l	(a2)+,address(a1)
+		move.w	(a2)+,objoff_46(a1)
+		move.w	(a2)+,x_pos(a1)
+		move.w	(a2)+,y_pos(a1)
+		move.b	(a2)+,mapping_frame(a1)
+		move.b	(a2)+,width_pixels(a1)
+		move.b	#rfMulti,render_flags(a1)
+		move.l	#Map_Results,mappings(a1)
+		move.w	#make_art_tile($500,0,0),art_tile(a1)
+		move.w	a0,parent2(a1)
+		lea	next_object(a1),a1
+		dbf	d1,.loop
+		rts
+
+; =============== S U B R O U T I N E =======================================
+
+Obj_2EA10:
+		bsr.w	sub_2EC80
+		add.w	d0,x_pos(a0)
+		add.w	d0,objoff_46(a0)
+		bra.s	loc_2EA4A
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -356,6 +418,31 @@ sub_2ECBC:
 
 ; =============== S U B R O U T I N E =======================================
 
+Obj_2EC1E:
+
+		; wait
+		tst.w	objoff_2E(a0)
+		beq.s	loc_2EC2A
+		subq.w	#1,objoff_2E(a0)
+		bra.s	loc_2EC44
+; ---------------------------------------------------------------------------
+
+loc_2EC2A:
+		tst.b	render_flags(a0)											; object visible on the screen?
+		bmi.s	loc_2EC3E											; if yes, branch
+		movea.w	parent2(a0),a1
+		subq.w	#1,objoff_30(a1)										; if offscreen, subtract from number of elements and delete
+		jmp	(Delete_Current_Sprite).w
+; ---------------------------------------------------------------------------
+
+loc_2EC3E:
+		addi.w	#32,x_pos(a0)										; move out
+
+loc_2EC44:
+		jmp	(Draw_Sprite).w
+
+; =============== S U B R O U T I N E =======================================
+
 	if ChaosEmer_Count=7
 
 ObjArray_SSResults: specialresultsheader
@@ -407,3 +494,12 @@ ObjArray_SSResults_end
 	else
 		fatal "Warning! You need to set the location for the chaos emeralds!"
 	endif
+
+ObjArray_SSResults2: specialresultsheader
+	specialresultsobjdata	Obj_2EA10, 64, 832, 24, $27, 112				; 1
+	specialresultsobjdata	Obj_2EAF6, 128, 896, 24, $13, 144				; 2
+	specialresultsobjdata	Obj_2EA3E, 208, 976, 24, $3A, 96				; 3
+	specialresultsobjdata	Obj_2EA10, 64, 960, 48, $28, 64				; 4
+	specialresultsobjdata	Obj_2EA10, 104, 1000, 48, $12, 160				; 5 (SUPER/HYPER)
+	specialresultsobjdata	Obj_2EAF6, 184, 1080, 48, $13, 144				; 6
+ObjArray_SSResults2_end

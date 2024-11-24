@@ -434,8 +434,8 @@ Obj_BossBall_Scaled:
 		move.w	#tiles_to_bytes($340),objoff_3A(a0)				; VRAM
 		move.l	#.wait,address(a0)
 		move.l	#ArtScaled_RobotnikGHZ,d0					; art pointer
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notknux
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; is Knuckles?
+		blo.s		.notknux										; if not, branch
 		move.l	#ArtScaled_EggRoboGHZ,d0					; art pointer
 
 .notknux

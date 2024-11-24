@@ -14,7 +14,7 @@ Obj_HyperSonicKnux_Trail:
 
 .playingasknux
 		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates, multi-draw flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
 		move.l	#.main,address(a0)
 
 .main
