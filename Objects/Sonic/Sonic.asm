@@ -2692,8 +2692,14 @@ Sonic_PerformDropDash:
 .end:	
 		move.w	d4,ground_vel(a0)
 
-		move.w	#$1000,(H_scroll_frame_offset).w
-		bsr.w	Reset_Player_Position_Array
+		move.w	#$1000,d0
+		lea	(H_scroll_frame_offset).w,a1
+		cmpa.w	#Player_1,a0
+		beq.s	.isp1
+		lea	(H_scroll_frame_offset_P2).w,a1
+
+.isp1:
+		move.w	d0,(a1)
 		move.b	#$E,y_radius(a0)
 		move.b	#7,x_radius(a0)
 		move.b	#AniIDSonAni_Roll,anim(a0)
