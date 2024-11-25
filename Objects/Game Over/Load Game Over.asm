@@ -90,7 +90,7 @@ Render_GameOver:
 		move.w	#make_art_tile(ArtTile_Shield,0,1),d5							; VRAM
 		movea.l	GameOver_RAM.mappings-GameOver_RAM(a4),a1				; mappings
 
-		; GAME
+		; GAME/TIME
 		move.w	GameOver_RAM.xpos-GameOver_RAM(a4),d0					; xpos
 		moveq	#2-1,d4														; tile count
 		jsr	(loc_1AF76).w													; draw
