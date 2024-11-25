@@ -10,11 +10,9 @@ hsp_origX					= objoff_12	; original x-axis position
 Obj_SpikePole:
 
 		; init
-		lea	ObjDat_SpikePole(pc),a1
-		jsr	(SetUp_ObjAttributes).w
-		bset	#6,render_flags(a0)							; set multi-draw flag
+		movem.l	ObjDat_SpikePole(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)							; set data from d0-d3 to current object
 ;		move.w	x_pos(a0),hsp_origX(a0)					; save xpos
-		move.l	#.action,address(a0)						; "
 
 		; create sub objects
 		moveq	#0,d0
@@ -96,7 +94,7 @@ Obj_SpikePole:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SpikePole:	subObjData Map_SpikePole, $3B0, 2, 0, 16, 128, 3, 0, 0
+ObjDat_SpikePole:	subObjMainData2 Obj_SpikePole.action, rfCoord+rfMulti, 0, 16, 128, 3, $3B0, 2, 0, Map_SpikePole
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Spike Pole/Object Data/Map - Spike Pole.asm"
