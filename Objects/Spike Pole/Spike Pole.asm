@@ -40,7 +40,6 @@ Obj_SpikePole:
 		move.w	(a2),(a1)									; set ypos
 
 .action
-		moveq	#0,d0
 		move.b	(Spikes_frame).w,d0
 		moveq	#7,d1									; max spikes frames
 
