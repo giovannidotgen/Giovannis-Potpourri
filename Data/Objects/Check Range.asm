@@ -200,12 +200,16 @@ Check_InMyRange_Fail:
 ; =============== S U B R O U T I N E =======================================
 
 Check_PlayerInRange:
+		move.w	x_pos(a0),d3
+
+.skipx
+		move.w	y_pos(a0),d4
+
+.main
 		moveq	#0,d0
 		lea	(Player_2).w,a2														; a2=character
 		move.w	x_pos(a2),d1
 		move.w	y_pos(a2),d2
-		move.w	x_pos(a0),d3
-		move.w	y_pos(a0),d4
 		add.w	(a1)+,d3
 		move.w	d3,d5
 		add.w	(a1)+,d5
