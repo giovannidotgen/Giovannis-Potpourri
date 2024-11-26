@@ -17,12 +17,10 @@ Obj_Junction:
 		move.b	subtype(a0),jun_switch(a0)
 
 		; init
-		lea	ObjDat_Junction(pc),a1							; 0 - frame (no draw sprite)
-		jsr	(SetUp_ObjAttributes).w
-		bset	#rbMulti,render_flags(a0)							; set multi-draw flag
+		movem.l	ObjDat_Junction(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#2,mainspr_childsprites(a0)					; large circular and wheel
 		addq.b	#1,jun_frame(a0)								; set 1
-		move.l	#.action,address(a0)							; goto "Jun_Action" next
 
 		; sub objects
 		lea	sub2_x_pos(a0),a1								; $16-$23 bytes reserved
@@ -204,7 +202,7 @@ Jun_ChkSwitch:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Junction:		subObjData Map_Jun, $31B, 2, 0, 112, 112, 4, 0, 0
+ObjDat_Junction:		subObjMainData2 Obj_Junction.action, rfCoord+rfMulti, 0, 112, 112, 4, $31B, 2, 0, Map_Jun
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Rotating Junction/Object Data/Map - Rotating Junction.asm"

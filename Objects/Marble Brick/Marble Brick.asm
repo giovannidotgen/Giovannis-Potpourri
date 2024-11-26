@@ -10,13 +10,10 @@ origY2		= objoff_30
 Obj_MarbleBrick:
 
 		; init
-		move.l	#Map_Brick,mappings(a0)
-		move.w	#make_art_tile(0,2,0),art_tile(a0)
-		move.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
-		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_MarbleBrick(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#bytes_to_word(30/2,30/2),y_radius(a0)			; set y_radius and x_radius
 		move.w	y_pos(a0),origY2(a0)
-		move.l	#.action,address(a0)
 
 .action
 		tst.b	render_flags(a0)									; object visible on the screen?
@@ -99,6 +96,11 @@ Obj_MarbleBrick:
 
 .return
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_MarbleBrick:		subObjMainData2 Obj_MarbleBrick.action, rfCoord+rfStatic, 0, 32, 32, 1, 0, 2, 0, Map_Brick
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Marble Brick/Object Data/Map - Marble Brick.asm"

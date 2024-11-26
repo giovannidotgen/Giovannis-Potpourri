@@ -12,12 +12,12 @@ saw_here		= objoff_3D	; flag set when the ground saw appears
 Obj_Saws:
 
 		; init
-		move.l	#Map_Saw,mappings(a0)
-		move.l	#bytes_to_long(rfCoord,0,64/2,64/2),render_flags(a0)				; set screen coordinates flag and height and width
-		move.l	#words_to_long(priority_4,make_art_tile($3A4,2,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_Saws(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 		move.w	x_pos(a0),saw_origX(a0)
 		move.w	y_pos(a0),saw_origY(a0)
-		move.l	#.action,address(a0)
+
+		; check
 		cmpi.b	#3,subtype(a0)									; is object a ground saw?
 		bhs.s	.action											; if yes, branch
 		move.b	#$22|$80,collision_flags(a0)
@@ -195,6 +195,11 @@ Saws_TypeIndex: offsetTable
 
 .sameframe04
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_Saws:	subObjMainData2 Obj_Saws.action, rfCoord, 0, 64, 64, 4, $3A4, 2, 0, Map_Saw
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Saws and Pizza Cutters/Object Data/Map - Saws and Pizza Cutters.asm"

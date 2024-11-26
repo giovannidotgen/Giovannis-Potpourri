@@ -14,13 +14,11 @@ glass_dist				= objoff_32	; distance block moves when switch is pressed
 Obj_GlassBlock:
 
 		; init
-		lea	ObjDat_GlassBlock(pc),a1						; 0 - frame (no draw sprite)
-		jsr	(SetUp_ObjAttributes).w
+		movem.l	ObjDat_GlassBlock(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)							; set data from d0-d3 to current object
 		move.w	y_pos(a0),glass_ypos(a0)
 		move.w	#$90,glass_dist(a0)
-		bset	#6,render_flags(a0)							; set multi-draw flag
 		move.w	#2,mainspr_childsprites(a0)				; block and reflector
-		move.l	#.block012,address(a0)
 
 		; sub objects
 		lea	sub2_x_pos(a0),a1							; $16-$23 bytes reserved
@@ -189,7 +187,7 @@ loc_B5EE:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_GlassBlock:		subObjData Map_Glass, $300, 2, 1, 144, 64, 2, 0, 0
+ObjDat_GlassBlock:		subObjMainData2 Obj_GlassBlock.block012, rfCoord+rfMulti, 0, 144, 64, 2, $300, 2, 1, Map_Glass
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Glass Block/Object Data/Map - Glass Block.asm"

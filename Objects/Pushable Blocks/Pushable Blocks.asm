@@ -34,12 +34,14 @@ Obj_PushableBlock:
 .notLZ
 		move.w	d0,art_tile(a0)
 		move.b	#rfCoord,render_flags(a0)									; use screen coordinates
-		move.w	x_pos(a0),pushb_origX(a0)
-		move.w	y_pos(a0),pushb_origY(a0)
 		move.l	#bytes_word_to_long(32/2,32/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	#bytes_to_word(30/2,32/2),y_radius(a0)						; set y_radius and x_radius
+		move.w	x_pos(a0),pushb_origX(a0)
+		move.w	y_pos(a0),pushb_origY(a0)
 		move.l	#PushableBlock_MovePush,pushb_jump(a0)
 		move.l	#.action,address(a0)
+
+		; set
 		move.b	subtype(a0),d0
 		add.w	d0,d0
 		andi.w	#$E,d0

@@ -20,12 +20,9 @@ pole_grabbed				= objoff_3A	; flag set when Sonic grabs the pole
 Obj_Pole:
 
 		; init
-		move.l	#Map_Pole,mappings(a0)
-		move.w	#make_art_tile($3DE,2,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
-		move.l	#bytes_word_to_long(64/2,16/2,priority_4),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Pole(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.l	#words_to_long(24,36),pole_ysub(a0)
-		move.l	#.action,address(a0)
 
 		; set time
 		moveq	#$F,d0
@@ -197,6 +194,11 @@ Obj_Pole:
 		bset	d2,(WindTunnel_holding_flag).w					; disable wind tunnel
 		st	(a2)												; set "grab" flag
 		sfx	sfx_Grab,1										; play grab sound
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_Pole:		subObjMainData2 Obj_Pole.action, rfCoord, 0, 64, 16, 4, $3DE, 2, 0, Map_Pole
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Pole that Breaks/Object Data/Map - Pole that Breaks.asm"

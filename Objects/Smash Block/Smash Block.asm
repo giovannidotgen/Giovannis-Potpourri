@@ -7,12 +7,10 @@
 Obj_SmashBlock:
 
 		; init
-		move.l	#Map_Smab,mappings(a0)
-		move.l	#bytes_to_long(rfCoord,0,32/2,32/2),render_flags(a0)				; set screen coordinates flag and height and width
-		move.l	#words_to_long(priority_5,make_art_tile($562,2,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_SmashBlock(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.l	#Smab_Speeds,objoff_3C(a0)
 		move.b	subtype(a0),mapping_frame(a0)
-		move.l	#.solid,address(a0)
 
 .solid
 		move.w	(Chain_bonus_counter).w,objoff_38(a0)
@@ -143,6 +141,11 @@ Smab_Speeds:
 		dc.w  $200, -$200
 		dc.w -$100, -$100
 		dc.w  $100, -$100
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_SmashBlock:		subObjMainData2 Obj_SmashBlock.solid, rfCoord, 0, 32, 32, 5, $562, 2, 0, Map_Smab
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Smash Block/Object Data/Map - Smash Block.asm"

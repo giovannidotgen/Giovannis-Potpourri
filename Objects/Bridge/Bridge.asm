@@ -237,7 +237,7 @@ loc_38A00:
 		; create
 		jsr	(Create_New_Sprite3).w
 		bne.s	loc_38A64
-		move.l	#sub_1E6EC,address(a1)								; explosion
+		move.l	#Obj_TensionBridge_Explosion,address(a1)				; explosion
 		move.w	x_pos(a5),x_pos(a1)
 		move.w	y_pos(a5),y_pos(a1)
 		move.b	-1(a4),anim_frame_timer(a1)
