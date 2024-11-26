@@ -658,6 +658,8 @@ Obj_Continue_EggRobo_Legs:
 		lea	ObjDat3_919BE(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
 		move.l	#.main,address(a0)
+
+		; check
 		movea.w	parent3(a0),a1
 		btst	#2,render_flags(a1)												; is parent uses screen coordinates flag?
 		bne.s	.main														; if yes, branch
@@ -689,6 +691,8 @@ Obj_Continue_EggRobo_Gun:
 		lea	ObjDat3_919C4(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
 		move.l	#.main,address(a0)
+
+		; check
 		movea.w	parent3(a0),a1
 		btst	#2,render_flags(a1)												; is parent uses screen coordinates flag?
 		bne.s	.main														; if yes, branch
@@ -814,6 +818,8 @@ Obj_Continue_Icons:
 		; init
 		move.l	#Map_ContinueIcons,mappings(a0)
 		move.w	#make_art_tile($D9,0,0),art_tile(a0)							; for Sonic and Tails
+
+		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s		.notknux
 		ori.w	#palette_line_3,art_tile(a0)									; for Knuckles
