@@ -11,9 +11,8 @@ sball_speed		= objoff_3E ; rate of spin (2 bytes)
 Obj_SpikeBall:
 
 		; init
-		move.l	#Map_SBall,mappings(a0)
-		move.l	#bytes_to_long(rfCoord+rfStatic,0,16/2,16/2),render_flags(a0)		; set screen coordinates, static flag and height and width
-		move.l	#words_to_long(priority_4,make_art_tile($3BA,0,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_SpikeBall(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 
 		; subtype
 		moveq	#signextendB($F0),d1							; read only the 1st digit
@@ -28,7 +27,7 @@ Obj_SpikeBall:
 
 		; get RAM slot
 		getobjectRAMslot a2
-		bmi.s	.notfree										; branch, if object RAM slots ended
+		bmi.s	.main										; branch, if object RAM slots ended
 
 		; get current object address
 		movea.w	a0,a1										; load current object to a1
@@ -38,11 +37,11 @@ Obj_SpikeBall:
 		moveq	#7,d1										; read only the 2nd digit
 		and.b	subtype(a0),d1								; get object type
 		subq.w	#1,d1										; set chain length (type-1)
-		blo.s		.notfree
+		blo.s		.main
 		btst	#3,subtype(a0)									; 8?
 		beq.s	.makechain
 		subq.w	#1,d1
-		blo.s		.notfree
+		blo.s		.main
 
 .makechain
 
@@ -52,7 +51,7 @@ Obj_SpikeBall:
 		lea	next_object(a1),a1									; goto next object RAM slot
 		tst.l	address(a1)										; is object RAM slot empty?
 		dbeq	d0,.find										; if not, branch
-		bne.s	.notfree										; branch, if object RAM slot is not empty
+		bne.s	.main										; branch, if object RAM slot is not empty
 		subq.w	#1,d0										; dbeq didn't subtract sprite table so we'll do it ourselves
 
 		; load object
@@ -70,13 +69,14 @@ Obj_SpikeBall:
 		tst.w	d0											; object RAM slots ended?
 		dbmi	d1,.makechain								; if not, repeat for length of chain
 
-.notfree
-		move.l	#.main,address(a0)
-
 .main
 		move.w	sball_speed(a0),d0
 		sub.w	d0,objoff_3C(a0)
 		jmp	(Sprite_CheckDelete).w
+
+; ---------------------------------------------------------------------------
+; Spiked ball (child)
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -86,6 +86,11 @@ Obj_SpikeBall_Child:
 		moveq	#4,d2									; radius
 		jsr	(MoveSprite_CircularSimple).w
 		jmp	(Child_DrawTouch_Sprite).w
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_SpikeBall:		subObjMainData2 Obj_SpikeBall.main, rfCoord+rfStatic, 0, 16, 16, 4, $3BA, 0, 0, Map_SBall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (SYZ).asm"

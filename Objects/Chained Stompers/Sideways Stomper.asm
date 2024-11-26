@@ -31,12 +31,11 @@ Obj_SideStomp:
 		move.b	SStom_Len(pc,d0.w),objoff_34(a0)
 
 		; init
-		lea	ObjDat_SideStomp(pc),a1
-		jsr	(SetUp_ObjAttributes).w
-		move.l	#.action,address(a0)
+		movem.l	ObjDat_SideStomp(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
+		move.b	#1,mapping_frame(a0)
 
 		; set sub objects
-		bset	#6,render_flags(a0)										; set multi-draw flag
 		move.w	#2,mainspr_childsprites(a0)							; wall bracket, pole
 
 		; set xpos
@@ -58,8 +57,7 @@ Obj_SideStomp:
 		move.w	d1,(a1)+												; xpos
 		move.w	d1,objoff_3E(a0)
 		move.w	y_pos(a0),(a1)+										; ypos
-		addq.w	#1,a1												; skip $22 byte (mapping_frame)
-		move.b	#4,(a1)+												; frame (pole)
+		move.b	#4,1(a1)												; frame (pole)	; skip $22 byte (mapping_frame)
 
 		; object 3 (spikes)
 		move.w	d0,d1
@@ -221,7 +219,7 @@ Obj_SideStomp_Spikes:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SideStomp:			subObjData Map_SStom, $328, 0, 0, 64, 256, 3, 1, 0
+ObjDat_SideStomp:			subObjMainData2 Obj_SideStomp.action, rfCoord+rfMulti, 0, 64, 256, 3, $328, 0, 0, Map_SStom
 ObjDat_SideStomp_Spikes:	subObjData3 40, 32, 4, 2, 0
 
 Child6_SideStomp_Spikes:
