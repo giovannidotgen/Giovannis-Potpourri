@@ -89,7 +89,7 @@ Render_Sprites_ObjLoop:
 		sub.w	d3,d1
 
 Render_Sprites_ScreenSpaceObj:
-		ori.b	#$80,render_flags(a0)				; set on-screen flag
+		ori.b	#rfOnscreen,render_flags(a0)		; set on-screen flag
 		tst.w	d7
 		bmi.s	Render_Sprites_NextObj
 		movea.l	mappings(a0),a1
@@ -215,7 +215,7 @@ loc_1AEA2:
 		sub.w	d3,d1
 
 loc_1AEE4:
-		ori.b	#$80,render_flags(a0)				; set on-screen flag
+		ori.b	#rfOnscreen,render_flags(a0)		; set on-screen flag
 		tst.w	d7
 		bmi.w	Render_Sprites_NextObj
 		move.w	art_tile(a0),d5

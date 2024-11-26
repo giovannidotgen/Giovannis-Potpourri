@@ -32,9 +32,11 @@ Obj_FloatingBlock:
 
 .notLZ
 		move.w	d0,art_tile(a0)
-		move.b	#4,render_flags(a0)										; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)									; use screen coordinates
 		move.w	#priority_3,priority(a0)
 		move.l	#.action,address(a0)
+
+		; set
 		move.b	subtype(a0),d0											; get subtype
 		lsr.w	#3,d0
 		andi.w	#$E,d0													; read only the 1st digit

@@ -200,7 +200,7 @@ loc_18676:
 
 Obj_AirCountdown_Bubbles:
 		move.b	subtype(a0),anim(a0)
-		move.b	#$84,render_flags(a0)
+		move.b	#rfCoord+rfOnscreen,render_flags(a0)			; use screen coordinates
 		move.w	x_pos(a0),objoff_34(a0)
 		move.w	#-$100,y_vel(a0)
 		move.l	#.animate,address(a0)

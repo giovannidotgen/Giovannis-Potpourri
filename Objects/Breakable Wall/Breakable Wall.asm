@@ -18,7 +18,7 @@ Obj_BreakableWall:
 
 .notSLZ
 		move.w	d0,art_tile(a0)
-		move.b	#4,render_flags(a0)								; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)							; use screen coordinates
 		move.l	#.main,address(a0)
 		move.b	subtype(a0),mapping_frame(a0)
 		move.l	#bytes_word_to_long(64/2,32/2,priority_5),height_pixels(a0)	; set height, width and priority

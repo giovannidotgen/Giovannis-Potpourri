@@ -16,7 +16,7 @@ Obj_TensionBridge:
 		andi.b	#$7F,subtype(a0)
 
 .plus
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,256/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	y_pos(a0),d2
 		move.w	d2,objoff_3C(a0)

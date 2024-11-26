@@ -9,7 +9,7 @@ Obj_CorkFloor:
 		; init
 		move.l	#Map_CorkFloor,mappings(a0)
 		move.w	#make_art_tile(1,2,0),art_tile(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(80/2,32/2,priority_5),height_pixels(a0)	; set height, width and priority
 		move.l	#CorkFloor_Speeds,objoff_3C(a0)
 

@@ -510,7 +510,7 @@ Obj_EndChaos:
 		move.l	#.circular,address(a1)
 		move.l	#Map_ECha,mappings(a1)
 		move.w	#make_art_tile($3C5,0,1),art_tile(a1)
-		move.b	#4,render_flags(a1)											; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)										; use screen coordinates
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)		; set height, width and priority

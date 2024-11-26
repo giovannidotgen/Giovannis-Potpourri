@@ -22,7 +22,7 @@ Obj_Pole:
 		; init
 		move.l	#Map_Pole,mappings(a0)
 		move.w	#make_art_tile($3DE,2,0),art_tile(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(64/2,16/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.l	#words_to_long(24,36),pole_ysub(a0)
 		move.l	#.action,address(a0)

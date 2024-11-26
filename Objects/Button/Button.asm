@@ -14,7 +14,7 @@ Obj_Button:
 		ori.w	#palette_line_2,art_tile(a0)					; MZ specific code
 
 .notMZ
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(24/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
 		addq.w	#4,y_pos(a0)
 

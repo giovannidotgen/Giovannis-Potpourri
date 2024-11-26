@@ -21,7 +21,7 @@ Obj_LabyrinthBlock:
 
 		; init
 		move.l	#Map_LBlock,mappings(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#words_to_long(priority_3,make_art_tile($3E6,2,0)),priority(a0)	; set priority and art_tile
 		move.l	#.action,address(a0)
 		move.b	subtype(a0),d0								; get block type

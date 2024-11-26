@@ -410,7 +410,7 @@ Obj_CreditsRobotnik:
 		; init
 		move.l	#Map_CreditsRobotnik,mappings(a0)
 		move.w	#make_art_tile($182,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.w	#320/2,x_pos(a0)
 		move.w	#224/2,y_pos(a0)
 		move.l	#bytes_word_to_long(64/2,56/2,priority_3),height_pixels(a0)	; set height, width and priority
@@ -561,7 +561,7 @@ Obj_CreditsRobotnik_Emeralds:
 		; init
 		move.l	#Map_ECha,mappings(a0)
 		move.w	#make_art_tile($2D3,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),credre_origX(a0)
 		moveq	#-12,d0
@@ -649,7 +649,7 @@ Obj_CreditsEggRobo:
 		; init
 		move.l	#Map_CreditsEggRobo,mappings(a0)
 		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(64/2,56/2,priority_5),height_pixels(a0)	; set height, width and priority
 		move.w	#320/2,x_pos(a0)
 		move.w	#(224/2),y_pos(a0)
@@ -795,7 +795,7 @@ Obj_CreditsEggRobo_Emeralds:
 		; init
 		move.l	#Map_ECha,mappings(a0)
 		move.w	#make_art_tile($2D3,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),cere_origX(a0)
 		moveq	#-72,d0
@@ -835,7 +835,7 @@ Obj_CreditsEggRobo_ScrapMetal:
 		; init
 		move.l	#Map_CreditsEggRobo,mappings(a0)
 		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(64/2,112/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#4,mapping_frame(a0)
 
@@ -855,7 +855,7 @@ Obj_CreditsEggRobo_Eyes:
 		; init
 		move.l	#Map_CreditsEggRobo,mappings(a0)
 		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.b	#2,mapping_frame(a0)
 		move.l	#bytes_word_to_long(16/2,16/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.l	#.refresh,address(a0)

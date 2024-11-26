@@ -18,10 +18,12 @@ Obj_LargeGrass:
 
 		; init
 		move.l	#Map_LGrass,mappings(a0)
-		move.b	#4,render_flags(a0)								; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)							; use screen coordinates
 		move.l	#words_to_long(priority_5,make_art_tile(0,2,0)),priority(a0)	; set priority and art_tile
 		move.w	x_pos(a0),LGorigX(a0)
 		move.w	y_pos(a0),LGorigY(a0)
+
+		; set
 		move.b	subtype(a0),d0
 		lsr.w	#2,d0
 		andi.w	#$1C,d0

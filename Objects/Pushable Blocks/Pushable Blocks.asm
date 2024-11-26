@@ -33,7 +33,7 @@ Obj_PushableBlock:
 
 .notLZ
 		move.w	d0,art_tile(a0)
-		move.b	#4,render_flags(a0)										; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)									; use screen coordinates
 		move.w	x_pos(a0),pushb_origX(a0)
 		move.w	y_pos(a0),pushb_origY(a0)
 		move.l	#bytes_word_to_long(32/2,32/2,priority_3),height_pixels(a0)	; set height, width and priority

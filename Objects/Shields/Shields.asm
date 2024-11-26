@@ -212,7 +212,7 @@ Obj_LightningShield_Create_Spark:
 		move.w	y_pos(a0),y_pos(a1)								; (Spark) inherit y_pos from source object (Lightning Shield, Hyper Sonic Stars)
 		move.l	mappings(a0),mappings(a1)						; (Spark) inherit mappings from source object (Lightning Shield, Hyper Sonic Stars)
 		move.w	art_tile(a0),art_tile(a1)							; (Spark) inherit art_tile from source object (Lightning Shield, Hyper Sonic Stars)
-		move.b	#4,render_flags(a1)								; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)							; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a1)	; set height, width and priority
 		move.b	d2,anim(a1)
 		move.l	(a2)+,x_vel(a1)									; (Spark) give x_vel and y_vel (unique to each of the four Sparks)
@@ -497,7 +497,7 @@ Obj_Invincibility:
 		move.l	#Obj_188E8,address(a1)
 		move.l	#Map_Invincibility,mappings(a1)
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a1)
-		move.b	#$40+4,render_flags(a1)							; set screen coordinates and multi-draw flag
+		move.b	#rfCoord+rfMulti,render_flags(a1)					; set screen coordinates and multi-draw flag
 		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a1)	; set height, width and priority
 		move.w	#2,mainspr_childsprites(a1)
 		move.w	parent(a0),parent(a1)

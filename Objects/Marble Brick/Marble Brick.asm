@@ -12,7 +12,7 @@ Obj_MarbleBrick:
 		; init
 		move.l	#Map_Brick,mappings(a0)
 		move.w	#make_art_tile(0,2,0),art_tile(a0)
-		move.b	#$24,render_flags(a0)							; set static mapping and screen coordinates flag
+		move.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
 		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a0)	; set height, width and priority
 		move.w	#bytes_to_word(30/2,30/2),y_radius(a0)			; set y_radius and x_radius
 		move.w	y_pos(a0),origY2(a0)

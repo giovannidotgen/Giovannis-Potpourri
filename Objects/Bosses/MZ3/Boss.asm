@@ -600,7 +600,7 @@ Obj_BossFire_Scaled:
 		bne.s	.wait
 		move.l	#Child_Draw_Sprite,address(a1)
 		move.l	#Map_BossFire_Pillar,mappings(a1)
-		move.b	#4,render_flags(a1)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)						; use screen coordinates
 		move.w	#priority_3,priority(a1)
 		move.w	#$1C20,x_pos(a1)
 		move.w	#$240,y_pos(a1)

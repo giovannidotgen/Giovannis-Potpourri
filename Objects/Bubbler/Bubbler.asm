@@ -141,7 +141,7 @@ Bubbler_Delete:
 
 Obj_Bubbler_Bubbles:
 		move.b	subtype(a0),anim(a0)
-		move.b	#$84,render_flags(a0)
+		move.b	#rfCoord+rfOnscreen,render_flags(a0)			; use screen coordinates
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	#-$88,y_vel(a0)
 		jsr	(Random_Number).w
