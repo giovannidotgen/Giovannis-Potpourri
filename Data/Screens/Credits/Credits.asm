@@ -408,18 +408,15 @@ crdre_drop		= objoff_39 ; (1 byte)
 Obj_CreditsRobotnik:
 
 		; init
-		move.l	#Map_CreditsRobotnik,mappings(a0)
-		move.w	#make_art_tile($182,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
+		movem.l	ObjDat_CreditsRobotnik(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.w	#320/2,x_pos(a0)
 		move.w	#224/2,y_pos(a0)
-		move.l	#bytes_word_to_long(64/2,56/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	#(20*60)-1,objoff_2E(a0)
 
 		; END
-		move.l	#.defeated,address(a0)
 		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
-		beq.s	.defeated												; if not, branch
+		beq.s	.defeated												; if yes, branch
 
 		; Try Again
 		move.b	#5,anim_frame_timer(a0)
@@ -559,17 +556,14 @@ Obj_CreditsRobotnik_Emeralds:
 		move.w	d0,credre_btimer(a0)
 
 		; init
-		move.l	#Map_ECha,mappings(a0)
-		move.w	#make_art_tile($2D3,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
-		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CreditsRobotnik_Emeralds(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.w	x_pos(a0),credre_origX(a0)
 		moveq	#-12,d0
 		add.w	y_pos(a0),d0
 		move.w	d0,credre_origY(a0)
 		move.b	#$80,angle(a0)
 		move.b	#28,credre_radius(a0)
-		move.l	#.main,address(a0)
 
 .main
 
@@ -647,18 +641,15 @@ Obj_CreditsRobotnik_Emeralds:
 Obj_CreditsEggRobo:
 
 		; init
-		move.l	#Map_CreditsEggRobo,mappings(a0)
-		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
-		move.l	#bytes_word_to_long(64/2,56/2,priority_5),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CreditsEggRobo(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.w	#320/2,x_pos(a0)
 		move.w	#(224/2),y_pos(a0)
 
 		; Try Again
 		move.l	#AniRaw_CreditsEggRoboEnd,objoff_30(a0)
-		move.l	#.animate,address(a0)
 		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
-		bne.s	.createemrl											; if yes, branch
+		bne.s	.createemrl											; if not, branch
 
 		; END
 		move.l	#AniRaw_CreditsEggRobo,objoff_30(a0)
@@ -793,16 +784,13 @@ cere_speed		= objoff_40 ; speed (2 bytes)
 Obj_CreditsEggRobo_Emeralds:
 
 		; init
-		move.l	#Map_ECha,mappings(a0)
-		move.w	#make_art_tile($2D3,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
-		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CreditsEggRobo_Emeralds(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.w	x_pos(a0),cere_origX(a0)
 		moveq	#-72,d0
 		add.w	y_pos(a0),d0
 		move.w	d0,credre_origY(a0)
 		move.b	#24,cere_radius(a0)
-		move.l	#.circular,address(a0)
 
 .circular
 		move.b	angle(a0),d0
@@ -833,16 +821,12 @@ Obj_CreditsEggRobo_Emeralds:
 Obj_CreditsEggRobo_ScrapMetal:
 
 		; init
-		move.l	#Map_CreditsEggRobo,mappings(a0)
-		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
-		move.l	#bytes_word_to_long(64/2,112/2,priority_4),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CreditsEggRobo_ScrapMetal(pc),d0-d3			; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.b	#4,mapping_frame(a0)
 
 		; draw
-		lea	(Draw_Sprite).w,a1
-		move.l	a1,address(a0)
-		jmp	(a1)
+		jmp	(Draw_Sprite).w
 
 ; ---------------------------------------------------------------------------
 ; Egg Robo eyes (Credits)
@@ -853,12 +837,9 @@ Obj_CreditsEggRobo_ScrapMetal:
 Obj_CreditsEggRobo_Eyes:
 
 		; init
-		move.l	#Map_CreditsEggRobo,mappings(a0)
-		move.w	#make_art_tile($232,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
+		movem.l	ObjDat_CreditsEggRobo_Eyes(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.b	#2,mapping_frame(a0)
-		move.l	#bytes_word_to_long(16/2,16/2,priority_3),height_pixels(a0)	; set height, width and priority
-		move.l	#.refresh,address(a0)
 		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
 		bne.s	.setframe												; if not, branch
 		move.w	#(2*60)-1,objoff_2E(a0)
@@ -961,6 +942,14 @@ Credits_ScreenShake:
 		include "Data/Screens/Credits/Text Data/Text.asm"
 
 ; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_CreditsRobotnik:				subObjMainData2 Obj_CreditsRobotnik.defeated, rfCoord, 0, 64, 56, 3, $182, 0, 0, Map_CreditsRobotnik
+ObjDat_CreditsRobotnik_Emeralds:		subObjMainData2 Obj_CreditsRobotnik_Emeralds.main, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo:				subObjMainData2 Obj_CreditsEggRobo.animate, rfCoord, 0, 64, 56, 5, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Emeralds:		subObjMainData2 Obj_CreditsEggRobo_Emeralds.circular, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo_ScrapMetal:	subObjMainData2 Draw_Sprite, rfCoord, 0, 64, 112, 4, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Eyes:			subObjMainData2 Obj_CreditsEggRobo_Eyes.refresh, rfCoord, 0, 16, 16, 3, $232, 0, 0, Map_CreditsEggRobo
 
 PLC_Credits: plrlistheader
 		plreq 1, ArtKosPM_LargeTextCredits
