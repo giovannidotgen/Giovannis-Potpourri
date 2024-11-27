@@ -91,8 +91,6 @@ Obj_Teleport:
 		move.b	tele_player1_attached(a0),d0					; check player 1
 		or.b	tele_player2_attached(a0),d0						; check player 2
 		beq.s	.chkdel										; branch, if not touch
-
-.return
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -100,17 +98,44 @@ Obj_Teleport:
 		jmp	(Delete_Sprite_If_Not_In_Range).w
 ; ---------------------------------------------------------------------------
 
+.movecharacter
+		jmp	(MoveSprite2_Parent).w
+; ---------------------------------------------------------------------------
+
 .check
 		moveq	#0,d0
 		move.b	(a4),d0										; get routine
-		move.w	Teleport_Index(pc,d0.w),d0
-		jmp	Teleport_Index(pc,d0.w)
+		jmp	.index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-Teleport_Index: offsetTable
-		offsetTableEntry.w loc_271D0	; 0
-		offsetTableEntry.w loc_27260	; 2
-		offsetTableEntry.w loc_27294	; 4
+.index
+		bra.s	loc_271D0	; 0
+		rts		; nop
+		bra.w	loc_27260	; 4
+; ---------------------------------------------------------------------------
+
+		; 8
+		subq.b	#1,2(a4)										; timer
+		bpl.s	.movecharacter
+		move.w	$A(a4),x_pos(a1)								; get saveX
+		move.w	$C(a4),y_pos(a1)								; get saveY
+		moveq	#4,d1
+		add.b	4(a4),d1										; size (byte1)
+		cmp.b	5(a4),d1										; size (byte2)
+		blo.w	loc_273F2
+		moveq	#0,d1
+		cmpi.w	#-$100,(Camera_min_Y_pos).w					; is vertical wrapping enabled?
+		bne.s	.notwrapping									; if not, branch
+		move.w	(Screen_Y_wrap_value).w,d0
+		and.w	d0,y_pos(a1)									; perform wrapping of player's y position
+
+.notwrapping
+		clr.b	(a4)												; clear routine
+		clr.b	object_control(a1)
+		move.l	#words_to_long(0,$200),x_vel(a1)				; x_vel + y_vel
+
+.return
+		rts
 ; ---------------------------------------------------------------------------
 
 loc_271D0:
@@ -127,12 +152,12 @@ loc_166E0:
 		bhs.s	locret_1675C
 		move.w	y_pos(a1),d1
 		sub.w	y_pos(a0),d1
-		addi.w	#$20,d1
-		cmpi.w	#$40,d1
+		addi.w	#32,d1
+		cmpi.w	#64,d1
 		bhs.s	locret_1675C
 		tst.b	object_control(a1)
 		bne.s	locret_1675C
-		addq.b	#2,(a4)										; next routine
+		addq.b	#4,(a4)										; next routine
 		move.b	#$81,object_control(a1)						; lock controls and disable object interaction
 		move.b	#PlayerID_Control,routine(a1)
 		move.b	#AniIDSonAni_Roll,anim(a1)					; use Sonic's rolling animation
@@ -162,41 +187,14 @@ loc_27260:
 		cmpi.b	#$80,1(a4)									; sine
 		bne.s	locret_1675C
 		bsr.s	sub_27310
-		addq.b	#2,(a4)										; next routine
+		addq.b	#4,(a4)										; next routine
 		sfx	sfx_Dash,1										; play teleport sound
-; ---------------------------------------------------------------------------
-
-Teleport_MoveCharacter:
-		jmp	(MoveSprite2_Parent).w
-; ---------------------------------------------------------------------------
-
-loc_27294:
-		subq.b	#1,2(a4)										; timer
-		bpl.s	Teleport_MoveCharacter
-		move.w	$A(a4),x_pos(a1)								; get saveX
-		move.w	$C(a4),y_pos(a1)								; get saveY
-		moveq	#4,d1
-		add.b	4(a4),d1										; size (byte1)
-		cmp.b	5(a4),d1										; size (byte2)
-		blo.s		loc_273F2
-		moveq	#0,d1
-		cmpi.w	#-$100,(Camera_min_Y_pos).w					; is vertical wrapping enabled?
-		bne.s	.notwrapping									; if not, branch
-		move.w	(Screen_Y_wrap_value).w,d0
-		and.w	d0,y_pos(a1)									; perform wrapping of player's y position
-
-.notwrapping
-		clr.b	(a4)												; clear routine
-		clr.b	object_control(a1)
-		move.l	#words_to_long(0,$200),x_vel(a1)				; x_vel + y_vel
-		rts
 ; ---------------------------------------------------------------------------
 
 loc_273F2:
 		move.b	d1,4(a4)										; save size (byte1)
 		movea.l	6(a4),a2										; load save address
-		move.w	(a2,d1.w),$A(a4)								; save saveX
-		move.w	2(a2,d1.w),$C(a4)								; save saveY
+		move.l	(a2,d1.w),$A(a4)								; save saveXY
 
 ; =============== S U B R O U T I N E =======================================
 
