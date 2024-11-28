@@ -86,7 +86,6 @@ Obj_Junction:
 		clr.b	jumping(a1)										; clear character jumping flag
 		clr.b	double_jump_flag(a1)								; clear character double jumping flag
 		clr.b	spin_dash_flag(a1)								; clear spin dash flag
-
 		bclr	d6,status(a0)										; clear object push bit
 		bset	d6,jun_status(a0)									; set object push bit
 
@@ -171,7 +170,6 @@ Jun_ChkSwitch:
 		move.b	jun_switch(a0),d0
 		btst	#0,(a2,d0.w)										; is switch pressed?
 		beq.s	.unpressed									; if not, branch
-
 		tst.b	jun_reverse(a0)									; has switch previously been pressed?
 		bne.s	.animate										; if yes, branch
 		st	jun_reverse(a0)									; set to "previously pressed"

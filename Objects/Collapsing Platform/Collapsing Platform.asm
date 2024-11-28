@@ -46,10 +46,10 @@ Obj_CollapsingPlatform:
 ; =============== S U B R O U T I N E =======================================
 
 CollapsingPlatform_PlayerRelease:
-		bsr.s	Obj_CollapsingPlatform.solid						; sub cflo_timedelay(a0) bug (Sprite_OnScreen_Test)
+		bsr.s	Obj_CollapsingPlatform.solid
 
 		; check wait
-		tst.b	cplo_timedelay(a0)									; fix?
+		tst.b	cplo_timedelay(a0)
 		beq.s	.return
 		subq.b	#1,cplo_timedelay(a0)
 		bne.s	.return

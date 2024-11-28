@@ -30,7 +30,7 @@ Obj_BombBadnik:
 		subq.w	#1,bom_time(a0)									; subtract 1 from time delay
 		bpl.s	.noflip											; if time remains, branch
 		move.l	#.wait,objoff_34(a0)
-		move.w	#1535,bom_time(a0)								; set time delay to 25 seconds
+		move.w	#(25*60)+35,bom_time(a0)						; set time delay to 25 seconds
 		move.w	#$10,x_vel(a0)
 		move.b	#1,anim(a0)										; use walking animation
 		bchg	#0,status(a0)

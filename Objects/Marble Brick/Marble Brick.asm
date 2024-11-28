@@ -66,11 +66,11 @@ Obj_MarbleBrick:
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$14).w,d0
 		btst	#3,subtype(a0)
-		beq.s	.loc_E8A8
+		beq.s	.set
 		neg.w	d0
 		addi.w	#$10,d0
 
-.loc_E8A8
+.set
 		move.w	origY2(a0),d1
 		sub.w	d0,d1
 		move.w	d1,y_pos(a0)									; update the block's position to make it wobble

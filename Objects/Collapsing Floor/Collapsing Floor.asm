@@ -70,10 +70,10 @@ Obj_CollapseFloor:
 ; =============== S U B R O U T I N E =======================================
 
 CollapseFloor_PlayerRelease:
-		bsr.s	Obj_CollapseFloor.solid						; sub cflo_timedelay(a0) bug (Sprite_OnScreen_Test)
+		bsr.s	Obj_CollapseFloor.solid
 
 		; check wait
-		tst.b	cflo_timedelay(a0)								; fix?
+		tst.b	cflo_timedelay(a0)
 		beq.s	.return
 		subq.b	#1,cflo_timedelay(a0)
 		bne.s	.return
