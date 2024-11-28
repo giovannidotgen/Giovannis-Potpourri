@@ -17,7 +17,7 @@ Obj_LavaWall:
 		jsr	(SetUp_ObjAttributes).w
 		bset	#Status_FireShield,shield_reaction(a0)
 		bset	#6,render_flags(a0)						; set multi-draw flag
-		move.w	#1,mainspr_childsprites(a0)
+		move.w	#1,mainspr_childsprites(a0)			; set sub objects
 
 		; set sub object xpos
 		moveq	#signextendB(128),d1					; subtract 128 pixels
@@ -93,7 +93,7 @@ Obj_LavaWall:
 
 .check
 		cmpi.b	#PlayerID_Hurt,(Player_1+routine).w	; is Sonic falling back from getting hurt?
-		bhs.s	.sonichurt
+		bhs.s	.sonichurt							; if yes, branch
 
 		; move lava
 		move.w	lwall_x_vel(a0),d0
