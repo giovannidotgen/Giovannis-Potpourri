@@ -145,22 +145,22 @@ Jun_ChgPos:
 ; ---------------------------------------------------------------------------
 
 .data					; Sonic x-pos, Sonic y-pos
-		dc.b -$20, 0		; 0 (frame)
-		dc.b -$1E, $E		; 1 (frame)
-		dc.b -$18, $18	; 2 (frame)
-		dc.b -$E, $1E		; 3 (frame)
-		dc.b 0, $20		; 4 (frame)
-		dc.b $E, $1E		; 5 (frame)
-		dc.b $18, $18		; 6 (frame)
-		dc.b $1E, $E		; 7 (frame)
-		dc.b $20, 0		; 8 (frame)
-		dc.b $1E, -$E		; 9 (frame)
-		dc.b $18, -$18	; A (frame)
-		dc.b $E, -$1E		; B (frame)
-		dc.b 0, -$20		; C (frame)
-		dc.b -$E, -$1E	; D (frame)
-		dc.b -$18, -$18	; E (frame)
-		dc.b -$1E, -$E	; F (frame)
+		dc.b -32, 0		; 0 (frame)
+		dc.b -30, 14		; 1 (frame)
+		dc.b -24, 24		; 2 (frame)
+		dc.b -14, 30		; 3 (frame)
+		dc.b 0, 32		; 4 (frame)
+		dc.b 14, 30		; 5 (frame)
+		dc.b 24, 24		; 6 (frame)
+		dc.b 30, 14		; 7 (frame)
+		dc.b 32, 0		; 8 (frame)
+		dc.b 30, -14		; 9 (frame)
+		dc.b 24, -24		; A (frame)
+		dc.b 14, -30		; B (frame)
+		dc.b 0, -32		; C (frame)
+		dc.b -14, -30		; D (frame)
+		dc.b -24, -24		; E (frame)
+		dc.b -30, -14		; F (frame)
 
 ; =============== S U B R O U T I N E =======================================
 
