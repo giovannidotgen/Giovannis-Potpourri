@@ -215,12 +215,10 @@ Obj_Continue_Countdown:
 Obj_Continue_SonicWTails:
 
 		; init
-		move.l	#Map_ContinueSprites,mappings(a0)
-		move.w	#make_art_tile($8C,0,0),art_tile(a0)
-		move.l	#bytes_word_to_long(40/2,24/2,priority_5),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_SonicWTails(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.w	#$80+((320/2)-8),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
-		move.l	#.main,address(a0)
 
 .main
 		movea.w	(Continue_countdown).w,a1
@@ -324,12 +322,10 @@ Obj_Continue_SonicWTails:
 Obj_Continue_SonicAlone:
 
 		; init
-		move.l	#Map_Sonic,mappings(a0)
-		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
-		move.l	#bytes_word_to_long(40/2,24/2,priority_5),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_SonicAlone(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.w	#$80+(320/2),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
-		move.l	#.main,address(a0)
 
 .main
 		movea.w	(Continue_countdown).w,a1
@@ -382,12 +378,10 @@ Obj_Continue_SonicAlone:
 Obj_Continue_TailsWSonic:
 
 		; init
-		move.l	#Map_ContinueSprites,mappings(a0)
-		move.w	#make_art_tile($8C,0,0),art_tile(a0)
-		move.l	#bytes_word_to_long(40/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_TailsWSonic(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.w	#$80+((320/2)+12),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
-		move.l	#.waitstart,address(a0)
 
 .waitstart
 		movea.w	(Continue_countdown).w,a1
@@ -489,12 +483,10 @@ Obj_Continue_Knuckles:
 .setknux
 
 		; init
-		move.l	#Map_ContinueSprites,mappings(a0)
-		move.w	#make_art_tile($8C,3,0),art_tile(a0)
-		move.l	#bytes_word_to_long(48/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_Knuckles(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.w	#$80+((320/2)-4),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
-		move.l	#.waitstart,address(a0)
 
 .waitstart
 		move.w	#$2F,objoff_2E(a0)											; set wait
@@ -520,10 +512,8 @@ Obj_Continue_Knuckles:
 ; ---------------------------------------------------------------------------
 
 .main
-		move.l	#.waitstart2,address(a0)
-		move.l	#Map_Knuckles,mappings(a0)
-		move.w	#make_art_tile(ArtTile_CutsceneKnuckles,3,0),art_tile(a0)
-		move.l	#bytes_word_to_long(96/2,64/2,priority_1),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_Knuckles2(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.b	#7,mapping_frame(a0)
 		clr.b	anim_frame_timer(a0)
 		clr.b	anim_frame(a0)
@@ -746,17 +736,14 @@ Refresh_ChildPositionAdjusted_Continue:
 Obj_Continue_Stars:
 
 		; init
-		move.l	#Map_ContinueSprites,mappings(a0)
-		move.w	#make_art_tile($8C,1,0),art_tile(a0)
-		move.l	#bytes_word_to_long(16/2,16/2,priority_7),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Continue_Stars(pc),d0-d3								; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 		move.b	#7,mapping_frame(a0)
 		move.w	#$80+(320/2),x_pos(a0)
 		move.w	#($80+(224/2))+5,y_pos(a0)
 
 		; draw
-		lea	(Draw_Sprite).w,a1
-		move.l	a1,address(a0)
-		jmp	(a1)
+		jmp	(Draw_Sprite).w
 
 ; ---------------------------------------------------------------------------
 ; Load icons
@@ -797,10 +784,8 @@ Continue_LoadIcons:
 Obj_Continue_Tails_tails_Icons:
 
 		; init
-		move.l	#Map_ContinueIcons,mappings(a0)
-		move.w	#make_art_tile($D9,0,0),art_tile(a0)
-		move.l	#bytes_word_to_long(16/2,16/2,priority_5),height_pixels(a0)	; set height, width and priority
-		move.l	#.main,address(a0)
+		movem.l	ObjDat_Continue_Tails_tails_Icons(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 
 .main
 		lea	AniRaw_5CBBB(pc),a1
@@ -816,8 +801,8 @@ Obj_Continue_Tails_tails_Icons:
 Obj_Continue_Icons:
 
 		; init
-		move.l	#Map_ContinueIcons,mappings(a0)
-		move.w	#make_art_tile($D9,0,0),art_tile(a0)							; for Sonic and Tails
+		movem.l	ObjDat_Continue_Icons(pc),d0-d3								; copy data to d0-d3
+		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
 
 		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
@@ -825,10 +810,8 @@ Obj_Continue_Icons:
 		ori.w	#palette_line_3,art_tile(a0)									; for Knuckles
 
 .notknux
-		move.l	#bytes_word_to_long(16/2,16/2,priority_7),height_pixels(a0)	; set height, width and priority
 		bsr.s	Continue_Icons_GetPos
 		move.w	#$80+((224/2)-24),y_pos(a0)
-		move.l	#.main,address(a0)
 		bsr.s	Continue_Icons_LoadAnim
 
 .main
@@ -942,10 +925,18 @@ Continue_LoadNumbers:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_919A6:		subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
-ObjDat3_919BE:		subObjData3 32, 24, 5, 6, 0
-ObjDat3_919C4:		subObjData3 24, 32, 5, 2, 0
-ObjDat3_919CA:		subObjData3 8, 64, 5, 7, 0
+ObjDat_Continue_SonicWTails:			subObjMainData2 Obj_Continue_SonicWTails.main, 0, 0, 40, 24, 5, $8C, 0, 0, Map_ContinueSprites
+ObjDat_Continue_SonicAlone:			subObjMainData2 Obj_Continue_SonicAlone.main, 0, 0, 40, 24, 5, ArtTile_Player_1, 0, 0, Map_Sonic
+ObjDat_Continue_TailsWSonic:			subObjMainData2 Obj_Continue_TailsWSonic.waitstart, 0, 0, 40, 32, 4, $8C, 0, 0, Map_ContinueSprites
+ObjDat_Continue_Knuckles:			subObjMainData2 Obj_Continue_Knuckles.waitstart, 0, 0, 48, 32, 4, $8C, 3, 0, Map_ContinueSprites
+ObjDat_Continue_Knuckles2:			subObjMainData2 Obj_Continue_Knuckles.waitstart2, 0, 0, 96, 64, 1, ArtTile_CutsceneKnuckles, 3, 0, Map_Knuckles
+ObjDat_919A6:						subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
+ObjDat3_919BE:						subObjData3 32, 24, 5, 6, 0
+ObjDat3_919C4:						subObjData3 24, 32, 5, 2, 0
+ObjDat3_919CA:						subObjData3 8, 64, 5, 7, 0
+ObjDat_Continue_Stars:				subObjMainData2 Draw_Sprite, 0, 0, 16, 16, 7, $8C, 1, 0, Map_ContinueSprites
+ObjDat_Continue_Tails_tails_Icons:		subObjMainData2 Obj_Continue_Tails_tails_Icons.main, 0, 0, 16, 16, 5, $D9, 0, 0, Map_ContinueIcons
+ObjDat_Continue_Icons:				subObjMainData2 Obj_Continue_Icons.main, 0, 0, 16, 16, 7, $D9, 0, 0, Map_ContinueIcons
 
 Child6_Continue_Tails_tails_Icons:
 		dc.w 1-1
