@@ -30,6 +30,8 @@ Render_Sprites:
 		lea	(Sprite_table_input).w,a5
 		lea	(Camera_X_pos_copy).w,a3
 		lea	(Sprite_table_buffer).w,a6
+
+		; check
 		tst.b	(Level_started_flag).w
 		beq.s	Render_Sprites_LevelLoop
 
