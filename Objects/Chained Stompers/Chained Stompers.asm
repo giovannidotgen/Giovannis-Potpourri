@@ -313,7 +313,7 @@ Obj_ChainStomp_Spikes:
 		; check players
 		swap	d6
 		andi.w	#touch_bottom_mask,d6				; is Sonic or Tails touch bottom?
-		beq.s	.pcheck								; if not, branch
+		beq.s	.draw								; if not, branch
 		move.b	d6,d0
 		andi.b	#p1_touch_bottom,d0					; Sonic/Knux touch bottom?
 		beq.s	.notp1								; if not, branch
@@ -322,11 +322,11 @@ Obj_ChainStomp_Spikes:
 
 .notp1
 		andi.b	#p2_touch_bottom,d6					; Tails touch bottom?
-		beq.s	.pcheck								; if not, branch
+		beq.s	.draw								; if not, branch
 		lea	(Player_2).w,a1							; a1=character
 		jsr	(Touch_ChkHurt3).l						; hurt character
 
-.pcheck
+.draw
 		jmp	(Child_Draw_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================

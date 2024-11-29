@@ -17,9 +17,8 @@ LGrass_Data: offsetTable
 Obj_LargeGrass:
 
 		; init
-		move.l	#Map_LGrass,mappings(a0)
-		move.b	#rfCoord,render_flags(a0)							; use screen coordinates
-		move.l	#words_to_long(priority_5,make_art_tile(0,2,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_LargeGrass(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 		move.w	x_pos(a0),LGorigX(a0)
 		move.w	y_pos(a0),LGorigY(a0)
 
@@ -30,12 +29,10 @@ Obj_LargeGrass:
 		lea	LGrass_Data(pc,d0.w),a1
 		move.w	(a1)+,d0
 		lea	LGrass_Data(pc,d0.w),a2
-		move.l	a2,objoff_3C(a0)
+		move.l	a2,objoff_3C(a0)									; save ROM address
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1),width_pixels(a0)
-		move.b	#128/2,height_pixels(a0)
 		andi.b	#$F,subtype(a0)
-		move.l	#.action,address(a0)
 
 .action
 		moveq	#7,d0
@@ -144,8 +141,8 @@ Obj_LargeGrass:
 		move.w	y_pos(a0),y_pos(a1)
 		move.w	LGorigY(a0),LGorigY(a1)
 		addq.w	#5,LGorigY(a1)
-		subi.w	#$40,x_pos(a1)
-		move.l	objoff_3C(a0),objoff_3C(a1)							; save ROM address
+		subi.w	#64,x_pos(a1)
+		move.l	objoff_3C(a0),objoff_3C(a1)							; copy ROM address
 		move.w	a0,parent3(a1)
 		move.w	objoff_32(a0),objoff_32(a1)
 
@@ -154,6 +151,10 @@ Obj_LargeGrass:
 
 ; =============== S U B R O U T I N E =======================================
 
+; mapping
+ObjDat_LargeGrass:	subObjMainData2 Obj_LargeGrass.action, rfCoord, 0, 128, 0, 5, 0, 2, 0, Map_LGrass
+
+; data
 LGrass_Data1:	binclude "Objects/Large Grassy Platforms/Object Data/Heightmap1.bin"
 	even
 LGrass_Data2:	binclude "Objects/Large Grassy Platforms/Object Data/Heightmap2.bin"

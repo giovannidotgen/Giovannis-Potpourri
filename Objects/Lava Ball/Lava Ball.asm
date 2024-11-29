@@ -17,14 +17,13 @@ Obj_LavaMaker:
 		lsr.w	#4,d0
 		andi.w	#$F,d0
 		move.b	LavaM_Rates(pc,d0.w),d0
-		move.b	d0,objoff_30(a0)
 		move.b	d0,objoff_2E(a0)								; set time delay for lava balls
+		move.b	d0,objoff_30(a0)
 		andi.b	#$F,subtype(a0)
 
 		; init
-		move.l	#Map_Offscreen,mappings(a0)
-		move.l	#bytes_to_long(rfCoord,0,64/2,64/2),render_flags(a0)	; set screen coordinates flag and height and width
-		move.l	#.makelava,address(a0)
+		movem.l	ObjDat_LavaMaker(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 
 .makelava
 		subq.b	#1,objoff_2E(a0)								; subtract 1 from time delay
@@ -60,27 +59,27 @@ LBall_Speeds:
 Obj_LavaBall:
 
 		; init
-		move.l	#.action,address(a0)
-		move.l	#Map_Fire,mappings(a0)
-		move.w	#make_art_tile($298,0,0),art_tile(a0)			; MZ specific code
+		movem.l	ObjDat_LavaBall(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
+		move.w	y_pos(a0),objoff_30(a0)
+
+		; check
 		cmpi.b	#LevelID_SLZ,(Current_zone).w					; is level Star Light Zone?
 		bne.s	.notSLZ										; if not, branch
 		move.w	#make_art_tile($434,0,0),art_tile(a0)			; SLZ specific code
 
 .notSLZ
-		move.l	#bytes_to_long(rfCoord,0,16/2,16/2),render_flags(a0)	; set screen coordinates flag and height and width
 		move.b	#$B|$80,collision_flags(a0)
 		bset	#Status_FireShield,shield_reaction(a0)
-		move.w	y_pos(a0),objoff_30(a0)
 
 		; MZ boss check
-		move.w	#priority_3,d0								; high priority
 		tst.b	objoff_3F(a0)										; is lava ball was created by the MZ boss?
 		beq.s	.speed										; if not, branch
-		move.w	#priority_5,d0								; low priority
+		move.w	#priority_5,priority(a0)						; set priority
 
 .speed
-		move.w	d0,priority(a0)								; set priority
+
+		; set
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		add.w	d0,d0
@@ -199,6 +198,12 @@ LBall_Type07:
 
 .return
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_LavaMaker:	subObjMainData2 Obj_LavaMaker.makelava, rfCoord, 0, 64, 64, 0, 0, 0, 0, Map_Offscreen
+ObjDat_LavaBall:		subObjMainData2 Obj_LavaBall.action, rfCoord, 0, 16, 16, 3, $298, 0, 0, Map_Fire
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Lava Ball/Object Data/Anim - Fireballs.asm"

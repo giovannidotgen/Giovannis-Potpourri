@@ -188,7 +188,7 @@ Obj_SideStomp_Spikes:
 		; check players
 		swap	d6
 		andi.w	#touch_side_mask,d6									; Sonic(1) or Tails(2) push object?
-		beq.s	.pcheck												; if not, branch
+		beq.s	.draw												; if not, branch
 		move.b	d6,d0
 		andi.b	#p1_touch_side,d0									; Sonic/Knux push object?
 		beq.s	.notp1												; if not, branch
@@ -198,12 +198,12 @@ Obj_SideStomp_Spikes:
 
 .notp1
 		andi.b	#p2_touch_side,d6									; Tails push object?
-		beq.s	.pcheck												; if not, branch
+		beq.s	.draw												; if not, branch
 		lea	(Player_2).w,a1											; a1=character
 		jsr	(Touch_ChkHurt3).l										; hurt character
 		bclr	#p2_pushing_bit,status(a0)
 
-.pcheck
+.draw
 		jmp	(Child_Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 

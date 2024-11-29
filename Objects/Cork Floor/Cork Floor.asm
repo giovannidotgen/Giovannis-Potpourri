@@ -7,21 +7,16 @@
 Obj_CorkFloor:
 
 		; init
-		move.l	#Map_CorkFloor,mappings(a0)
-		move.w	#make_art_tile(1,2,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
-		move.l	#bytes_word_to_long(80/2,32/2,priority_5),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CorkFloor(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.l	#CorkFloor_Speeds,objoff_3C(a0)
 
 		; check
 		tst.b	subtype(a0)
-		bne.s	.top
+		bne.s	.solid
 		move.l	#CorkFloor_Bottom,address(a0)					; break from the bottom
 		bra.w	CorkFloor_Bottom
 ; ---------------------------------------------------------------------------
-
-.top
-		move.l	#.solid,address(a0)							; break from the top
 
 .solid
 		move.w	(Chain_bonus_counter).w,objoff_38(a0)
@@ -104,7 +99,7 @@ Obj_CorkFloor:
 		andi.b	#$E7,status(a0)
 
 		; break
-		movea.l	objoff_3C(a0),a4
+		movea.l	objoff_3C(a0),a4								; CorkFloor_Speeds
 		addq.b	#1,mapping_frame(a0)
 		move.l	#.fall,address(a0)
 		jsr	(BreakObjectToPieces).l
@@ -168,13 +163,12 @@ CorkFloor_Bottom:
 		jsr	(Displace_PlayerOffObject).w						; release Sonic from object
 
 		; break
-		movea.l	objoff_3C(a0),a4
+		movea.l	objoff_3C(a0),a4								; CorkFloor_Speeds
 		addq.b	#1,mapping_frame(a0)
 		move.l	#Obj_CorkFloor.fall,address(a0)
 		jsr	(BreakObjectToPieces).l
 		bra.w	Obj_CorkFloor.fall
-
-; =============== S U B R O U T I N E =======================================
+; ---------------------------------------------------------------------------
 
 CorkFloor_Speeds:
 
@@ -191,6 +185,11 @@ CorkFloor_Speeds:
 		dc.w $80, -$100
 		dc.w -$60,  -$C0
 		dc.w $60,  -$C0
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_CorkFloor:	subObjMainData2 Obj_CorkFloor.solid, rfCoord, 0, 80, 32, 5, 1, 2, 0, Map_CorkFloor
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Cork Floor/Object Data/Map - Cork Floor.asm"

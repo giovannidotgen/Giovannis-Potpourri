@@ -24,17 +24,15 @@ FBlock_Var:				; height/2, width/2
 Obj_FloatingBlock:
 
 		; init
-		move.l	#Map_FBlock,mappings(a0)
-		move.w	#make_art_tile(0,2,0),d0
+		movem.l	ObjDat_FloatingBlock(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)											; set data from d0-d3 to current object
+
+		; check
 		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
 		bne.s	.notLZ													; if not, branch
-		move.w	#make_art_tile($3C4,2,0),d0								; LZ specific code
+		move.w	#make_art_tile($3C4,2,0),art_tile(a0)						; LZ specific code
 
 .notLZ
-		move.w	d0,art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)									; use screen coordinates
-		move.w	#priority_3,priority(a0)
-		move.l	#.action,address(a0)
 
 		; set
 		move.b	subtype(a0),d0											; get subtype
@@ -507,6 +505,11 @@ BlocksDoors_TypeIndex: offsetTable
 		add.w	fb_origX(a0),d1
 		move.w	d1,x_pos(a0)
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_FloatingBlock:		subObjMainData2 Obj_FloatingBlock.action, rfCoord, 0, 0, 0, 3, 0, 2, 0, Map_FBlock
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm"

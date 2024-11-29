@@ -10,20 +10,16 @@ _BWALL_KNUX_		= 0	; if 1, change the animation of Knuckles after breaking the wa
 Obj_BreakableWall:
 
 		; init
-		move.l	#Map_BreakableWall,mappings(a0)
-		move.w	#make_art_tile($398,2,0),d0
+		movem.l	ObjDat_BreakableWall(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 		cmpi.b	#LevelID_SLZ,(Current_zone).w						; is level Star Light Zone?
 		bne.s	.notSLZ											; if not, branch
-		move.w	#make_art_tile($414,2,0),d0
+		move.w	#make_art_tile($414,2,0),art_tile(a0)
 
 .notSLZ
-		move.w	d0,art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)							; use screen coordinates
-		move.l	#.main,address(a0)
 		move.b	subtype(a0),mapping_frame(a0)
-		move.l	#bytes_word_to_long(64/2,32/2,priority_5),height_pixels(a0)	; set height, width and priority
-		move.l	#BreakableWall_FragSpd1,objoff_34(a0)
-		move.l	#BreakableWall_FragSpd2,objoff_38(a0)
+		move.l	#BreakableWall_FragSpd1,objoff_34(a0)				; right
+		move.l	#BreakableWall_FragSpd2,objoff_38(a0)				; left
 
 .main
 		move.w	(Player_1+x_vel).w,objoff_30(a0)
@@ -98,12 +94,12 @@ loc_2162A:
 Obj_BreakableWall_CreateFragments:
 		move.w	d1,x_vel(a1)
 		addq.w	#4,x_pos(a1)
-		movea.l	objoff_34(a0),a4									; BreakableWall_FragSpd1
+		movea.l	objoff_34(a0),a4									; BreakableWall_FragSpd1 (right)
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
 		blo.s		.isleft											; if Sonic is left of the object, branch
 		subq.w	#4*2,x_pos(a1)
-		movea.l	objoff_38(a0),a4									; BreakableWall_FragSpd2
+		movea.l	objoff_38(a0),a4									; BreakableWall_FragSpd2 (left)
 
 .isleft
 		move.w	x_vel(a1),ground_vel(a1)
@@ -225,6 +221,11 @@ BreakableWall_FragSpd2:
 		dc.w -$600, $100
 		dc.w -$600, $600
 		dc.w -$400, $500
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_BreakableWall:	subObjMainData2 Obj_BreakableWall.main, rfCoord, 0, 64, 32, 5, $398, 2, 0, Map_BreakableWall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Breakable Wall/Object Data/Map - Breakable Wall.asm"
