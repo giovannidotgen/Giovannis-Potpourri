@@ -104,6 +104,21 @@ CollapseFloor_PlayerRelease:
 
 .return
 		rts
+
+; ---------------------------------------------------------------------------
+; Disintegration data for collapsing ledges (MZ, SLZ, SBZ)
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+CFlo_Data1:	; timer
+		dc.b $1C, $18, $14, $10, $1A, $16, $12, $E, $A, 6, $18, $14, $10, $C, 8, 4
+		dc.b $16, $12, $E, $A, 6, 2, $14, $10, $C, 0
+CFlo_Data2:	; timer
+		dc.b $1E, $16, $E, 6, $1A, $12, $A, 2
+CFlo_Data3:	; timer
+		dc.b $16, $1E, $1A, $12, 6, $E, $A, 2
+	even
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Collapsing Floor/Object Data/Map - Collapsing Floor.asm"

@@ -3,9 +3,9 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-cplo_timepointer		= objoff_30	; .l
-cplo_timedelay		= objoff_38	; .b
-cplo_collapse_flag		= objoff_3A	; .b
+cplat_timepointer			= objoff_30	; .l
+cplat_timedelay			= objoff_38	; .b
+cplat_collapse_flag		= objoff_3A	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -15,30 +15,30 @@ Obj_CollapsingPlatform:
 		move.l	#Map_CollapsingPlatform,mappings(a0)
 		move.w	#make_art_tile(0,2,0),art_tile(a0)
 		move.l	#CFlo_Data1,objoff_30(a0)
-		move.l	#byte_20E9E,objoff_3C(a0)
+		move.l	#CPlat_Data,objoff_3C(a0)
 		ori.b	#rfCoord,render_flags(a0)							; use screen coordinates
 		move.l	#bytes_word_to_long(112/2,200/2,priority_4),height_pixels(a0)	; set height, width and priority
-		move.b	#7,cplo_timedelay(a0)
+		move.b	#7,cplat_timedelay(a0)
 		move.b	subtype(a0),mapping_frame(a0)
 		ori.b	#$80,status(a0)
 		move.l	#.check,address(a0)
 
 .check
-		tst.b	cplo_collapse_flag(a0)									; has Sonic touched the	object?
+		tst.b	cplat_collapse_flag(a0)								; has Sonic touched the	object?
 		beq.s	.stand											; if not, branch
-		tst.b	cplo_timedelay(a0)									; has time delay reached zero?
-		beq.w	ObjPlatformCollapse_CreateFragments										; if yes, branch
-		subq.b	#1,cplo_timedelay(a0)	 							; subtract 1 from time
+		tst.b	cplat_timedelay(a0)									; has time delay reached zero?
+		beq.w	ObjPlatformCollapse_CreateFragments				; if yes, branch
+		subq.b	#1,cplat_timedelay(a0)	 							; subtract 1 from time
 
 .stand
 		moveq	#standing_mask,d0
 		and.b	status(a0),d0										; is Sonic or Tails standing on the object?
 		beq.s	.solid											; if not, branch
-		st	cplo_collapse_flag(a0)									; set object as	"touched"
+		st	cplat_collapse_flag(a0)								; set object as	"touched"
 
 .solid
 		moveq	#96/2,d1
-		movea.l	objoff_3C(a0),a2
+		movea.l	objoff_3C(a0),a2									; CPlat_Data
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTopSloped2).w
 		jmp	(Sprite_OnScreen_Test).w
@@ -49,9 +49,9 @@ CollapsingPlatform_PlayerRelease:
 		bsr.s	Obj_CollapsingPlatform.solid
 
 		; check wait
-		tst.b	cplo_timedelay(a0)
+		tst.b	cplat_timedelay(a0)
 		beq.s	.return
-		subq.b	#1,cplo_timedelay(a0)
+		subq.b	#1,cplat_timedelay(a0)
 		bne.s	.return
 
 		; start fall
@@ -133,7 +133,7 @@ ObjPlatformCollapse_SmashObject:
 
 .load
 		move.l	a3,mappings(a1)
-		move.b	(a4)+,cplo_timedelay(a1)
+		move.b	(a4)+,cplat_timedelay(a1)
 		tst.w	d0												; object RAM slots ended?
 		dbmi	d1,.create										; if not, loop
 
@@ -151,7 +151,7 @@ ObjPlatformCollapse_SmashObject:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_PlatformCollapseWait:
-		subq.b	#1,cplo_timedelay(a0)
+		subq.b	#1,cplat_timedelay(a0)
 		bne.s	.draw
 		move.l	#Obj_PlatformCollapseFall,address(a0)
 
@@ -173,19 +173,9 @@ Obj_PlatformCollapseFall:
 .delete
 		jmp	(Delete_Current_Sprite).w
 
-; ---------------------------------------------------------------------------
-; Disintegration data for collapsing ledges (MZ, SLZ, SBZ)
-; ---------------------------------------------------------------------------
+; =============== S U B R O U T I N E =======================================
 
-CFlo_Data1:	; timer
-		dc.b $1C, $18, $14, $10, $1A, $16, $12, $E, $A, 6, $18, $14, $10, $C, 8, 4
-		dc.b $16, $12, $E, $A, 6, 2, $14, $10, $C, 0
-CFlo_Data2:	; timer
-		dc.b $1E, $16, $E, 6, $1A, $12, $A, 2
-CFlo_Data3:	; timer
-		dc.b $16, $1E, $1A, $12, 6, $E, $A, 2
-
-byte_20E9E:		binclude "Objects/Collapsing Platform/Object Data/Heightmap.bin"
+CPlat_Data:		binclude "Objects/Collapsing Platform/Object Data/Heightmap.bin"
 	even
 ; ---------------------------------------------------------------------------
 

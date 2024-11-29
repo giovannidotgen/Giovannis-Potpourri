@@ -91,7 +91,7 @@ Obj_SmashBlock:
 .getbonus
 		move.w	objoff_38(a0),(Chain_bonus_counter).w
 		andi.b	#$E7,status(a0)
-		movea.l	objoff_3C(a0),a4
+		movea.l	objoff_3C(a0),a4								; Smab_Speeds
 		addq.b	#1,mapping_frame(a0)
 		move.l	#.fall,address(a0)
 		jsr	(BreakObjectToPieces).l
