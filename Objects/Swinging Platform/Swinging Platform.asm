@@ -152,7 +152,6 @@ Obj_SwingingPlatform:
 ; =============== S U B R O U T I N E =======================================
 
 SwingingPlatform_Move:
-		moveq	#0,d0
 		move.b	(Oscillating_Data+$18).w,d0
 		tst.b	subtype(a0)
 		bpl.s	.normal
