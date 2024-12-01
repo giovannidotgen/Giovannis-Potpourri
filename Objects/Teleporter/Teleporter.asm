@@ -90,9 +90,7 @@ Obj_Teleport:
 		; check players
 		move.b	tele_player1_attached(a0),d0					; check player 1
 		or.b	tele_player2_attached(a0),d0						; check player 2
-		beq.s	.chkdel										; branch, if not touch
-		rts
-; ---------------------------------------------------------------------------
+		bne.s	.return										; branch, if not touch
 
 .chkdel
 		jmp	(Delete_Sprite_If_Not_In_Range).w
