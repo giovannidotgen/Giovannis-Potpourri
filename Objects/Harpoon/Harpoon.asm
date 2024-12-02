@@ -43,7 +43,7 @@ Obj_Harpoon:
 .wait
 		subq.w	#1,harp_time(a0)							; decrement timer
 		bpl.s	.chkdel									; branch if time remains
-		move.w	#60,harp_time(a0)						; reset timer
+		move.w	#1*60,harp_time(a0)						; reset timer
 		move.l	#.move,address(a0)						; run "Harp_Move" subroutine
 		bchg	#0,anim(a0)								; extending/retracting harpoon
 		tst.b	render_flags(a0)								; object visible on the screen?
