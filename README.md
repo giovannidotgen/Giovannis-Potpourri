@@ -99,9 +99,6 @@ You can use this source code as a base for your projects, or just as an example 
 - [ClownMapEd](https://github.com/Clownacy/ClownMapEd/releases)
 - [FW-KENSC-ShellExt](https://github.com/MainMemory/FW-KENSC-ShellExt/releases)
 
-2. S.C.E. uses a different layout format to support two-byte IDs chunks. Unfortunately there are no converters here for the new layout format. You just won't be able to use the original layouts from Sonic 3 & Knuckles.
-You could try using different [Layout.cs](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-/tree/master/SonLVL%20INI%20Files/Common/Layout) for **SonLVL** to convert layout to the new format.
-
 ## FAQ
 
 - If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2/Levels/_tools).
