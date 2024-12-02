@@ -101,7 +101,7 @@ You can use this source code as a base for your projects, or just as an example 
 
 ## FAQ
 
-- If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2/Levels/_tools).
+- If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2/Levels/_tools/Layout).
 
 - If you want to make a different text for Title Card, you need to create a file of letters from [List.unc](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2/Objects/Title%20Card/KosinskiPM%20Art/Levels). This will be loaded before the level starts.
 You don't have to add the letters **'ENOZ' (ZONE)** because those letters are already in VRAM. Then you have to create a mapping of your zone name in [Map - Title Card.asm](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2/Objects/Title%20Card/Object%20Data).
