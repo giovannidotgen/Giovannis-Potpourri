@@ -91,6 +91,26 @@ AirCountdown_ReduceAir:
 		clr.w	priority(a2)
 		st	(Deform_lock).w
 
+		; check super
+		tst.b	(Super_Tails_flag).w
+		bne.s	.set
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notp1
+
+.set
+		move.b	#2,(Super_palette_status).w
+		move.w	#$1E,(Palette_frame).w
+		clr.b	(Super_Sonic_Knux_flag).w
+		clr.b	(Super_Tails_flag).w
+		st	(Player_prev_frame).w
+		tst.b	character_id(a2)									; is this Sonic?
+		bne.s	.notSonic
+		move.l	#Map_Sonic,mappings(a2)						; if so, load Sonic's normal mappings (was using Super/Hyper mappings)
+
+.notSonic
+		move.b	#1,prev_anim(a2)
+		move.b	#1,invincibility_timer(a2)
+
 .notp1
 		bset	#high_priority_bit,art_tile(a2)
 
