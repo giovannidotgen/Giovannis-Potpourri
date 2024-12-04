@@ -4476,7 +4476,7 @@ zPlaySEGAPCM:
 		nop
 		nop
 
-		ld	b, 0Ch							; Loop counter
+		ld	b, 0Ah							; Loop counter
 		djnz	$							; Loop in this instruction, decrementing b each iteration, until b = 0
 
 		inc	hl								; Advance to next byte of SEGA PCM
