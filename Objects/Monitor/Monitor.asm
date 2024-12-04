@@ -416,6 +416,12 @@ Monitor_Give_Invincibility:
 Monitor_Give_SuperSonic:
 
 	if SonKnuxTransform
+
+		; check level
+		tst.b	(Level_results_flag).w									; is level over?
+		bne.s	Monitor_Give_Invincibility.return					; if yes, branch
+
+		; add rings
 		moveq	#50,d0											; add 50 rings
 		jsr	(AddRings).w
 
