@@ -416,7 +416,16 @@ Monitor_Give_Invincibility:
 Monitor_Give_SuperSonic:
 
 	if SonKnuxTransform
-		addi.w	#50,(Ring_count).w
+		moveq	#50,d0											; add 50 rings
+		jsr	(AddRings).w
+
+		; check Super/Hyper
+		tst.b	(Super_Sonic_Knux_flag).w							; is Sonic Super/Hyper?
+		bne.s	Monitor_Give_Invincibility.return					; if so, branch
+		tst.b	(Super_Tails_flag).w									; is Tails Super?
+		bne.s	Monitor_Give_Invincibility.return					; if so, branch
+
+		; set
 		move.b	#1,(Super_palette_status).w
 		move.b	#$F,(Palette_timer).w
 		move.b	#1,(Super_Sonic_Knux_flag).w
