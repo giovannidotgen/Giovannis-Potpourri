@@ -10,10 +10,10 @@ Obj_HyperSonicKnux_Trail:
 		movem.l	ObjDat_HyperSonicKnux_Trail(pc),d0-d3			; copy data to d0-d3
 		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 
-		; ; check player (Ignored in Giovanni's Potpourri until further notice)
-		; cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
-		; bhs.s	.main											; if so, branch
-		; move.l	#Map_SuperSonic,mappings(a0)					; if not, you must be Hyper Sonic, load Super/Hyper Sonic mappings
+		; check player
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
+		bhs.s	.main											; if so, branch
+		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic. However, we're going to be using Sonic's regular mappings.
 
 .main
 
