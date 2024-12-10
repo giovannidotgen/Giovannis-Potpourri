@@ -27,7 +27,7 @@ Spikes_InitData:			; height, width
 Obj_Spikes:
 
 		; init
-		ori.b	#4,render_flags(a0)										; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)									; use screen coordinates
 		move.b	subtype(a0),d0
 		andi.w	#$F0,d0
 		lsr.w	#3,d0

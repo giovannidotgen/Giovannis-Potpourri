@@ -33,7 +33,7 @@ Obj_CollapseFloor:
 
 .notSBZ
 		move.w	d0,art_tile(a0)
-		ori.b	#4,render_flags(a0)							; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(48/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cflo_timedelay(a0)
 		ori.b	#$80,status(a0)
@@ -70,10 +70,10 @@ Obj_CollapseFloor:
 ; =============== S U B R O U T I N E =======================================
 
 CollapseFloor_PlayerRelease:
-		bsr.s	Obj_CollapseFloor.solid						; sub cflo_timedelay(a0) bug (Sprite_OnScreen_Test)
+		bsr.s	Obj_CollapseFloor.solid
 
 		; check wait
-		tst.b	cflo_timedelay(a0)								; fix?
+		tst.b	cflo_timedelay(a0)
 		beq.s	.return
 		subq.b	#1,cflo_timedelay(a0)
 		bne.s	.return
@@ -104,6 +104,21 @@ CollapseFloor_PlayerRelease:
 
 .return
 		rts
+
+; ---------------------------------------------------------------------------
+; Disintegration data for collapsing ledges (MZ, SLZ, SBZ)
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+CFlo_Data1:	; timer
+		dc.b $1C, $18, $14, $10, $1A, $16, $12, $E, $A, 6, $18, $14, $10, $C, 8, 4
+		dc.b $16, $12, $E, $A, 6, 2, $14, $10, $C, 0
+CFlo_Data2:	; timer
+		dc.b $1E, $16, $E, 6, $1A, $12, $A, 2
+CFlo_Data3:	; timer
+		dc.b $16, $1E, $1A, $12, 6, $E, $A, 2
+	even
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Collapsing Floor/Object Data/Map - Collapsing Floor.asm"

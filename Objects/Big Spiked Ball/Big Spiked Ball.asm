@@ -13,11 +13,8 @@ bball_speed		= objoff_40 ; speed (2 bytes)
 Obj_BigSpikeBall:
 
 		; init
-		move.l	#Map_BBall,mappings(a0)
-		move.w	#make_art_tile($396,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)									; use screen coordinates
-		move.l	#bytes_word_to_long(48/2,48/2,priority_4),height_pixels(a0)	; set height, width and priority
-		move.l	#.move,address(a0)
+		movem.l	ObjDat_BigSpikeBall(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.b	#6|$80,collision_flags(a0)
 		move.w	x_pos(a0),bball_origX(a0)
 		move.w	y_pos(a0),bball_origY(a0)
@@ -107,6 +104,11 @@ Obj_BigSpikeBall:
 		sub.w	d0,d1
 		move.w	d1,y_pos(a0)											; move object vertically
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_BigSpikeBall:		subObjMainData2 Obj_BigSpikeBall.move, rfCoord, 0, 48, 48, 4, $396, 0, 0, Map_BBall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Big Spiked Ball/Object Data/Map - Big Spiked Ball.asm"

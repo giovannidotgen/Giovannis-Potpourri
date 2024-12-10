@@ -2,19 +2,13 @@
 ; Object 17 - helix of spikes on a pole (GHZ)
 ; ---------------------------------------------------------------------------
 
-; Dynamic object variables
-hsp_origX					= objoff_12	; original x-axis position
-
 ; =============== S U B R O U T I N E =======================================
 
 Obj_SpikePole:
 
 		; init
-		lea	ObjDat_SpikePole(pc),a1
-		jsr	(SetUp_ObjAttributes).w
-		bset	#6,render_flags(a0)							; set multi-draw flag
-;		move.w	x_pos(a0),hsp_origX(a0)					; save xpos
-		move.l	#.action,address(a0)						; "
+		movem.l	ObjDat_SpikePole(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)							; set data from d0-d3 to current object
 
 		; create sub objects
 		moveq	#0,d0
@@ -40,9 +34,8 @@ Obj_SpikePole:
 		move.w	(a2),(a1)									; set ypos
 
 .action
-		moveq	#0,d0
 		move.b	(Spikes_frame).w,d0
-		moveq	#7,d1									; max spikes frames
+		moveq	#7,d1									; max spikes frames (8-1)
 
 		set	.a,sub2_mapframe
 
@@ -57,17 +50,15 @@ Obj_SpikePole:
 		move.b	d0,.a(a0)									; set frame
 
 		; collision move
-		move.b	(Spikes_frame).w,d2						; spike frame
-		neg.b	d2										; change direction of movement
-		and.w	d1,d2									; max spikes
-		move.w	sub2_x_pos(a0),d0						; get spike pole spikes xpos
-		asl.w	#4,d2									; +16 pixels
-		add.w	d2,d0									; "
-		move.w	d0,x_pos(a0)								; set collision xpos
+		move.b	(Spikes_frame).w,d3						; spike frame
+		neg.b	d3										; change direction of movement
+		and.w	d1,d3									; max spikes
+		asl.w	#4,d3									; +16 pixels
+		add.w	sub2_x_pos(a0),d3						; set xpos for "Check_PlayerInRange"
 
 		; check players
 		lea	.range(pc),a1
-		jsr	(Check_PlayerInRange).w
+		jsr	(Check_PlayerInRange.skipx).w
 		tst.l	d0											; check Tails and Sonic address
 		beq.s	.draw									; if neither player is in range, don't do anything
 		tst.w	d0										; is Sonic?
@@ -86,7 +77,7 @@ Obj_SpikePole:
 
 .draw
 		moveq	#-$80,d0								; round down to nearest $80
-		and.w	sub6_x_pos(a0),d0						; get object position (hsp_origX)
+		and.w	x_pos(a0),d0								; get object position
 		jmp	(Sprite_OnScreen_Test2).w
 ; ---------------------------------------------------------------------------
 
@@ -97,7 +88,7 @@ Obj_SpikePole:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SpikePole:	subObjData Map_SpikePole, $3B0, 2, 0, 16, 128, 3, 0, 0
+ObjDat_SpikePole:	subObjMainData2 Obj_SpikePole.action, rfCoord+rfMulti, 0, 16, (16*8), 3, $3B0, 2, 0, Map_SpikePole
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Spike Pole/Object Data/Map - Spike Pole.asm"

@@ -20,10 +20,10 @@ LBlk_Var:				; width/2, height/2
 Obj_LabyrinthBlock:
 
 		; init
-		move.l	#Map_LBlock,mappings(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
-		move.l	#words_to_long(priority_3,make_art_tile($3E6,2,0)),priority(a0)	; set priority and art_tile
-		move.l	#.action,address(a0)
+		movem.l	ObjDat_LabyrinthBlock(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
+
+		; set
 		move.b	subtype(a0),d0								; get block type
 		lsr.w	#3,d0										; read only the 1st digit
 		andi.w	#$E,d0
@@ -210,6 +210,11 @@ LabyrinthBlock_TypeIndex: offsetTable
 
 .stop07
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_LabyrinthBlock:	subObjMainData2 Obj_LabyrinthBlock.action, rfCoord, 0, 0, 0, 3, $3E6, 2, 0, Map_LBlock
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Labyrinth Blocks/Object Data/Map - Labyrinth Blocks.asm"

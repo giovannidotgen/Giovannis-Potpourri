@@ -11,11 +11,11 @@ Ani_Crab: offsetTable
 		offsetTableEntry.w .walksloperev		; 5
 		offsetTableEntry.w .firing			; 6
 
-.stand			dc.b $F, 0, afEnd
-.standslope		dc.b $F, 3, afEnd
-.standsloperev	dc.b $F, $22, afEnd
+.stand			dc.b $7F, 0, afEnd
+.standslope		dc.b $7F, 3, afEnd
+.standsloperev	dc.b $7F, $22, afEnd
 .walk			dc.b $F, 1, 4, 0, afEnd
 .walkslope		dc.b $F, 4, 2, 3, afEnd
 .walksloperev		dc.b $F, 1, 5, 6, afEnd
-.firing			dc.b $F, 7, afEnd
+.firing			dc.b $7F, 7, afEnd
 	even

@@ -7,12 +7,9 @@
 Obj_Bumper:
 
 		; init
-		move.l	#Map_Bump,mappings(a0)
-		move.w	#make_art_tile($372,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
-		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_Bumper(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.b	#$17|$C0,collision_flags(a0)
-		move.l	#.hit,address(a0)
 
 .hit
 		tst.b	collision_property(a0)
@@ -102,6 +99,11 @@ Obj_Bumper:
 
 .return
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_Bumper:		subObjMainData2 Obj_Bumper.hit, rfCoord, 0, 32, 32, 1, $372, 0, 0, Map_Bump
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Bumper/Object Data/Anim - Bumper.asm"

@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Object 18 - platforms	(GHZ, SYZ, SLZ)
+; Object 18 - platforms (GHZ, SYZ, SLZ)
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -21,7 +21,7 @@ Obj_FloatingPlatform:
 
 .notSLZ
 		move.l	d0,mappings(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(34/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	x_pos(a0),objoff_32(a0)

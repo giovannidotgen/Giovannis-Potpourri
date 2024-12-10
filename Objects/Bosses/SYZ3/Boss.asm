@@ -559,7 +559,7 @@ BossBlock_BreakChunkBlock:
 		; set boss block xypos
 		move.w	(Camera_Y_pos_copy).w,d2
 		addi.w	#224-32,d2
-		moveq	#-$20,d3									; set align (32 pixels)
+		moveq	#-32,d3										; set align (32 pixels)
 		and.w	x_pos(a0),d3
 
 		; calc chunk pos

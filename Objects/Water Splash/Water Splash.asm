@@ -8,11 +8,9 @@ Obj_WaterSplash:
 
 		; init
 		st	objoff_31(a0)
-		move.l	#Map_WaterSplash,mappings(a0)
-		move.l	#bytes_to_long(rfCoord+rfMulti,0,256/2,320/2),render_flags(a0)	; set screen coordinates, multi-draw flag and height and width
-		move.l	#words_to_long(priority_6,make_art_tile($36E,0,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_WaterSplash(pc),d0-d3				; copy data to d0-d3
+		movem.l	d0-d3,address(a0)							; set data from d0-d3 to current object
 		move.w	#2,mainspr_childsprites(a0)
-		move.l	#.main,address(a0)
 
 		; set
 		lea	sub2_x_pos(a0),a2									; $16-$23 bytes reserved
@@ -196,6 +194,11 @@ loc_38652:
 		move.b	#AniIDSonAni_Roll,anim(a1)
 		bset	#Status_Roll,status(a1)
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_WaterSplash:		subObjMainData2 Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Water Splash/Object Data/Map - Water Splash.asm"

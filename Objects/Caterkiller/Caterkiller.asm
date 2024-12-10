@@ -18,7 +18,7 @@ Obj_Caterkiller:
 		clr.b	routine(a0)
 		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)			; set y_radius and x_radius
 		andi.b	#3,render_flags(a0)
-		ori.b	#4,render_flags(a0)							; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.b	render_flags(a0),status(a0)
 		move.l	#.checkfall,address(a0)
 

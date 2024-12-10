@@ -605,6 +605,23 @@ Kill_Character:
 		move.l	priority(a0),(Debug_saved_priority).w		; save priority and art_tile
 		clr.w	priority(a0)
 
+		; check super
+		tst.b	(Super_Tails_flag).w
+		bne.s	.speed
+		tst.b	(Super_Sonic_Knux_flag).w
+		beq.s	.notp1
+
+.speed
+		pea	(a4)
+		lea	(Max_speed).w,a4
+		cmpi.b	#PlayerID_Tails,character_id(a0)					; is player Tails?
+		bne.s	.revert											; if not, branch
+		lea	(Max_speed_P2).w,a4
+
+.revert
+		bsr.w	SonicKnux_SuperHyper.revertToNormal
+		movea.l	(sp)+,a4
+
 .notp1
 		bset	#high_priority_bit,art_tile(a0)
 		jsr	(Play_SFX).w

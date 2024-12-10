@@ -7,19 +7,23 @@
 Obj_HyperSonicKnux_Trail:
 
 		; init
-		move.l	#Map_Knuckles,mappings(a0)						; load Knuckles' mappings
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
-		bhs.s	.playingasknux									; if so, branch
-		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic, but because GIO is a bitch, we're loading the sonic mappings instead
+		movem.l	ObjDat_HyperSonicKnux_Trail(pc),d0-d3			; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 
-.playingasknux
-		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
-		move.l	#.main,address(a0)
+		; ; check player (Ignored in Giovanni's Potpourri until further notice)
+		; cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
+		; bhs.s	.main											; if so, branch
+		; move.l	#Map_SuperSonic,mappings(a0)					; if not, you must be Hyper Sonic, load Super/Hyper Sonic mappings
 
 .main
+
+		; check
 		tst.b	(Super_Sonic_Knux_flag).w							; are we in non-super/hyper state?
 		beq.s	.delete											; if so, branch and delete
+		tst.w	(Debug_placement_mode).w						; is debug mode on?
+		bne.s	.return											; if yes, branch
+
+		; set
 		moveq	#4*3,d1											; this will be subtracted from Pos_table_index, giving the object an older entry
 		btst	#0,(Level_frame_counter+1).w							; even frame? (Think of it as 'every other number' logic)
 		beq.s	.evenframe										; if so, branch
@@ -43,5 +47,14 @@ Obj_HyperSonicKnux_Trail:
 		jmp	(Draw_Sprite.find).w
 ; ---------------------------------------------------------------------------
 
+.return
+		rts
+; ---------------------------------------------------------------------------
+
 .delete
 		jmp	(Delete_Current_Sprite).w
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_HyperSonicKnux_Trail:		subObjMainData2 Obj_HyperSonicKnux_Trail.main, rfCoord, 0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles

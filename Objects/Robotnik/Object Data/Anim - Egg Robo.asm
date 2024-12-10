@@ -10,6 +10,6 @@ Ani_EggRoboHead: offsetTable
 
 .normal		dc.b $F, 0, 1, afEnd
 .laugh		dc.b 3, 0, 1, afEnd
-.hurt		dc.b $F, 2, afEnd
-.defeated		dc.b $F, 3, afEnd
+.hurt		dc.b $7F, 2, afEnd
+.defeated		dc.b $7F, 3, afEnd
 	even
