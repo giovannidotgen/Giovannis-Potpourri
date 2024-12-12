@@ -93,7 +93,7 @@ loc_4B9E8:
 
 		; init
 		move.w	#make_art_tile($79C,0,0),art_tile(a0)
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.b	#AniIDSonAni_Roll,anim(a0)
 		bset	#Status_Roll,status(a0)
 		bset	#Status_InAir,status(a0)

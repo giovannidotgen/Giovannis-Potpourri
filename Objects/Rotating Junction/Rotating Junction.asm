@@ -17,12 +17,10 @@ Obj_Junction:
 		move.b	subtype(a0),jun_switch(a0)
 
 		; init
-		lea	ObjDat_Junction(pc),a1							; 0 - frame (no draw sprite)
-		jsr	(SetUp_ObjAttributes).w
-		bset	#rbMulti,render_flags(a0)							; set multi-draw flag
+		movem.l	ObjDat_Junction(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#2,mainspr_childsprites(a0)					; large circular and wheel
 		addq.b	#1,jun_frame(a0)								; set 1
-		move.l	#.action,address(a0)							; goto "Jun_Action" next
 
 		; sub objects
 		lea	sub2_x_pos(a0),a1								; $16-$23 bytes reserved
@@ -88,7 +86,6 @@ Obj_Junction:
 		clr.b	jumping(a1)										; clear character jumping flag
 		clr.b	double_jump_flag(a1)								; clear character double jumping flag
 		clr.b	spin_dash_flag(a1)								; clear spin dash flag
-
 		bclr	d6,status(a0)										; clear object push bit
 		bset	d6,jun_status(a0)									; set object push bit
 
@@ -148,22 +145,22 @@ Jun_ChgPos:
 ; ---------------------------------------------------------------------------
 
 .data					; Sonic x-pos, Sonic y-pos
-		dc.b -$20, 0		; 0 (frame)
-		dc.b -$1E, $E		; 1 (frame)
-		dc.b -$18, $18	; 2 (frame)
-		dc.b -$E, $1E		; 3 (frame)
-		dc.b 0, $20		; 4 (frame)
-		dc.b $E, $1E		; 5 (frame)
-		dc.b $18, $18		; 6 (frame)
-		dc.b $1E, $E		; 7 (frame)
-		dc.b $20, 0		; 8 (frame)
-		dc.b $1E, -$E		; 9 (frame)
-		dc.b $18, -$18	; A (frame)
-		dc.b $E, -$1E		; B (frame)
-		dc.b 0, -$20		; C (frame)
-		dc.b -$E, -$1E	; D (frame)
-		dc.b -$18, -$18	; E (frame)
-		dc.b -$1E, -$E	; F (frame)
+		dc.b -32, 0		; 0 (frame)
+		dc.b -30, 14		; 1 (frame)
+		dc.b -24, 24		; 2 (frame)
+		dc.b -14, 30		; 3 (frame)
+		dc.b 0, 32		; 4 (frame)
+		dc.b 14, 30		; 5 (frame)
+		dc.b 24, 24		; 6 (frame)
+		dc.b 30, 14		; 7 (frame)
+		dc.b 32, 0		; 8 (frame)
+		dc.b 30, -14		; 9 (frame)
+		dc.b 24, -24		; A (frame)
+		dc.b 14, -30		; B (frame)
+		dc.b 0, -32		; C (frame)
+		dc.b -14, -30		; D (frame)
+		dc.b -24, -24		; E (frame)
+		dc.b -30, -14		; F (frame)
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -173,7 +170,6 @@ Jun_ChkSwitch:
 		move.b	jun_switch(a0),d0
 		btst	#0,(a2,d0.w)										; is switch pressed?
 		beq.s	.unpressed									; if not, branch
-
 		tst.b	jun_reverse(a0)									; has switch previously been pressed?
 		bne.s	.animate										; if yes, branch
 		st	jun_reverse(a0)									; set to "previously pressed"
@@ -204,7 +200,7 @@ Jun_ChkSwitch:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Junction:		subObjData Map_Jun, $31B, 2, 0, 112, 112, 4, 0, 0
+ObjDat_Junction:		subObjMainData2 Obj_Junction.action, rfCoord+rfMulti, 0, 112, 112, 4, $31B, 2, 0, Map_Jun
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Rotating Junction/Object Data/Map - Rotating Junction.asm"

@@ -25,7 +25,7 @@ Obj_LabyrinthConvey:
 		; draw wheel
 		move.l	#Map_LConv_Wheel,mappings(a0)
 		move.w	#make_art_tile($3F6,0,0),art_tile(a0)
-		ori.b	#$24,render_flags(a0)							; set static mapping and screen coordinates flag
+		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
 		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a0)	; set height, width and priority
 
 		; draw
@@ -40,7 +40,7 @@ Obj_LabyrinthConvey_Platforms:
 		; init
 		move.l	#Map_LConv_Platform,mappings(a0)
 		move.w	#make_art_tile($406,2,0),art_tile(a0)
-		ori.b	#$24,render_flags(a0)							; set static mapping and screen coordinates flag
+		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
 		move.l	#bytes_word_to_long(32/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
 		addq.b	#1,mapping_frame(a0)							; platform frame
 		move.l	#sub_124B2,address(a0)

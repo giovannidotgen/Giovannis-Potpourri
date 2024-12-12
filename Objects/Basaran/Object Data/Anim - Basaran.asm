@@ -7,7 +7,7 @@ Ani_Bas: offsetTable
 		offsetTableEntry.w .fall		; 1
 		offsetTableEntry.w .fly		; 2
 
-.still		dc.b $F, 0, afEnd
-.fall		dc.b $F, 1, afEnd
+.still		dc.b $7F, 0, afEnd
+.fall		dc.b $7F, 1, afEnd
 .fly		dc.b 3, 1, 2, 3, 2, afEnd
 	even

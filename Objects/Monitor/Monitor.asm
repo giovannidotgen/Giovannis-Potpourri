@@ -9,7 +9,7 @@ Obj_Monitor:
 		; init
 		move.l	#Map_Monitor,mappings(a0)
 		move.w	#make_art_tile(ArtTile_Monitors,0,0),art_tile(a0)
-		ori.b	#4,render_flags(a0)								; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)							; use screen coordinates
 		move.l	#bytes_word_to_long(32/2,28/2,priority_3),height_pixels(a0)	; set height, width and priority
 
 		; check broken
@@ -238,7 +238,7 @@ Obj_MonitorAnimate:
 
 Obj_MonitorContents:
 		move.w	#make_art_tile(ArtTile_Monitors,0,0),art_tile(a0)
-		ori.b	#$24,render_flags(a0)								; set static mapping and screen coordinates flag
+		ori.b	#rfCoord+rfStatic,render_flags(a0)					; set static mapping and screen coordinates flag
 		move.l	#bytes_word_to_long(16/2,16/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.l	#.main,address(a0)
 
@@ -415,7 +415,22 @@ Monitor_Give_Invincibility:
 Monitor_Give_SuperSonic:
 
 	if SonKnuxTransform
-		addi.w	#50,(Ring_count).w
+
+		; check level
+		tst.b	(Level_results_flag).w									; is level over?
+		bne.s	Monitor_Give_Invincibility.return					; if yes, branch
+
+		; add rings
+		moveq	#50,d0											; add 50 rings
+		jsr	(AddRings).w
+
+		; check Super/Hyper
+		tst.b	(Super_Sonic_Knux_flag).w							; is Sonic Super/Hyper?
+		bne.s	Monitor_Give_Invincibility.return					; if so, branch
+		tst.b	(Super_Tails_flag).w									; is Tails Super?
+		bne.s	Monitor_Give_Invincibility.return					; if so, branch
+
+		; set
 		move.b	#1,(Super_palette_status).w
 		move.b	#$F,(Palette_timer).w
 		move.b	#1,(Super_Sonic_Knux_flag).w

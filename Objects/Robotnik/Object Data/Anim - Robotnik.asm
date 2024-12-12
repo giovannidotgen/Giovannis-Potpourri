@@ -10,6 +10,6 @@ Ani_RobotnikHead: offsetTable
 
 .normal		dc.b 5, 0, 1, afEnd
 .laugh		dc.b 5, 3, 4, afEnd
-.hurt		dc.b $F, 2, afEnd
-.defeated		dc.b $F, 5, afEnd
+.hurt		dc.b $7F, 2, afEnd
+.defeated		dc.b $7F, 5, afEnd
 	even

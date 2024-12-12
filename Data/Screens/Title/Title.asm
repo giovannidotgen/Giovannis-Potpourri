@@ -180,7 +180,7 @@ TitleScreen:
 		; create "TM" object
 		lea	(Breathing_bubbles+address).w,a1
 		move.l	#Map_TTM,mappings(a1)
-		move.b	#$20,render_flags(a1)									; set static mapping
+		move.b	#rfStatic,render_flags(a1)								; set static mapping
 		move.w	#$178,x_pos(a1)
 		move.w	#$F8,y_pos(a1)
 		move.l	#Draw_Sprite,address(a1)

@@ -322,7 +322,7 @@ LevelSelect_Controls:
 
 		; play music
 		move.w	d3,d0
-		addi.w	#sfx__First,d0										; skip music
+		addq.w	#mus__First,d0										; $00 is reserved for silence
 		jsr	(Play_Music).w											; play music
 
 		; get current music for cheats

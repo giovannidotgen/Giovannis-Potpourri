@@ -21,7 +21,7 @@ Obj_MovingBlock:
 		; init
 		move.l	#Map_MBlock,d2
 		move.w	#make_art_tile($562,2,0),d1
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		moveq	#48/2,d0											; height and y_radius
 
 		; check level

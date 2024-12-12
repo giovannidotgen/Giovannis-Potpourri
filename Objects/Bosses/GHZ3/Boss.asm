@@ -266,7 +266,7 @@ Obj_BossBall_Crane:
 		; init
 		lea	ObjDat_BossBall_Crane(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		ori.b	#$20,render_flags(a0)							; set static mapping flag
+		ori.b	#rfStatic,render_flags(a0)						; set static mapping flag
 		move.b	#26,child_dy(a0)
 		move.w	#-$200,objoff_3A(a0)							; speed
 		move.w	#$80,objoff_3C(a0)
@@ -339,7 +339,7 @@ Obj_BossBall_Chain:
 		; init
 		lea	ObjDat_BossBall_Chain(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		ori.b	#$20,render_flags(a0)							; set static mapping flag
+		ori.b	#rfStatic,render_flags(a0)						; set static mapping flag
 		bsr.s	BossBall_GetWaitTime
 		move.l	#.down,address(a0)
 

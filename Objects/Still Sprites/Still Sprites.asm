@@ -8,7 +8,7 @@ Obj_StillSprite:
 
 		; init
 		move.l	#Map_StillSprites,mappings(a0)
-		ori.b	#4,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 
 		; get
 		moveq	#0,d0

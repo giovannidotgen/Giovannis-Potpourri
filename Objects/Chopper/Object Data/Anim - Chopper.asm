@@ -9,5 +9,5 @@ Ani_Chop: offsetTable
 
 .slow	dc.b 7, 0, 1, afEnd
 .fast		dc.b 3, 0, 1, afEnd
-.still		dc.b 7, 0, afEnd
+.still		dc.b $7F, 0, afEnd
 	even

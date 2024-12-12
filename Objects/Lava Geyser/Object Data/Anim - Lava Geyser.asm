@@ -14,6 +14,6 @@ Ani_Geyser: offsetTable
 .bubble2		dc.b 2, 2, 3, afEnd
 .end			dc.b 2, 6, 7, afEnd
 .bubble3		dc.b 2, 2, 3, 0, 1, 0, 1, afRoutine
-.blank		dc.b $F, $13, afEnd
+.blank		dc.b $7F, $13, afEnd
 .bubble4		dc.b 2, $11, $12, afEnd
 	even

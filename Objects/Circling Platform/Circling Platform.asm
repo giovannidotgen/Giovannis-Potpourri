@@ -14,13 +14,10 @@ circ_origY				= objoff_30 ; original y-axis position
 Obj_CirclingPlatform:
 
 		; init
-		move.l	#Map_Circ,mappings(a0)
-		move.w	#make_art_tile(0,2,0),art_tile(a0)
-		move.b	#4,render_flags(a0)								; use screen coordinates
-		move.l	#bytes_word_to_long(32/2,48/2,priority_4),height_pixels(a0)	; set height, width and priority
+		movem.l	ObjDat_CirclingPlatform(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 		move.w	x_pos(a0),circ_origX(a0)
 		move.w	y_pos(a0),circ_origY(a0)
-		move.l	#.main,address(a0)
 
 .main
 		move.w	x_pos(a0),-(sp)
@@ -122,6 +119,11 @@ Obj_CirclingPlatform:
 		add.w	circ_origY(a0),d2
 		move.w	d2,y_pos(a0)
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_CirclingPlatform:	subObjMainData2 Obj_CirclingPlatform.main, rfCoord, 0, 32, 48, 4, 0, 2, 0, Map_Circ
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Circling Platform/Object Data/Map - Circling Platform.asm"

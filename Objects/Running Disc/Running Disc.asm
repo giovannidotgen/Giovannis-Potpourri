@@ -35,12 +35,10 @@ Obj_RunningDisc:
 		move.b	d0,angle(a0)
 
 		; init
-		move.l	#Map_Disc,mappings(a0)
-		move.b	#rfCoord+rfStatic,render_flags(a0)
+		movem.l	ObjDat_RunningDisc(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 		move.w	x_pos(a0),disc_origX(a0)
 		move.w	y_pos(a0),disc_origY(a0)
-		move.l	#bytes_word_to_long(16/2,16/2,priority_4),height_pixels(a0)	; set height, width and priority
-		move.l	#.action,address(a0)
 
 .action
 
@@ -164,6 +162,11 @@ Disc_MovePlayer:
 
 .locret_3298E
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_RunningDisc:		subObjMainData2 Obj_RunningDisc.action, rfCoord+rfStatic, 0, 16, 16, 4, 0, 0, 0, Map_Disc
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Running Disc/Object Data/Map - Running Disc.asm"

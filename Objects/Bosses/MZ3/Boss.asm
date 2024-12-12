@@ -24,7 +24,7 @@ Obj_BossFire:
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
 		move.b	#BossFire_Hits,collision_property(a0)			; set hits
-		move.w	#-$100,x_vel(a0)
+		move.w	#-$100,x_vel(a0)								; set move left
 		move.l	#BossFire_MoveLeft,obBF_Jump(a0)
 		lea	Child1_MakeRoboHead4(pc),a2
 		jsr	(CreateChild1_Normal).w
@@ -600,7 +600,7 @@ Obj_BossFire_Scaled:
 		bne.s	.wait
 		move.l	#Child_Draw_Sprite,address(a1)
 		move.l	#Map_BossFire_Pillar,mappings(a1)
-		move.b	#4,render_flags(a1)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)						; use screen coordinates
 		move.w	#priority_3,priority(a1)
 		move.w	#$1C20,x_pos(a1)
 		move.w	#$240,y_pos(a1)

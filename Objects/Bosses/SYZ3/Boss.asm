@@ -33,7 +33,7 @@ Obj_BossBlock:
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
 		move.b	#BossBlock_Hits,collision_property(a0)			; set hits
-		move.w	#-$100,x_vel(a0)
+		move.w	#-$100,x_vel(a0)								; set move left
 		move.l	#BossBlock_MoveLeftRight,obBB_Jump(a0)
 		lea	Child1_MakeRoboShipFlame(pc),a2
 		jsr	(CreateChild1_Normal).w
@@ -559,7 +559,7 @@ BossBlock_BreakChunkBlock:
 		; set boss block xypos
 		move.w	(Camera_Y_pos_copy).w,d2
 		addi.w	#224-32,d2
-		moveq	#-$20,d3									; set align (32 pixels)
+		moveq	#-32,d3										; set align (32 pixels)
 		and.w	x_pos(a0),d3
 
 		; calc chunk pos

@@ -26,6 +26,8 @@ CStom_Var2:
 ; ---------------------------------------------------------------------------
 
 Obj_ChainStomp:
+
+		; set
 		move.b	subtype(a0),d0
 		move.b	d0,d1
 		andi.w	#$F0,d1
@@ -53,12 +55,13 @@ Obj_ChainStomp:
 ;		clr.b	objoff_35(a0)
 
 		; init
-		lea	ObjDat_ChainStomp(pc),a1
-		jsr	(SetUp_ObjAttributes).w
-		move.l	#.action,address(a0)
+		movem.l	ObjDat_ChainStomp(pc),d0-d3			; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
+
+		; set
 		move.b	subtype(a0),d0
 		lsr.w	#3,d0
-		andi.b	#$E,d0
+		andi.w	#$E,d0
 		lea	CStom_Var2(pc,d0.w),a1
 		move.b	(a1)+,width_pixels(a0)
 		move.b	(a1)+,mapping_frame(a0)
@@ -78,7 +81,6 @@ Obj_ChainStomp:
 		move.w	d1,objoff_3E(a0)
 
 		; set sub objects
-		bset	#6,render_flags(a0)						; set multi-draw flag
 		move.w	#2,mainspr_childsprites(a0)			; chain and cap
 
 		; sub object 1
@@ -311,7 +313,7 @@ Obj_ChainStomp_Spikes:
 		; check players
 		swap	d6
 		andi.w	#touch_bottom_mask,d6				; is Sonic or Tails touch bottom?
-		beq.s	.pcheck								; if not, branch
+		beq.s	.draw								; if not, branch
 		move.b	d6,d0
 		andi.b	#p1_touch_bottom,d0					; Sonic/Knux touch bottom?
 		beq.s	.notp1								; if not, branch
@@ -320,17 +322,17 @@ Obj_ChainStomp_Spikes:
 
 .notp1
 		andi.b	#p2_touch_bottom,d6					; Tails touch bottom?
-		beq.s	.pcheck								; if not, branch
+		beq.s	.draw								; if not, branch
 		lea	(Player_2).w,a1							; a1=character
 		jsr	(Touch_ChkHurt3).l						; hurt character
 
-.pcheck
+.draw
 		jmp	(Child_Draw_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_ChainStomp:			subObjData Map_CStom, $328, 0, 0, 424, 112, 4, 1, 0
+ObjDat_ChainStomp:			subObjMainData2 Obj_ChainStomp.action, rfCoord+rfMulti, 0, 424, 112, 4, $328, 0, 0, Map_CStom
 ObjDat_ChainStomp_Spikes:	subObjData3 32, 96, 5, 2, 0
 
 Child6_ChainStomp_Spikes:

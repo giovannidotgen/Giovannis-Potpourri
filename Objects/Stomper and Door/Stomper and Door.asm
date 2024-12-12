@@ -64,7 +64,7 @@ Obj_ScrapStomp:
 ; ---------------------------------------------------------------------------
 
 .isSBZ12
-		ori.b	#4,render_flags(a0)							; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.w	#priority_4,priority(a0)
 		move.w	x_pos(a0),sto_origX(a0)
 		move.w	y_pos(a0),sto_origY(a0)

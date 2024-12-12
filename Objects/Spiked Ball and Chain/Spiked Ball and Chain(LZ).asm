@@ -12,9 +12,8 @@ sball2_origY				= objoff_44 ; original y-axis position
 Obj_SpikeBall2:
 
 		; init
-		move.l	#Map_SBall2,mappings(a0)
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)				; set screen coordinates flag and height and width
-		move.l	#words_to_long(priority_4,make_art_tile($310,0,0)),priority(a0)	; set priority and art_tile
+		movem.l	ObjDat_SpikeBall2(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
 		move.b	#1,mapping_frame(a0)
 		move.b	#$B|$80,collision_flags(a0)
 		move.w	x_pos(a0),sball2_origX(a0)
@@ -33,7 +32,7 @@ Obj_SpikeBall2:
 
 		; create chain
 		jsr	(Create_New_Sprite3).w
-		bne.s	.notfree
+		bne.s	.main
 		move.l	#Draw_Sprite,address(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -62,9 +61,6 @@ Obj_SpikeBall2:
 		clr.w	(a2)+
 		dbf	d1,.loop
 		move.b	#2,mapping_frame(a1)
-
-.notfree
-		move.l	#.main,address(a0)
 
 .main
 		bsr.s	SpikeBall2_Move
@@ -130,6 +126,11 @@ SpikeBall2_Move:
 
 .return
 		rts
+
+; =============== S U B R O U T I N E =======================================
+
+; mapping
+ObjDat_SpikeBall2:	subObjMainData2 Obj_SpikeBall2.main, rfCoord, 0, 48, 48, 4, $310, 0, 0, Map_SBall2
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (LZ).asm"

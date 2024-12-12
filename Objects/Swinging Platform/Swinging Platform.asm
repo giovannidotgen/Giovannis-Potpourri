@@ -24,7 +24,7 @@ Obj_SwingingPlatform:
 		move.w	#make_art_tile($31A,0,0),d0
 
 .notMZ
-		move.b	#4,render_flags(a0)							; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,48/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),swing_origX(a0)
 		move.w	y_pos(a0),swing_origY(a0)
@@ -152,7 +152,6 @@ Obj_SwingingPlatform:
 ; =============== S U B R O U T I N E =======================================
 
 SwingingPlatform_Move:
-		moveq	#0,d0
 		move.b	(Oscillating_Data+$18).w,d0
 		tst.b	subtype(a0)
 		bpl.s	.normal

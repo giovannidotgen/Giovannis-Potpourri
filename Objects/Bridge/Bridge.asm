@@ -16,7 +16,7 @@ Obj_TensionBridge:
 		andi.b	#$7F,subtype(a0)
 
 .plus
-		move.b	#4,render_flags(a0)									; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)								; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,256/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	y_pos(a0),d2
 		move.w	d2,objoff_3C(a0)
@@ -237,7 +237,7 @@ loc_38A00:
 		; create
 		jsr	(Create_New_Sprite3).w
 		bne.s	loc_38A64
-		move.l	#sub_1E6EC,address(a1)								; explosion
+		move.l	#Obj_TensionBridge_Explosion,address(a1)				; explosion
 		move.w	x_pos(a5),x_pos(a1)
 		move.w	y_pos(a5),y_pos(a1)
 		move.b	-1(a4),anim_frame_timer(a1)
