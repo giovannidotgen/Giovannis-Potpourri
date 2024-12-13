@@ -9,7 +9,7 @@ Obj_Splats:
 		; init
 		lea	ObjDat_Splats(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.w	#bytes_to_word(40/2,24/2),y_radius(a0)		; set y_radius and x_radius
+		move.w	height_pixels(a0),y_radius(a0)					; set y_radius and x_radius
 		move.l	#.checkfall,address(a0)
 
 .checkfall

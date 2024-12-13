@@ -80,6 +80,8 @@ Obj_Basaran:
 .chkdel
 		tst.b	render_flags(a0)								; object visible on the screen?
 		bmi.s	.dropmore								; if yes, branch
+
+		; delete object
 		move.l	#Sprite_CheckDelete.offscreen,address(a0)
 		rts
 ; ---------------------------------------------------------------------------
