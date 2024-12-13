@@ -26,6 +26,8 @@ Obj_CirclingPlatform:
 		lsr.w	d0												; division by 2
 		jsr	.index(pc,d0.w)
 		move.w	(sp)+,d4
+
+		; check
 		tst.b	render_flags(a0)										; object visible on the screen?
 		bpl.s	.chkdel											; if not, branch
 
