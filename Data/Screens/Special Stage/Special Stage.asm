@@ -865,7 +865,7 @@ loc_1B350:
 		moveq	#0,d0
 		move.b	(v_ani0_frame).w,d0
 		add.w	d0,d0
-		lea	(a0,d0.w),a0
+		adda.w	d0,a0
 
 		set	.a,0
 
