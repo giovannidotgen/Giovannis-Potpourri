@@ -10,12 +10,12 @@ SndBA_DropDash_Header:
 SoundBA_FM4:
 	smpsSetvoice        $00
 	dc.b	nRst, $01
-	smpsModSet          $01, $01, $20, $30
+	smpsModSet          $01, $02, $24, $FF
 	dc.b	nB5, $12
 
 SoundBA_Loop00:
 	dc.b	smpsNoAttack
-	smpsAlterVol        $04
+	smpsAlterVol        $02
 	dc.b	$02
 	smpsLoop            $00, $12, SoundBA_Loop00
 	smpsStop

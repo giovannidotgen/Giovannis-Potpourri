@@ -85,6 +85,8 @@ ptr_snd46:	SMPS_SFX_METADATA	Sound46, $70, 0
 ptr_snd47:	SMPS_SFX_METADATA	Sound47, $70, 0
 ptr_snd48:	SMPS_SFX_METADATA	Sound48, $70, 0
 ptr_snd49:	SMPS_SFX_METADATA	Sound49, $70, 0
+ptr_snd4A:	SMPS_SFX_METADATA	Sound4A, $70, 0
+ptr_snd4B:	SMPS_SFX_METADATA	Sound4B, $70, 0
 
 ; Continuous
 ptr_sndC01:	SMPS_SFX_METADATA	SoundC01, $70, 0
@@ -246,6 +248,12 @@ Sound48:	include "Sound/SFX/Snd - Crash.asm"
 	even
 Sound49:	include "Sound/SFX/Snd - Rumble 2.asm"
 	even
+Sound4A:	include "Sound/SFX/Snd - Drop Dash.asm"
+	even
+Sound4B:	include "Sound/SFX/Snd - Super Peel-Out Release.asm"
+	even
+
+
 
 ; Continuous
 SoundC01:	include "Sound/SFX/Continuous/Snd - Robotnik Siren.asm"
