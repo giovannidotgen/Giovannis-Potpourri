@@ -140,6 +140,29 @@ loc_38822:
 		moveq	#8,d3												; height
 		move.w	x_pos(a0),d4
 		bsr.w	SolidObject_TensionBridge
+		
+; GIO:
+; Turns out that, should the player position buffer be reset right before 
+; the player stands on the bridge, then the game does not know where the 
+; player is meant to be on the bridge, which results in the game completely
+; screwing up. Normally, in Sonic 3 & Knuckles, this can not happen, but
+; Sonic's Drop Dash can make this unfortunate scenario occur!
+;
+; This is easily fixed by checking whether players 1 and 2 are actually
+; correctly recorded as placed on the bridge's bounds.
+		
+		move.b	objoff_3F(a0),d0
+		cmp.b	subtype(a0),d0
+		bls.s	.p1good
+		clr.b	objoff_3F(a0)
+
+	.p1good:
+		move.b	objoff_3B(a0),d0
+		cmp.b	subtype(a0),d0
+		bls.s	.p2good
+		clr.b	objoff_3B(a0)
+		
+	.p2good:		
 		out_of_xrange.s	.chkdel
 		rts
 ; ---------------------------------------------------------------------------

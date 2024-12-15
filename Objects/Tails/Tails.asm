@@ -1271,6 +1271,9 @@ sub_1459E:
 		move.b	#3,object_control(a1)
 		bset	#Status_InAir,status(a1)
 		clr.b	spin_dash_flag(a1)
+		clr.b	double_jump_property(a1)
+		bclr	#Status_DropDashLock,status(a1)
+		bclr	#Status_DropDash,status_secondary(a1)
 		andi.b	#-4,render_flags(a1)
 		andi.b	#-2,status(a1)
 		moveq	#1,d0
