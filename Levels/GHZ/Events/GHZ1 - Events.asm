@@ -150,7 +150,7 @@ GHZ1_Deform:
 
 .loop
 
-	rept	8
+	rept 8
 		swap	d0
 		move.w	d0,(a1)+							; save 50% + 0.78125%
 		swap	d0
