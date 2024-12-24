@@ -5,6 +5,7 @@
 		; assembler code
 		CPU 68000
 		include "Settings.asm"										; include assembly options
+		include "Settings (Giovanni's Potpourri).asm"				; GIO: custom settings for Giovanni's Potpourri
 		include "MacroSetup.asm"									; include a few basic macros
 		include "Macros.asm"										; include some simplifying macros and functions
 		include "Constants.asm"									; include constants

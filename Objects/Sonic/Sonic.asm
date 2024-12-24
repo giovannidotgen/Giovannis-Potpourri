@@ -535,7 +535,6 @@ locret_11034:
 
 ; Sonic_Spin_Freespace:
 Sonic_MdJump:
-		bsr.w	Sonic_DropDash
 		bsr.w	Sonic_JumpHeight
 		bsr.w	Sonic_ChgJumpDir
 		bsr.w	Player_LevelBound
@@ -1534,7 +1533,11 @@ loc_118D2:
 		move.w	d1,y_vel(a0)								; cap jump height
 
 locret_118E8:
-		rts
+		if FastAirMoves
+			bra.w	Sonic_InstaAndShieldMoves
+		else	
+			rts
+		endif
 ; ---------------------------------------------------------------------------
 
 Sonic_UpVelCap:
@@ -1549,6 +1552,9 @@ locret_118FE:
 ; ---------------------------------------------------------------------------
 
 Sonic_InstaAndShieldMoves:
+		if EnableDropDash
+			bsr.w	Sonic_DropDash
+		endif	
 		tst.b	double_jump_flag(a0)							; is Sonic currently performing a double jump?
 		bne.s	locret_118FE								; if yes, branch
 		moveq	#btnABC,d0								; are buttons A, B, or C being pressed?
@@ -2699,7 +2705,7 @@ Sonic_PerformDropDash:
 		lea	(H_scroll_frame_offset_P2).w,a1
 
 .isp1:
-		move.w	d0,(a1)
+
 		move.b	#$E,y_radius(a0)
 		move.b	#7,x_radius(a0)
 		move.b	#AniIDSonAni_Roll,anim(a0)

@@ -2140,14 +2140,18 @@ Knux_JumpHeight:
 
 loc_17800:
 		cmp.w	y_vel(a0),d1
-		ble.s		Knux_Test_For_Glide
+		ble.s	Knux_Test_For_Glide
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_logical).w,d0
 		bne.s	locret_17816
 		move.w	d1,y_vel(a0)
 
 locret_17816:
-		rts
+		if FastAirMoves
+			bra.s	Knux_Test_For_Glide
+		else
+			rts
+		endif
 ; ---------------------------------------------------------------------------
 
 loc_17818:
