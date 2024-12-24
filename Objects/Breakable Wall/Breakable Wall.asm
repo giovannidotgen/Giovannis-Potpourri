@@ -183,9 +183,12 @@ BreakObjectToPieces2:
 		move.w	art_tile(a0),art_tile(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
-		move.b	priority(a0),priority(a1)							; this is not a bug because the design of this object is that priority is set to $200
+
+		; this is not a bug because the design of this object is that priority is set to $200
 	  	; copying priority as a byte would lead to $8 being 0x02 and $9 being 00 by default would still end up as $200 anyway but if you
 	    	; change priority to something like $280 it would bug up so using a word here is a better case
+
+		move.b	priority(a0),priority(a1)
 		move.w	height_pixels(a0),height_pixels(a1)					; set height and width
 
 .load
