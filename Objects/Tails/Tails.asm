@@ -2422,8 +2422,12 @@ loc_150F0:
 		bne.s	locret_15104
 		move.w	d1,y_vel(a0)
 
-locret_15104:
-		rts
+locret_15104
+		if FastAirMoves
+			bra.s	Tails_Test_For_Flight
+		else
+			rts
+		endif
 ; ---------------------------------------------------------------------------
 
 loc_15106:
@@ -2484,6 +2488,19 @@ loc_15188:
 		add.w	d1,y_pos(a0)
 
 loc_1518C:
+		if ~~OPTailsFlight && FastAirMoves
+			move.w	#-$400,d1
+			btst	#Status_Underwater,status(a0)
+			beq.s	.notunderwater
+			move.w	#-$200,d1
+			
+		.notunderwater:	
+			cmp.w	y_vel(a0),d1
+			ble.s	.nospeedcap
+			move.w	d1,y_vel(a0)
+			
+			.nospeedcap:
+		endif
 		move.b	#1,double_jump_flag(a0)
 		move.b	#(8*60)/2,double_jump_property(a0)
 		bra.w	Tails_Set_Flying_Animation
