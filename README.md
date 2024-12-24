@@ -4,6 +4,7 @@ This is a disassembly where I implement a variety of things onto Red Miso Studio
 
 ## Additions from source
 - Drop Dash, from Sonic Mania (the code for which was derived from my own Sonic 2 - Score Rush)
+- Fast Air Moves, a feature that disables the vertical speed check that occurs during a jump, and before an air move
 
 ## Known issues
 - Super Sonic's sprites have been disabled. I intend to address it through an approach distinct from that of the base game.
