@@ -134,8 +134,13 @@ Obj_SpecialStage_Results:
 ; ---------------------------------------------------------------------------
 
 .checksuper
+
+	if SonKnuxTransform
 		cmpi.b	#7,(Chaos_emerald_count).w
 		blo.s		.endr
+	else
+		bra.s	.endr
+	endif
 
 		; move text to the right
 		move.l	#Obj_2EC1E,d0
