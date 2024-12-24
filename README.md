@@ -82,6 +82,10 @@ You can use this source code as a base for your projects, or just as an example 
 
 - [Sonic-Clean-Engine-S.C.E.-Extended-](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-Extended-)
 
+## How to build the ROM
+
+To build this, use Build.bat if you're a Windows user, or build.lua otherwise. The built ROM will be called 'Sonic.gen'.
+
 ## Quick start
 
 - For editing sprites you can use [SonMapEd](https://info.sonicretro.org/SonMapEd), [ClownMapEd](https://info.sonicretro.org/ClownMapEd) or [Flex2](https://info.sonicretro.org/Flex_2) (Read the issues).
