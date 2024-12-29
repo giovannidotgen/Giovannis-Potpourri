@@ -103,7 +103,7 @@ Obj09_ChkDebug:											; Routine 2
 	if GameDebug
 		tst.b	(Debug_mode_flag).w								; is debug mode cheat enabled?
 		beq.s	Obj09_NoDebug								; if not, branch
-		btst	#bitB,(Ctrl_1_pressed).w							; is button B pressed?
+		btst	#button_B,(Ctrl_1_pressed).w						; is button B pressed?
 		beq.s	Obj09_NoDebug								; if not, branch
 		move.w	#1,(Debug_placement_mode).w					; change player into a ring
 
@@ -111,9 +111,8 @@ Obj09_NoDebug:
 	endif
 
 		clr.b	objoff_30(a0)
-		moveq	#2,d0
-		and.b	status(a0),d0
-		bne.s	Obj09_InAir
+		btst	#Status_InAir,status(a0)							; is the player in the air?
+		bne.s	Obj09_InAir									; if yes, branch
 
 Obj09_OnWall:
 		bsr.w	Obj09_Jump
@@ -130,12 +129,12 @@ Obj09_InAir:
 ; =============== S U B R O U T I N E =======================================
 
 Obj09_Move:
-		btst	#bitL,(Ctrl_1_logical).w							; is left being pressed?
+		btst	#button_left,(Ctrl_1_logical).w						; is left being pressed?
 		beq.s	Obj09_ChkRight								; if not, branch
 		bsr.w	Obj09_MoveLeft
 
 Obj09_ChkRight:
-		btst	#bitR,(Ctrl_1_logical).w							; is right being pressed?
+		btst	#button_right,(Ctrl_1_logical).w					; is right being pressed?
 		beq.s	loc_1BA78									; if not, branch
 		bsr.w	Obj09_MoveRight
 
@@ -302,7 +301,7 @@ loc_1BBF4:
 		addq.b	#2,routine(a0)
 		clr.w	(SStage_scalar_index_1).w
 		move.w	#$4000,(SStage_scalar_index_0).w
-		move.w	#1*60,objoff_38(a0)
+		move.w	#1*60,objoff_3C(a0)
 
 loc_1BC16:
 		move.w	(SStage_scalar_index_1).w,d0
@@ -314,7 +313,7 @@ Obj09_Exit2:
 		addi.w	#$40,(SStage_scalar_index_1).w
 		move.w	(SStage_scalar_index_1).w,d0
 		add.w	d0,(SStage_scalar_index_0).w
-		subq.w	#1,objoff_38(a0)
+		subq.w	#1,objoff_3C(a0)
 		bne.s	loc_1BC40
 		move.l	#loc_4B97C,address(a0)
 
