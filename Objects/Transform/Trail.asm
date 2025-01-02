@@ -14,7 +14,6 @@ Obj_HyperSonicKnux_Trail:
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
 		bhs.s	.main											; if so, branch
 		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic, but because GIO is a bitch, we're loading the sonic mappings instead
-
 .main
 
 		; check

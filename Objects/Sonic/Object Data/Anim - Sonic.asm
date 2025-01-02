@@ -40,6 +40,7 @@ AniSonic: offsetTable
 		ptrTableEntry.w SonAni_Carry			; 22
 		ptrTableEntry.w SonAni_Carry2			; 23
 		ptrTableEntry.w	SonAni_DropDash		; 24
+		ptrTableEntry.w SonAni_PeelOut		; 25
 
 SonAni_Walk:		dc.b $FF, 7, 8, 1, 2, 3, 4, 5, 6, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 SonAni_Run:			dc.b $FF, $21, $22, $23, $24, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -84,5 +85,6 @@ AniSonic20:			dc.b 9, 8, 9, $FF
 AniSonic21:			dc.b 3, 7, $FD, 0
 SonAni_Carry:		dc.b $B, $90, $91, $92, $91, $FF
 SonAni_Carry2:		dc.b $B, $90, $91, $92, $91, $FD, 0
-SonAni_DropDash:	dc.b $1, $DB, $DC, $FF	; TEMPORARY
+SonAni_DropDash:	dc.b $1, $DB, $DC, $FF	; GIO
+SonAni_PeelOut:		dc.b $FF, $DD, $DE, $DF, $E0, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 	even
