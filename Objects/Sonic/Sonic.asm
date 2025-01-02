@@ -2883,6 +2883,7 @@ Sonic_PerformDropDash:
 		lea	(H_scroll_frame_offset_P2).w,a1
 
 .isp1:
+
 		move.b	#$E,y_radius(a0)
 		move.b	#7,x_radius(a0)
 		move.b	#AniIDSonAni_Roll,anim(a0)

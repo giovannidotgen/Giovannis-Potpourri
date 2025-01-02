@@ -123,6 +123,7 @@ sfx_Crash =				SMPS_id(ptr_snd48)
 sfx_Rumble2 =			SMPS_id(ptr_snd49)
 sfx_DropDash =			SMPS_id(ptr_snd4A)
 sfx_PeelOutRelease =	SMPS_id(ptr_snd4B)
+sfx_PeelOutCharge =		SMPS_id(ptr_snd4C)
 
 ; Continuous
 sfx_RobotnikSiren =		SMPS_id(ptr_sndC01)

@@ -87,6 +87,7 @@ ptr_snd48:	SMPS_SFX_METADATA	Sound48, $70, 0
 ptr_snd49:	SMPS_SFX_METADATA	Sound49, $70, 0
 ptr_snd4A:	SMPS_SFX_METADATA	Sound4A, $70, 0
 ptr_snd4B:	SMPS_SFX_METADATA	Sound4B, $70, 0
+ptr_snd4C:	SMPS_SFX_METADATA	Sound4C, $70, 0
 
 ; Continuous
 ptr_sndC01:	SMPS_SFX_METADATA	SoundC01, $70, 0
@@ -252,6 +253,9 @@ Sound4A:	include "Sound/SFX/Snd - Drop Dash.asm"
 	even
 Sound4B:	include "Sound/SFX/Snd - Super Peel-Out Release.asm"
 	even
+Sound4C:	include "Sound/SFX/Snd - Super Peel-Out Charge.asm"
+	even
+
 
 
 
