@@ -396,6 +396,7 @@ loc_10F22:
 ; =============== S U B R O U T I N E =======================================
 
 Sonic_MdNormal:
+		bsr.w	Sonic_CheckPeelout
 		bsr.w	SonicKnux_Spindash
 		bsr.w	Sonic_Jump
 		bsr.w	Player_SlopeResist
@@ -1860,6 +1861,184 @@ SonicKnux_SuperHyper:
 
 .return
 		rts
+		
+; ===========================================================================
+; Subroutine to make Sonic perform a Super Peel-Out
+; ===========================================================================
+		
+Sonic_CheckPeelout:
+	; Disable all moves in 2P
+	cmpi.b	#2,spin_dash_flag(a0)
+	beq.s	Sonic_UpdatePeelout
+	
+	; Don't start peelout if not looking up or not pressing ABC
+	cmpi.b	#AniIDSonAni_LookUp,anim(a0)
+	bne.s	return_Peelout1
+	
+	move.b	(Ctrl_1_pressed_logical).w,d0
+	andi.b	#button_B_mask|button_C_mask|button_A_mask,d0
+	beq.w	return_Peelout1
+	
+	; Play rev sound
+	sfx		sfx_PeelOutCharge,0
+	
+	; Start peelout state
+	move.b	#2,spin_dash_flag(a0)
+	clr.w	spin_dash_counter(a0)
+	
+	; Push stack pointer back so we don't return to the movement function
+	addq.l	#4,sp
+	
+	bsr.w	Player_LevelBound
+	bsr.w	Call_Player_AnglePos
+
+	; check flag
+	tst.b	(Background_collision_flag).w
+	beq.s	return_Peelout1
+	jsr	(sub_F846).w
+	tst.w	d1
+	bmi.w	Kill_Character
+	movem.l	a4-a6,-(sp)
+	jsr	(CheckLeftWallDist).w
+	tst.w	d1
+	bpl.s	.notcollidingleft
+	sub.w	d1,x_pos(a0)
+
+.notcollidingleft:
+	jsr	(CheckRightWallDist).w
+	tst.w	d1
+	bpl.s	.notcollidingright
+	add.w	d1,x_pos(a0)
+
+.notcollidingright:
+	movem.l	(sp)+,a4-a6
+
+return_Peelout1:
+	rts
+
+Sonic_UpdatePeelout:
+	; Increment counter up to 30 (charge cap)
+	if	PeelOut_NoMinimumCharge
+		bra.s	Peelout_Charged
+	else
+		cmpi.w	#30,spin_dash_counter(a0)
+		bcc.s	Peelout_Charged
+	endif
+	addi.w	#1,spin_dash_counter(a0)
+	
+	; Do a failed release if up is released
+	btst	#button_up,(Ctrl_1_logical).w
+	bne.s	Sonic_NoRelease
+	
+	clr.b	spin_dash_flag(a0)
+	clr.w	ground_vel(a0)
+	; TODO: Stop charging sound
+	rts
+
+Peelout_Charged:
+	; Do a proper release if up is released
+	btst	#button_up,(Ctrl_1_logical).w
+	bne.s	Sonic_NoRelease
+	
+	clr.b	spin_dash_flag(a0)
+
+	move.w	ground_vel(a0),d0
+	btst	#15,d0
+	beq.s	.skip
+	neg.w	d0
+	
+.skip:	
+	cmpi.w	#$A00,d0
+	blt.s	.altsfx
+	sfx		sfx_PeelOutRelease,1
+	
+.altsfx:
+	sfx		sfx_Dash,1
+
+Sonic_NoRelease:
+	; Push stack pointer back so we don't return to the movement function
+	addq.l	#4,sp
+	
+	; Make sure we're playing the running animation
+	move.b	#AniIDSonAni_Walk,anim(a0)
+	bclr	#Status_Push,status(a0)
+	
+	; Get peelout speed cap
+	; GIO: rewrote this portion of code
+	move.w	#$C00,d1		; standard speed cap
+	btst	#6,status(a0)	; check if underwater
+	beq.s	+				; branch if not
+	move.w	#$600,d1		; less speed
+
++	
+	btst	#Status_SpeedShoes,status_secondary(a0)
+	bne.s	+
+	tst.b	(Super_Sonic_Knux_flag).w
+	beq.s	++
++	
+	asl.w	d1				; double if player has speed shoes or is super
+	cmpi.w	#$E00,d1		; check if higher than $E00 (value taken from Sonic 3 Complete)
+	ble.s	+
+	move.w	#$E00,d1		; if yes, cap to that
+
++
+	; Accelerate left or right depending on our facing direction
+	move.w	#$64,d0
+	btst	#6,status(a0)	; check if underwater
+	beq.s	+				; branch if not
+	move.w	#$32,d0			; less speed	
+
++
+	move.w	ground_vel(a0),d2
+	
+	btst	#0,status(a0)
+	beq.s	Sonic_PeeloutRight
+	
+	sub.w	d0,d2
+	neg.w	d1
+	cmp.w	d1,d2
+	bge.s	Sonic_CopySpeed
+	move.w	d1,d2
+	bra.s	Sonic_CopySpeed
+
+Sonic_PeeloutRight:
+	add.w	d0,d2
+	cmp.w	d1,d2
+	ble.s	Sonic_CopySpeed
+	move.w	d1,d2
+
+Sonic_CopySpeed:
+	move.w	d2,ground_vel(a0)
+	
+	bsr.w	Player_LevelBound
+	bsr.w	Call_Player_AnglePos
+
+	; check flag
+	tst.b	(Background_collision_flag).w
+	beq.s	return_Peelout2
+	jsr	(sub_F846).w
+	tst.w	d1
+	bmi.w	Kill_Character
+	movem.l	a4-a6,-(sp)
+	jsr	(CheckLeftWallDist).w
+	tst.w	d1
+	bpl.s	.notcollidingleft
+	sub.w	d1,x_pos(a0)
+
+.notcollidingleft:
+	jsr	(CheckRightWallDist).w
+	tst.w	d1
+	bpl.s	.notcollidingright
+	add.w	d1,x_pos(a0)
+
+.notcollidingright:
+	movem.l	(sp)+,a4-a6
+
+return_Peelout2:
+	rts
+		
+		
+; =============== S U B R O U T I N E =======================================
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1867,10 +2046,10 @@ SonicKnux_Spindash:
 		tst.b	spin_dash_flag(a0)
 		bne.s	loc_11C5E
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)
-		bne.s	SonicKnux_SuperHyper.return
+		bne.w	SonicKnux_SuperHyper.return
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_pressed_logical).w,d0
-		beq.s	SonicKnux_SuperHyper.return
+		beq.w	SonicKnux_SuperHyper.return
 		move.b	#AniIDSonAni_SpinDash,anim(a0)
 		sfx	sfx_SpinDash
 		addq.w	#4,sp
@@ -3103,6 +3282,11 @@ loc_126DC:
 loc_1270A:
 		tst.b	(Super_Sonic_Knux_flag).w
 		bne.s	loc_12766
+		if PeelOut_RunSprites
+			lea	(SonAni_PeelOut).l,a1 ; use peelout animation
+			cmpi.w	#$A00,d2
+			bhs.s	loc_12724
+		endif
 		lea	(SonAni_Run).l,a1 	; use running animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12724

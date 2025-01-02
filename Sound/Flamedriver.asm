@@ -5197,6 +5197,7 @@ Sound_48_Ptr:	offsetBankTableEntry.w Sound_48
 Sound_49_Ptr:	offsetBankTableEntry.w Sound_49
 Sound_4A_Ptr:	offsetBankTableEntry.w Sound_4A
 Sound_4B_Ptr:	offsetBankTableEntry.w Sound_4B
+Sound_4C_Ptr:	offsetBankTableEntry.w Sound_4C
 
 ; Continuous
 Sound_C01_Ptr:	offsetBankTableEntry.w Sound_C01
@@ -5287,6 +5288,7 @@ Sound_48:	include "Sound/SFX/Snd - Crash.asm"
 Sound_49:	include "Sound/SFX/Snd - Rumble 2.asm"
 Sound_4A:   include "Sound/SFX/Snd - Drop Dash.asm" ; GIO
 Sound_4B:	include "Sound/SFX/Snd - Super Peel-Out Release.asm" ; GIO
+Sound_4C:	include "Sound/SFX/Snd - Super Peel-Out Charge.asm"	 ; GIO
 
 ; Continuous
 Sound_C01:	include "Sound/SFX/Continuous/Snd - Robotnik Siren.asm"

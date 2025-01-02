@@ -142,6 +142,7 @@ sfx_Crash				ds.b 1		; $48
 sfx_Rumble2				ds.b 1		; $49
 sfx_DropDash:			ds.b 1		; $4A
 sfx_PeelOutRelease:		ds.b 1		; $4B
+sfx_PeelOutCharge:		ds.b 1		; $4C
 
 ; Continuous
 sfx__FirstContinuous =	*			; ID of the first continuous sound effect
