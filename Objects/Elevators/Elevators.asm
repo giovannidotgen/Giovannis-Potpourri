@@ -12,7 +12,6 @@ elev_dist			= objoff_3C ; distance to move (2 bytes)
 Obj_Elevator:
 
 		; check
-		move.l	#.main,address(a0)								; goto Elev_Platform next
 		move.b	subtype(a0),d0
 		bpl.s	.normal											; branch for types 00-7F
 
@@ -73,6 +72,7 @@ Obj_Elevator:
 		move.l	#words_to_long(priority_4,make_art_tile(0,2,0)),priority(a0)	; set priority and art_tile
 		move.w	x_pos(a0),elev_origX(a0)
 		move.w	y_pos(a0),elev_origY(a0)
+		move.l	#.main,address(a0)								; goto Elev_Platform next
 
 .main
 		move.w	x_pos(a0),-(sp)
