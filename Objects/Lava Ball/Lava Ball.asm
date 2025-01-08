@@ -72,7 +72,7 @@ Obj_LavaBall:
 		move.b	#$B|$80,collision_flags(a0)
 		bset	#Status_FireShield,shield_reaction(a0)
 
-		; MZ boss check
+		; check MZ boss
 		tst.b	objoff_3F(a0)										; is lava ball was created by the MZ boss?
 		beq.s	.speed										; if not, branch
 		move.w	#priority_5,priority(a0)						; set priority

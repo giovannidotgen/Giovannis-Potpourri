@@ -82,9 +82,11 @@ Obj_SpikeBall:
 
 Obj_SpikeBall_Child:
 		movea.w	parent3(a0),a1
-		move.b	objoff_3C(a1),objoff_3C(a0)					; speed
-		moveq	#4,d2									; radius
+		move.b	objoff_3C(a1),objoff_3C(a0)						; angle
+		moveq	#4,d2										; radius
 		jsr	(MoveSprite_CircularSimple).w
+
+		; draw
 		jmp	(Child_DrawTouch_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================

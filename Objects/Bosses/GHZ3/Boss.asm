@@ -353,7 +353,7 @@ Obj_BossBall_Chain:
 
 .circular
 		movea.w	parent3(a0),a1								; load crane address
-		move.b	objoff_3C(a1),objoff_3C(a0)
+		move.b	objoff_3C(a1),objoff_3C(a0)						; angle
 		moveq	#4,d2										; radius
 		jsr	(MoveSprite_CircularSimple).w
 
@@ -391,7 +391,7 @@ Obj_BossBall_Ball:
 
 .circular
 		movea.w	parent3(a0),a1								; load crane address
-		move.b	objoff_3C(a1),objoff_3C(a0)
+		move.b	objoff_3C(a1),objoff_3C(a0)						; angle
 		moveq	#3,d2										; radius
 		jsr	(MoveSprite_CircularSimple).w
 

@@ -19,7 +19,9 @@ Obj_RobotnikHead3:
 		movea.w	parent3(a0),a1
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
-		or.w	d0,art_tile(a0)								; copy VRAM
+		or.w	d0,art_tile(a0)								; set VRAM
+
+		; check
 		btst	#high_priority_bit,art_tile(a1)
 		beq.s	.main
 		bset	#high_priority_bit,art_tile(a0)
@@ -97,7 +99,7 @@ Obj_RobotnikHead4:
 		movea.w	parent3(a0),a1
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
-		or.w	d0,art_tile(a0)								; copy VRAM
+		or.w	d0,art_tile(a0)								; set VRAM
 
 .main
 		movea.w	parent3(a0),a1
