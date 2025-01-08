@@ -12,8 +12,8 @@ sball2_origY				= objoff_44 ; original y-axis position
 Obj_SpikeBall2:
 
 		; init
-		movem.l	ObjDat_SpikeBall2(pc),d0-d3							; copy data to d0-d3
-		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
+		movem.l	ObjDat_SpikeBall2(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.b	#1,mapping_frame(a0)
 		move.b	#$B|$80,collision_flags(a0)
 		move.w	x_pos(a0),sball2_origX(a0)
@@ -64,6 +64,8 @@ Obj_SpikeBall2:
 
 .main
 		bsr.s	SpikeBall2_Move
+
+		; draw and delete
 		moveq	#-$80,d0									; round down to nearest $80
 		and.w	sball2_origX(a0),d0							; get object position
 		out_of_xrange2.s	.offscreen

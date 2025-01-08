@@ -16,7 +16,7 @@ ecap_tailspos				= 7	; bit
 ; =============== S U B R O U T I N E =======================================
 
 Obj_EggCapsule_Flying:
-		bset	#1,render_flags(a0)					; set flipy flag
+		bset	#1,render_flags(a0)							; set flipy flag
 
 Obj_EggCapsule:
 
@@ -30,8 +30,8 @@ Obj_EggCapsule:
 		move.l	#.main,address(a0)
 
 		; check
-		btst	#1,render_flags(a0)					; is egg capsule flipped?
-		bne.s	.flipy							; if yes, branch
+		btst	#1,render_flags(a0)							; is egg capsule flipped?
+		bne.s	.flipy									; if yes, branch
 		move.l	#.normal,objoff_34(a0)
 
 		; create object
@@ -69,9 +69,9 @@ Obj_EggCapsule:
 		jsr	(a1)
 
 		; solid
-		moveq	#(64/2)+$B,d1					; width
-		moveq	#48/2,d2						; height
-		moveq	#(48/2)+1,d3						; height+1
+		moveq	#(64/2)+$B,d1							; width
+		moveq	#48/2,d2								; height
+		moveq	#(48/2)+1,d3								; height+1
 		move.w	(sp)+,d4
 		jsr	(SolidObjectFull).w
 
@@ -85,13 +85,13 @@ Obj_EggCapsule:
 ; =============== S U B R O U T I N E =======================================
 
 .normal
-		btst	#1,objoff_38(a0)						; is button pressed?
-		beq.s	.return							; if not, branch
+		btst	#1,objoff_38(a0)								; is button pressed?
+		beq.s	.return									; if not, branch
 		move.l	#.sonicendpose,objoff_34(a0)
 
 .open
-		move.b	#1,mapping_frame(a0)				; set empty egg capsule frame
-		move.w	#$40,objoff_2E(a0)				; wait
+		move.b	#1,mapping_frame(a0)						; set empty egg capsule frame
+		move.w	#$40,objoff_2E(a0)						; wait
 
 		; create pieces objects
 		lea	Child1_EggCapsule_Pieces(pc),a2
@@ -113,8 +113,8 @@ Obj_EggCapsule:
 ; =============== S U B R O U T I N E =======================================
 
 .sonicendpose
-		tst.b	(Boss_flag).w								; boss is defeated?
-		bne.s	.return								; if not, branch
+		tst.b	(Boss_flag).w									; boss is defeated?
+		bne.s	.return									; if not, branch
 		move.l	#.tailsendpose,d0
 		bra.w	Check_SonicEndPose
 ; ---------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Obj_EggCapsule:
 
 		; xpos
 		move.w	(Camera_X_pos).w,d0
-		move.w	objoff_3A(a0),d1						; get moving
+		move.w	objoff_3A(a0),d1							; get moving
 		bmi.s	.left
 
 		; check right side
@@ -150,10 +150,10 @@ Obj_EggCapsule:
 		blo.s		.setx
 
 .chgx
-		neg.w	d1									; change moving
+		neg.w	d1										; change moving
 
 .setx
-		move.w	d1,objoff_3A(a0)						; save moving
+		move.w	d1,objoff_3A(a0)							; save moving
 		add.w	d1,x_pos(a0)
 
 		; ypos
@@ -168,8 +168,8 @@ Obj_EggCapsule:
 		add.l	d1,y_pos(a0)
 
 		; check button
-		btst	#1,objoff_38(a0)							; is button pressed?
-		beq.s	.swing								; if not, branch
+		btst	#1,objoff_38(a0)								; is button pressed?
+		beq.s	.swing									; if not, branch
 
 		; load sub routine
 		moveq	#0,d0
@@ -196,9 +196,9 @@ Obj_EggCapsule:
 
 ; =============== S U B R O U T I N E =======================================
 
-sub_866BA:											; Routine $A (Normal)
-		tst.b	(Boss_flag).w								; boss is defeated?
-		bne.s	.waitb								; if not, branch
+sub_866BA:												; Routine $A (Normal)
+		tst.b	(Boss_flag).w									; boss is defeated?
+		bne.s	.waitb									; if not, branch
 		move.l	#sub_866CC,d0
 		bsr.s	Check_SonicEndPose
 
@@ -207,15 +207,15 @@ sub_866BA:											; Routine $A (Normal)
 		jmp	(MoveSprite2).w
 ; ---------------------------------------------------------------------------
 
-sub_866CC:											; Routine $C
+sub_866CC:												; Routine $C
 		bsr.w	Check_TailsEndPose
 		jsr	(Swing_UpAndDown).w
 		jmp	(MoveSprite2).w
 ; ---------------------------------------------------------------------------
 
-sub_866DA:											; Routine $E (MGZ)
-		tst.b	(Boss_flag).w								; boss is defeated?
-		bne.s	.waitb								; if not, branch
+sub_866DA:												; Routine $E (MGZ)
+		tst.b	(Boss_flag).w									; boss is defeated?
+		bne.s	.waitb									; if not, branch
 		move.l	#sub_866CC,d0
 		bsr.w	Check_SonicEndPose_MGZ
 
@@ -225,14 +225,14 @@ sub_866DA:											; Routine $E (MGZ)
 
 ; =============== S U B R O U T I N E =======================================
 
-sub_86716:											; Routine $12 (LBZ)
+sub_86716:												; Routine $12 (LBZ)
 		bsr.s	Check_TailsEndPose
 		bra.s	sub_866EC.swing
 ; ---------------------------------------------------------------------------
 
-sub_866EC:											; Routine $10 (LBZ)
-		tst.b	(Boss_flag).w								; boss is defeated?
-		bne.s	.swing								; if not, branch
+sub_866EC:												; Routine $10 (LBZ)
+		tst.b	(Boss_flag).w									; boss is defeated?
+		bne.s	.swing									; if not, branch
 		move.l	#sub_86716,d0
 		bsr.s	Check_SonicEndPose
 

@@ -117,7 +117,7 @@ Obj_ScrapEggman_Block:
 		move.w	d0,d1
 		addq.w	#2,d1
 		asl.w	#4,d0
-		add.w	d0,x_pos(a0)									; +32 pixels
+		add.w	d0,x_pos(a0)										; +32 pixels
 
 		; set wait
 		lsl.w	#3,d1
@@ -126,8 +126,8 @@ Obj_ScrapEggman_Block:
 		; init
 		lea	ObjDat_ScrapEggman_Block(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#rbStatic,render_flags(a0)							; set static mapping flag
-		bset	#7,status(a0)										; disable player's balance animation
+		bset	#rbStatic,render_flags(a0)								; set static mapping flag
+		bset	#7,status(a0)											; disable player's balance animation
 		move.l	#.fwait,address(a0)
 
 .fwait
@@ -144,39 +144,39 @@ Obj_ScrapEggman_Block:
 
 		; release player from object
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; is Sonic or Tails standing on the object?
-		beq.s	.notrelease									; if not, branch
+		and.b	status(a0),d0										; is Sonic or Tails standing on the object?
+		beq.s	.notrelease										; if not, branch
 
 		; check p1
 		bclr	#p1_standing_bit,status(a0)
 		beq.s	.notp1
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1										; a1=character
 		move.b	#1,prev_anim(a1)
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
 		bset	#Status_InAir,status(a1)
-		bne.s	.notp1										; if the player is already in the air, branch
+		bne.s	.notp1											; if the player is already in the air, branch
 		move.b	#AniIDSonAni_Hurt,anim(a1)
-		clr.b	spin_dash_flag(a1)								; clear spin dash flag
+		clr.b	spin_dash_flag(a1)									; clear spin dash flag
 
 .notp1
 
 		; check p2
 		bclr	#p2_standing_bit,status(a0)
 		beq.s	.notrelease
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1										; a1=character
 		move.b	#1,prev_anim(a1)
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
 		bset	#Status_InAir,status(a1)
-		bne.s	.notrelease									; if the player is already in the air, branch
+		bne.s	.notrelease										; if the player is already in the air, branch
 		move.b	#AniIDSonAni_Hurt,anim(a1)
-		clr.b	spin_dash_flag(a1)								; clear spin dash flag
+		clr.b	spin_dash_flag(a1)									; clear spin dash flag
 
 .notrelease
 
 		; create blocks pieces
-		sfx	sfx_Collapse										; play smashing sound
+		sfx	sfx_Collapse											; play smashing sound
 		lea	Child1_ScrapEggman_BlockPieces(pc),a2
 		jsr	(CreateChild1_Normal).w
 
