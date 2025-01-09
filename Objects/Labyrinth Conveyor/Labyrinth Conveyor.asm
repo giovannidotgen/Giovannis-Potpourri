@@ -18,7 +18,6 @@ conv_pointer				= objoff_40 ; .l ; save address
 Obj_LabyrinthConvey:
 
 		; create (process)
-		move.l	#sub_12460,address(a0)
 		move.b	subtype(a0),d0
 		bmi.w	sub_12460
 
@@ -80,8 +79,7 @@ loc_12448:
 		move.b	d1,conv_origY(a0)
 
 loc_1244C:
-		move.w	(a2,d1.w),conv_saveX(a0)
-		move.w	2(a2,d1.w),conv_saveY(a0)
+		move.l	(a2,d1.w),conv_saveX(a0)
 		bsr.w	LCon_ChangeDir
 		bra.s	sub_124B2
 

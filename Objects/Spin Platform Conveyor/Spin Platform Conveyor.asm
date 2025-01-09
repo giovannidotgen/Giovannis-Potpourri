@@ -16,7 +16,8 @@ scon_pointer				= objoff_40 ; .l ; save address
 ; =============== S U B R O U T I N E =======================================
 
 Obj_SpinConvey:
-		move.l	#sub_16380,address(a0)
+
+		; check
 		move.b	subtype(a0),d0
 		bmi.w	sub_16380
 
@@ -64,8 +65,7 @@ loc_16352:
 		move.b	d1,scon_origY(a0)
 
 loc_16356:
-		move.w	(a2,d1.w),scon_saveX(a0)
-		move.w	2(a2,d1.w),scon_saveY(a0)
+		move.l	(a2,d1.w),scon_saveX(a0)
 		tst.w	d1
 		bne.s	loc_1636C
 		move.b	#1,anim(a0)
