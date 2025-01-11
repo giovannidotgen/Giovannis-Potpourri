@@ -44,7 +44,7 @@ Obj_LabyrinthConvey_Platforms:
 		addq.b	#1,mapping_frame(a0)							; platform frame
 		move.l	#sub_124B2,address(a0)
 
-		; init
+		; set
 		move.b	subtype(a0),d0
 		move.b	d0,d1
 		lsr.w	#3,d0
