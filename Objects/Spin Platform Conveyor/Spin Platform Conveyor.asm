@@ -212,8 +212,7 @@ sub_16424:
 loc_16456:
 		move.b	d1,scon_origY(a0)
 		movea.l	scon_pointer(a0),a1
-		move.w	(a1,d1.w),scon_saveX(a0)
-		move.w	2(a1,d1.w),scon_saveY(a0)
+		move.l	(a1,d1.w),scon_saveX(a0)
 		tst.w	d1
 		bne.s	loc_16474
 		move.b	#1,anim(a0)

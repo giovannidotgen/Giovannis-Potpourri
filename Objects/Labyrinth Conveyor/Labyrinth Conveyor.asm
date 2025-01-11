@@ -205,8 +205,7 @@ loc_12534:
 loc_12552:
 		move.b	d1,conv_origY(a0)
 		movea.l	conv_pointer(a0),a1
-		move.w	(a1,d1.w),conv_saveX(a0)
-		move.w	2(a1,d1.w),conv_saveY(a0)
+		move.l	(a1,d1.w),conv_saveX(a0)
 		bsr.s	LCon_ChangeDir
 
 loc_1256A:
