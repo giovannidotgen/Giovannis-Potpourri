@@ -37,7 +37,7 @@ Obj_StillSprite:
 		StillSpritesEntry	1, 1, 2, 0, 32, 32
 
 		; SYZ (Siren)										; 2
-		StillSpritesEntry	6, $11, 0, 0, 32, 32
+		StillSpritesEntry	6, $11, 0, 0, 16, 32
 
 		; LZ (Wheel)										; 3
 		StillSpritesEntry	1, $3F6, 0, 0, 32, 32
