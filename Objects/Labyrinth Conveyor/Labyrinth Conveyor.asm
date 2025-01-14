@@ -17,20 +17,49 @@ conv_pointer				= objoff_40 ; .l ; save address
 
 Obj_LabyrinthConvey:
 
-		; create (process)
+		; check
 		move.b	subtype(a0),d0
-		bmi.w	sub_12460
+		move.b	d0,conv_subtype(a0)
+		andi.w	#$7F,d0
+		lea	(Convey_rev_buffer).w,a2
+		bset	#0,(a2,d0.w)
+		bne.w	LCon_CheckDelete.offscreen
 
-		; draw wheel
-		move.l	#Map_LConv_Wheel,mappings(a0)
-		move.w	#make_art_tile($3F6,0,0),art_tile(a0)
-		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
-		move.l	#bytes_word_to_long(32/2,32/2,priority_1),height_pixels(a0)	; set height, width and priority
+		; create
+		add.w	d0,d0
+		andi.w	#$1E,d0
+		lea	ObjPosLZPlatform_Index(pc),a2
+		adda.w	(a2,d0.w),a2
+		move.w	(a2)+,d1
+		movea.w	a0,a1										; load current object to a1
 
-		; draw
-		lea	(Sprite_OnScreen_Test).w,a1
-		move.l	a1,address(a0)
-		jmp	(a1)
+		; get RAM slot
+		getobjectRAMslot a3
+		bra.s	.load
+; ---------------------------------------------------------------------------
+
+.create
+
+		; create LZ platform object
+
+.find
+		lea	next_object(a1),a1									; goto next object RAM slot
+		tst.l	address(a1)										; is object RAM slot empty?
+		dbeq	d0,.find										; if not, branch
+		bne.s	.return										; branch, if object RAM slot is not empty
+		subq.w	#1,d0										; subtract from sprite table
+
+.load
+		move.l	#Obj_LabyrinthConvey_Platforms,address(a1)
+		move.w	(a2)+,x_pos(a1)
+		move.w	(a2)+,y_pos(a1)
+		move.w	(a2)+,d2
+		move.b	d2,subtype(a1)
+		tst.w	d0											; object RAM slots ended?
+		dbmi	d1,.create									; if not, loop
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -81,52 +110,6 @@ loc_12448:
 loc_1244C:
 		move.l	(a2,d1.w),conv_saveX(a0)
 		bsr.w	LCon_ChangeDir
-		bra.s	sub_124B2
-
-; =============== S U B R O U T I N E =======================================
-
-sub_12460:
-		move.b	d0,conv_subtype(a0)
-		andi.w	#$7F,d0
-		lea	(Convey_rev_buffer).w,a2
-		bset	#0,(a2,d0.w)
-		bne.w	LCon_CheckDelete.offscreen
-
-		; create
-		add.w	d0,d0
-		andi.w	#$1E,d0
-		lea	ObjPosLZPlatform_Index(pc),a2
-		adda.w	(a2,d0.w),a2
-		move.w	(a2)+,d1
-		movea.w	a0,a1										; load current object to a1
-
-		; get RAM slot
-		getobjectRAMslot a3
-		bra.s	.load
-; ---------------------------------------------------------------------------
-
-.create
-
-		; create LZ platform object
-
-.find
-		lea	next_object(a1),a1									; goto next object RAM slot
-		tst.l	address(a1)										; is object RAM slot empty?
-		dbeq	d0,.find										; if not, branch
-		bne.s	.return										; branch, if object RAM slot is not empty
-		subq.w	#1,d0										; subtract from sprite table
-
-.load
-		move.l	#Obj_LabyrinthConvey_Platforms,address(a1)
-		move.w	(a2)+,x_pos(a1)
-		move.w	(a2)+,y_pos(a1)
-		move.w	(a2)+,d2
-		move.b	d2,subtype(a1)
-		tst.w	d0											; object RAM slots ended?
-		dbmi	d1,.create									; if not, loop
-
-.return
-		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -270,4 +253,3 @@ loc_125D4:
 
 		include "Objects/Labyrinth Conveyor/Object Data/Data - Labyrinth Conveyor.asm"
 		include "Objects/Labyrinth Conveyor/Object Data/Map - Labyrinth Conveyor Platform.asm"
-		include "Objects/Labyrinth Conveyor/Object Data/Map - Labyrinth Conveyor Wheel.asm"
