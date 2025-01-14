@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Object 1C - scenery (GHZ bridge stump, MZ brick, SYZ Siren, SLZ lava thrower)
+; Object 1C - scenery (GHZ bridge stump, MZ brick, SYZ siren, LZ wheel, SLZ lava thrower)
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
