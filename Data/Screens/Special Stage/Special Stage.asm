@@ -144,7 +144,7 @@ SpecialStageScreen:
 		move.b	d0,(Update_HUD_ring_count).w											; update rings counter
 		move.b	d0,(Level_started_flag).w
 
-	if (GameDebug<>0)&&(GameDebugAlt==0)
+	if (GameDebug)&&(~~GameDebugAlt)
 		move.l	#Debug_Special,(Level_data_addr_RAM.Debug).w								; set debug mode items
 	endif
 
