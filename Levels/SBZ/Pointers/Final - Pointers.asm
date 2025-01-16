@@ -68,7 +68,7 @@
 		binclude "Levels/SBZ/Start Location/Final.bin"
 
 		; Debug Mode
-	if (GameDebug<>0)&&(GameDebugAlt==0)
+	if (GameDebug)&&(~~GameDebugAlt)
 		dc.l Debug_SBZ1								; Debug Mode
 	else
 		dc.l 0										; Unused

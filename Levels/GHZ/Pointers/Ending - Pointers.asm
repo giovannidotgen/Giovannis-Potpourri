@@ -73,7 +73,7 @@ LevelLoadPointer_Ending:
 		dc.w $16C									; ypos
 
 		; Debug Mode
-	if (GameDebug<>0)&&(GameDebugAlt==0)
+	if (GameDebug)&&(~~GameDebugAlt)
 		dc.l Debug_Ending							; Debug Mode
 	else
 		dc.l 0										; Unused
