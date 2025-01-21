@@ -68,7 +68,7 @@
 		binclude "Levels/SLZ/Start Location/1.bin"
 
 		; Debug Mode
-	if (GameDebug<>0)&&(GameDebugAlt==0)
+	if (GameDebug)&&(~~GameDebugAlt)
 		dc.l Debug_SLZ1								; Debug Mode
 	else
 		dc.l 0										; Unused
