@@ -2728,6 +2728,19 @@ loc_12158:
 ; =============== S U B R O U T I N E =======================================
 
 Player_TouchFloor:
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		btst	#0,(Player_ResetOnFloor).w
+		bne.w	locret_12230
+		bset	#0,(Player_ResetOnFloor).w
+		bra.s	.common
+	
+	.isplayer2:
+		btst	#1,(Player_ResetOnFloor).w
+		bne.w	locret_12230
+		bset	#1,(Player_ResetOnFloor).w
+	
+	.common:
 		cmpi.b	#PlayerID_Tails,character_id(a0)			; is player Tails?
 		beq.w	Tails_TouchFloor_Check_Spindash			; if yes, branch
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)		; is player Knuckles?
