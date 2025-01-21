@@ -95,7 +95,7 @@ Obj_Burrobot:
 ; ---------------------------------------------------------------------------
 
 .Burro_Jump
-		MoveSprite a0, $18										; make obj fall
+		MoveSprite a0, $18								; make obj fall
 
 		; check jump
 		tst.w	y_vel(a0)

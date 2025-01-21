@@ -125,7 +125,7 @@ Obj_Orbinaut_Orb:
 ; ---------------------------------------------------------------------------
 
 .circle
-		move.b	orb_rotation(a1),d0							; speed
+		move.b	orb_rotation(a1),d0							; angle
 		sub.b	d0,orbo_angle(a0)
 		moveq	#4,d2										; radius
 		jsr	(MoveSprite_CircularSimple).w

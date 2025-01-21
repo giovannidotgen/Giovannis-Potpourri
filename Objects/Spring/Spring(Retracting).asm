@@ -21,6 +21,8 @@ Obj_RetractingSpring:
 
 		; init
 		bsr.w	Obj_Spring
+
+		; next
 		move.b	subtype(a0),d0
 		lsr.w	#3,d0
 		andi.w	#$E,d0

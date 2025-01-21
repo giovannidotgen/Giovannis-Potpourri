@@ -139,13 +139,14 @@ sfx__Last =				SMPS_id(ptr_sndend)-1
 ; Sound commands
 offset :=	Sound_ExIndex
 ptrsize :=	2
-idstart :=	$FA
+idstart :=	$F9
 
 flg__First = idstart
-sfx_Fade =				SMPS_id(ptr_flgFA)
-mus_Fade =				SMPS_id(ptr_flgFB)
-sfx_Sega =				SMPS_id(ptr_flgFC)
-mus_Speedup =			SMPS_id(ptr_flgFD)
-mus_Slowdown =			SMPS_id(ptr_flgFE)
-mus_Stop =				SMPS_id(ptr_flgFF)
-flg__Last =				SMPS_id(ptr_flgend)-1
+specsfx_Stop =		SMPS_id(ptr_flgF9)
+sfx_Fade =			SMPS_id(ptr_flgFA)
+mus_Fade =			SMPS_id(ptr_flgFB)
+sfx_Sega =			SMPS_id(ptr_flgFC)
+mus_Speedup =		SMPS_id(ptr_flgFD)
+mus_Slowdown =		SMPS_id(ptr_flgFE)
+mus_Stop =			SMPS_id(ptr_flgFF)
+flg__Last =			SMPS_id(ptr_flgend)-1

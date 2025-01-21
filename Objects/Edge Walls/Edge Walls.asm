@@ -12,6 +12,8 @@ Obj_EdgeWalls:
 		ori.b	#rfCoord,render_flags(a0)				; use screen coordinates
 		move.l	#bytes_word_to_long(64/2,16/2,priority_6),height_pixels(a0)	; set height, width and priority
 		move.b	subtype(a0),mapping_frame(a0)
+
+		; check
 		move.l	#Sprite_OnScreen_Test,address(a0)
 		bclr	#4,mapping_frame(a0)
 		bne.s	.draw

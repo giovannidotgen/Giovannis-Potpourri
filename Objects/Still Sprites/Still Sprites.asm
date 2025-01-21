@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Object 1C - scenery (GHZ bridge stump, MZ brick, SYZ Siren, SLZ lava thrower)
+; Object 1C - scenery (GHZ bridge stump, MZ brick, SYZ siren, LZ wheel, SLZ lava thrower)
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -37,9 +37,12 @@ Obj_StillSprite:
 		StillSpritesEntry	1, 1, 2, 0, 32, 32
 
 		; SYZ (Siren)										; 2
-		StillSpritesEntry	6, $11, 0, 0, 32, 32
+		StillSpritesEntry	6, $11, 0, 0, 16, 32
 
-		; SLZ (Cannon)									; 3
+		; LZ (Wheel)										; 3
+		StillSpritesEntry	1, $3F6, 0, 0, 32, 32
+
+		; SLZ (Cannon)									; 4
 		StillSpritesEntry	2, $42C, 2, 0, 32, 16
 ; ---------------------------------------------------------------------------
 
