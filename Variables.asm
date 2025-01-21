@@ -181,6 +181,8 @@ RNG_seed:							ds.l 1						; used by the random number generator
 Palette_fade_info:						= *							; both index and count (word)
 Palette_fade_index:					ds.b 1						; colour to start fading from
 Palette_fade_count:					ds.b 1						; the number of colours to fade
+Player_ResetOnFloor:				ds.b 1						; GIO: bit 0: player 1's ResetOnFloor routine has triggered already. bit 1: same but for player 2.
+									ds.b 1						; even
 
 ; lag variables
 Lag_frame_count:						ds.w 1						; more specifically, the number of times V-int routine 0 has run. Reset at the end of a normal frame
