@@ -225,7 +225,8 @@ LevelScreen:
 		bsr.w	Demo_PlayRecord
 		jsr	(Special_Events).w
 		jsr	(Load_Sprites).w
-		clr.b	(Player_ResetOnFloor).w
+		bclr	#0,(Player_StoodOnPlatform).w
+		bclr	#1,(Player_StoodOnPlatform).w
 		jsr	(Process_Sprites).w
 		tst.b	(Restart_level_flag).w
 		bne.w	LevelScreen

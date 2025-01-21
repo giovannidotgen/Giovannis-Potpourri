@@ -29,6 +29,16 @@ SolidObjectFull:
 SolidObjectFull_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SolidObject_OnScreenTest								; if not, branch
+		
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -72,6 +82,16 @@ SolidObjectFull2:
 SolidObjectFull2_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SolidObject_cont										; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:		
+		
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -128,6 +148,16 @@ SolidObjectFullSloped_Spring:
 SolidObjectFullSloped_Spring_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SlopedSolid_cont										; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
+		
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -174,6 +204,16 @@ SolidObjectDoubleSloped:
 SolidObjectDoubleSloped_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	DoubleSlopedSolid_cont								; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
+		
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -215,6 +255,16 @@ SolidObjectFullSloped:
 SolidObjectFullSloped_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SlopedSolid_cont										; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
+		
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -260,6 +310,16 @@ SolidObjectFull_Offset:
 SolidObjectFull_Offset_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.s	OffsetSolid_cont										; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
+		
 		btst	#Status_InAir,status(a1)									; is the player in the air?
 		bne.s	loc_1DE58											; if yes, branch
 		move.w	x_pos(a1),d0
@@ -809,6 +869,15 @@ SolidObjectTop:
 SolidObjectTop_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	loc_1E42E											; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -852,6 +921,15 @@ SolidObjectTopSloped2:
 SolidObjectTopSloped2_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SolidObjCheckSloped2									; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -893,6 +971,15 @@ SolidObjectTopSloped:
 SolidObjectTopSloped_1P:
 		btst	d6,status(a0)												; is the player standing on the current object?
 		beq.w	SolidObjCheckSloped									; if not, branch
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common
+	
+	.isplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common:			
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)									; is the player in the air?
@@ -1025,6 +1112,34 @@ loc_1E45A:
 ; =============== S U B R O U T I N E =======================================
 
 RideObject_SetRide:
+		move.l	d6,-(sp)
+		move.b	(Player_StoodOnPlatform).w,d6
+		cmpa.w	#Player_1,a1
+		bne.s	.isplayer2
+		andi.b	#1,d6
+		bra.s	.common
+	
+	.isplayer2:
+		andi.b	#2,d6		
+		
+	.common:	
+		tst.b	d6
+		beq.s	.hasntstood
+		move.l	(sp)+,d6
+		bra.w	locret_1E4D4
+		
+.hasntstood:		
+		cmpa.w	#Player_1,a1
+		bne.s	.isstillplayer2
+		bset	#0,(Player_StoodOnPlatform).w
+		bra.s	.common2
+	
+	.isstillplayer2:
+		bset	#1,(Player_StoodOnPlatform).w
+	
+	.common2:
+		move.l	(sp)+,d6
+
 		btst	#Status_OnObj,status(a1)
 		beq.s	loc_1E4A0
 		movea.w	interact(a1),a3
@@ -1062,7 +1177,7 @@ loc_1E4A0:
 		bsr.w	Sonic_PerformDropDash
 		clr.b	double_jump_property(a0)
 		bclr	#Status_DropDashLock,status(a0)
-		bclr	#Status_DropDash,status_secondary(a0)			
+		bclr	#Status_DropDash,status_secondary(a0)	
 		movea.w	(sp)+,a0
 
 locret_1E4D4:
