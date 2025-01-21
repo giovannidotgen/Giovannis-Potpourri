@@ -175,7 +175,7 @@ DashDust_CheckSkid:
 
 		; wait
 		subq.b	#1,dashdust_dust_timer(a0)							; decrement timer
-		bpl.s	DashDust_Load_DPLC									; if time remains, branch
+		bpl.w	DashDust_Load_DPLC									; if time remains, branch
 		addq.b	#3+1,dashdust_dust_timer(a0)							; reset timer to 3+1 frames
 
 		; check
@@ -183,6 +183,9 @@ DashDust_CheckSkid:
 		bne.s	DashDust_Load_DPLC									; if yes, branch
 
 		; create dust clouds
+		clr.b	anim(a0)										; GIO: for good measure, we're resetting the playing dust animation
+		clr.w	mapping_frame(a0)									
+		clr.b	anim_frame_timer(a0)	
 		jsr	(Create_New_Sprite).w
 		bne.s	DashDust_Load_DPLC
 		move.l	#Obj_DashDust_SkidDust,address(a1)
