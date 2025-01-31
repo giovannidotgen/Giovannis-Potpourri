@@ -92,7 +92,7 @@ sub_387B6:															; check bridge explosion
 
 loc_387BE:
 		move.l	#loc_3890C,address(a0)								; bridge explode
-		move.b	#$E,objoff_34(a0)
+;		move.b	#$E,objoff_34(a0)							; this line causes issues when creating an exploding bridge larger than the default
 		move.l	#loc_388E4,d4
 		bra.w	sub_389C8
 
