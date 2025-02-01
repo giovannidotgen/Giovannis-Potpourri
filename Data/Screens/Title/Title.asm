@@ -608,7 +608,7 @@ Title_StartGameText2:
 		dc.b " Options",-1
 Title_ContinueText:
 		dc.b " Continue"
-		dc.b $81, $F3
+		dc.b $81, $F3					; next line, select palette line
 		dc.b " Options",-1
 Title_ContinueText2:
 		dc.b $F3						; select palette line
