@@ -91,10 +91,16 @@ sub_387B6:															; check bridge explosion
 		beq.s	sub_387E0											; bridge not explode
 
 loc_387BE:
-		move.l	#loc_3890C,address(a0)								; bridge explode
-		move.b	#$E,objoff_34(a0)
 		move.l	#loc_388E4,d4
-		bra.w	sub_389C8
+		bsr.w	sub_389C8
+
+		; set wait
+		move.b	#$E,Obj_Bridge_child2(a0)
+
+		; next
+		lea	loc_3890C(pc),a1										; bridge explode
+		move.l	a1,address(a0)
+		jmp		(a1)
 
 ; =============== S U B R O U T I N E =======================================
 
