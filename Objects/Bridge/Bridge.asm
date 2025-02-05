@@ -95,12 +95,12 @@ loc_387BE:
 		bsr.w	sub_389C8
 
 		; set wait
-		move.b	#$E,Obj_Bridge_child2(a0)
+		move.b	#$E,objoff_34(a0)
 
 		; next
-		lea	loc_3890C(pc),a1										; bridge explode
+		lea	loc_3890C(pc),a1											; bridge explode
 		move.l	a1,address(a0)
-		jmp		(a1)
+		jmp	(a1)
 
 ; =============== S U B R O U T I N E =======================================
 
