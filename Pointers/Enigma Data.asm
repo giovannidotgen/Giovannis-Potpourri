@@ -9,6 +9,8 @@
 
 MapEni_Sega:					binclude "Data/Screens/Sega/Enigma Map/Foreground.eni"
 	even
+MapEni_SegaProto:				binclude "Data/Screens/Sega Proto/Enigma Map/Foreground.eni"
+	even
 
 ; ===========================================================================
 ; Enigma compressed Title screen data

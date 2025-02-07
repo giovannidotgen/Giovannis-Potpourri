@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Sega
+; Sega (Prototype)
 ; ---------------------------------------------------------------------------
 
 Sega_VDP:
@@ -21,7 +21,6 @@ SegaScreen:
 		music	mus_Stop											; stop music
 		jsr	(Clear_KosPlus_Module_Queue).w							; clear KosPlusM PLCs
 		ResetDMAQueue												; clear DMA queue
-		jsr	(Pal_FadeToBlack).w
 		disableInts
 		move.l	#VInt,(V_int_addr).w
 		move.l	#HInt,(H_int_addr).w
@@ -47,25 +46,24 @@ SegaScreen:
 		move.b	d0,(Japan_credits_flag).w
 
 		; load main art
-		QueueKosPlusModule	ArtKosPM_Sega, 1
+		QueueKosPlusModule	ArtKosPM_SegaProto, 1
 
 		; load mapping
-		EniDecomp	MapEni_Sega, RAM_start, 1, 0, 1					; decompress Enigma mappings
+		EniDecomp	MapEni_SegaProto, RAM_start, 0, 0, 0				; decompress Enigma mappings
+		copyTilemap	(VRAM_Plane_A_Name_Table+$61A), 96, 32
 
 		; check console region
 		tst.b	(Graphics_flags).w
-		bmi.s	.skipTM
-		clr.l	$3AC(a1)													; remove the TM from the Sega logo if on a japan console
+		bpl.s	.skipTM
+		locVRAM	(VRAM_Plane_A_Name_Table+$62E),VDP_control_port-VDP_control_port(a5)
+		move.l	#$300031,VDP_data_port-VDP_data_port(a6)			; set 'TM' tiles
 
 .skipTM
-		copyTilemap	VRAM_Plane_A_Name_Table, 320, 224
 
-		; load palette
-		lea	(Target_palette).w,a1
-		move.l	#words_to_long(cWhite,cWhite),(a1)+
-		move.l	#words_to_long($ECC,$ECA),(a1)+
-		move.l	#words_to_long($EC8,$EA6),(a1)+
-		move.w	#$E60,(a1)
+		; load main palette
+		lea	(Pal_SegaProto).l,a1
+		lea	(Normal_palette).w,a2
+		jsr	(PalLoad_Line16).w
 
 .waitplc
 		move.b	#VintID_Fade,(V_int_routine).w
@@ -79,13 +77,13 @@ SegaScreen:
 		move.b	#VintID_Main,(V_int_routine).w
 		jsr	(Wait_VSync).w
 		enableScreen
-		jsr	(Pal_FadeFromBlack).w
-		music	mus_SEGA											; play SEGA sound
+		move.w	#$28,(Palette_cycle_counters+2).w
 		move.w	#3*60,(Demo_timer).w								; set to wait for 3 seconds
 
 .loop
-		move.b	#VintID_Sega,(V_int_routine).w
+		move.b	#VintID_Main,(V_int_routine).w
 		jsr	(Wait_VSync).w
+		bsr.s	AnPal_SegaProto
 
 		; check exit
 		tst.b	(Ctrl_1_pressed).w
@@ -94,11 +92,6 @@ SegaScreen:
 		bne.s	.loop
 
 .exit
-		music	mus_StopSEGA										; stop SEGA sound
-
-		; wait stop SEGA sound
-		move.b	#VintID_Main,(V_int_routine).w
-		jsr	(Wait_VSync).w
 
 		; credits cheat
 		moveq	#btnDir+btnABC,d0									; don't check Start
@@ -108,4 +101,37 @@ SegaScreen:
 
 		; exit
 		move.b	#GameModeID_TitleScreen,(Game_mode).w				; set screen mode to Title Screen
+		rts
+
+; ---------------------------------------------------------------------------
+; Palette cycling
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+AnPal_SegaProto:
+		lea	(Palette_cycle_counters).w,a0
+
+		; wait
+		subq.w	#1,(a0)												; decrement timer
+		bpl.s	.return
+		addq.w	#3+1,(a0)											; reset timer to 3 frames
+
+		; cycle
+		move.w	2(a0),d0
+		bmi.s	.return
+		subq.w	#2,2(a0)
+
+		lea	(Pal_AniSegaProto).l,a0
+		lea	(Normal_palette_line_1+4).w,a1
+		adda.w	d0,a0
+
+	rept 10/2
+		move.l	(a0)+,(a1)+
+	endr
+
+		; last
+		move.w	(a0)+,(a1)+
+
+.return
 		rts

@@ -374,7 +374,11 @@ EndOfHeader
 ; Sega screen subroutines
 ; ---------------------------------------------------------------------------
 
+	if ~~SegaVer
 		include "Data/Screens/Sega/Sega.asm"
+	else
+		include "Data/Screens/Sega Proto/Sega.asm"
+	endif
 
 ; ---------------------------------------------------------------------------
 ; Title screen subroutines
