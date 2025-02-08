@@ -124,6 +124,8 @@ ArtKosPM_FZTitleCard:			binclude "Objects/Title Card/KosinskiPM Art/Levels/FZ - 
 
 ArtKosPM_Sega:					binclude "Data/Screens/Sega/KosinskiPM Art/Foreground.kospm"
 	even
+ArtKosPM_SegaProto:				binclude "Data/Screens/Sega Proto/KosinskiPM Art/Foreground.kospm"
+	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Title screen graphics

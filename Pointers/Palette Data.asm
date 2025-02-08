@@ -26,6 +26,15 @@ Pal_WaterRobotnikLZ:		bincludeEntry "Objects/Robotnik/Palettes/Water(LZ).pal"
 	even
 
 ; ===========================================================================
+; Palette Sega screen data
+; ===========================================================================
+
+Pal_SegaProto:			bincludeEntry "Data/Screens/Sega Proto/Palettes/1.pal"
+	even
+Pal_AniSegaProto:		bincludeEntry "Data/Screens/Sega Proto/Palettes/Animated/1.pal"
+	even
+
+; ===========================================================================
 ; Palette Title screen data
 ; ===========================================================================
 
