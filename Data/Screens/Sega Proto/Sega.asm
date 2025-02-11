@@ -50,15 +50,14 @@ SegaScreen:
 
 		; load mapping
 		EniDecomp	MapEni_SegaProto, RAM_start, 0, 0, 0				; decompress Enigma mappings
-		copyTilemap	(VRAM_Plane_A_Name_Table+$61A), 96, 32
 
 		; check console region
 		tst.b	(Graphics_flags).w
 		bpl.s	.skipTM
-		locVRAM	(VRAM_Plane_A_Name_Table+$62E),VDP_control_port-VDP_control_port(a5)
-		move.l	#$300031,VDP_data_port-VDP_data_port(a6)			; set 'TM' tiles
+		move.l	#$300031,$14(a1)										; set 'TM' tiles
 
 .skipTM
+		copyTilemap	(VRAM_Plane_A_Name_Table+$61A), 96, 32
 
 		; load main palette
 		lea	(Pal_SegaProto).l,a1
