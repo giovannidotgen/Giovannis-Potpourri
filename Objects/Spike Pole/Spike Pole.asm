@@ -25,7 +25,7 @@ Obj_SpikePole:
 	rept 7
 		move.w	d1,(a1)+									; set xpos
 		move.w	(a2),(a1)									; set ypos
-		addq.w	#4,a1									; skip frame
+		addq.w	#next_subspr-2,a1							; skip frame
 		add.w	d2,d1									; +16 pixels
 	endr
 

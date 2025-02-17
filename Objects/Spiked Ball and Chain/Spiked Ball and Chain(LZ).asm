@@ -117,7 +117,7 @@ SpikeBall2_Move:
 		movem.l	(sp)+,d4-d5
 		add.l	d0,d4
 		add.l	d1,d5
-		addq.w	#2,a2										; skip mapping frame
+		addq.w	#next_subspr-4,a2							; skip mapping frame
 		dbf	d6,.loop
 		swap	d4
 		swap	d5
