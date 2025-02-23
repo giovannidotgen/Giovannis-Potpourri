@@ -64,6 +64,7 @@ SMPS_QueueSound1_2:
 ; Queue sound for play (queue 2)
 ; and optionally only do so if object is on-screen (Sonic engine feature)
 ; ---------------------------------------------------------------------------
+
     if SMPS_EnablePlaySoundLocal
 ; sub_137C: PlaySoundLocal:
 SMPS_QueueSound2Local:
@@ -93,8 +94,12 @@ SMPS_QueueSound2_2:
 ; ---------------------------------------------------------------------------
 ; sub_1376: PlaySoundStereo:
 SMPS_QueueSound3:
+	tst.b	(Music_disable_flag).w
+	bne.s	+	; rts
+
 	clr.b	(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd3+0).w
 	move.b	d0,(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd3+1).w
++
 	rts
 ; End of function SMPS_QueueSound3
 
@@ -103,12 +108,16 @@ SMPS_QueueSound3:
 ; ---------------------------------------------------------------------------
 
 SMPS_QueueSound1_Extended:
+	tst.b	(Music_disable_flag).w
+	bne.s	++	; rts
+
 	tst.w	(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd1).w
 	bne.s	+
 	move.w	d0,(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd1).w
 	rts
 +
 	move.w	d0,(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd4).w
++
 	rts
 ; End of function SMPS_QueueSound1Word
 
@@ -124,6 +133,9 @@ SMPS_QueueSound2Local_Extended:
     endif
 
 SMPS_QueueSound2_Extended:
+	tst.b	(Music_disable_flag).w
+	bne.s	++	; rts
+
 	tst.w	(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd2).w
 	bne.s	+
 	move.w	d0,(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd2).w
@@ -139,7 +151,11 @@ SMPS_QueueSound2_Extended:
 ; ---------------------------------------------------------------------------
 
 SMPS_QueueSound3_Extended:
+	tst.b	(Sound_disable_flag).w
+	bne.s	+	; rts
+
 	move.w	d0,(Clone_Driver_RAM+SMPS_RAM.variables.queue.v_playsnd3).w
++
 	rts
 ; End of function SMPS_QueueSound3Word
 
@@ -148,15 +164,21 @@ SMPS_QueueSound3_Extended:
 ;
 ; d0 = Sample ID
 ; ---------------------------------------------------------------------------
+
 SMPS_PlayDACSample:
+	tst.b	(Music_disable_flag).w
+	bne.s	+	; rts
+
 	SMPS_stopZ80_safe
 	move.b  d0,(SMPS_z80_ram+Z_MPCM_CommandInput).l
 	; This is a DAC SFX: set to full volume
 	clr.b	(SMPS_z80_ram+Z_MPCM_VolumeInput).l	; 100% volume
 	SMPS_startZ80_safe
++
 	rts
 ; End of function SMPS_PlayDACSample
 
+    if SMPS_EnablePWM
 ; ---------------------------------------------------------------------------
 ; Play a PWM sample
 ;
@@ -164,7 +186,7 @@ SMPS_PlayDACSample:
 ; d1 = Sample volume/panning
 ; d2 = PWM channel*2 (0 = channel 1, 2 = channel 2, etc.)
 ; ---------------------------------------------------------------------------
-    if SMPS_EnablePWM
+
 SMPS_PlayPWMSample:
 	; Merge ID with volume/pan to get PWM command
 	lsl.w	#8,d1
