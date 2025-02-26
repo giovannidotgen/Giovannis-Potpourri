@@ -122,47 +122,47 @@ ArtKosPM_FZTitleCard:			binclude "Objects/Title Card/KosinskiPM Art/Levels/FZ - 
 ; Kosinski Plus Module compressed Sega screen graphics
 ; ===========================================================================
 
-ArtKosPM_Sega:					binclude "Data/Screens/Sega/KosinskiPM Art/Foreground.kospm"
+ArtKosPM_Sega:					binclude "General/Screens/Sega/KosinskiPM Art/Foreground.kospm"
 	even
-ArtKosPM_SegaProto:				binclude "Data/Screens/Sega Proto/KosinskiPM Art/Foreground.kospm"
+ArtKosPM_SegaProto:				binclude "General/Screens/Sega Proto/KosinskiPM Art/Foreground.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Title screen graphics
 ; ===========================================================================
 
-ArtKosPM_TitleFG:				binclude "Data/Screens/Title/KosinskiPM Art/Foreground.kospm"
+ArtKosPM_TitleFG:				binclude "General/Screens/Title/KosinskiPM Art/Foreground.kospm"
 	even
-ArtKosPM_TitleCredits:			binclude "Data/Screens/Title/KosinskiPM Art/Hidden Credits.kospm"
+ArtKosPM_TitleCredits:			binclude "General/Screens/Title/KosinskiPM Art/Hidden Credits.kospm"
 	even
-ArtKosPM_TitleSonic:				binclude "Data/Screens/Title/KosinskiPM Art/Sonic.kospm"
+ArtKosPM_TitleSonic:				binclude "General/Screens/Title/KosinskiPM Art/Sonic.kospm"
 	even
-ArtKosPM_TitleText:				binclude "Data/Screens/Title/KosinskiPM Art/Text.kospm"
+ArtKosPM_TitleText:				binclude "General/Screens/Title/KosinskiPM Art/Text.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Options screen graphics
 ; ===========================================================================
 
-ArtKosPM_OptionsBG:			binclude "Data/Screens/Options/KosinskiPM Art/Background.kospm"
+ArtKosPM_OptionsBG:			binclude "General/Screens/Options/KosinskiPM Art/Background.kospm"
 	even
-ArtKosPM_OptionsText:			binclude "Data/Screens/Options/KosinskiPM Art/Text.kospm"
+ArtKosPM_OptionsText:			binclude "General/Screens/Options/KosinskiPM Art/Text.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Level Select screen graphics
 ; ===========================================================================
 
-ArtKosPM_LevelSelectText:			binclude "Data/Screens/Level Select/KosinskiPM Art/Text.kospm"
+ArtKosPM_LevelSelectText:			binclude "General/Screens/Level Select/KosinskiPM Art/Text.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Level Select RSDK screen graphics
 ; ===========================================================================
 
-ArtKosPM_LevelSelectRSDKBG:		binclude "Data/Screens/Level Select RSDK/KosinskiPM Art/Background.kospm"
+ArtKosPM_LevelSelectRSDKBG:		binclude "General/Screens/Level Select RSDK/KosinskiPM Art/Background.kospm"
 	even
-ArtKosPM_LevelSelectRSDKIcons:	binclude "Data/Screens/Level Select RSDK/KosinskiPM Art/Icon.kospm"
+ArtKosPM_LevelSelectRSDKIcons:	binclude "General/Screens/Level Select RSDK/KosinskiPM Art/Icon.kospm"
 	even
 
 ; ===========================================================================
@@ -312,70 +312,70 @@ ArtKosPM_FZBoss:				binclude "Objects/Bosses/FZ/KosinskiPM Art/Boss - Final Zone
 ; Kosinski Plus Module compressed Continue screen graphics
 ; ===========================================================================
 
-ArtKosPM_ContinueSprites:		binclude "Data/Screens/Continue/KosinskiPM Art/Player Sprites.kospm"
+ArtKosPM_ContinueSprites:		binclude "General/Screens/Continue/KosinskiPM Art/Player Sprites.kospm"
 	even
-ArtKosPM_ContinueIcons:			binclude "Data/Screens/Continue/KosinskiPM Art/Player Icons.kospm"
+ArtKosPM_ContinueIcons:			binclude "General/Screens/Continue/KosinskiPM Art/Player Icons.kospm"
 	even
-ArtKosPM_ContinueDigits:			binclude "Data/Screens/Continue/KosinskiPM Art/Digits.kospm"
+ArtKosPM_ContinueDigits:			binclude "General/Screens/Continue/KosinskiPM Art/Digits.kospm"
 	even
-ArtKosPM_EggRoboBadnik:		binclude "Data/Screens/Continue/KosinskiPM Art/Egg Robo Badnik.kospm"
+ArtKosPM_EggRoboBadnik:		binclude "General/Screens/Continue/KosinskiPM Art/Egg Robo Badnik.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Special Stage screen graphics
 ; ===========================================================================
 
-ArtKosPM_SSHUD:				binclude "Data/Screens/Special Stage/KosinskiPM Art/HUD.kospm"
+ArtKosPM_SSHUD:				binclude "General/Screens/Special Stage/KosinskiPM Art/HUD.kospm"
 	even
-ArtKosPM_SSBgFish:				binclude "Data/Screens/Special Stage/KosinskiPM Art/Birds & Fish.kospm"
+ArtKosPM_SSBgFish:				binclude "General/Screens/Special Stage/KosinskiPM Art/Birds & Fish.kospm"
 	even
-ArtKosPM_SSBgCloud:			binclude "Data/Screens/Special Stage/KosinskiPM Art/Clouds.kospm"
+ArtKosPM_SSBgCloud:			binclude "General/Screens/Special Stage/KosinskiPM Art/Clouds.kospm"
 	even
-ArtKosPM_SSGOAL:				binclude "Data/Screens/Special Stage/KosinskiPM Art/GOAL.kospm"
+ArtKosPM_SSGOAL:				binclude "General/Screens/Special Stage/KosinskiPM Art/GOAL.kospm"
 	even
-ArtKosPM_SSRBlock:				binclude "Data/Screens/Special Stage/KosinskiPM Art/R.kospm"
+ArtKosPM_SSRBlock:				binclude "General/Screens/Special Stage/KosinskiPM Art/R.kospm"
 	even
-ArtKosPM_SSEmStars:			binclude "Data/Screens/Special Stage/KosinskiPM Art/Emerald Twinkle.kospm"
+ArtKosPM_SSEmStars:			binclude "General/Screens/Special Stage/KosinskiPM Art/Emerald Twinkle.kospm"
 	even
-ArtKosPM_SSRedWhite:			binclude "Data/Screens/Special Stage/KosinskiPM Art/Red-White.kospm"
+ArtKosPM_SSRedWhite:			binclude "General/Screens/Special Stage/KosinskiPM Art/Red-White.kospm"
 	even
-ArtKosPM_SSUpDown:			binclude "Data/Screens/Special Stage/KosinskiPM Art/UP-DOWN.kospm"
+ArtKosPM_SSUpDown:			binclude "General/Screens/Special Stage/KosinskiPM Art/UP-DOWN.kospm"
 	even
-ArtKosPM_SSEmerald:			binclude "Data/Screens/Special Stage/KosinskiPM Art/Emeralds.kospm"
+ArtKosPM_SSEmerald:			binclude "General/Screens/Special Stage/KosinskiPM Art/Emeralds.kospm"
 	even
-ArtKosPM_SSGhost:				binclude "Data/Screens/Special Stage/KosinskiPM Art/Ghost.kospm"
+ArtKosPM_SSGhost:				binclude "General/Screens/Special Stage/KosinskiPM Art/Ghost.kospm"
 	even
-ArtKosPM_SSGlass:				binclude "Data/Screens/Special Stage/KosinskiPM Art/Glass.kospm"
+ArtKosPM_SSGlass:				binclude "General/Screens/Special Stage/KosinskiPM Art/Glass.kospm"
 	even
-ArtKosPM_SSResults:				binclude "Data/Screens/Special Stage/KosinskiPM Art/Results General.kospm"
+ArtKosPM_SSResults:				binclude "General/Screens/Special Stage/KosinskiPM Art/Results General.kospm"
 	even
-ArtKosPM_SSResultsTKIcons:		binclude "Data/Screens/Special Stage/KosinskiPM Art/Results Tails Knuckles Icons.kospm"
+ArtKosPM_SSResultsTKIcons:		binclude "General/Screens/Special Stage/KosinskiPM Art/Results Tails Knuckles Icons.kospm"
 	even
-ArtKosPM_SSResultsSUPER:		binclude "Data/Screens/Special Stage/KosinskiPM Art/Results SUPER.kospm"
+ArtKosPM_SSResultsSUPER:		binclude "General/Screens/Special Stage/KosinskiPM Art/Results SUPER.kospm"
 	even
-ArtKosPM_SSResultsHYPER:		binclude "Data/Screens/Special Stage/KosinskiPM Art/Results HYPER.kospm"
+ArtKosPM_SSResultsHYPER:		binclude "General/Screens/Special Stage/KosinskiPM Art/Results HYPER.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Ending screen graphics
 ; ===========================================================================
 
-ArtKosPM_FlowersEnding:			binclude "Data/Screens/Ending/KosinskiPM Art/Flowers Ending.kospm"
+ArtKosPM_FlowersEnding:			binclude "General/Screens/Ending/KosinskiPM Art/Flowers Ending.kospm"
 	even
-ArtKosPM_EmeraldsEnding:		binclude "Data/Screens/Ending/KosinskiPM Art/Emeralds Ending.kospm"
+ArtKosPM_EmeraldsEnding:		binclude "General/Screens/Ending/KosinskiPM Art/Emeralds Ending.kospm"
 	even
-ArtKosPM_StHLogoEnding:		binclude "Data/Screens/Ending/KosinskiPM Art/StH Logo Ending.kospm"
+ArtKosPM_StHLogoEnding:		binclude "General/Screens/Ending/KosinskiPM Art/StH Logo Ending.kospm"
 	even
 
 ; ===========================================================================
 ; Kosinski Plus Module compressed Credits screen graphics
 ; ===========================================================================
 
-ArtKosPM_LargeTextCredits:		binclude "Data/Screens/Credits/KosinskiPM Art/Large Text.kospm"
+ArtKosPM_LargeTextCredits:		binclude "General/Screens/Credits/KosinskiPM Art/Large Text.kospm"
 	even
-ArtKosPM_SmallTextCredits:		binclude "Data/Screens/Credits/KosinskiPM Art/8x16 Font.kospm"
+ArtKosPM_SmallTextCredits:		binclude "General/Screens/Credits/KosinskiPM Art/8x16 Font.kospm"
 	even
-ArtKosPM_RobotnikCredits:		binclude "Data/Screens/Credits/KosinskiPM Art/Robotnik.kospm"
+ArtKosPM_RobotnikCredits:		binclude "General/Screens/Credits/KosinskiPM Art/Robotnik.kospm"
 	even
-ArtKosPM_EggRoboCredits:		binclude "Data/Screens/Credits/KosinskiPM Art/Egg Robo.kospm"
+ArtKosPM_EggRoboCredits:		binclude "General/Screens/Credits/KosinskiPM Art/Egg Robo.kospm"
 	even

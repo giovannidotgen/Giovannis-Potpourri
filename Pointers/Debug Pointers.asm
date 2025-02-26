@@ -25,7 +25,7 @@
 ; ===========================================================================
 
 		; Special Stage
-		include "Data/Screens/Special Stage/Object Data/Debug/Debug List.asm"
+		include "General/Screens/Special Stage/Object Data/Debug/Debug List.asm"
 
 ; ===========================================================================
 ; Debug mode item pointers Ending screen data

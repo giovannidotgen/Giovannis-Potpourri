@@ -29,41 +29,41 @@ Pal_WaterRobotnikLZ:		bincludeEntry "Objects/Robotnik/Palettes/Water(LZ).pal"
 ; Palette Sega screen data
 ; ===========================================================================
 
-Pal_SegaProto:			bincludeEntry "Data/Screens/Sega Proto/Palettes/1.pal"
+Pal_SegaProto:			bincludeEntry "General/Screens/Sega Proto/Palettes/1.pal"
 	even
-Pal_AniSegaProto:		bincludeEntry "Data/Screens/Sega Proto/Palettes/Animated/1.pal"
+Pal_AniSegaProto:		bincludeEntry "General/Screens/Sega Proto/Palettes/Animated/1.pal"
 	even
 
 ; ===========================================================================
 ; Palette Title screen data
 ; ===========================================================================
 
-Pal_Title:				bincludeEntry "Data/Screens/Title/Palettes/1.pal"
+Pal_Title:				bincludeEntry "General/Screens/Title/Palettes/1.pal"
 	even
-Pal_TitleLevelSelect:		bincludeEntry "Data/Screens/Title/Palettes/2.pal"
+Pal_TitleLevelSelect:		bincludeEntry "General/Screens/Title/Palettes/2.pal"
 	even
 
 ; ===========================================================================
 ; Palette Options screen data
 ; ===========================================================================
 
-Pal_Options:				bincludeEntry "Data/Screens/Options/Palettes/1.pal"
+Pal_Options:				bincludeEntry "General/Screens/Options/Palettes/1.pal"
 	even
 
 ; ===========================================================================
 ; Palette Level Select screen data
 ; ===========================================================================
 
-Pal_LevelSelect:			bincludeEntry "Data/Screens/Level Select/Palettes/1.pal"
+Pal_LevelSelect:			bincludeEntry "General/Screens/Level Select/Palettes/1.pal"
 	even
 
 ; ===========================================================================
 ; Palette Level Select RSDK screen data
 ; ===========================================================================
 
-Pal_LevelSelectRSDK:		bincludeEntry "Data/Screens/Level Select RSDK/Palettes/1.pal"
+Pal_LevelSelectRSDK:		bincludeEntry "General/Screens/Level Select RSDK/Palettes/1.pal"
 	even
-Pal_LevelSelectRSDKIcons:	bincludeEntry "Data/Screens/Level Select RSDK/Palettes/Icons.pal"
+Pal_LevelSelectRSDKIcons:	bincludeEntry "General/Screens/Level Select RSDK/Palettes/Icons.pal"
 	even
 
 ; ===========================================================================
@@ -102,29 +102,29 @@ Pal_WaterSBZ3:			bincludeEntry "Levels/LZ/Palettes/Water Scrap Brain Zone Act 3.
 	even
 Pal_Ending:				bincludeEntry "Levels/GHZ/Palettes/Green Hill Zone Ending.pal"
 	even
-Pal_Credits:				bincludeEntry "Data/Screens/Credits/Palettes/1.pal"
+Pal_Credits:				bincludeEntry "General/Screens/Credits/Palettes/1.pal"
 	even
 
 ; ===========================================================================
 ; Palette Continue screen data
 ; ===========================================================================
 
-Pal_Continue:			bincludeEntry "Data/Screens/Continue/Palettes/1.pal"
+Pal_Continue:			bincludeEntry "General/Screens/Continue/Palettes/1.pal"
 	even
 
 ; ===========================================================================
 ; Palette Special Stage screen data
 ; ===========================================================================
 
-Pal_SSSonic:				bincludeEntry "Data/Screens/Special Stage/Palettes/Sonic.pal"
+Pal_SSSonic:				bincludeEntry "General/Screens/Special Stage/Palettes/Sonic.pal"
 	even
-Pal_SSKnuckles:			bincludeEntry "Data/Screens/Special Stage/Palettes/Knuckles.pal"
+Pal_SSKnuckles:			bincludeEntry "General/Screens/Special Stage/Palettes/Knuckles.pal"
 	even
-Pal_SpecialStage:			bincludeEntry "Data/Screens/Special Stage/Palettes/Special Stage.pal"
+Pal_SpecialStage:			bincludeEntry "General/Screens/Special Stage/Palettes/Special Stage.pal"
 	even
-Pal_SpecialStageEmeralds:	bincludeEntry "Data/Screens/Special Stage/Palettes/Special Stage Emeralds.pal"
+Pal_SpecialStageEmeralds:	bincludeEntry "General/Screens/Special Stage/Palettes/Special Stage Emeralds.pal"
 	even
-Pal_SpecialStageResults:	bincludeEntry "Data/Screens/Special Stage/Palettes/Special Stage Results.pal"
+Pal_SpecialStageResults:	bincludeEntry "General/Screens/Special Stage/Palettes/Special Stage Results.pal"
 	even
 
 ; ===========================================================================
@@ -187,7 +187,7 @@ Pal_SBZ3Cyc:				bincludeEntry "Levels/SBZ/Palettes/Animated/Palettes/Waterfall.p
 ; Animated palette Special Stage screen data
 ; ===========================================================================
 
-Pal_SSCyc1:				bincludeEntry "Data/Screens/Special Stage/Palettes/Animated/Palettes/1.pal"
+Pal_SSCyc1:				bincludeEntry "General/Screens/Special Stage/Palettes/Animated/Palettes/1.pal"
 	even
-Pal_SSCyc2:				bincludeEntry "Data/Screens/Special Stage/Palettes/Animated/Palettes/2.pal"
+Pal_SSCyc2:				bincludeEntry "General/Screens/Special Stage/Palettes/Animated/Palettes/2.pal"
 	even
