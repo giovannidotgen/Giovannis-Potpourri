@@ -966,6 +966,6 @@ PLC_Continue: plrlistheader
 PLC_Continue_end
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Continue/Object Data/Map - Player Sprites.asm"
-		include "Data/Screens/Continue/Object Data/Map - Player Icons.asm"
-		include "Data/Screens/Continue/Object Data/Map - Egg Robo Badnik.asm"
+		include "General/Screens/Continue/Object Data/Map - Player Sprites.asm"
+		include "General/Screens/Continue/Object Data/Map - Player Icons.asm"
+		include "General/Screens/Continue/Object Data/Map - Egg Robo Badnik.asm"

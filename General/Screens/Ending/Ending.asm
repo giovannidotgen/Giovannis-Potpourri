@@ -260,7 +260,7 @@ EndingScreen:
 
 ; =============== S U B R O U T I N E =======================================
 
-		include "Data/Screens/Ending/Ending - Control.asm"
+		include "General/Screens/Ending/Ending - Control.asm"
 
 ; ---------------------------------------------------------------------------
 ; Object 87 - Sonic on ending sequence
@@ -659,14 +659,14 @@ PLC_Ending: plrlistheader
 PLC_Ending_end
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Ending/Object Data/Anim - Sonic Ending.asm"
-		include "Data/Screens/Ending/Object Data/Anim - Tails Ending.asm"
-		include "Data/Screens/Ending/Object Data/Anim - Knuckles Ending.asm"
-		include "Data/Screens/Ending/Object Data/Map - Sonic Ending.asm"
-		include "Data/Screens/Ending/Object Data/DPLC - Sonic Ending.asm"
-		include "Data/Screens/Ending/Object Data/Map - Tails Ending.asm"
-		include "Data/Screens/Ending/Object Data/DPLC - Tails Ending.asm"
-		include "Data/Screens/Ending/Object Data/Map - Knuckles Ending.asm"
-		include "Data/Screens/Ending/Object Data/DPLC - Knuckles Ending.asm"
-		include "Data/Screens/Ending/Object Data/Map - Emeralds Ending.asm"
-		include "Data/Screens/Ending/Object Data/Map - Sequence STH Ending.asm"
+		include "General/Screens/Ending/Object Data/Anim - Sonic Ending.asm"
+		include "General/Screens/Ending/Object Data/Anim - Tails Ending.asm"
+		include "General/Screens/Ending/Object Data/Anim - Knuckles Ending.asm"
+		include "General/Screens/Ending/Object Data/Map - Sonic Ending.asm"
+		include "General/Screens/Ending/Object Data/DPLC - Sonic Ending.asm"
+		include "General/Screens/Ending/Object Data/Map - Tails Ending.asm"
+		include "General/Screens/Ending/Object Data/DPLC - Tails Ending.asm"
+		include "General/Screens/Ending/Object Data/Map - Knuckles Ending.asm"
+		include "General/Screens/Ending/Object Data/DPLC - Knuckles Ending.asm"
+		include "General/Screens/Ending/Object Data/Map - Emeralds Ending.asm"
+		include "General/Screens/Ending/Object Data/Map - Sequence STH Ending.asm"

@@ -894,7 +894,7 @@ loc_1B350:
 		rts
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Special Stage/Object Data/Walls VRAM Pointers.asm"
+		include "General/Screens/Special Stage/Object Data/Walls VRAM Pointers.asm"
 
 ; ---------------------------------------------------------------------------
 ; Object code execution subroutine (Special Stage)
@@ -1175,7 +1175,7 @@ SS_AniGlassBlock:
 ; Special Stage start locations
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Special Stage/Start Location/Start Location Array - Special Stages.asm"
+		include "General/Screens/Special Stage/Start Location/Start Location Array - Special Stages.asm"
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to load Special Stage layout
@@ -1310,18 +1310,18 @@ PLC_SpecialStageResults_end
 ; ---------------------------------------------------------------------------
 
 		; animate palette
-		include "Data/Screens/Special Stage/Palettes/Animated/Special Stage - Animate Palette.asm"
+		include "General/Screens/Special Stage/Palettes/Animated/Special Stage - Animate Palette.asm"
 
 		; objects
-		include "Data/Screens/Special Stage/Player.asm"
-		include "Data/Screens/Special Stage/Results.asm"
+		include "General/Screens/Special Stage/Player.asm"
+		include "General/Screens/Special Stage/Results.asm"
 
 		; mappings
-		include "Data/Screens/Special Stage/Object Data/Special Stage Mappings & VRAM Pointers.asm"
-		include "Data/Screens/Special Stage/Object Data/R Block.asm"
-		include "Data/Screens/Special Stage/Object Data/Glass Block.asm"
-		include "Data/Screens/Special Stage/Object Data/UP Block.asm"
-		include "Data/Screens/Special Stage/Object Data/DOWN Block.asm"
-		include "Data/Screens/Special Stage/Object Data/Chaos Emeralds.asm"
-		include "Data/Screens/Special Stage/Object Data/Walls.asm"
-		include "Data/Screens/Special Stage/Object Data/Bumper.asm"
+		include "General/Screens/Special Stage/Object Data/Special Stage Mappings & VRAM Pointers.asm"
+		include "General/Screens/Special Stage/Object Data/R Block.asm"
+		include "General/Screens/Special Stage/Object Data/Glass Block.asm"
+		include "General/Screens/Special Stage/Object Data/UP Block.asm"
+		include "General/Screens/Special Stage/Object Data/DOWN Block.asm"
+		include "General/Screens/Special Stage/Object Data/Chaos Emeralds.asm"
+		include "General/Screens/Special Stage/Object Data/Walls.asm"
+		include "General/Screens/Special Stage/Object Data/Bumper.asm"
