@@ -147,7 +147,7 @@ TitleScreen:
 
 		; load ©1991 text
 		lea	Title_CopyrightText(pc),a1
-		locVRAM	$CD38,d1
+		locVRAM	(VRAM_Plane_A_Name_Table+$D38),d1
 		move.w	#$250F,d3
 		jsr	(Load_PlaneText).w
 
@@ -485,7 +485,7 @@ Obj_TitlePSB:
 		; draw icon
 		moveq	#1,d0
 		and.b	(Title_control).w,d0
-		locVRAM	$CC1A,d1
+		locVRAM	(VRAM_Plane_A_Name_Table+$C1A),d1
 		move.l	#vdpCommDelta(planeLoc(64,1,2)),d2
 		tst.w	(Current_zone_and_act).w
 		beq.s	.drawicon
@@ -512,7 +512,7 @@ Obj_TitlePSB:
 		lea	Title_ContinueText2(pc),a1
 
 .drawtext
-		locVRAM	$CB1E,d1
+		locVRAM	(VRAM_Plane_A_Name_Table+$B1E),d1
 		move.w	#$50F,d3
 		jmp	(Load_PlaneText).w
 
@@ -608,7 +608,7 @@ Title_StartGameText2:
 		dc.b " Options",-1
 Title_ContinueText:
 		dc.b " Continue"
-		dc.b $81, $F3
+		dc.b $81, $F3					; next line, select palette line
 		dc.b " Options",-1
 Title_ContinueText2:
 		dc.b $F3						; select palette line
@@ -623,8 +623,8 @@ Title_CopyrightText:
 
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Title/Object Data/Anim - Title Sonic.asm"
-		include "Data/Screens/Title/Object Data/Map - Title Text.asm"
-		include "Data/Screens/Title/Object Data/Map - Title Sonic.asm"
-		include "Data/Screens/Title/Object Data/Map - Title Press Start.asm"
-		include "Data/Screens/Title/Object Data/Map - Title TM.asm"
+		include "General/Screens/Title/Object Data/Anim - Title Sonic.asm"
+		include "General/Screens/Title/Object Data/Map - Title Text.asm"
+		include "General/Screens/Title/Object Data/Map - Title Sonic.asm"
+		include "General/Screens/Title/Object Data/Map - Title Press Start.asm"
+		include "General/Screens/Title/Object Data/Map - Title TM.asm"

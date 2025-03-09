@@ -29,7 +29,7 @@ ArtUnc_WaterSplash:				binclude "Objects/Water Splash/Uncompressed Art/Water Spl
 ; Uncompressed Level Select RSDK screen graphics
 ; ===========================================================================
 
-ArtUnc_LevelSelectRSDKIcons:		binclude "Data/Screens/Level Select RSDK/Uncompressed Art/Zone Icons.unc"
+ArtUnc_LevelSelectRSDKIcons:		binclude "General/Screens/Level Select RSDK/Uncompressed Art/Zone Icons.unc"
 	even
 
 ; ===========================================================================
@@ -47,20 +47,20 @@ ArtUnc_GiantBall:				binclude "Objects/Bosses/GHZ3/Uncompressed Art/Giant Ball.u
 ; Uncompressed Special Stage screen graphics
 ; ===========================================================================
 
-ArtUnc_SSRing:					binclude "Data/Screens/Special Stage/Uncompressed Art/Rings.unc"
+ArtUnc_SSRing:					binclude "General/Screens/Special Stage/Uncompressed Art/Rings.unc"
 	even
-ArtUnc_SSWalls:					binclude "Data/Screens/Special Stage/Uncompressed Art/Walls.unc"
+ArtUnc_SSWalls:					binclude "General/Screens/Special Stage/Uncompressed Art/Walls.unc"
 	even
 
 ; ===========================================================================
 ; Uncompressed Ending screen graphics
 ; ===========================================================================
 
-ArtUnc_SonicEnding:				binclude "Data/Screens/Ending/Uncompressed Art/Sonic Ending.unc"
+ArtUnc_SonicEnding:				binclude "General/Screens/Ending/Uncompressed Art/Sonic Ending.unc"
 	even
-ArtUnc_TailsEnding:				binclude "Data/Screens/Ending/Uncompressed Art/Tails Ending.unc"
+ArtUnc_TailsEnding:				binclude "General/Screens/Ending/Uncompressed Art/Tails Ending.unc"
 	even
-ArtUnc_KnucklesEnding:			binclude "Data/Screens/Ending/Uncompressed Art/Knuckles Ending.unc"
+ArtUnc_KnucklesEnding:			binclude "General/Screens/Ending/Uncompressed Art/Knuckles Ending.unc"
 	even
 
 ; ===========================================================================

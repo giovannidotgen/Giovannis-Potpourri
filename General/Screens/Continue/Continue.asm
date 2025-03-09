@@ -909,7 +909,7 @@ Continue_LoadNumbers:
 		move.l	#vdpCommDelta(planeLoc(64,1,0)),d4							; row increment value
 
 		; draw numbers
-		locVRAM	$C726,d2
+		locVRAM	(VRAM_Plane_A_Name_Table+$726),d2
 		move.l	d2,VDP_control_port-VDP_control_port(a5)						; set pos
 		move.l	d0,VDP_data_port-VDP_data_port(a6)							; left number
 		add.l	d4,d2														; next pos
@@ -966,6 +966,6 @@ PLC_Continue: plrlistheader
 PLC_Continue_end
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Continue/Object Data/Map - Player Sprites.asm"
-		include "Data/Screens/Continue/Object Data/Map - Player Icons.asm"
-		include "Data/Screens/Continue/Object Data/Map - Egg Robo Badnik.asm"
+		include "General/Screens/Continue/Object Data/Map - Player Sprites.asm"
+		include "General/Screens/Continue/Object Data/Map - Player Icons.asm"
+		include "General/Screens/Continue/Object Data/Map - Egg Robo Badnik.asm"
