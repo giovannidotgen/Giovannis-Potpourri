@@ -939,7 +939,7 @@ Credits_ScreenShake:
 ; =============== S U B R O U T I N E =======================================
 
 		; text
-		include "Data/Screens/Credits/Text Data/Text.asm"
+		include "General/Screens/Credits/Text Data/Text.asm"
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -960,5 +960,5 @@ PLC_Credits: plrlistheader
 PLC_Credits_end
 ; ---------------------------------------------------------------------------
 
-		include "Data/Screens/Credits/Object Data/Map - Robotnik.asm"
-		include "Data/Screens/Credits/Object Data/Map - Egg Robo.asm"
+		include "General/Screens/Credits/Object Data/Map - Robotnik.asm"
+		include "General/Screens/Credits/Object Data/Map - Egg Robo.asm"

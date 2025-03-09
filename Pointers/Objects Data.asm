@@ -4,7 +4,7 @@
 
 		include "Objects/Pylon/Load Pylon.asm"
 		include "Objects/HUD/Load HUD.asm"
-		include "Data/Screens/Special Stage/Load HUD.asm"
+		include "General/Screens/Special Stage/Load HUD.asm"
 		include "Objects/Game Over/Load Game Over.asm"
 
 ; ===========================================================================

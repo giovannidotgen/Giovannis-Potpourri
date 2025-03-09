@@ -40,9 +40,9 @@ DemoDat_KnucklesTailsSYZ1:		include "Levels/SYZ/Demodata/SYZ1 - Knuckles and Tai
 DemoDat_SS:
 
 		if ~~SpecialStageRotation
-			include "Data/Screens/Special Stage/Object Data/Demo/SS1 - Demo.asm"
+			include "General/Screens/Special Stage/Object Data/Demo/SS1 - Demo.asm"
 		else
-			include "Data/Screens/Special Stage/Object Data/Demo/SS1 - Demo(Smooth).asm"
+			include "General/Screens/Special Stage/Object Data/Demo/SS1 - Demo(Smooth).asm"
 		endif
 
 	even

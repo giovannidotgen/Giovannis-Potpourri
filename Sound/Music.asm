@@ -23,7 +23,7 @@ ptr_mus_s1boss:		SMPS_MUSIC_METADATA	Music_S1Boss, s3TempotoS1($FF), 0			; S1 Bo
 ptr_mus_fz:			SMPS_MUSIC_METADATA	Music_FZ, s3TempotoS1($FF), 0				; FZ
 ptr_mus_boss:		SMPS_MUSIC_METADATA	Music_Boss, s3TempotoS1($FF), 0			; Boss
 ptr_mus_boss2:		SMPS_MUSIC_METADATA	Music_Boss2, s3TempotoS1($FF), 0			; Boss 2
-ptr_mus_finalboss:	SMPS_MUSIC_METADATA	Music_FZ, s3TempotoS1($FF), 0				; Final Boss
+ptr_mus_finalboss:	SMPS_MUSIC_METADATA	Music_FinalBoss, s3TempotoS1($FF), 0		; Final Boss
 
 ; Other
 ptr_mus_through:	SMPS_MUSIC_METADATA	Music_Through, s3TempotoS1($FF), 0		; End of Act

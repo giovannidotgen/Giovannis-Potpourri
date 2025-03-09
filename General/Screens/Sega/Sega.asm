@@ -86,6 +86,8 @@ SegaScreen:
 .loop
 		move.b	#VintID_Sega,(V_int_routine).w
 		jsr	(Wait_VSync).w
+
+		; check exit
 		tst.b	(Ctrl_1_pressed).w
 		bmi.s	.exit													; if start was pressed, skip ahead
 		tst.w	(Demo_timer).w
