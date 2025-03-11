@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns="http://www.sonicretro.org" Name="Ball Hog" Image="ballhog">
+  <Images>
+    <ImageFromMappings id="ballhog">
+      <ArtFile filename="../../Objects/Enemies/Ball Hog/KosinskiPM Art/Enemy Ball Hog.kospm" compression="KosinskiPlusM" />
+      <MapFile type="ASM" filename="../../Objects/Enemies/Ball Hog/Object Data/Map - Ball Hog.asm" frame="0" startpal="1" />
+    </ImageFromMappings>
+  </Images>
+  <Properties>
+    <BitsProperty name="Delay" displayname="Explosion Delay (Seconds)" type="int" startbit="0" length="8" />
+  </Properties>
+  <Display>
+    <DisplayOption>
+    <ImageRef image="ballhog"/>
+    </DisplayOption>
+  </Display>
+</ObjDef>
