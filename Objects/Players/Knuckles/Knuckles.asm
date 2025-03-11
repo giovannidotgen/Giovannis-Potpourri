@@ -1074,7 +1074,7 @@ Knuckles_Wall_Climb:
 		; Only animate every 4 frames.
 		subq.b	#1,double_jump_property(a0)
 		bpl.s	.notMoving
-		move.b	#3,double_jump_property(a0)
+		addq.b	#3+1,double_jump_property(a0)
 
 		; Add delta to animation frame.
 		add.b	mapping_frame(a0),d1
