@@ -4,8 +4,8 @@ REM // Ensure the script runs in the correct directory
 cd /d "%~dp0"
 
 REM // Delete some intermediate assembler output just in case
-IF EXIST S1S3.gen (
-    del S1S3.gen
+IF EXIST S1S3.Debug.gen (
+    del S1S3.Debug.gen
     IF ERRORLEVEL 1 goto LABLERROR1
 )
 IF EXIST Main.p (
@@ -34,7 +34,7 @@ set AS_MSGPATH=Tools/AS/Windows
 set USEANSI=n
 
 REM // Allow the user to choose to print error messages out by supplying the -pe parameter
-"%AS_MSGPATH%/asw.exe" -xx -n -q -c -A -L -U -E -i . Main.asm
+"%AS_MSGPATH%/asw.exe" -xx -n -q -c -D __DEBUG__ -olist Main.Debug.lst -A -L -U -E -i . Main.asm
 IF ERRORLEVEL 1 (
     echo Assembler failed to execute.
     goto LABLERROR5
@@ -45,9 +45,9 @@ IF NOT EXIST Main.p (
 )
 
 REM // Convert the assembled file to binary
-"%AS_MSGPATH%/p2bin.exe" -p=FF -z=0,kosinskiplus,Size_of_DAC_driver_guess,after Main.p S1S3.gen Main.h
+"%AS_MSGPATH%/p2bin.exe" -p=FF -z=0,kosinskiplus,Size_of_DAC_driver_guess,after Main.p S1S3.Debug.gen Main.h
 IF ERRORLEVEL 1 (
-    echo Failed to convert Main.p to S1S3.gen.
+    echo Failed to convert Main.p to S1S3.Debug.gen.
     pause & exit /b 1
 )
 
@@ -68,41 +68,41 @@ IF EXIST Main.h (
 )
 
 REM // Check if the output file was created
-IF NOT EXIST S1S3.gen (
-    echo Failed to generate S1S3.gen.
+IF NOT EXIST S1S3.Debug.gen (
+    echo Failed to generate S1S3.Debug.gen.
     pause & exit /b 1
 )
 
 REM // Generate debug information
-"%AS_MSGPATH%/convsym.exe" Main.lst S1S3.gen -input as_lst -range 0 FFFFFF -exclude -filter \"z[A-Z].+\" -a
+"%AS_MSGPATH%/convsym.exe" Main.lst S1S3.Debug.gen -input as_lst -range 0 FFFFFF -exclude -filter \"z[A-Z].+\" -a
 IF ERRORLEVEL 1 (
-    echo Failed to generate debug information for S1S3.gen.
+    echo Failed to generate debug information for S1S3.Debug.gen.
     pause & exit /b 1
 )
-"%AS_MSGPATH%/convsym.exe" Main.lst "Engine/_RAM.asm" -in as_lst -out asm -range FF0000 FFFFFF
+"%AS_MSGPATH%/convsym.exe" Main.lst "Engine/_RAM.Debug.asm" -in as_lst -out asm -range FF0000 FFFFFF
 IF ERRORLEVEL 1 (
-    echo Failed to generate debug information for Engine/_RAM.asm.
+    echo Failed to generate debug information for Engine/_RAM.Debug.asm.
     pause & exit /b 1
 )
 
 REM // Make ROM padding (commented out as in the original)
-REM // "%AS_MSGPATH%/rompad.exe" S1S3.gen 255 0
+REM // "%AS_MSGPATH%/rompad.exe" S1S3.Debug.gen 255 0
 
 REM // Fix the ROM header (checksum)
-"%AS_MSGPATH%/fixheader.exe" S1S3.gen
+"%AS_MSGPATH%/fixheader.exe" S1S3.Debug.gen
 IF ERRORLEVEL 1 (
-    echo Failed to fix the ROM header for S1S3.gen.
+    echo Failed to fix the ROM header for S1S3.Debug.gen.
     pause & exit /b 1
 )
 
 REM // Copy rom to CD folder
-copy S1S3.gen _CD
+copy S1S3.Debug.gen _CD
 
 REM // Successful completion: exit and close the console
 exit 0
 
 :LABLERROR1
-echo Failed to build because write access to S1S3.gen was denied.
+echo Failed to build because write access to S1S3.Debug.gen was denied.
 pause & exit /b 1
 
 :LABLERROR2
