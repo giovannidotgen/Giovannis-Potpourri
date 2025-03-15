@@ -96,7 +96,13 @@ IF ERRORLEVEL 1 (
 )
 
 REM // Copy rom to CD folder
-copy S1S3.Debug.gen _CD
+IF EXIST S1S3.Debug.gen (
+    copy S1S3.Debug.gen _CD
+    IF ERRORLEVEL 1 (
+        echo Failed to copy S1S3.Debug.gen.
+        pause & exit /b 1
+    )
+)
 
 REM // Successful completion: exit and close the console
 exit 0
