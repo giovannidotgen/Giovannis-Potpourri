@@ -307,7 +307,9 @@ TitleLevelSelect_VRAMRead:
 TitleLevelSelect_VRAMWrite:
 
 		; copy buffer to VRAM
+		stopZ80
 		dma68kToVDP (TitleLevelSelect_buffer3),VRAM_Plane_B_Name_Table,VRAM_Plane_Table_Size,VRAM	; foreground buffer to VRAM
+		startZ80
 		rts
 
 ; ---------------------------------------------------------------------------
