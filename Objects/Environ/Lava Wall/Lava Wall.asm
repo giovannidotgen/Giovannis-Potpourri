@@ -26,7 +26,7 @@ Obj_LavaWall:
 		; sub object
 		lea	sub2_x_pos(a0),a1						; $16-$1D bytes reserved
 		move.w	x_pos(a0),d0
-		add.w	d1,d0
+		add.w	d1,d0								; subtract 128 pixels
 		move.w	d0,(a1)+								; xpos
 		move.w	y_pos(a0),(a1)+						; ypos
 		move.w	#5,(a1)								; frame
