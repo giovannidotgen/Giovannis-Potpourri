@@ -669,7 +669,10 @@ Sonic_BalanceOnObjRight:
 		blt.w	loc_112EA			; if so branch
 		move.b	#AniIDSonAni_Balance2,anim(a0)	; if REALLY close to the edge, use different animation (Balance animation 2)
 		bra.w	loc_112EA
-loc_11128:	; +
+; ---------------------------------------------------------------------------
+
+loc_11128:
+
 		; Somewhat dummied out/redundant code from Sonic 2
 		; Originally, Sonic displayed different animations for each direction faced
 		; But now, Sonic uses only the one set of animations no matter what, making the check pointless, and the code redundant
@@ -1065,7 +1068,7 @@ Sonic_RollSpeed:
 		; check
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	.nots
-		move.w	#6,d5
+		moveq	#6,d5
 
 .nots
 		moveq	#$20,d4
