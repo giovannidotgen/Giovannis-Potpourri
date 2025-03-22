@@ -81,7 +81,7 @@ You can use this source code as a base for your projects, or just as an example 
 
 ## How to build the ROM
 
-To build this, use Build.bat if you're a Windows user, or build.lua otherwise. The built ROM will be called 'Sonic.gen'.
+To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S3CE.gen'. Use build_debug for debug things. The built ROM will be called 'S3CE.Debug.gen'.
 
 ## Quick start
 
