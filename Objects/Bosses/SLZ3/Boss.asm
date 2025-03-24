@@ -591,8 +591,8 @@ BossSpikeBall_SpikeBall_LaunchCharacter:
 		move.w	a0,-(sp)
 		movea.w	a2,a0
 		lea	(SonicKnux_ChkRoll).l,a3								; Sonic/Knux
-		cmpa.w	#Player_1,a0										; is this the main character?
-		beq.s	.proll											; if so, branch
+		cmpi.b	#PlayerID_Tails,character_id(a0)					; is player Tails?
+		bne.s	.proll											; if not, branch
 		lea	(Tails_ChkRoll).l,a3									; Tails
 
 .proll

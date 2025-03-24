@@ -258,49 +258,73 @@ byte_38A78:
 		dc.b 8, $10, $C, $E, 6, $A, 4, 2
 		dc.b 8, $10, $C, $E, 6, $A, 4, 2
 
+; ---------------------------------------------------------------------------
+; Subroutine to check solid the tension bridge object
+; These check for solidity even if the object is off-screen
+
+; input variables:
+; d1 = object width / 2
+; d2 = object height / 2 (when jumping)
+; d3 = object height / 2 (when walking)
+; d4 = object x-axis position
+
+; address registers:
+; a0 = the object to check collision with
+; a1 = Sonic (set inside these subroutines)
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 SolidObject_TensionBridge:
+
+		; player 2
 		lea	(Player_2).w,a1											; a1=character
+		tst.l	address(a1)												; is the player RAM empty?
+		beq.s	.p1													; if yes, branch
 		moveq	#p2_standing_bit,d6
 		moveq	#objoff_3B,d5
 		movem.l	d1-d4,-(sp)
-		bsr.s	SolidObject_TensionBridge_1P
+		bsr.s	.check
 		movem.l	(sp)+,d1-d4
+
+.p1
+
+		; player 1
 		lea	(Player_1).w,a1											; a1=character
 		moveq	#p1_standing_bit,d6
 		moveq	#objoff_3F,d5
 
-SolidObject_TensionBridge_1P:
-		btst	d6,status(a0)
-		beq.s	loc_38B06
+.check
+		btst	d6,status(a0)												; is the player standing on the current object?
+		beq.s	SolidObjCheck_TensionBridge							; if not, branch
 		btst	#Status_InAir,status(a1)									; is the player in the air?
-		bne.s	loc_38AC2											; if yes, branch
-		moveq	#0,d0
+		bne.s	.release												; if yes, branch
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_38AC2
+		bmi.s	.release
 		cmp.w	d2,d0
-		blo.s		loc_38AD0
+		blo.s		.stand
 
-loc_38AC2:
+.release
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38AD0:
+.stand
+
+		; inlined call to MvSonicOnPtfm
 		lsr.w	#4,d0
 		move.b	d0,(a0,d5.w)
 		movea.w	objoff_30(a0),a2										; a2=object
 		cmpi.w	#8,d0
-		blo.s		loc_38AE8
+		blo.s		.skip
 		movea.w	objoff_34(a0),a2										; a2=object
 		subq.w	#8,d0
 
-loc_38AE8:
+.skip
 		add.w	d0,d0
 		move.w	d0,d1
 		add.w	d0,d0
@@ -313,22 +337,24 @@ loc_38AE8:
 		move.w	d0,y_pos(a1)
 		moveq	#0,d4
 		rts
-; ---------------------------------------------------------------------------
 
-loc_38B06:
+; =============== S U B R O U T I N E =======================================
+
+SolidObjCheck_TensionBridge:
 		move.w	d1,-(sp)
 		jsr	(sub_1E410).w
 		move.w	(sp)+,d1
-		btst	d6,status(a0)
-		beq.s	locret_38B28
-		moveq	#0,d0
+
+		; check
+		btst	d6,status(a0)												; is the player standing on the current object?
+		beq.s	.return												; if not, branch
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
 		lsr.w	#4,d0
 		move.b	d0,(a0,d5.w)
 
-locret_38B28:
+.return
 		rts
 
 ; =============== S U B R O U T I N E =======================================
