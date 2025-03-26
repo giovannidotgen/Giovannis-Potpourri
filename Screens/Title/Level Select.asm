@@ -65,7 +65,7 @@ TitleLevelSelectScreen:
 		lea	(VDP_data_port).l,a6
 		lea	VDP_control_port-VDP_data_port(a6),a5
 
-		; copy foreground buffer from VRAM
+		; copy foreground buffer from VRAM to RAM
 		lea	(TitleLevelSelect_buffer3).l,a1
 		bsr.w	TitleLevelSelect_VRAMRead
 
@@ -293,7 +293,7 @@ TitleLevelSelect_Controls:
 
 TitleLevelSelect_VRAMRead:
 
-		; copy buffer from VRAM
+		; copy buffer from VRAM to RAM
 		moveq	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,READ),d1
 		move.l	d1,VDP_control_port-VDP_control_port(a5)
 		moveq	#bytesToXcnt(($1000),8*4),d1
