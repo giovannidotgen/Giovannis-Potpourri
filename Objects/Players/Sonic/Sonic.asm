@@ -69,6 +69,7 @@ Sonic_Init:													; Routine 0
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
 		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		clr.b	character_id(a0)									; PlayerID_Sonic
+		clr.b	(Player_curr_bank).w
 		move.w	#$600,Max_speed-Max_speed(a4)
 		move.w	#$C,Acceleration-Max_speed(a4)
 		move.w	#$80,Deceleration-Max_speed(a4)
@@ -154,7 +155,7 @@ loc_10C26:
 		and.w	d0,y_pos(a0)						; perform wrapping of Sonic's y position
 
 .display
-		bsr.s	Sonic_Display
+		bsr.w	Sonic_Display
 		bsr.w	SonicKnux_SuperHyper
 		bsr.w	Sonic_RecordPos
 		bsr.w	Sonic_Water
@@ -170,6 +171,7 @@ loc_10C26:
 		btst	#1,object_control(a0)
 		bne.s	.touch
 		bsr.w	Animate_Sonic
+		bsr.w	Sonic_SetSpriteBank
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.plc
 		eori.b	#2,render_flags(a0)
@@ -196,6 +198,72 @@ Sonic_Modes: offsetTable
 		offsetTableEntry.w Sonic_MdAir			; 2
 		offsetTableEntry.w Sonic_MdRoll		; 4
 		offsetTableEntry.w Sonic_MdJump		; 6
+
+; ---------------------------------------------------------------------------
+; Subroutine that adjusts a player's mappings based on which frame it is that
+; is to be rendered.
+; 
+; Programmed by giovanni.gen
+;
+; Usage for other player objects:
+; Set a3 to the corresponding object's mapping bank list location in ROM, and
+; a4 to the RAM address that stores the specific bank ID you wish to use 
+; from said index.
+; 
+; Example: if I wished to use bank 2 of Sonic's mapping bank list, I would
+; set a4 Player_curr_bank, which would be set to 1, and a3 to 
+; Sonic_MapBankList.
+;
+; Please see Animate_Sonic for examples on what else was changed.
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Sonic_SetSpriteBank:
+		moveq	#0,d0
+		moveq	#0,d1
+		movea.l	#-1,a4
+		lea	(Sonic_MapBankList).l,a3
+		lea	(Player_curr_bank).w,a4
+		
+Player_SetSpriteBank:
+		move.b	(a4),d1
+		lsl.w	#2,d1			; multiply d4 by 4			
+		move.w	d1,d0			; store it in d0
+		lsl.w	#1,d1			; Multiply d4 by 2
+		adda.l	d1,a3			
+		adda.l	d0,a3			; Point to the selected mapping bank list
+		move.l	(a3),mappings(a0)	; Change player mappings immediately
+		rts
+		
+UnkPlayer_SetSpriteBank:
+		moveq	#0,d0					
+		move.b	character_id(a0),d0			; Get the character ID.
+		cmp.b	#0,d0					; Check if this is a character that even uses the Sprite bank system.
+		bhi.s	.return					; If not, return.
+		add.w	d0,d0
+		move.l	a1,-(sp)				; Back up a1, because the caller *might* need it.
+								; (i'm not sure what address i could use that would cause zero damage)
+		movea.l	SpriteBankCode_Index(pc,d0.w),a1	; Get the relevant character's sprite bank code
+		jsr	(a1)					; And jump to it.
+		movea.l	(sp)+,a1				; Restore a1
+		
+.return:
+		rts						; And then return.
+		
+SpriteBankCode_Index:
+		dc.l	Sonic_SetSpriteBank
+
+; ---------------------------------------------------------------------------
+; Map Bank List format specifications:
+; Array of pointers big 12 bytes.
+; Each will point to the following:
+; Mappings data, Art data, DPLC data.
+; Do NOT overwrite a3 until the DPLCs are actually loaded.
+; ---------------------------------------------------------------------------
+
+Sonic_MapBankList:
+		dc.l	Map_Sonic,ArtUnc_Sonic,DPLC_Sonic
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3193,6 +3261,7 @@ Sonic_Drown:
 
 sub_125E0:
 		bsr.s	Animate_Sonic
+		bsr.w	Sonic_SetSpriteBank		
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.notgrav
 		eori.b	#2,render_flags(a0)
@@ -3203,6 +3272,7 @@ sub_125E0:
 ; =============== S U B R O U T I N E =======================================
 
 Animate_Sonic:
+		clr.b	(Player_curr_bank).w				
 		lea	(AniSonic).l,a1
 		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		; beq.s	.nots
@@ -3654,11 +3724,15 @@ Sonic_Load_PLC:
 		move.b	mapping_frame(a0),d0
 
 Sonic_Load_PLC2:
+		cmp.b	(Player_prev_bank).w,d4
+		bne.s	.doanyway
 		cmp.b	(Player_prev_frame).w,d0
 		beq.s	.return
+.doanyway:
+		move.b	d4,(Player_prev_bank).w
 		move.b	d0,(Player_prev_frame).w
 		add.w	d0,d0
-		lea	(DPLC_Sonic).l,a2
+		movea.l	8(a3),a2
 		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		; beq.s	.nots
 		; lea	(DPLC_SuperSonic).l,a2
@@ -3668,7 +3742,8 @@ Sonic_Load_PLC2:
 		move.w	(a2)+,d5
 		subq.w	#1,d5
 		bmi.s	.return
-		move.l	#dmaSource(ArtUnc_Sonic),d6
+		move.l	4(a3),d6
+		lsr.l	#1,d6
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_1),d4					; normal

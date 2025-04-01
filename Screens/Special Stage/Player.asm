@@ -37,7 +37,8 @@ loc_4B97C:
 sub_4B99E:
 		move.b	character_id(a0),d0
 		bne.s	loc_4B9AA
-		jmp	(Animate_Sonic).l
+		jsr	(Animate_Sonic).l
+		jmp	(Sonic_SetSpriteBank).l
 ; ---------------------------------------------------------------------------
 
 loc_4B9AA:
