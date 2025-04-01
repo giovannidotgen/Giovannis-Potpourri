@@ -146,7 +146,7 @@ EndingScreen:
 		move.b	d0,(Time_over_flag).w
 
 		; load level objects (animals)
-		move.l	#Load_Sprites_Init,(Object_load_addr_RAM).w
+		move.l	#Load_Objects_Init,(Object_load_addr_RAM).w
 
 		; load players
 		bsr.w	SpawnLevelMainSprites
@@ -170,7 +170,7 @@ EndingScreen:
 		move.w	#$12,(Tails_CPU_routine).w									; disable CPU
 
 .notp2
-		jsr	(Load_Sprites).w
+		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Animate_Tiles).w
@@ -195,7 +195,7 @@ EndingScreen:
 		jsr	(Wait_VSync).w
 		addq.w	#1,(Level_frame_counter).w
 		bsr.w	End_MoveSonic
-		jsr	(Load_Sprites).w
+		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		jsr	(DeformBgLayer).w
 		jsr	(Screen_Events).w
@@ -221,7 +221,7 @@ EndingScreen:
 		jsr	(Wait_VSync).w
 		addq.w	#1,(Level_frame_counter).w
 		bsr.s	End_MoveSonic
-		jsr	(Load_Sprites).w
+		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		jsr	(DeformBgLayer).w
 		jsr	(Screen_Events).w

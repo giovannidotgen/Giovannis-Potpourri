@@ -180,7 +180,7 @@ LevelScreen:
 		move.b	d0,(Level_started_flag).w
 		lea	LevelExtraRender_Data(pc),a1
 		jsr	(Load_ExtraRender).w
-		move.l	#Load_Sprites_Init,(Object_load_addr_RAM).w
+		move.l	#Load_Objects_Init,(Object_load_addr_RAM).w
 		move.l	#Load_Rings_Init,(Rings_manager_addr_RAM).w
 		tst.b	(Water_flag).w
 		beq.s	.notwater2
@@ -199,7 +199,7 @@ LevelScreen:
 
 .notslz
 		bsr.w	SpawnLevelMainSprites
-		jsr	(Load_Sprites).w
+		jsr	(Load_Objects).w
 		jsr	(Load_Rings).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
@@ -224,7 +224,7 @@ LevelScreen:
 		addq.w	#1,(Level_frame_counter).w
 		bsr.w	Demo_PlayRecord
 		jsr	(Special_Events).w
-		jsr	(Load_Sprites).w
+		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		tst.b	(Restart_level_flag).w
 		bne.w	LevelScreen
