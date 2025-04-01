@@ -1,14 +1,21 @@
+; ---------------------------------------------------------------------------
+; Find floor subroutine
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
 Player_AnglePos:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	top_solid_bit(a0),d5
-		btst	#Status_OnObj,status(a0)
-		beq.s	loc_EC5A
+
+.check
+		move.b	top_solid_bit(a0),d5
+		btst	#Status_OnObj,status(a0)							; is player standing on an object?
+		beq.s	loc_EC5A									; if not, branch
+
+		; clear
 		moveq	#0,d0
 		move.b	d0,(Primary_Angle).w
 		move.b	d0,(Secondary_Angle).w
@@ -130,8 +137,8 @@ Player_Angle:
 loc_ED5E:
 		btst	#0,d2
 		bne.s	loc_ED7A
-		cmpi.b	#LevelID_SYZ,(Current_zone).w		; is SYZ?
-		beq.s	loc_ED74						; if yes, branch
+		cmpi.b	#LevelID_SYZ,(Current_zone).w					; is SYZ?
+		beq.s	loc_ED74									; if yes, branch
 		tst.b	stick_to_convex(a0)
 		bne.s	loc_ED74
 		move.b	d2,d0
@@ -384,12 +391,12 @@ GetFloorPosition_BG:
 		lsr.w	#3,d1
 		move.w	d1,d4
 		lsr.w	#4,d1
-		add.w	d1,d1				; chunk ID to word
+		add.w	d1,d1									; chunk ID to word
 		add.w	$A(a1,d0.w),d1
 		adda.w	d1,a1
 		moveq	#0,d1
-		move.w	(a1),d1				; move 128*128 chunk ID to d1
-		lsl.w	#7,d1					; multiply by $80
+		move.w	(a1),d1									; move 128*128 chunk ID to d1
+		lsl.w	#7,d1										; multiply by $80
 		move.w	d2,d0
 		andi.w	#$70,d0
 		add.w	d0,d1
@@ -410,12 +417,12 @@ GetFloorPosition_FG:
 		lsr.w	#3,d1
 		move.w	d1,d4
 		lsr.w	#4,d1
-		add.w	d1,d1				; chunk ID to word
+		add.w	d1,d1									; chunk ID to word
 		add.w	8(a1,d0.w),d1
 		adda.w	d1,a1
 		moveq	#0,d1
-		move.w	(a1),d1				; move 128*128 chunk ID to d1
-		lsl.w	#7,d1					; multiply by $80
+		move.w	(a1),d1									; move 128*128 chunk ID to d1
+		lsl.w	#7,d1										; multiply by $80
 		move.w	d2,d0
 		andi.w	#$70,d0
 		add.w	d0,d1
@@ -902,9 +909,11 @@ loc_F60C:
 sub_F6B4:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	lrb_solid_bit(a0),d5
+
+.check
+		move.b	lrb_solid_bit(a0),d5
 		move.l	x_pos(a0),d3
 		move.l	y_pos(a0),d2
 		move.w	x_vel(a0),d1
@@ -953,9 +962,11 @@ loc_F712:
 CalcRoomInFront:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	lrb_solid_bit(a0),d5
+
+.check
+		move.b	lrb_solid_bit(a0),d5
 		move.l	x_pos(a0),d3
 		move.l	y_pos(a0),d2
 		move.w	x_vel(a0),d1
@@ -963,10 +974,14 @@ CalcRoomInFront:
 		asl.l	#8,d1
 		add.l	d1,d3
 		move.w	y_vel(a0),d1
+
+		; check gravity
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	+
-		neg.w	d1
-+		ext.l	d1
+		beq.s	.notgrav
+		neg.w	d1											; reverse it
+
+.notgrav
+		ext.l	d1
 		asl.l	#8,d1
 		add.l	d1,d2
 		swap	d2
@@ -975,33 +990,45 @@ CalcRoomInFront:
 		move.b	d0,(Secondary_Angle).w
 		move.b	d0,d1
 		addi.b	#$20,d0
-		bpl.s	++
+		bpl.s	loc_F680
 		move.b	d1,d0
-		bpl.s	+
+		bpl.s	loc_F67A
 		subq.b	#1,d0
-+		addi.b	#$20,d0
-		bra.s	+++
+
+loc_F67A:
+		addi.b	#$20,d0
+		bra.s	loc_F68A
 ; ---------------------------------------------------------------------------
-+		move.b	d1,d0
-		bpl.s	+
+
+loc_F680:
+		move.b	d1,d0
+		bpl.s	loc_F686
 		addq.b	#1,d0
-+		addi.b	#$1F,d0
-+		andi.b	#$C0,d0
+
+loc_F686:
+		addi.b	#$1F,d0
+
+loc_F68A:
+		andi.b	#$C0,d0
 		beq.w	CheckFloorDist_Part2
 		cmpi.b	#$80,d0
 		beq.w	CheckCeilingDist_Part2
 		andi.b	#$38,d1
-		bne.s	+
+		bne.s	.skip
 		addq.w	#8,d2
 
-		; by devon
-		btst	#Status_Roll,status(a0)			; is Sonic rolling?
-		beq.s	+							; if not, branch
-		subq.w	#5,d2						; if so, move push sensor up a bit
+		; fix by devon
+		btst	#Status_Roll,status(a0)							; is Sonic rolling?
+		beq.s	.skip										; if not, branch
+		subq.w	#5,d2										; if so, move push sensor up a bit
+
+		; check gravity
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	+
+		beq.s	.skip
 		subi.w	#-(5+5),d2
-+		cmpi.b	#$40,d0
+
+.skip
+		cmpi.b	#$40,d0
 		beq.w	CheckLeftWallDist_Part2
 		bra.w	CheckRightWallDist_Part2
 
@@ -1016,9 +1043,11 @@ CalcRoomInFront:
 CalcRoomOverHead:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	lrb_solid_bit(a0),d5
+
+.check
+		move.b	lrb_solid_bit(a0),d5
 		move.b	d0,(Primary_Angle).w
 		move.b	d0,(Secondary_Angle).w
 		addi.b	#$20,d0
@@ -1040,9 +1069,11 @@ CalcRoomOverHead:
 Sonic_CheckFloor:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	top_solid_bit(a0),d5
+
+.check
+		move.b	top_solid_bit(a0),d5
 
 Sonic_CheckFloor2:
 		move.w	y_pos(a0),d2
@@ -1078,13 +1109,17 @@ Sonic_CheckFloor2:
 loc_F7E2:
 		move.b	(Secondary_Angle).w,d3
 		cmp.w	d0,d1
-		ble.s		+
+		ble.s		.skip
 		move.b	(Primary_Angle).w,d3
 		exg	d0,d1
-+		btst	#0,d3
-		beq.s	+
+
+.skip
+		btst	#0,d3
+		beq.s	.return
 		move.b	d2,d3
-+		rts
+
+.return
+		rts
 
 ; ---------------------------------------------------------------------------
 ; Checks a 16x16 block to find solid ground. May check an additional
@@ -1116,9 +1151,11 @@ CheckFloorDist_Part2:
 loc_F81A:
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	d2,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1141,9 +1178,11 @@ sub_F846:
 		subq.w	#4,d2
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$D,lrb_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		lea	(Primary_Angle).w,a4
+
+.check
+		lea	(Primary_Angle).w,a4
 		clr.b	(a4)
 		lea	($10).w,a3
 		moveq	#0,d6
@@ -1153,9 +1192,11 @@ sub_F846:
 		movem.l	(sp)+,a4-a6
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#0,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1172,9 +1213,11 @@ ChkFloorEdge_Part2:
 ChkFloorEdge_Part3:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		lea	(Primary_Angle).w,a4
+
+.check
+		lea	(Primary_Angle).w,a4
 		clr.b	(a4)
 		lea	($10).w,a3
 		moveq	#0,d6
@@ -1184,9 +1227,11 @@ ChkFloorEdge_Part3:
 		movem.l	(sp)+,a4-a6
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#0,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1201,9 +1246,11 @@ SonicOnObjHitFloor2:
 		add.w	d0,d2
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a1)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		lea	(Primary_Angle).w,a4
+
+.check
+		lea	(Primary_Angle).w,a4
 		clr.b	(a4)
 		lea	($10).w,a3
 		moveq	#0,d6
@@ -1211,9 +1258,11 @@ SonicOnObjHitFloor2:
 		bsr.w	FindFloor
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#0,d3
-+		rts
+
+.return
+		rts
 
 ; ---------------------------------------------------------------------------
 ; Subroutine checking if an object should interact with the floor
@@ -1226,8 +1275,8 @@ ObjCheckFloorDist:
 		move.w	x_pos(a0),d3
 
 ObjCheckFloorDist2:
-		move.w	y_pos(a0),d2			; get object position
-		move.b	y_radius(a0),d0		; get object height
+		move.w	y_pos(a0),d2								; get object position
+		move.b	y_radius(a0),d0							; get object height
 		ext.w	d0
 		add.w	d0,d2
 		lea	(Primary_Angle).w,a4
@@ -1238,9 +1287,11 @@ ObjCheckFloorDist2:
 		bsr.w	FindFloor
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#0,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1355,18 +1406,22 @@ ObjCheckRightWallDist_Part3:
 		bsr.w	FindWall
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#-$40,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 Sonic_CheckCeiling:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	top_solid_bit(a0),d5
+
+.check
+		move.b	top_solid_bit(a0),d5
 
 Sonic_CheckCeiling2:
 		move.w	y_pos(a0),d2
@@ -1493,9 +1548,11 @@ ObjCheckCeilingDist_Part4:
 		bsr.w	FindFloor
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#$80,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1510,9 +1567,11 @@ ChkFloorEdge_ReverseGravity:
 ChkFloorEdge_ReverseGravity_Part2:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		lea	(Primary_Angle).w,a4
+
+.check
+		lea	(Primary_Angle).w,a4
 		clr.b	(a4)
 		lea	(-$10).w,a3
 		move.w	#$800,d6
@@ -1522,9 +1581,11 @@ ChkFloorEdge_ReverseGravity_Part2:
 		movem.l	(sp)+,a4-a6
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#0,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1633,9 +1694,11 @@ sub_FDC8:
 sub_FDEC:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.w	x_pos(a0),d3
+
+.check
+		move.w	x_pos(a0),d3
 		move.w	y_pos(a0),d2
 		move.b	y_radius(a0),d0
 		ext.w	d0
@@ -1649,15 +1712,17 @@ sub_FDEC:
 		bsr.w	FindWall
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#$40,d3
-+		rts
+
+.return
+		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 ObjCheckLeftWallDist:
 		add.w	x_pos(a0),d3
-		eori.w	#$F,d3	; this was not here in S1/S2, resulting in a bug
+		eori.w	#$F,d3									; this was not here in S1/S2, resulting in a bug
 
 ObjCheckLeftWallDist_Part2:
 		move.w	y_pos(a0),d2
@@ -1671,6 +1736,8 @@ ObjCheckLeftWallDist_Part3:
 		bsr.w	FindWall
 		move.b	(Primary_Angle).w,d3
 		btst	#0,d3
-		beq.s	+
+		beq.s	.return
 		move.b	#$40,d3
-+		rts
+
+.return
+		rts

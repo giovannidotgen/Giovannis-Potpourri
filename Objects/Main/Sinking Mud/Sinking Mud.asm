@@ -49,7 +49,7 @@ loc_32AF4:
 		move.b	objoff_38(a0),d3
 		moveq	#p1_standing_bit,d6
 		move.w	x_pos(a0),d4
-		jsr	(SolidObjectTop_1P).w
+		jsr	(SolidObjectTop.check).w
 		lea	(Player_2).w,a1
 		btst	#p2_standing_bit,status(a0)
 		bne.s	loc_32B40
@@ -79,7 +79,7 @@ loc_32B4A:
 		move.b	objoff_3A(a0),d3
 		moveq	#p2_standing_bit,d6
 		move.w	x_pos(a0),d4
-		jsr	(SolidObjectTop_1P).w
+		jsr	(SolidObjectTop.check).w
 
 loc_32B62:
 		jmp	(Delete_Sprite_If_Not_In_Range).w

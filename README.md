@@ -105,7 +105,7 @@ You can use this source code as a base for your projects, or just as an example 
 
 ## How to build the ROM
 
-To build this, use Build.bat if you're a Windows user, or build.lua otherwise. The built ROM will be called 'Sonic.gen'.
+To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S3CE.gen'. Use build_debug for debug things. The built ROM will be called 'S3CE.Debug.gen'.
 
 ## Quick start
 
@@ -132,6 +132,34 @@ To build this, use Build.bat if you're a Windows user, or build.lua otherwise. T
 You don't have to add the letters **'ENOZ' (ZONE)** because those letters are already in VRAM. Then you have to create a mapping of your zone name in [Map - Title Card.asm](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Objects/Main/Title%20Card/Object%20Data).
 
 - If you want to use other SMPS music you can use [Valley Bell's SMPS Research](https://forums.sonicretro.org/index.php?threads/valley-bells-smps-research.32473) or [vgm2smps](https://github.com/Ivan-YO/vgm2smps/releases).
+
+## The Macro Assembler AS issues
+
+#### Why does the ROM take so long to build?
+
+- The speed of the ROM build process depends entirely on the power of your computer. A high-performance machine will build the ROM quickly, while a slower one will take significantly more time. If you're a Linux user and you're using Wine and Windows batch script, that will affect build speed too.
+
+- Always specify jump sizes for instructions. Writing code without specifying jump sizes will significantly slow down the ROM build. The Macro Assembler AS will perform multiple passes until it can successfully build the ROM, which increases build time.
+
+Example of problematic code:
+
+```
+		beq	sub_1234	; and any other branch instructions
+		jsr	sub_1234
+		jmp	sub_1234
+		lea	sub_1234,a1
+```
+
+Example of correct code:
+
+```
+		beq.s	sub_1234	; and any other branch instructions
+		jsr	(sub_1234).l
+		jmp	(sub_1234).l
+		lea	(sub_1234).l,a1
+```
+
+#### Pay close attention to your code to avoid such issues.
 
 ## Credits
 
@@ -166,7 +194,7 @@ You don't have to add the letters **'ENOZ' (ZONE)** because those letters are al
 
 - Sonic 3 Rebuilt by TomatoWave_0
 - [Sonic The Hedgehog in Hellfire Saga](https://github.com/TheBlad768/Hellfire-Saga-Public-Source)
-- Sonic 3 & Knuckles: Epilogue
+- [Sonic 3 & Knuckles: Epilogue](https://github.com/TheBlad768/Sonic-3-Knuckles-Epilogue-Public-Source)
 - TishaProject (2019)
 - Sonic Virtual Adventure (2017) (Cancelled) — In the past I made this source code specifically for this project (:
 
