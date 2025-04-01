@@ -291,6 +291,7 @@ Obj_Continue_SonicWTails:
 
 .waitrun
 		jsr	(Animate_Sonic).l
+		jsr	(Sonic_SetSpriteBank).l
 		subq.w	#1,objoff_2E(a0)
 		bmi.s	.startrun
 		bra.s	.draw
@@ -303,6 +304,7 @@ Obj_Continue_SonicWTails:
 
 .run
 		jsr	(Animate_Sonic).l
+		jsr	(Sonic_SetSpriteBank).l
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$80+(320+32),x_pos(a0)
 		bhs.s	.stoprun

@@ -1180,6 +1180,8 @@ loc_144BA:
 		moveq	#0,d1
 		move.b	anim_frame(a1),d1
 		addq.b	#1,anim_frame(a1)
+		clr.b	(Player_curr_bank).w			; GIO: i have to hardcode the player's current bank because of this animation.
+								; it is almost midnight and i should sleep.
 		move.b	AniRaw_Tails_Carry(pc,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_144E4
@@ -1191,6 +1193,13 @@ loc_144E4:
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
 		pea	(a2)									; save a2
+		move.l	d0,-(sp)				; GIO: okay so hear me out. first, i back up the mapping frame.
+		move.w	a0,-(sp)				; GIO: then the game backs up Player 2's SST pointer.
+		movea.w	a1,a0					; GIO: then I pull Player 1's SST pointer.
+		bsr.w	UnkPlayer_SetSpriteBank			; GIO: and then I run this, which will inevitably overwrite d0
+		movea.w	(sp)+,a0				; GIO: the game restores the original SST pointer
+		move.l	(sp)+,d0				; GIO: and I restore the original mapping frame, allowing the
+								; hellspawn that is Tails' carry animation code to work.
 		bsr.w	Perform_Player_DPLC
 		movea.l	(sp)+,a2							; restore a2
 
