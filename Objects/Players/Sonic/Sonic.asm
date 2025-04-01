@@ -24,13 +24,17 @@ Obj_Sonic:
 
 		; by this point, we're assuming you're in frame cycling mode
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	+
+		beq.s	.next
 		clr.w	(Debug_placement_mode).w							; leave debug mode
-+		addq.b	#1,mapping_frame(a0)									; next frame
+
+.next
+		addq.b	#1,mapping_frame(a0)									; next frame
 		cmpi.b	#((Map_Sonic_end-Map_Sonic)/2)-1,mapping_frame(a0)	; have we reached the end of Sonic's frames?
-		blo.s		+
+		blo.s		.draw
 		clr.b	mapping_frame(a0)										; if so, reset to Sonic's first frame
-+		bsr.w	Sonic_Load_PLC
+
+.draw
+		bsr.w	Sonic_Load_PLC
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -608,12 +612,14 @@ Sonic_NotLeft:
 
 Sonic_NotRight:
 		move.w	(Camera_H_scroll_shift).w,d1
-		beq.s	+
+		beq.s	.skip
 		bclr	#Status_Facing,status(a0)
 		tst.w	d1
-		bpl.s	+
+		bpl.s	.skip
 		bset	#Status_Facing,status(a0)
-+		moveq	#$20,d0
+
+.skip
+		moveq	#$20,d0
 		add.b	angle(a0),d0
 		andi.b	#$C0,d0						; is Sonic on a slope?
 		bne.w	loc_112EA					; if yes, branch
@@ -664,7 +670,10 @@ Sonic_BalanceOnObjRight:
 		blt.w	loc_112EA			; if so branch
 		move.b	#AniIDSonAni_Balance2,anim(a0)	; if REALLY close to the edge, use different animation (Balance animation 2)
 		bra.w	loc_112EA
-loc_11128:	; +
+; ---------------------------------------------------------------------------
+
+loc_11128:
+
 		; Somewhat dummied out/redundant code from Sonic 2
 		; Originally, Sonic displayed different animations for each direction faced
 		; But now, Sonic uses only the one set of animations no matter what, making the check pointless, and the code redundant
@@ -1060,7 +1069,7 @@ Sonic_RollSpeed:
 		; check
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	.nots
-		move.w	#6,d5
+		moveq	#6,d5
 
 .nots
 		moveq	#$20,d4
@@ -2430,9 +2439,11 @@ locret_11EEA:
 SonicKnux_DoLevelCollision:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	+
+		beq.s	.check
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
-+		move.b	lrb_solid_bit(a0),d5
+
+.check
+		move.b	lrb_solid_bit(a0),d5
 		movem.w	x_vel(a0),d1-d2	; load xy speed
 		jsr	(GetArcTan).w
 		subi.b	#$20,d0
@@ -2927,10 +2938,12 @@ Sonic_PerformDropDash:
 BubbleShield_Bounce:
 		movem.l	d1-d2,-(sp)
 		move.w	#$780,d2
-		btst	#Status_Underwater,status(a0)
-		beq.s	+
+		btst	#Status_Underwater,status(a0)					; is Sonic underwater?
+		beq.s	.isdry									; if not, branch
 		move.w	#$400,d2
-+		moveq	#-$40,d0
+
+.isdry
+		moveq	#-$40,d0
 		add.b	angle(a0),d0
 		jsr	(GetSineCosine).w
 		muls.w	d2,d1
@@ -2951,9 +2964,11 @@ BubbleShield_Bounce:
 		sub.b	default_y_radius(a0),d0
 		ext.w	d0
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	+
+		beq.s	.notgrav
 		neg.w	d0
-+		sub.w	d0,y_pos(a0)
+
+.notgrav
+		sub.w	d0,y_pos(a0)
 		move.b	#2,(Shield+anim).w
 		sfx	sfx_BubbleAttack,1
 ; ---------------------------------------------------------------------------
@@ -2964,14 +2979,14 @@ Sonic_Hurt:
 		bclr	#Status_DropDash,status_secondary(a0)
 	if GameDebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	+
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	+
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-+
+.nodebug
 	endif
 
 		jsr	(MoveSprite2_TestGravity).w
@@ -3044,14 +3059,14 @@ Sonic_Death:
 
 	if GameDebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	+
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	+
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-+
+.nodebug
 	endif
 
 		bsr.s	sub_123C2
@@ -3143,11 +3158,13 @@ locret_1258E:
 
 loc_12590:
 		tst.w	(H_scroll_amount).w
-		bne.s	+
+		bne.s	.skip
 		tst.w	(V_scroll_amount).w
-		bne.s	+
+		bne.s	.skip
 		move.b	#PlayerID_Control,routine(a0)
-+		bsr.s	sub_125E0
+
+.skip
+		bsr.s	sub_125E0
 		jmp	(Draw_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================
@@ -3156,14 +3173,14 @@ Sonic_Drown:
 
 	if GameDebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	+
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	+
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-+
+.nodebug
 	endif
 
 		jsr	(MoveSprite2_TestGravity).w
@@ -3177,9 +3194,11 @@ Sonic_Drown:
 sub_125E0:
 		bsr.s	Animate_Sonic
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	+
+		beq.s	.notgrav
 		eori.b	#2,render_flags(a0)
-+		bra.w	Sonic_Load_PLC
+
+.notgrav
+		bra.w	Sonic_Load_PLC
 
 ; =============== S U B R O U T I N E =======================================
 

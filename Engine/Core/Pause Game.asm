@@ -6,9 +6,9 @@
 
 Pause_Game:
 		tst.b	(Life_count).w										; do you have any lives left?
-		beq.w	Pause_Unpause									; if not, branch
+		beq.w	.unpause											; if not, branch
 		tst.b	(Time_over_flag).w									; is time over?
-		bne.w	Pause_Unpause									; if yes, branch
+		bne.w	.unpause											; if yes, branch
 
 .ending
 		tst.b	(Game_paused).w										; is game already paused?
@@ -16,16 +16,16 @@ Pause_Game:
 		tst.b	(Ctrl_1_pressed).w									; is Start button pressed?
 
 	if LevelSelectCheat
-		bpl.w	Pause_NoPause									; if not, branch
+		bpl.w	.nopause											; if not, branch
 	else
-		bpl.s	Pause_NoPause									; if not, branch
+		bpl.s	.nopause											; if not, branch
 	endif
 
 .paused
 		st	(Game_paused).w										; pause the game
 		SMPS_PauseMusic										; pause the music
 
-Pause_Loop:
+.loop
 		move.b	#VintID_Pause,(V_int_routine).w
 		bsr.s	Wait_VSync
 
@@ -33,11 +33,11 @@ Pause_Loop:
 
 	if LevelSelectCheat
 		tst.b	(Level_select_flag).w
-		beq.s	Pause_ChkStart
+		beq.s	.chkstart
 	endif
 
 		btst	#button_A,(Ctrl_1_pressed).w							; is button A pressed?
-		beq.s	Pause_ChkFrameAdvance							; if not, branch
+		beq.s	.chkframeadvance									; if not, branch
 
 	if SCEDebug
 		move.b	#GameModeID_LevelSelectScreen,(Game_mode).w	; set screen mode to Level Select (SCE)
@@ -46,33 +46,33 @@ Pause_Loop:
 	endif
 
 		addq.w	#4,sp											; exit from current screen
-		bra.s	Pause_ResumeMusic
+		bra.s	.resumemusic
 ; ---------------------------------------------------------------------------
 
-Pause_ChkFrameAdvance:
+.chkframeadvance
 		btst	#button_B,(Ctrl_1_held).w								; is button B held?
-		bne.s	Pause_FrameAdvance								; if yes, branch
+		bne.s	.frameadvance									; if yes, branch
 		btst	#button_C,(Ctrl_1_pressed).w							; is button C pressed?
-		bne.s	Pause_FrameAdvance								; if yes, branch
+		bne.s	.frameadvance									; if yes, branch
 
-Pause_ChkStart:
+.chkstart
     endif
 
 		tst.b	(Ctrl_1_pressed).w									; is Start pressed?
-		bpl.s	Pause_Loop										; if not, branch
+		bpl.s	.loop											; if not, branch
 
-Pause_ResumeMusic:
+.resumemusic
 		SMPS_UnpauseMusic										; unpause the music
 
-Pause_Unpause:
+.unpause
 		clr.b	(Game_paused).w										; unpause the game
 
-Pause_NoPause:
+.nopause
 		rts
 ; ---------------------------------------------------------------------------
 
 	if GameDebug
-Pause_FrameAdvance:
+.frameadvance
 		st	(Game_paused).w
 		SMPS_UnpauseMusic
 		rts

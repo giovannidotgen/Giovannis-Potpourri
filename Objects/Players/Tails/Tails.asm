@@ -1718,12 +1718,14 @@ loc_14A0A:
 
 loc_14A16:
 		move.w	(Camera_H_scroll_shift).w,d1
-		beq.s	+
+		beq.s	.skip
 		bclr	#Status_Facing,status(a0)
 		tst.w	d1
-		bpl.s	+
+		bpl.s	.skip
 		bset	#Status_Facing,status(a0)
-+		moveq	#$20,d0
+
+.skip
+		moveq	#$20,d0
 		add.b	angle(a0),d0
 		andi.b	#$C0,d0
 		bne.w	loc_14B14
@@ -3010,17 +3012,16 @@ Tails_Hurt:
 
 	if GameDebug
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
-		bne.s	loc_156BE
+		bne.s	.nodebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	loc_156BE
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	loc_156BE
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-
-loc_156BE:
+.nodebug
 	endif
 
 		tst.b	(Flying_carrying_Sonic_flag).w
@@ -3102,17 +3103,16 @@ Tails_Death:
 
 	if GameDebug
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
-		bne.s	loc_157B0
+		bne.s	.nodebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	loc_157B0
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	loc_157B0
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-
-loc_157B0:
+.nodebug
 	endif
 
 		tst.b	(Flying_carrying_Sonic_flag).w
@@ -3159,17 +3159,16 @@ Tails_Drown:
 
 	if GameDebug
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
-		bne.s	loc_15832
+		bne.s	.nodebug
 		tst.b	(Debug_mode_flag).w
-		beq.s	loc_15832
+		beq.s	.nodebug
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	loc_15832
+		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
 		clr.b	(Ctrl_1_locked).w								; unlock control
 		rts
 ; ---------------------------------------------------------------------------
-
-loc_15832:
+.nodebug
 	endif
 
 		tst.b	(Flying_carrying_Sonic_flag).w
