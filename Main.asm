@@ -484,8 +484,11 @@ EndOfHeader
 		include "Objects/Players/Sonic/Object Data/Anim - Sonic.asm"
 		include "Objects/Players/Sonic/Object Data/Anim - Super Sonic.asm"
 		include "Objects/Players/Sonic/Object Data/Map - Sonic.asm"
+		include "Objects/Players/Sonic/Object Data/Map - Sonic (bank 2).asm"
 		DPLC_Sonic:
 		include "Objects/Players/Sonic/Object Data/DPLC - Sonic.asm"
+		DPLC_SonicB2:
+		include "Objects/Players/Sonic/Object Data/DPLC - Sonic (bank 2).asm"
 
 		; Tails
 		include "Objects/Players/Tails/Object Data/Anim - Tails.asm"

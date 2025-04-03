@@ -264,6 +264,7 @@ SpriteBankCode_Index:
 
 Sonic_MapBankList:
 		dc.l	Map_Sonic,ArtUnc_Sonic,DPLC_Sonic
+		dc.l	Map_SonicB2,ArtUnc_SonicB2,DPLC_SonicB2
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3291,7 +3292,8 @@ Animate_Sonic:
 SAnim_Do:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
-		move.b	(a1),d0
+		move.b	(a1),(Player_curr_bank).w
+		move.b	1(a1),d0
 		bmi.s	SAnim_WalkRun
 		moveq	#1,d1
 		and.b	status(a0),d1
@@ -3304,7 +3306,7 @@ SAnim_Do:
 SAnim_Do2:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	SAnim_End_FF
 
@@ -3320,24 +3322,24 @@ SAnim_End_FF:
 		addq.b	#1,d0
 		bne.s	SAnim_End_FE
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 		bra.s	SAnim_Next
 ; ---------------------------------------------------------------------------
 
 SAnim_End_FE:
 		addq.b	#1,d0
 		bne.s	SAnim_End_FD
-		move.b	2(a1,d1.w),d0
+		move.b	3(a1,d1.w),d0
 		sub.b	d0,anim_frame(a0)
 		sub.b	d0,d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		bra.s	SAnim_Next
 ; ---------------------------------------------------------------------------
 
 SAnim_End_FD:
 		addq.b	#1,d0
 		bne.s	SAnim_End
-		move.b	2(a1,d1.w),anim(a0)
+		move.b	3(a1,d1.w),anim(a0)
 
 SAnim_End:
 		rts
@@ -3401,11 +3403,11 @@ loc_12724:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_12742
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_12742:
 		move.b	d0,mapping_frame(a0)
@@ -3443,11 +3445,11 @@ loc_12780:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_1279C
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_1279C:
 		move.b	d0,mapping_frame(a0)
@@ -3722,6 +3724,7 @@ loc_12AA2:
 Sonic_Load_PLC:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
+		move.b	(Player_curr_bank).w,d4
 
 Sonic_Load_PLC2:
 		cmp.b	(Player_prev_bank).w,d4
@@ -3729,7 +3732,7 @@ Sonic_Load_PLC2:
 		cmp.b	(Player_prev_frame).w,d0
 		beq.s	.return
 .doanyway:
-		move.b	d4,(Player_prev_bank).w
+		move.b	(Player_curr_bank).w,(Player_prev_bank).w
 		move.b	d0,(Player_prev_frame).w
 		add.w	d0,d0
 		movea.l	8(a3),a2

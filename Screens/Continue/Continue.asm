@@ -238,7 +238,6 @@ Obj_Continue_SonicWTails:
 
 .pstart
 		move.l	#.rotation,address(a0)
-		move.l	#Map_Sonic,mappings(a0)
 		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
 		clr.b	(Player_prev_frame).w
 		move.b	#$5A,mapping_frame(a0)
@@ -268,6 +267,8 @@ Obj_Continue_SonicWTails:
 		bset	#0,render_flags(a0)												; set flipx
 
 .draw
+		clr.b	(Player_curr_bank).w			; GIO: more hardcoded animations that need specific patches :D
+		jsr	(Sonic_SetSpriteBank).l				
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -336,9 +337,11 @@ Obj_Continue_SonicAlone:
 		lea	AniRaw_5CBC5(pc),a1
 
 .anim
-		jsr	(Animate_RawNoSSTCheckResult).w
+		jsr	(Animate_RawNoSSTCheckResult).w		
 
 .draw
+		clr.b	(Player_curr_bank).w			; GIO: more hardcoded animations that need specific patches :D
+		jsr	(Sonic_SetSpriteBank).l		
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------

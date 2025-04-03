@@ -10,10 +10,11 @@ Obj_HyperSonicKnux_Trail:
 		movem.l	ObjDat_HyperSonicKnux_Trail(pc),d0-d3			; copy data to d0-d3
 		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
 
-		; check player
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
-		bhs.s	.main											; if so, branch
-		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic, but because GIO is a bitch, we're loading the sonic mappings instead
+		; check player (deprecated)
+;		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w			; are we playing as Knuckles?
+;		bhs.s	.main											; if so, branch
+;		move.l	#Map_Sonic,mappings(a0)							; if not, you must be Hyper Sonic. However, we're going to be using Sonic's regular mappings.
+
 .main
 
 		; check
@@ -37,6 +38,7 @@ Obj_HyperSonicKnux_Trail:
 		move.w	(a1)+,y_pos(a0)									; use previous player y_pos
 		lea	(Stat_table).w,a1
 		move.b	3(a1,d0.w),art_tile(a0)
+		move.l	(Player_1+mappings).w,mappings(a0)			; GIO: use player's current mappings (the bank-based sprite system makes it variable in real time)
 		move.b	(Player_1+mapping_frame).w,mapping_frame(a0)		; use player's current mapping_frame
 		move.b	(Player_1+render_flags).w,render_flags(a0)			; use player's current render_flags
 		move.w	(Player_1+priority).w,priority(a0)					; use player's current priority
