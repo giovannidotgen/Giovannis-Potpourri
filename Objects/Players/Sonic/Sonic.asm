@@ -205,16 +205,13 @@ Sonic_Modes: offsetTable
 ; 
 ; Programmed by giovanni.gen
 ;
-; Usage for other player objects:
-; Set a3 to the corresponding object's mapping bank list location in ROM, and
-; a4 to the RAM address that stores the specific bank ID you wish to use 
-; from said index.
-; 
-; Example: if I wished to use bank 2 of Sonic's mapping bank list, I would
-; set a4 Player_curr_bank, which would be set to 1, and a3 to 
-; Sonic_MapBankList.
+; How to use:
+; Call the player's respective routine every time before loading its DPLCs.
+; This routine will overwrite address register a3.
+; DO NOT overwrite a3 before you've finished loading the DPLCs.
 ;
-; Please see Animate_Sonic for examples on what else was changed.
+; For more information, you may reference routines like Animate_Sonic and
+; Sonic_Load_PLC.
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -224,10 +221,9 @@ Sonic_SetSpriteBank:
 		moveq	#0,d1
 		movea.l	#-1,a4
 		lea	(Sonic_MapBankList).l,a3
-		lea	(Player_curr_bank).w,a4
 		
 Player_SetSpriteBank:
-		move.b	(a4),d1
+		move.b	(Player_curr_bank).w,d1
 		lsl.w	#2,d1			; multiply d4 by 4			
 		move.w	d1,d0			; store it in d0
 		lsl.w	#1,d1			; Multiply d4 by 2
@@ -235,6 +231,12 @@ Player_SetSpriteBank:
 		adda.l	d0,a3			; Point to the selected mapping bank list
 		move.l	(a3),mappings(a0)	; Change player mappings immediately
 		rts
+		
+; ---------------------------------------------------------------------------
+; If you need to call this routine for a player instance, but don't know 
+; which one, you can use this routine to run the player's respective routine
+; based on the instance's character_id.
+; ---------------------------------------------------------------------------		
 		
 UnkPlayer_SetSpriteBank:
 		moveq	#0,d0					
@@ -256,10 +258,9 @@ SpriteBankCode_Index:
 
 ; ---------------------------------------------------------------------------
 ; Map Bank List format specifications:
-; Array of pointers big 12 bytes.
+; Array of pointers sized at 12 bytes.
 ; Each will point to the following:
 ; Mappings data, Art data, DPLC data.
-; Do NOT overwrite a3 until the DPLCs are actually loaded.
 ; ---------------------------------------------------------------------------
 
 Sonic_MapBankList:
@@ -3270,11 +3271,21 @@ sub_125E0:
 .notgrav
 		bra.w	Sonic_Load_PLC
 
+; ---------------------------------------------------------------------------
+; NOTICE
+; This is a non-standard player sprite animation routine.
+; It has been slightly modified to make use of a bank-based sprite system 
+; programmed by giovanni.gen.
+; It will set Player_curr_bank based on the animation that is being played.
+; The animation format has been changed. Please check the player's animation
+; data file for more information.
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 Animate_Sonic:
 		clr.b	(Player_curr_bank).w				
-		lea	(AniSonic).l,a1
+		lea	(AniSonic).l,a1			
 		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		; beq.s	.nots
 		; lea	(AniSuperSonic).l,a1
@@ -3718,6 +3729,19 @@ loc_12A8A:
 
 loc_12AA2:
 		bra.w	SAnim_Do2
+
+; ---------------------------------------------------------------------------
+; NOTICE
+;
+; This is a non-standard DPLC handling subroutine.
+; This routine expects a3 to point to a list of addresses to mappings data,
+; art data, and DPLC data, in that order.
+; You MUST run Sonic_SetSpriteBank before running this routine, or VERY
+; unstable behavior will occur, such as nasty graphical glitches, 
+; or game crashes.
+;
+; Please see Sonic_SetSpriteBank for more information.
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
