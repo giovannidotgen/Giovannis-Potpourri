@@ -19,6 +19,10 @@ Credit is appreciated.
 Each mini-project has its own set of credits:
 ### Drop Dash in Sonic 1 in Sonic 3
 Sprites source: Sample Sprite mod (Sonic 3 - Angel Island Revisited)
+### Super Peel-Out in Sonic 1 in Sonic 3
+Peel-Out fading sound effect: DeltaW
+May contain code by heyjoeway
+Original sprites sourced from Sonic 3 - Angel Island Revisited
 
 ### Original Description
 
