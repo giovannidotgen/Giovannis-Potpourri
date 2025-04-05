@@ -472,9 +472,11 @@ Obj_BossBall_Scaled:
 		jsr	(Perform_Art_Scaling).l
 
 .draw
-		moveq	#signextendB(sfx_RobotnikSiren),d0
-		moveq	#7,d1
-		jsr	(Play_SFX_Continuous).w
+
+		; play continuous sfx
+		sfxcont	sfx_RobotnikSiren,7							; play robotnik siren sound every 8th frame
+
+		; check delete
 		out_of_yrange.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
