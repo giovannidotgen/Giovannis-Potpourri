@@ -87,9 +87,9 @@ Obj_Basaran:
 ; ---------------------------------------------------------------------------
 
 .flapsound
-		moveq	#signextendB(sfx_Basaran),d0
-		moveq	#$F,d1									; play flapping sound every 16th frame
-		jsr	(Play_SFX_Continuous).w
+
+		; play continuous sfx
+		sfxcont	sfx_Basaran,$F							; play flapping sound every 16th frame
 		jsr	(MoveSprite2).w
 
 		; check players

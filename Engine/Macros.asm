@@ -78,7 +78,7 @@ dmaFillVRAM macro byte,addr,length
 	move.l	#vdpComm(addr,VRAM,DMA),VDP_control_port-VDP_control_port(a5)	; start at ...
 	move.w	#bytes_to_word(byte,byte),(VDP_data_port).l	; fill with byte
 
-.loop:
+.loop
 	moveq	#2,d1
 	and.w	VDP_control_port-VDP_control_port(a5),d1
 	bne.s	.loop	; busy loop until the VDP is finished filling...
@@ -234,7 +234,7 @@ subObjMainData3 macro render,routine,height,width,prio,vram,pal,pri,mappings
 
 ; macro to level select icons
 setRSDKIcons macro pal, icon
-		dc.w (pal)*palette_line_size, (icon)*tiles_to_bytes(dmaLength(12))
+	dc.w (pal)*palette_line_size, (icon)*tiles_to_bytes(dmaLength(12))
     endm
 ; ---------------------------------------------------------------------------
 
@@ -751,9 +751,9 @@ Add_SpriteToCollisionResponseList macro address, terminate
     endm
 
 CreateNewSprite macro obj, terminate
-		jsr	(Create_New_Sprite).w
-		bne.s	.skip
-		move.l	#obj,address(a1)
+	jsr	(Create_New_Sprite).w
+	bne.s	.skip
+	move.l	#obj,address(a1)
 
 .skip
       if ("terminate"<>"")
@@ -762,9 +762,9 @@ CreateNewSprite macro obj, terminate
     endm
 
 CreateNewSprite3 macro obj, terminate
-		jsr	(Create_New_Sprite3).w
-		bne.s	.skip
-		move.l	#obj,address(a1)
+	jsr	(Create_New_Sprite3).w
+	bne.s	.skip
+	move.l	#obj,address(a1)
 
 .skip
       if ("terminate"<>"")
@@ -840,18 +840,21 @@ rom_ptr_z80 macro addr
 ; ---------------------------------------------------------------------------
 
 clearZ80RAM macro
-	lea	(Z80_RAM).l,a0
-	move.w	#$1FFF,d0
+	moveq	#0,d1
+	lea	(Z80_RAM).l,a1
+	move.w	#bytesToXcnt(Z80_RAM_end-Z80_RAM,8),d0
 
-.clear:
-	clr.b (a0)+
+.clear
+	movep.l	d1,0(a1)
+	movep.l	d1,1(a1)
+	addq.w	#4*2,a1		; next bytes
 	dbf	d0,.clear
     endm
 
 paddingZ80RAM macro
 	moveq	#0,d0
 
-.clear:
+.clear
 	move.b	d0,(a1)+
 	cmpa.l	#(Z80_RAM_end),a1
 	bne.s	.clear
@@ -865,11 +868,11 @@ paddingZ80RAM macro
 stopZ80 macro
 
 	if OptimiseStopZ80=0
-	move.w	#$100,(Z80_bus_request).l		; stop the Z80
+		move.w	#$100,(Z80_bus_request).l		; stop the Z80
 
-.wait:
-	btst	#0,(Z80_bus_request).l
-	bne.s	.wait 						; loop until it says it's stopped
+.wait
+		btst	#0,(Z80_bus_request).l
+		bne.s	.wait 						; loop until it says it's stopped
 	endif
 
     endm
@@ -878,7 +881,7 @@ stopZ80 macro
 stopZ80a macro
 
 	if OptimiseStopZ80=0
-	move.w	#$100,(Z80_bus_request).l		; stop the Z80
+		move.w	#$100,(Z80_bus_request).l		; stop the Z80
 	endif
 
     endm
@@ -891,9 +894,9 @@ stopZ80a macro
 waitZ80 macro
 
 	if OptimiseStopZ80=0
-.wait:
-	btst	#0,(Z80_bus_request).l
-	bne.s	.wait 						; loop until
+.wait
+		btst	#0,(Z80_bus_request).l
+		bne.s	.wait 						; loop until
 	endif
 
     endm
@@ -943,7 +946,7 @@ stopZ802 macro
 	if OptimiseStopZ80=2
 		move.w	#$100,(Z80_bus_request).l		; stop the Z80
 
-.wait:
+.wait
 		btst	#0,(Z80_bus_request).l
 		bne.s	.wait 						; loop until it says it's stopped
 	endif
@@ -970,7 +973,7 @@ startZ802 macro
 waitZ80time macro time
 	move.w	#(time),d0
 
-.wait:
+.wait
 	nop
 	nop
 	nop
@@ -1036,84 +1039,96 @@ enableScreen macro
 ; ---------------------------------------------------------------------------
 
 jhi macro loc
-		bls.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bls.s		.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jcc macro loc
-		bcs.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	blo.s		.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jhs macro loc
-		jcc	loc
-	    endm
+	jcc	loc
+    endm
 
 jls macro loc
-		bhi.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bhi.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jcs macro loc
-		bcc.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bhs.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jlo macro loc
-		jcs	loc
-	    endm
+	jcs	loc
+    endm
 
 jeq macro loc
-		bne.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bne.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jne macro loc
-		beq.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	beq.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jgt macro loc
-		ble.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	ble.s		.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jge macro loc
-		blt.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	blt.s		.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jle macro loc
-		bgt.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bgt.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jlt macro loc
-		bge.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bge.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jpl macro loc
-		bmi.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bmi.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jmi macro loc
-		bpl.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bpl.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 ; ---------------------------------------------------------------------------
 
 ; macros to convert from tile index to art tiles, block mapping or VRAM address
@@ -1143,7 +1158,8 @@ _KosPlus_ReadBit macro
 	dbf	d2,.skip
 	moveq	#7,d2						; We have 8 new bits, but will use one up below.
 	move.b	(a0)+,d0						; Get desc field low-byte.
-.skip:
+
+.skip
 	add.b	d0,d0						; Get a bit from the bitstream.
     endm
 ; ---------------------------------------------------------------------------
@@ -1269,6 +1285,20 @@ sfx macro track, terminate, byte
 	jsr	(Play_SFX).w
       else
 	jmp	(Play_SFX).w
+      endif
+    endm
+
+sfxcont macro track, wait, terminate, byte
+    if ("byte"="0") || ("byte"="")
+	moveq	#signextendB(track),d0
+    else
+	move.w	#(track),d0
+    endif
+	moveq	#signextendB(wait),d1
+      if ("terminate"="0") || ("terminate"="")
+	jsr	(Play_SFX_Continuous).w
+      else
+	jmp	(Play_SFX_Continuous).w
       endif
     endm
 
@@ -1502,9 +1532,11 @@ LoadArtUnc macro offset,size,vram
 	moveq	#(size>>5)-1,d0
 
 .load
+
 	rept 8
 		move.l	(a0)+,VDP_data_port-VDP_data_port(a6)
 	endr
+
 	dbf	d0,.load
     endm
 ; ---------------------------------------------------------------------------
@@ -1515,12 +1547,14 @@ LoadMapUnc macro offset,size,arg,loc,width,height
 	move.w	#((size)>>4),d1
 
 .load
+
 	rept 4
 		move.l	(a0)+,(a1)
 		add.w	d0,(a1)+
 		add.w	d0,(a1)+
 	endr
-		dbf	d1,.load
+
+	dbf	d1,.load
 	locVRAM	loc,d0
 	moveq	#(width/8-1),d1
 	moveq	#(height/8-1),d2
@@ -1563,29 +1597,17 @@ abs macro destination
 	tst.ATTRIBUTE	destination
 	bpl.s	.skip
 	neg.ATTRIBUTE	destination
-.skip:
-    endm
 
-    if 0|AllOptimizations
-absw macro destination	; use a short branch instead
-	abs.ATTRIBUTE	destination
+.skip
     endm
-    else
-; macro to replace the destination with its absolute value using a word-sized branch
-absw macro destination
-	tst.ATTRIBUTE	destination
-	bpl.w	.skip
-	neg.ATTRIBUTE	destination
-.skip:
-    endm
-    endif
 
 ; macro to move the absolute value of the source in the destination
 mvabs macro source,destination
 	move.ATTRIBUTE	source,destination
 	bpl.s	.skip
 	neg.ATTRIBUTE	destination
-.skip:
+
+.skip
     endm
 ; ---------------------------------------------------------------------------
 

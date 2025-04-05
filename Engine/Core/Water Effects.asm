@@ -194,10 +194,8 @@ LZ_WaterTunnels:
 		cmp.w	6(a2),d1
 		bhs.s	.chknext
 
-		; play sfx
-		moveq	#signextendB(sfx_Waterfall),d0
-		moveq	#$3F,d1													; play water sound
-		jsr	(Play_SFX_Continuous).w
+		; play continuous sfx
+		sfxcont	sfx_Waterfall,$3F											; play water sound every 64th frame
 
 		; check
 		cmpi.b	#PlayerID_Hurt,routine(a1)									; is Sonic falling back from getting hurt?
@@ -375,9 +373,9 @@ loc_725E:
 loc_3F9A:
 		move.b	#AniIDSonAni_Slide,anim(a1)								; use Sonic's "sliding" animation
 		ori.b	#$80,status_secondary(a1)									; set water slide flag
-		moveq	#signextendB(sfx_Waterfall),d0
-		moveq	#$1F,d1													; play water sound
-		jmp	(Play_SFX_Continuous).w
+
+		; play continuous sfx
+		sfxcont	sfx_Waterfall,$1F,1										; play water sound every 32th frame
 ; ---------------------------------------------------------------------------
 
 loc_728A:
