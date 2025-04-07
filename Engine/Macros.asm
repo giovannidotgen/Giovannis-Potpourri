@@ -1663,7 +1663,7 @@ dScroll_Data macro pixel,size,velocity,plane
 ; macro for generating standard strings
 standardstr macro str
 	save
-	codepage	STANDARD
+	codepage STANDARD
 	dc.b strlen(str)-1, str
 	restore
     endm
@@ -1671,7 +1671,7 @@ standardstr macro str
 ; macro for generating level select strings
 levselstr macro str
 	save
-	codepage	LEVELSCREEN
+	codepage LEVELSCREEN
 	dc.b strlen(str)-1, str
 	restore
     endm
@@ -1679,14 +1679,14 @@ levselstr macro str
 ; macro for generating options strings
 optstr macro str
 	save
-	codepage	OPTIONSCREEN
+	codepage OPTIONSCREEN
 	dc.b strlen(str)-1, str
 	restore
     endm
 
 	; codepage for level select
 	save
-	codepage	LEVELSCREEN
+	codepage LEVELSCREEN
 	CHARSET ' ', 43
 	CHARSET '0','9', 1
 	CHARSET 'A','Z', 17
@@ -1708,9 +1708,9 @@ creditstr macro plane, str
     endif
 	save
     if plane&$8000
-	codepage	CREDITSCREEN
+	codepage CREDITSCREEN
     else
-	codepage	CREDITSCREEN2
+	codepage CREDITSCREEN2
     endif
 	dc.b str
 	restore
@@ -1720,7 +1720,7 @@ creditstr macro plane, str
 
 ; macro for a credits text list header
 creditstr_end macro
-	dc.w 0
+	dc.w 0	; end marker
     endm
 
 	; codepage for options
