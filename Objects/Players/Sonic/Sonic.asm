@@ -265,7 +265,7 @@ SpriteBankCode_Index:
 
 Sonic_MapBankList:
 		dc.l	Map_Sonic,ArtUnc_Sonic,DPLC_Sonic
-		dc.l	Map_SonicB2,ArtUnc_SonicB2,DPLC_SonicB2
+		dc.l	Map_SuperSonic,ArtUnc_SuperSonic,DPLC_SuperSonic
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -699,6 +699,12 @@ Sonic_NotRight:
 		bne.w	loc_112EA
 		bclr	#Status_Push,status(a0)
 		move.b	#AniIDSonAni_Wait,anim(a0)	; use standing animation
+	;	tst.b	character_id(a0)		; GIO: check if player is Sonic
+	;	bne.s	.notsupersonic			; GIO: if not, player can't be Super Sonic
+		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
+		beq.s	.notsupersonic			; GIO: if not, skip
+		move.b	#AniIDSuperSonAni_Wait,anim(a0)
+.notsupersonic:		
 		btst	#Status_OnObj,status(a0)
 		beq.w	Sonic_Balance
 		movea.w	interact(a0),a1				; load interacting object's RAM space
@@ -713,8 +719,8 @@ Sonic_NotRight:
 		subq.w	#2,d2						; Subtract 2: This is the margin for 'on edge'
 		add.w	x_pos(a0),d1					; Add Sonic's X position to object width
 		sub.w	x_pos(a1),d1					; Subtract object's X position from width+Sonic's X pos, giving you Sonic's distance from left edge of object
-		; tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
-		; bne.s	SuperSonic_Balance			; if so, branch
+		tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
+		bne.s	SuperSonic_Balance			; if so, branch
 		cmpi.w	#2,d1						; is Sonic within two units of object's left edge?
 		blt.s		Sonic_BalanceOnObjLeft		; if so, branch
 		cmp.w	d2,d1
@@ -855,8 +861,8 @@ loc_11268:
 		bset	#Status_Facing,status(a0)
 
 loc_1126E:
-		move.b	#6,anim(a0)
-		bra.s	loc_112EA
+		move.b	#AniIDSuperSonAni_Balance,anim(a0)
+		bra.w	loc_112EA
 ; ---------------------------------------------------------------------------
 
 loc_11276:
@@ -865,6 +871,12 @@ loc_11276:
 		btst	#button_down,(Ctrl_1_logical).w
 		beq.s	loc_112B0
 		move.b	#AniIDSonAni_Duck,anim(a0)
+		tst.b	character_id(a0)		; GIO: check if player is Sonic
+		bne.s	.notsupersonic			; GIO: if not, player can't be Super Sonic		
+		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
+		beq.s	.notsupersonic			; GIO: if not, skip
+		move.b	#AniIDSuperSonAni_Duck,anim(a0)
+.notsupersonic:				
 		addq.b	#1,scroll_delay_counter(a0)
 		cmpi.b	#2*60,scroll_delay_counter(a0)
 		blo.s		loc_112F0
@@ -1476,6 +1488,11 @@ SonicKnux_Roll:
 ;		bne.s	locret_1177E								; if yes, branch
 
 		move.b	#AniIDSonAni_Duck,anim(a0)				; enter ducking animation
+		tst.b	character_id(a0)		; GIO: check if player is Sonic
+		bne.s	locret_1177E			; GIO: if not, player can't be Super Sonic		
+		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
+		beq.s	locret_1177E			; GIO: if not, skip
+		move.b	#AniIDSuperSonAni_Duck,anim(a0)
 
 locret_1177E:
 		rts
@@ -1483,7 +1500,12 @@ locret_1177E:
 
 SonicKnux_ChkWalk:
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)				; is Sonic ducking?
+		beq.s	.isducking
+		tst.b	character_id(a0)					; is player Sonic?
 		bne.s	locret_1177E
+		cmpi.b	#AniIDSuperSonAni_Duck,anim(a0)
+		bne.s	locret_1177E
+.isducking:	
 		clr.b	anim(a0)									; if so, enter walking animation
 		rts
 ; ---------------------------------------------------------------------------
@@ -2122,9 +2144,14 @@ return_Peelout2:
 
 SonicKnux_Spindash:
 		tst.b	spin_dash_flag(a0)
-		bne.s	loc_11C5E
+		bne.w	loc_11C5E
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)
+		beq.s	.isDucking
+		tst.b	character_id(a0)					; is player Sonic?
+		bne.w	SonicKnux_SuperHyper.return		
+		cmpi.b	#AniIDSuperSonAni_Duck,anim(a0)
 		bne.w	SonicKnux_SuperHyper.return
+.isDucking:
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_pressed_logical).w,d0
 		beq.w	SonicKnux_SuperHyper.return
@@ -3284,7 +3311,6 @@ sub_125E0:
 ; =============== S U B R O U T I N E =======================================
 
 Animate_Sonic:
-		clr.b	(Player_curr_bank).w				
 		lea	(AniSonic).l,a1			
 		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		; beq.s	.nots
@@ -3303,7 +3329,6 @@ Animate_Sonic:
 SAnim_Do:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
-		move.b	(a1),(Player_curr_bank).w
 		move.b	1(a1),d0
 		bmi.s	SAnim_WalkRun
 		moveq	#1,d1
@@ -3317,6 +3342,7 @@ SAnim_Do:
 SAnim_Do2:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
+		move.b	(a1),(Player_curr_bank).w		
 		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	SAnim_End_FF
@@ -3414,6 +3440,7 @@ loc_12724:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
+		move.b	(a1),(Player_curr_bank).w		
 		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_12742
@@ -3456,6 +3483,7 @@ loc_12780:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
+		move.b	(a1),(Player_curr_bank).w		
 		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_1279C

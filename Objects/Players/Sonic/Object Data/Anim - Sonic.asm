@@ -49,11 +49,17 @@ AniSonic: offsetTable
 		ptrTableEntry.w SonAni_Carry2			; 23
 		ptrTableEntry.w	SonAni_DropDash		; 24
 		ptrTableEntry.w SonAni_PeelOut		; 25
+		ptrTableEntry.w SuperSonAni_Walk
+		ptrTableEntry.w SuperSonAni_Run
+		ptrTableEntry.w SuperSonAni_Push
+		ptrTableEntry.w SuperSonAni_Wait
+		ptrTableEntry.w SuperSonAni_Balance
+		ptrTableEntry.w SuperSonAni_Duck
 
 SonAni_Walk:		dc.b 0, $FF, 7, 8, 1, 2, 3, 4, 5, 6, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 SonAni_Run:			dc.b 0, $FF, $21, $22, $23, $24, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SonAni_Roll:			dc.b 1, $FE, $4, $5, $4, $6, $4, $7, $4, $8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SonAni_Roll2:		dc.b 1, $FE, $4, $5, $4, $6, $4, $7, $4, $8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SonAni_Roll:			dc.b 0, $FE, $96, $97, $96, $98, $96, $99, $96, $9A, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SonAni_Roll2:		dc.b 0, $FE,$96, $97, $96, $98, $96, $99, $96, $9A, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 SonAni_Push:		dc.b 0, $FD, $B6, $B7, $B8, $B9, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 SonAni_Wait:		dc.b 0, 5, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA
 					dc.b $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA, $BA
@@ -73,7 +79,7 @@ SonAni_Balance2:		dc.b 0, 5, $A1, $A2, $A3, $FF
 SonAni_Stop:			dc.b 0, 3, $9D, $9E, $9F, $A0, $FD, 0
 SonAni_Float1:		dc.b 0, 7, $C8, $FF
 SonAni_Float2:		dc.b 0, 7, $C8, $C9, $CA, $CB, $CC, $CD, $CE, $CF, $FF
-SonAni_Spring:		dc.b 1, $2F, $3, $FD, 0
+SonAni_Spring:		dc.b 0, $2F, $8E, $FD, 0
 SonAni_Hang:		dc.b 0, 1, $AA, $AB, $FF
 SonAni_HurtBW:		dc.b 0, $40, $DA, $FF
 SonAni_Landing:		dc.b 0, 7, $B0, $B2, $B2, $B2, $B2, $B2, $B2, $B1, $B2, $B3, $B2, $FE, 4
@@ -82,9 +88,9 @@ SonAni_GetAir:		dc.b 0, $B, $AC, $AC, 3, 4, $FD, 0
 SonAni_DeathBW:	dc.b 0, $20, $A8, $FF
 SonAni_Drown:		dc.b 0, $20, $A9, $FF
 SonAni_Death:		dc.b 0, $20, $A7, $FF
-SonAni_Hurt:		dc.b 1, 9, $1, $2, $FF
+SonAni_Hurt:		dc.b 0, 9, $D7, $D8, $FF
 SonAni_Hurt2:		dc.b 0, $40, $8D, $FF
-SonAni_Slide:		dc.b 1, 9, $1, $2, $FF
+SonAni_Slide:		dc.b 0, 9, $8C, $8D, $FF
 SonAni_Blank:		dc.b 0, $77, 0, $FF
 SonAni_Hurt3:		dc.b 0, $13, $D0, $D1, $FF
 SonAni_Float3:		dc.b 0, 3, $CF, $C8, $C9, $CA, $CB, $FE, 4
@@ -95,4 +101,10 @@ SonAni_Carry:		dc.b 0, $B, $90, $91, $92, $91, $FF
 SonAni_Carry2:		dc.b 0, $B, $90, $91, $92, $91, $FD, 0
 SonAni_DropDash:	dc.b 0, $1, $DB, $DC, $FF	; GIO
 SonAni_PeelOut:		dc.b 0, $FF, $DD, $DE, $DF, $E0, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF	; GIO
+SuperSonAni_Walk:		dc.b 1, $FF, 1, 2, 3, 4, 5, 6, 7, 8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Run:		dc.b 1, $FF, $21, $22, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Push:		dc.b 1, $FD, $B6, $B7, $B8, $B9, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Wait:		dc.b 1, 7, $BA, $BB, $FF
+SuperSonAni_Balance:		dc.b 1, 9, $A1, $A2, $A3, $FF
+SuperSonAni_Duck:		dc.b 1, 5, $9B, $FF
 	even
