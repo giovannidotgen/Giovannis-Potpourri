@@ -6,6 +6,8 @@
 
 ArtUnc_Sonic:						binclude "Objects/Players/Sonic/Uncompressed Art/Sonic.unc"
 	even
+ArtUnc_SuperSonic:					binclude "Objects/Players/Sonic/Uncompressed Art/Super Sonic.unc"
+	even
 ArtUnc_Tails:						binclude "Objects/Players/Tails/Uncompressed Art/Tails.unc"
 	even
 ArtUnc_Tails_Extra:					binclude "Objects/Players/Tails/Uncompressed Art/Tails Extra.unc"

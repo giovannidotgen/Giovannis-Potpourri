@@ -230,6 +230,7 @@ AniIDSonAni_21 =					id(ptr_AniSonic21)					; 21	(Unused?)
 AniIDSonAni_Carry =					id(ptr_SonAni_Carry)					; 22
 AniIDSonAni_Carry2 =				id(ptr_SonAni_Carry2)				; 23
 AniIDSonAni_DropDash =				id(ptr_SonAni_DropDash)				; 24 (GIO)
+AniIDSonAni_PeelOut =				id(ptr_SonAni_PeelOut)				; 25 (GIO)
 
 ; ---------------------------------------------------------------------------
 ; Tails animation IDs

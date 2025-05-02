@@ -69,6 +69,7 @@ Sonic_Init:													; Routine 0
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
 		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
 		clr.b	character_id(a0)									; PlayerID_Sonic
+		clr.b	(Player_curr_bank).w
 		move.w	#$600,Max_speed-Max_speed(a4)
 		move.w	#$C,Acceleration-Max_speed(a4)
 		move.w	#$80,Deceleration-Max_speed(a4)
@@ -154,7 +155,7 @@ loc_10C26:
 		and.w	d0,y_pos(a0)						; perform wrapping of Sonic's y position
 
 .display
-		bsr.s	Sonic_Display
+		bsr.w	Sonic_Display
 		bsr.w	SonicKnux_SuperHyper
 		bsr.w	Sonic_RecordPos
 		bsr.w	Sonic_Water
@@ -170,6 +171,7 @@ loc_10C26:
 		btst	#1,object_control(a0)
 		bne.s	.touch
 		bsr.w	Animate_Sonic
+		bsr.w	Sonic_SetSpriteBank
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.plc
 		eori.b	#2,render_flags(a0)
@@ -196,6 +198,74 @@ Sonic_Modes: offsetTable
 		offsetTableEntry.w Sonic_MdAir			; 2
 		offsetTableEntry.w Sonic_MdRoll		; 4
 		offsetTableEntry.w Sonic_MdJump		; 6
+
+; ---------------------------------------------------------------------------
+; Subroutine that adjusts a player's mappings based on which frame it is that
+; is to be rendered.
+; 
+; Programmed by giovanni.gen
+;
+; How to use:
+; Call the player's respective routine every time before loading its DPLCs.
+; This routine will overwrite address register a3.
+; DO NOT overwrite a3 before you've finished loading the DPLCs.
+;
+; For more information, you may reference routines like Animate_Sonic and
+; Sonic_Load_PLC.
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Sonic_SetSpriteBank:
+		moveq	#0,d0
+		moveq	#0,d1
+		movea.l	#-1,a4
+		lea	(Sonic_MapBankList).l,a3
+		
+Player_SetSpriteBank:
+		move.b	(Player_curr_bank).w,d1
+		lsl.w	#2,d1			; multiply d4 by 4			
+		move.w	d1,d0			; store it in d0
+		lsl.w	#1,d1			; Multiply d4 by 2
+		adda.l	d1,a3			
+		adda.l	d0,a3			; Point to the selected mapping bank list
+		move.l	(a3),mappings(a0)	; Change player mappings immediately
+		rts
+		
+; ---------------------------------------------------------------------------
+; If you need to call this routine for a player instance, but don't know 
+; which one, you can use this routine to run the player's respective routine
+; based on the instance's character_id.
+; ---------------------------------------------------------------------------		
+		
+UnkPlayer_SetSpriteBank:
+		moveq	#0,d0					
+		move.b	character_id(a0),d0			; Get the character ID.
+		cmp.b	#0,d0					; Check if this is a character that even uses the Sprite bank system.
+		bhi.s	.return					; If not, return.
+		add.w	d0,d0
+		move.l	a1,-(sp)				; Back up a1, because the caller *might* need it.
+								; (i'm not sure what address i could use that would cause zero damage)
+		movea.l	SpriteBankCode_Index(pc,d0.w),a1	; Get the relevant character's sprite bank code
+		jsr	(a1)					; And jump to it.
+		movea.l	(sp)+,a1				; Restore a1
+		
+.return:
+		rts						; And then return.
+		
+SpriteBankCode_Index:
+		dc.l	Sonic_SetSpriteBank
+
+; ---------------------------------------------------------------------------
+; Map Bank List format specifications:
+; Array of pointers sized at 12 bytes.
+; Each will point to the following:
+; Mappings data, Art data, DPLC data.
+; ---------------------------------------------------------------------------
+
+Sonic_MapBankList:
+		dc.l	Map_Sonic,ArtUnc_Sonic,DPLC_Sonic
+		dc.l	Map_SuperSonic,ArtUnc_SuperSonic,DPLC_SuperSonic
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -628,7 +698,7 @@ Sonic_NotRight:
 		tst.w	d1
 		bne.w	loc_112EA
 		bclr	#Status_Push,status(a0)
-		move.b	#AniIDSonAni_Wait,anim(a0)	; use standing animation
+		move.b	#AniIDSonAni_Wait,anim(a0)	; use standing animation	
 		btst	#Status_OnObj,status(a0)
 		beq.w	Sonic_Balance
 		movea.w	interact(a0),a1				; load interacting object's RAM space
@@ -643,8 +713,8 @@ Sonic_NotRight:
 		subq.w	#2,d2						; Subtract 2: This is the margin for 'on edge'
 		add.w	x_pos(a0),d1					; Add Sonic's X position to object width
 		sub.w	x_pos(a1),d1					; Subtract object's X position from width+Sonic's X pos, giving you Sonic's distance from left edge of object
-		; tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
-		; bne.s	SuperSonic_Balance			; if so, branch
+		tst.b	(Super_Sonic_Knux_flag).w		; is Sonic Super/Hyper?
+		bne.s	SuperSonic_Balance			; if so, branch
 		cmpi.w	#2,d1						; is Sonic within two units of object's left edge?
 		blt.s		Sonic_BalanceOnObjLeft		; if so, branch
 		cmp.w	d2,d1
@@ -785,8 +855,8 @@ loc_11268:
 		bset	#Status_Facing,status(a0)
 
 loc_1126E:
-		move.b	#6,anim(a0)
-		bra.s	loc_112EA
+		move.b	#AniIDSonAni_Balance,anim(a0)
+		bra.w	loc_112EA
 ; ---------------------------------------------------------------------------
 
 loc_11276:
@@ -794,7 +864,7 @@ loc_11276:
 		bne.s	loc_112B0
 		btst	#button_down,(Ctrl_1_logical).w
 		beq.s	loc_112B0
-		move.b	#AniIDSonAni_Duck,anim(a0)
+		move.b	#AniIDSonAni_Duck,anim(a0)		
 		addq.b	#1,scroll_delay_counter(a0)
 		cmpi.b	#2*60,scroll_delay_counter(a0)
 		blo.s		loc_112F0
@@ -2052,7 +2122,7 @@ return_Peelout2:
 
 SonicKnux_Spindash:
 		tst.b	spin_dash_flag(a0)
-		bne.s	loc_11C5E
+		bne.w	loc_11C5E
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)
 		bne.w	SonicKnux_SuperHyper.return
 		moveq	#btnABC,d0
@@ -3193,6 +3263,7 @@ Sonic_Drown:
 
 sub_125E0:
 		bsr.s	Animate_Sonic
+		bsr.w	Sonic_SetSpriteBank		
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.notgrav
 		eori.b	#2,render_flags(a0)
@@ -3200,13 +3271,23 @@ sub_125E0:
 .notgrav
 		bra.w	Sonic_Load_PLC
 
+; ---------------------------------------------------------------------------
+; NOTICE
+; This is a non-standard player sprite animation routine.
+; It has been slightly modified to make use of a bank-based sprite system 
+; programmed by giovanni.gen.
+; It will set Player_curr_bank based on the animation that is being played.
+; The animation format has been changed. Please check the player's animation
+; data file for more information.
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 Animate_Sonic:
-		lea	(AniSonic).l,a1
-		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
-		; beq.s	.nots
-		; lea	(AniSuperSonic).l,a1
+		lea	(AniSonic).l,a1			
+		tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
+		beq.s	.nots
+		lea	(AniSuperSonic).l,a1
 
 .nots
 		moveq	#0,d0
@@ -3221,7 +3302,7 @@ Animate_Sonic:
 SAnim_Do:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
-		move.b	(a1),d0
+		move.b	1(a1),d0
 		bmi.s	SAnim_WalkRun
 		moveq	#1,d1
 		and.b	status(a0),d1
@@ -3234,7 +3315,8 @@ SAnim_Do:
 SAnim_Do2:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w		
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	SAnim_End_FF
 
@@ -3250,24 +3332,24 @@ SAnim_End_FF:
 		addq.b	#1,d0
 		bne.s	SAnim_End_FE
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 		bra.s	SAnim_Next
 ; ---------------------------------------------------------------------------
 
 SAnim_End_FE:
 		addq.b	#1,d0
 		bne.s	SAnim_End_FD
-		move.b	2(a1,d1.w),d0
+		move.b	3(a1,d1.w),d0
 		sub.b	d0,anim_frame(a0)
 		sub.b	d0,d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		bra.s	SAnim_Next
 ; ---------------------------------------------------------------------------
 
 SAnim_End_FD:
 		addq.b	#1,d0
 		bne.s	SAnim_End
-		move.b	2(a1,d1.w),anim(a0)
+		move.b	3(a1,d1.w),anim(a0)
 
 SAnim_End:
 		rts
@@ -3331,11 +3413,12 @@ loc_12724:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w		
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_12742
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_12742:
 		move.b	d0,mapping_frame(a0)
@@ -3373,11 +3456,12 @@ loc_12780:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w		
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_1279C
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_1279C:
 		move.b	d0,mapping_frame(a0)
@@ -3647,18 +3731,36 @@ loc_12A8A:
 loc_12AA2:
 		bra.w	SAnim_Do2
 
+; ---------------------------------------------------------------------------
+; NOTICE
+;
+; This is a non-standard DPLC handling subroutine.
+; This routine expects a3 to point to a list of addresses to mappings data,
+; art data, and DPLC data, in that order.
+; You MUST run Sonic_SetSpriteBank before running this routine, or VERY
+; unstable behavior will occur, such as nasty graphical glitches, 
+; or game crashes.
+;
+; Please see Sonic_SetSpriteBank for more information.
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 Sonic_Load_PLC:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
+		move.b	(Player_curr_bank).w,d4
 
 Sonic_Load_PLC2:
+		cmp.b	(Player_prev_bank).w,d4
+		bne.s	.doanyway
 		cmp.b	(Player_prev_frame).w,d0
 		beq.s	.return
+.doanyway:
+		move.b	(Player_curr_bank).w,(Player_prev_bank).w
 		move.b	d0,(Player_prev_frame).w
 		add.w	d0,d0
-		lea	(DPLC_Sonic).l,a2
+		movea.l	8(a3),a2
 		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		; beq.s	.nots
 		; lea	(DPLC_SuperSonic).l,a2
@@ -3668,7 +3770,8 @@ Sonic_Load_PLC2:
 		move.w	(a2)+,d5
 		subq.w	#1,d5
 		bmi.s	.return
-		move.l	#dmaSource(ArtUnc_Sonic),d6
+		move.l	4(a3),d6
+		lsr.l	#1,d6
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_1),d4					; normal

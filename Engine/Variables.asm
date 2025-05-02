@@ -215,6 +215,12 @@ Secondary_collision_addr:				ds.l 1
 Player_prev_frame:					ds.b 1
 Player_prev_frame_P2:				ds.b 1						; used by DPLC routines to detect whether a DMA transfer is required
 Player_prev_frame_P2_tail:			ds.b 1						; used by DPLC routines to detect whether a DMA transfer is required
+Player_prev_bank:				ds.b 1						; GIO: used by DPLC routines to detect whether a DMA transfer is required
+Player_prev_bank_P2:				ds.b 1						; GIO: used by DPLC routines to detect whether a DMA transfer is required
+Player_prev_bank_P2_tail:			ds.b 1						; GIO: used by DPLC routines to detect whether a DMA transfer is required
+Player_curr_bank:				ds.b 1						; GIO: whichever sprite bank is currently in use by Player 1
+Player_curr_bank_P2:				ds.b 1						; GIO: whichever sprite bank is currently in use by Player 2
+						ds.b 1						; alignment
 Reverse_gravity_flag:					ds.b 1
 Primary_Angle:						ds.b 1
 Primary_Angle_save:					ds.b 1						; used in FindFloor/FindWall
