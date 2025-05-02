@@ -1,5 +1,13 @@
 ; ---------------------------------------------------------------------------
-; Sonic Animation Script
+; Super Sonic Animation Script
+;
+; NOTICE
+; This is a non-standard Sonic animation format that appends one byte at
+; the beginning of the standard format.
+; The first byte represents the sprite bank the animation is meant to
+; pull its sprites from.
+; The second byte is the animation's speed, and everything else that follows
+; follows standard animation formatting.
 ; ---------------------------------------------------------------------------
 
 AniSuperSonic: offsetTable
@@ -39,11 +47,13 @@ AniSuperSonic: offsetTable
 		offsetTableEntry.w AniSonic21			; 21	(Unused?)
 		offsetTableEntry.w SonAni_Carry		; 22
 		offsetTableEntry.w SonAni_Carry2		; 23
+		offsetTableEntry.w SonAni_DropDash	; 24 (GIO)
+		offsetTableEntry.w SonAni_PeelOut	; 25 (GIO)
 
-SuperSonAni_Walk:		dc.b $FF, 1, 2, 3, 4, 5, 6, 7, 8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Run:		dc.b $FF, $21, $22, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Push:		dc.b $FD, $B6, $B7, $B8, $B9, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Wait:		dc.b 7, $BA, $BB, $FF
-SuperSonAni_Balance:		dc.b 9, $A1, $A2, $A3, $FF
-SuperSonAni_Duck:		dc.b 5, $9B, $FF
+SuperSonAni_Walk:		dc.b 1, $FF, 1, 2, 3, 4, 5, 6, 7, 8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Run:		dc.b 1, $FF, $21, $22, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Push:		dc.b 1, $FD, $35, $36, $37, $38, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+SuperSonAni_Wait:		dc.b 1, 7, $39, $3A, $FF
+SuperSonAni_Balance:		dc.b 1, 9, $32, $33, $34, $FF
+SuperSonAni_Duck:		dc.b 1, 5, $31, $FF
 	even

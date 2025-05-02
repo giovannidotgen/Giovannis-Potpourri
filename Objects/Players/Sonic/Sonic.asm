@@ -698,13 +698,7 @@ Sonic_NotRight:
 		tst.w	d1
 		bne.w	loc_112EA
 		bclr	#Status_Push,status(a0)
-		move.b	#AniIDSonAni_Wait,anim(a0)	; use standing animation
-	;	tst.b	character_id(a0)		; GIO: check if player is Sonic
-	;	bne.s	.notsupersonic			; GIO: if not, player can't be Super Sonic
-		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
-		beq.s	.notsupersonic			; GIO: if not, skip
-		move.b	#AniIDSuperSonAni_Wait,anim(a0)
-.notsupersonic:		
+		move.b	#AniIDSonAni_Wait,anim(a0)	; use standing animation	
 		btst	#Status_OnObj,status(a0)
 		beq.w	Sonic_Balance
 		movea.w	interact(a0),a1				; load interacting object's RAM space
@@ -861,7 +855,7 @@ loc_11268:
 		bset	#Status_Facing,status(a0)
 
 loc_1126E:
-		move.b	#AniIDSuperSonAni_Balance,anim(a0)
+		move.b	#AniIDSonAni_Balance,anim(a0)
 		bra.w	loc_112EA
 ; ---------------------------------------------------------------------------
 
@@ -870,13 +864,7 @@ loc_11276:
 		bne.s	loc_112B0
 		btst	#button_down,(Ctrl_1_logical).w
 		beq.s	loc_112B0
-		move.b	#AniIDSonAni_Duck,anim(a0)
-		tst.b	character_id(a0)		; GIO: check if player is Sonic
-		bne.s	.notsupersonic			; GIO: if not, player can't be Super Sonic		
-		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
-		beq.s	.notsupersonic			; GIO: if not, skip
-		move.b	#AniIDSuperSonAni_Duck,anim(a0)
-.notsupersonic:				
+		move.b	#AniIDSonAni_Duck,anim(a0)		
 		addq.b	#1,scroll_delay_counter(a0)
 		cmpi.b	#2*60,scroll_delay_counter(a0)
 		blo.s		loc_112F0
@@ -1488,11 +1476,6 @@ SonicKnux_Roll:
 ;		bne.s	locret_1177E								; if yes, branch
 
 		move.b	#AniIDSonAni_Duck,anim(a0)				; enter ducking animation
-		tst.b	character_id(a0)		; GIO: check if player is Sonic
-		bne.s	locret_1177E			; GIO: if not, player can't be Super Sonic		
-		tst.b	(Super_Sonic_Knux_flag).w	; GIO: check if player is in super form
-		beq.s	locret_1177E			; GIO: if not, skip
-		move.b	#AniIDSuperSonAni_Duck,anim(a0)
 
 locret_1177E:
 		rts
@@ -1500,12 +1483,7 @@ locret_1177E:
 
 SonicKnux_ChkWalk:
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)				; is Sonic ducking?
-		beq.s	.isducking
-		tst.b	character_id(a0)					; is player Sonic?
 		bne.s	locret_1177E
-		cmpi.b	#AniIDSuperSonAni_Duck,anim(a0)
-		bne.s	locret_1177E
-.isducking:	
 		clr.b	anim(a0)									; if so, enter walking animation
 		rts
 ; ---------------------------------------------------------------------------
@@ -2146,12 +2124,7 @@ SonicKnux_Spindash:
 		tst.b	spin_dash_flag(a0)
 		bne.w	loc_11C5E
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)
-		beq.s	.isDucking
-		tst.b	character_id(a0)					; is player Sonic?
-		bne.w	SonicKnux_SuperHyper.return		
-		cmpi.b	#AniIDSuperSonAni_Duck,anim(a0)
 		bne.w	SonicKnux_SuperHyper.return
-.isDucking:
 		moveq	#btnABC,d0
 		and.b	(Ctrl_1_pressed_logical).w,d0
 		beq.w	SonicKnux_SuperHyper.return
@@ -3312,9 +3285,9 @@ sub_125E0:
 
 Animate_Sonic:
 		lea	(AniSonic).l,a1			
-		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
-		; beq.s	.nots
-		; lea	(AniSuperSonic).l,a1
+		tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
+		beq.s	.nots
+		lea	(AniSuperSonic).l,a1
 
 .nots
 		moveq	#0,d0

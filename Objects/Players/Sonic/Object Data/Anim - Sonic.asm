@@ -49,12 +49,6 @@ AniSonic: offsetTable
 		ptrTableEntry.w SonAni_Carry2			; 23
 		ptrTableEntry.w	SonAni_DropDash		; 24
 		ptrTableEntry.w SonAni_PeelOut		; 25
-		ptrTableEntry.w SuperSonAni_Walk
-		ptrTableEntry.w SuperSonAni_Run
-		ptrTableEntry.w SuperSonAni_Push
-		ptrTableEntry.w SuperSonAni_Wait
-		ptrTableEntry.w SuperSonAni_Balance
-		ptrTableEntry.w SuperSonAni_Duck
 
 SonAni_Walk:		dc.b 0, $FF, 7, 8, 1, 2, 3, 4, 5, 6, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 SonAni_Run:			dc.b 0, $FF, $21, $22, $23, $24, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -101,10 +95,4 @@ SonAni_Carry:		dc.b 0, $B, $90, $91, $92, $91, $FF
 SonAni_Carry2:		dc.b 0, $B, $90, $91, $92, $91, $FD, 0
 SonAni_DropDash:	dc.b 0, $1, $DB, $DC, $FF	; GIO
 SonAni_PeelOut:		dc.b 0, $FF, $DD, $DE, $DF, $E0, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF	; GIO
-SuperSonAni_Walk:		dc.b 1, $FF, 1, 2, 3, 4, 5, 6, 7, 8, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Run:		dc.b 1, $FF, $21, $22, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Push:		dc.b 1, $FD, $B6, $B7, $B8, $B9, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-SuperSonAni_Wait:		dc.b 1, 7, $BA, $BB, $FF
-SuperSonAni_Balance:		dc.b 1, 9, $A1, $A2, $A3, $FF
-SuperSonAni_Duck:		dc.b 1, 5, $9B, $FF
 	even

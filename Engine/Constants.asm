@@ -231,12 +231,6 @@ AniIDSonAni_Carry =					id(ptr_SonAni_Carry)					; 22
 AniIDSonAni_Carry2 =				id(ptr_SonAni_Carry2)				; 23
 AniIDSonAni_DropDash =				id(ptr_SonAni_DropDash)				; 24 (GIO)
 AniIDSonAni_PeelOut =				id(ptr_SonAni_PeelOut)				; 25 (GIO)
-AniIDSuperSonAni_Walk =				id(ptr_SuperSonAni_Walk)			; 26 (GIO)
-AniIDSuperSonAni_Run = 				id(ptr_SuperSonAni_Run)				; 27 (GIO)
-AniIDSuperSonAni_Push = 			id(ptr_SuperSonAni_Push)			; 28 (GIO)
-AniIDSuperSonAni_Wait = 			id(ptr_SuperSonAni_Wait)			; 29 (GIO)
-AniIDSuperSonAni_Balance =			id(ptr_SuperSonAni_Balance)			; 2A (GIO)
-AniIDSuperSonAni_Duck =				id(ptr_SuperSonAni_Duck)			; 2B (GIO)
 
 ; ---------------------------------------------------------------------------
 ; Tails animation IDs
