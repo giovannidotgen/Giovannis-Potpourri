@@ -183,9 +183,11 @@ DashDust_CheckSkid:
 		bne.s	DashDust_Load_DPLC									; if yes, branch
 
 		; create dust clouds
-		clr.b	anim(a0)										; GIO: for good measure, we're resetting the playing dust animation
-		clr.w	mapping_frame(a0)									
-		clr.b	anim_frame_timer(a0)	
+		cmpi.b	#5,anim(a0)										; GIO: is the current Dust animation the Drop Dash?
+		bne.s	.nodropdash
+		clr.b	anim(a0)										; GIO: if it is, it has to be forcefully and prematurely interrupted
+		clr.w	mapping_frame(a0)
+.nodropdash:		
 		jsr	(Create_New_Sprite).w
 		bne.s	DashDust_Load_DPLC
 		move.l	#Obj_DashDust_SkidDust,address(a1)
