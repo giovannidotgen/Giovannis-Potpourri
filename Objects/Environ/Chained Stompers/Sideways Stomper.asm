@@ -122,9 +122,9 @@ SStom_Type00:
 loc_BAEC:
 		tst.b	render_flags(a0)											; object visible on the screen?
 		bpl.s	.skipsfx												; if not, branch
-		moveq	#signextendB(sfx_ChainRise),d0
-		moveq	#$F,d1												; play rising chain sound
-		jsr	(Play_SFX_Continuous).w
+
+		; play continuous sfx
+		sfxcont	sfx_ChainRise,$F						; play rising chain sound every 16th frame
 
 .skipsfx
 		subi.w	#$80,objoff_32(a0)
