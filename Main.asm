@@ -482,7 +482,7 @@ EndOfHeader
 		; Sonic
 
 		include "Objects/Players/Sonic/Object Data/Anim - Sonic.asm"
-	;	include "Objects/Players/Sonic/Object Data/Anim - Super Sonic.asm"	; Deprecated (GIO)
+		include "Objects/Players/Sonic/Object Data/Anim - Super Sonic.asm"
 		include "Objects/Players/Sonic/Object Data/Map - Sonic.asm"
 		Map_SuperSonic:
 		include "Objects/Players/Sonic/Object Data/Map - Super Sonic.asm"
