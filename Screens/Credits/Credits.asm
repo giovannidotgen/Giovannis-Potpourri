@@ -700,6 +700,8 @@ Obj_CreditsEggRobo:
 		; load eyes
 		lea	Child1_CreditsEggRobo_Eyes(pc),a2
 		jsr	(CreateChild1_Normal).w
+
+		; load emeralds
 		bsr.s	CreditsEggRobo_LoadEmeralds
 		bra.s	.riseskip
 ; ---------------------------------------------------------------------------
