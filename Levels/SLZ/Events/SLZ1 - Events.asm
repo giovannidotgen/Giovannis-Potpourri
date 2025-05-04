@@ -92,15 +92,15 @@ SLZ1_Deform:
 		move.w	d1,(a1)+							; save 18.75% ($3000)
 
 		; closer buildings
-		move.l	d0,d1							; copy 100% to d1 ($10000)
-		asr.l	#2,d1								; get 25% ($4000)
-		swap	d1
-		move.w	d1,(a1)+							; save 25%
+		asr.l	d0									; get 50% ($8000)
+		move.l	d0,d1							; copy 50% to d1 ($8000)
+		asr.l	d0									; get 25% ($4000)
+		swap	d0
+		move.w	d0,(a1)+							; save 25%
 
 		; bottom part of background
-		asr.l	d0									; get 50% ($8000)
-		swap	d0
-		move.w	d0,(a1)+							; save 50%
+		swap	d1
+		move.w	d1,(a1)+							; save 50%
 		rts
 ; ---------------------------------------------------------------------------
 
