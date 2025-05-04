@@ -109,8 +109,7 @@ SBZ1_Deform:
 		move.w	d1,(a1)+							; save 25%
 
 		; upper black buildings
-		move.l	d0,d1							; copy 100% to d1 ($10000)
-		asr.l	#2,d1								; get 25% ($4000)
+		swap	d1
 		move.l	d1,d2							; copy 25% to d2 ($4000)
 		asr.l	d2									; get 12.5% ($2000)
 		add.l	d1,d2							; add 12.5% to d2 ($6000)
