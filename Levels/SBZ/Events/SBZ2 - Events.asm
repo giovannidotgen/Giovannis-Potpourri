@@ -5,6 +5,8 @@
 ; =============== S U B R O U T I N E =======================================
 
 SBZ2_ScreenInit:
+
+		; set
 		move.w	#$7FF,(Screen_Y_wrap_value).w
 		move.w	#$7F0,(Camera_Y_pos_mask).w
 		move.w	#$3C,(Layout_row_index_mask).w				; set level y size: $7FF
