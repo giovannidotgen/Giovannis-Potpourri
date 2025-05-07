@@ -117,13 +117,13 @@ Obj_SwingingPlatform:
 ; ---------------------------------------------------------------------------
 
 .offscreen
-		move.w	respawn_addr(a0),d0
-		beq.s	.delete
-		movea.w	d0,a2
+		move.w	respawn_addr(a0),d0							; get address in respawn table
+		beq.s	.delete										; if it's zero, it isn't remembered
+		movea.w	d0,a2										; load address into a2
 		bclr	#7,(a2)
 
 .delete
-		movea.w	parent3(a0),a1								; load chain address
+		movea.w	parent3(a0),a1								; load chain address into a1
 		jsr	(Delete_Referenced_Sprite).w
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------

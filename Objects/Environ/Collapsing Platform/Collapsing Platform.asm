@@ -139,9 +139,11 @@ ObjPlatformCollapse_SmashObject:
 
 .notfree
 		pea	(Draw_Sprite).w
-		move.w	respawn_addr(a0),d0
-		beq.s	.playsfx											; function when object isnt spawned by layout (plays sound anyway)
-		movea.w	d0,a1
+
+		; function when object isnt spawned by layout (plays sound anyway)
+		move.w	respawn_addr(a0),d0								; get address in respawn table
+		beq.s	.playsfx											; if it's zero, it isn't remembered
+		movea.w	d0,a1											; load address into a1
 		bclr	#7,(a1)
 		clr.w	respawn_addr(a0)
 
