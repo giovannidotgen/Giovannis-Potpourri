@@ -143,9 +143,9 @@ LCon_CheckDelete:
 		bclr	#0,(a2,d0.w)
 
 .offscreen
-		move.w	respawn_addr(a0),d0
-		beq.s	.delete
-		movea.w	d0,a2
+		move.w	respawn_addr(a0),d0							; get address in respawn table
+		beq.s	.delete										; if it's zero, it isn't remembered
+		movea.w	d0,a2										; load address into a2
 		bclr	#7,(a2)
 
 .delete
