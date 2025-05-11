@@ -203,7 +203,7 @@ loc_1388C:
 		and.w	d0,y_pos(a0)						; perform wrapping of Tails's y position
 
 .display
-		bsr.s	Tails_Display
+		bsr.w	Tails_Display
 		bsr.w	Tails_Super
 		bsr.w	Sonic_RecordPos
 		bsr.w	Tails_Water
@@ -219,6 +219,7 @@ loc_1388C:
 		btst	#1,object_control(a0)
 		bne.s	.touch
 		bsr.w	Animate_Tails
+		bsr.w	Tails_SetSpriteBank
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.plc
 		eori.b	#2,render_flags(a0)
@@ -245,6 +246,28 @@ Tails_Modes: offsetTable
 		offsetTableEntry.w Tails_MdAir				; 2
 		offsetTableEntry.w Tails_MdRoll				; 4
 		offsetTableEntry.w Tails_MdJump			; 6
+; ---------------------------------------------------------------------------
+
+; ---------------------------------------------------------------------------
+; Subroutine that adjusts a player's mappings based on which frame it is that
+; is to be rendered.
+; 
+; Programmed by giovanni.gen
+;
+; See also Sonic_SetSpriteBank.
+; ---------------------------------------------------------------------------
+
+Tails_SetSpriteBank:
+		moveq	#0,d0
+		moveq	#0,d1
+		movea.l	#-1,a4
+		lea	(Tails_MapBankList).l,a3
+		bra.w	Player_SetSpriteBank
+		
+Tails_MapBankList:
+		dc.l	Map_Tails,ArtUnc_Tails,DPLC_Tails
+		dc.l	Map_Tails,ArtUnc_Tails_Extra,DPLC_Tails		
+		
 ; ---------------------------------------------------------------------------
 
 Tails_Display:
@@ -3200,12 +3223,23 @@ loc_15828:
 
 sub_15842:
 		bsr.s	Animate_Tails
+		bsr.w	Tails_SetSpriteBank		
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	loc_15856
 		eori.b	#2,render_flags(a0)
 
 loc_15856:
 		bra.w	Tails_Load_PLC
+
+; ---------------------------------------------------------------------------
+; NOTICE
+; This is a non-standard player sprite animation routine.
+; It has been slightly modified to make use of a bank-based sprite system 
+; programmed by giovanni.gen.
+; It will set Player_curr_bank_P2 based on the animation that is being played.
+; The animation format has been changed. Please check the player's animation
+; data file for more information.
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3225,7 +3259,7 @@ Animate_Tails_Part2:
 loc_1588A:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
-		move.b	(a1),d0
+		move.b	1(a1),d0
 		bmi.s	loc_158FA
 		moveq	#1,d1
 		and.b	status(a0),d1
@@ -3240,7 +3274,8 @@ loc_1588A:
 sub_158B0:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w			
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	loc_158CA
 
@@ -3256,24 +3291,24 @@ loc_158CA:
 		addq.b	#1,d0
 		bne.s	loc_158DA
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 		bra.s	loc_158C0
 ; ---------------------------------------------------------------------------
 
 loc_158DA:
 		addq.b	#1,d0
 		bne.s	loc_158EE
-		move.b	2(a1,d1.w),d0
+		move.b	3(a1,d1.w),d0
 		sub.b	d0,anim_frame(a0)
 		sub.b	d0,d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		bra.s	loc_158C0
 ; ---------------------------------------------------------------------------
 
 loc_158EE:
 		addq.b	#1,d0
 		bne.s	locret_158F8
-		move.b	2(a1,d1.w),anim(a0)
+		move.b	3(a1,d1.w),anim(a0)
 
 locret_158F8:
 		rts
@@ -3336,11 +3371,12 @@ loc_15960:
 loc_1598A:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w		
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_159A4
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_159A4:
 		move.b	d0,mapping_frame(a0)
@@ -3479,29 +3515,37 @@ Tails_Tail_Load_PLC:
 Tails_Load_PLC:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
+		move.b	(Player_curr_bank_P2).w,d4
 
 Tails_Load_PLC2:
+		cmp.b	(Player_prev_bank_P2).w,d4
+		bne.s	.doanyway
 		cmp.b	(Player_prev_frame_P2).w,d0
 		beq.s	.return
+.doanyway:	
+		move.b	(Player_curr_bank_P2).w,(Player_prev_bank_P2).w
 		move.b	d0,(Player_prev_frame_P2).w
 		add.w	d0,d0
-		lea	(DPLC_Tails).l,a2
+		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
 		subq.w	#1,d5
 		bmi.s	.return
+		move.l	4(a3),d6
+		lsr.l	#1,d6		
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_2),d4				; normal
 		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.notspecial										; if not, branch
+		bne.s	.loop										; if not, branch
 		move.w	#tiles_to_bytes($79C),d4							; Special Stage
 
-.notspecial
-		move.l	#dmaSource(ArtUnc_Tails),d6
-		cmpi.w	#$D1*2,d0										; mapping frame * 2
-		blo.s		.loop
-		move.l	#dmaSource(ArtUnc_Tails_Extra),d6
+; this will be handled by the sprite bank system
+;.notspecial
+;		move.l	#dmaSource(ArtUnc_Tails),d6
+;		cmpi.w	#$D1*2,d0										; mapping frame * 2
+;		blo.s		.loop
+;		move.l	#dmaSource(ArtUnc_Tails_Extra),d6
 
 .loop
 		moveq	#0,d1
