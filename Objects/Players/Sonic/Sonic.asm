@@ -3761,11 +3761,6 @@ Sonic_Load_PLC2:
 		move.b	d0,(Player_prev_frame).w
 		add.w	d0,d0
 		movea.l	8(a3),a2
-		; tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
-		; beq.s	.nots
-		; lea	(DPLC_SuperSonic).l,a2
-
-.nots
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
 		subq.w	#1,d5
