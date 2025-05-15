@@ -26,6 +26,8 @@ Obj_BossSpikeBall:
 		move.b	#BossSpikeBall_Hits,collision_property(a0)			; set hits
 		move.w	#-$100,x_vel(a0)									; set move left
 		move.l	#BossSpikeBall_MoveLeft,obBSB_Jump(a0)
+
+		; create
 		lea	Child1_MakeRoboHead4(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboShipFlame(pc),a2

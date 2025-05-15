@@ -35,6 +35,8 @@ Obj_BossBlock:
 		move.b	#BossBlock_Hits,collision_property(a0)			; set hits
 		move.w	#-$100,x_vel(a0)								; set move left
 		move.l	#BossBlock_MoveLeftRight,obBB_Jump(a0)
+
+		; create
 		lea	Child1_MakeRoboShipFlame(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboHead4(pc),a2
@@ -91,6 +93,8 @@ BossBlock_MoveLeftRight:
 ; ---------------------------------------------------------------------------
 
 BossBlock_MoveDown:
+
+		; check
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$AC,d0
 		cmp.w	y_pos(a0),d0
@@ -98,6 +102,8 @@ BossBlock_MoveDown:
 		move.w	d0,y_pos(a0)
 		clr.w	y_vel(a0)
 		move.w	y_pos(a0),obBB_SaveYpos(a0)
+
+		; check block
 		move.l	#BossBlock_FloorShaking.exit,d1
 		move.w	parent3(a0),d0
 		beq.s	.set
@@ -243,6 +249,7 @@ BossBlock_Restart:
 		cmp.w	x_pos(a0),d0
 		blt.s		.return
 		bra.s	.restart
+; ---------------------------------------------------------------------------
 
 .right
 		addi.w	#320-8,d0
@@ -272,6 +279,7 @@ BossBlock_Setup4:
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 		bra.s	BossBlock_Setup3
+; ---------------------------------------------------------------------------
 
 .right
 		addi.w	#320-8,d0

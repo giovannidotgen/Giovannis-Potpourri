@@ -37,6 +37,8 @@ Obj_BossWater:
 		move.l	#BossWater_MoveUp,obBW_Jump(a0)
 		move.w	#BossWater_Xpos,(Camera_saved_min_X_pos).w
 		move.w	#BossWater_Ypos,(Camera_saved_min_Y_pos).w
+
+		; create
 		lea	Child1_MakeRoboShipFlame(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboHead4(pc),a2
