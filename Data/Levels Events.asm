@@ -14,6 +14,7 @@
 		include "Levels/GHZ/Events/GHZ3 - Resize.asm"
 
 		; MZ
+		include "Levels/MZ/Tiles/Animated/MZ1 - Animation PLC.asm"
 		include "Levels/MZ/Tiles/Animated/MZ1 - Animation PLC Scripts.asm"
 		include "Levels/MZ/Events/MZ1 - Events.asm"
 		include "Levels/MZ/Events/MZ1 - Resize.asm"

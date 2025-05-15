@@ -211,8 +211,6 @@ BossFinal_MainProcess:
 
 ; =============== S U B R O U T I N E =======================================
 
-BossFinal_CheckTouch:
-
 		; check touch flag
 		tst.b	collision_flags(a0)
 		beq.s	.return
@@ -307,7 +305,7 @@ BossFinal_CheckTouch:
 BossFinal_Defeated:
 
 		; bounce player
-		bsr.s	BossFinal_CheckTouch.bounce
+		bsr.s	BossFinal_MainProcess.bounce
 
 		; start defeated
 		move.l	#.defeated,address(a0)

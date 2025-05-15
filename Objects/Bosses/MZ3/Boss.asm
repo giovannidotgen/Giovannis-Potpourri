@@ -221,7 +221,7 @@ BossFire_MainProcess:
 
 ; =============== S U B R O U T I N E =======================================
 
-BossFire_CheckTouch:
+		; check touch
 		tst.b	collision_flags(a0)									; are boss's collisions enabled?
 		bne.s	.return										; if yes, branch
 		tst.b	collision_property(a0)								; has boss run out of hits?

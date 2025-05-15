@@ -312,7 +312,7 @@ BossWater_MainProcess:
 
 ; =============== S U B R O U T I N E =======================================
 
-BossWater_CheckTouch:
+		; check touch
 		tst.b	obBW_Counter(a0)
 		bne.s	.return
 		tst.b	status(a0)											; bit 7
