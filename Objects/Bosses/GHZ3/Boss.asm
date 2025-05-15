@@ -18,7 +18,7 @@ Obj_BossBall:
 
 		; don't load the objects until the art has been loaded
 		tst.w	(KosPlus_modules_left).w
-		bne.w	BossBall_MoveWait.return
+		bne.w	BossBall_MoveDown.return
 		move.l	#BossBall_Setup2,address(a0)
 
 		; init
@@ -28,6 +28,8 @@ Obj_BossBall:
 		move.b	#BossBall_Hits,collision_property(a0)			; set hits
 		move.w	#$100,y_vel(a0)								; set move down
 		move.l	#BossBall_MoveDown,objoff_34(a0)
+
+		; create
 		lea	Child1_MakeRoboShipFlame(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboHead4(pc),a2
@@ -40,37 +42,43 @@ Obj_BossBall:
 ; =============== S U B R O U T I N E =======================================
 
 BossBall_MoveDown:
+
+		; check
 		moveq	#$28,d0
 		add.w	(Camera_max_Y_pos).w,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	BossBall_MoveWait.return
+		bhs.s	.return
 
 		; next
 		move.l	#BossBall_Setup3,address(a0)
-		move.l	#BossBall_CreateBall,objoff_34(a0)
+		move.l	#.createball,objoff_34(a0)
 		move.w	#-$100,x_vel(a0)								; set move left
 		jmp	(Swing_Setup1).w
 ; ---------------------------------------------------------------------------
 
-BossBall_CreateBall:
+.createball
+
+		; check
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#320/2,d0
 		cmp.w	x_pos(a0),d0
-		bne.s	BossBall_MoveWait.return
+		bne.s	.return
 
 		; next
 		clr.w	x_vel(a0)									; set stop move
 		move.w	#(2*60)-1,objoff_2E(a0)						; set wait
-		move.l	#BossBall_MoveWait,objoff_34(a0)
+		move.l	#.wait,objoff_34(a0)
 		bset	#6,objoff_38(a0)									; set laugh flag
+
+		; create
 		lea	Child9_GHZBall(pc),a2
 		jmp	(CreateChild9_TreeList).w
 ; ---------------------------------------------------------------------------
 
-BossBall_MoveWait:
+.wait
 		move.w	#(1<<7)-1,objoff_2E(a0)						; set wait
 		move.w	#-$40,x_vel(a0)
-		move.l	#BossBall_FlipX,objoff_34(a0)
+		move.l	#BossBall_Move.flipx,objoff_34(a0)
 		bset	#2,obBGB_Status(a0)
 		bclr	#6,objoff_38(a0)									; clear laugh flag
 
@@ -85,17 +93,14 @@ BossBall_MoveWait:
 
 BossBall_Move:
 		move.w	#(1<<6)-1,objoff_2E(a0)						; set wait
-		move.l	#BossBall_FlipX,objoff_34(a0)
-		move.w	#$100,x_vel(a0)
-		btst	#0,render_flags(a0)
-		bne.s	.return
-		neg.w	x_vel(a0)
+		move.l	#.flipx,objoff_34(a0)
 
-.return
-		rts
+		; set move
+		move.w	#-$100,d0
+		jmp	(Change_VelocityWithFlipX).w
 ; ---------------------------------------------------------------------------
 
-BossBall_FlipX:
+.flipx
 		move.w	#(1<<6)-1,objoff_2E(a0)						; set wait
 		move.l	#BossBall_Move,objoff_34(a0)
 		bchg	#0,render_flags(a0)
