@@ -1906,6 +1906,13 @@ loc_175A2:
 		move.b	y_radius(a0),d0
 		move.w	default_y_radius(a0),y_radius(a0)	; set default_y_radius and default_x_radius
 		move.b	#AniIDSonAni_Wait,anim(a0)
+
+		; check
+		tst.w	(Camera_H_scroll_shift).w
+		beq.s	.skip
+		move.b	#AniIDSonAni_Walk,anim(a0)
+
+.skip
 		sub.b	default_y_radius(a0),d0
 		ext.w	d0
 		tst.b	(Reverse_gravity_flag).w
@@ -2009,6 +2016,13 @@ Knux_ChgJumpDir:
 		btst	#button_left,(Ctrl_1_logical).w
 		beq.s	loc_176B4								; if not holding left, branch
 		bset	#Status_Facing,status(a0)
+
+		; check
+		tst.w	(Camera_H_scroll_shift).w
+		beq.s	.skip
+		bclr	#Status_Facing,status(a0)
+
+.skip
 		sub.w	d5,d0									; add acceleration to the left
 		move.w	d6,d1
 		neg.w	d1
