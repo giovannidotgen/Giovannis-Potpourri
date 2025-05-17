@@ -177,64 +177,64 @@ Ending_Layout:			bincludeEntry "Levels/GHZ/Layout/Ending.bin"
 ; ===========================================================================
 
 	ObjectLayoutBoundary
-GHZ1_Sprites:			binclude "Levels/GHZ/Object Pos/1.bin"
+GHZ1_Objects:			binclude "Levels/GHZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-GHZ2_Sprites:			binclude "Levels/GHZ/Object Pos/2.bin"
+GHZ2_Objects:			binclude "Levels/GHZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-GHZ3_Sprites:			binclude "Levels/GHZ/Object Pos/3.bin"
+GHZ3_Objects:			binclude "Levels/GHZ/Object Pos/3.bin"
 	ObjectLayoutBoundary
 	even
-MZ1_Sprites:				binclude "Levels/MZ/Object Pos/1.bin"
+MZ1_Objects:				binclude "Levels/MZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-MZ2_Sprites:				binclude "Levels/MZ/Object Pos/2.bin"
+MZ2_Objects:			binclude "Levels/MZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-MZ3_Sprites:				binclude "Levels/MZ/Object Pos/3.bin"
+MZ3_Objects:			binclude "Levels/MZ/Object Pos/3.bin"
 	ObjectLayoutBoundary
 	even
-SYZ1_Sprites:			binclude "Levels/SYZ/Object Pos/1.bin"
+SYZ1_Objects:			binclude "Levels/SYZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-SYZ2_Sprites:			binclude "Levels/SYZ/Object Pos/2.bin"
+SYZ2_Objects:			binclude "Levels/SYZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-SYZ3_Sprites:			binclude "Levels/SYZ/Object Pos/3.bin"
+SYZ3_Objects:			binclude "Levels/SYZ/Object Pos/3.bin"
 	ObjectLayoutBoundary
 	even
-LZ1_Sprites:				binclude "Levels/LZ/Object Pos/1.bin"
+LZ1_Objects:				binclude "Levels/LZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-LZ2_Sprites:				binclude "Levels/LZ/Object Pos/2.bin"
+LZ2_Objects:				binclude "Levels/LZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-LZ3_Sprites:				binclude "Levels/LZ/Object Pos/3.bin"
+LZ3_Objects:				binclude "Levels/LZ/Object Pos/3.bin"
 	ObjectLayoutBoundary
 	even
-SLZ1_Sprites:				binclude "Levels/SLZ/Object Pos/1.bin"
+SLZ1_Objects:			binclude "Levels/SLZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-SLZ2_Sprites:			binclude "Levels/SLZ/Object Pos/2.bin"
+SLZ2_Objects:			binclude "Levels/SLZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-SLZ3_Sprites:			binclude "Levels/SLZ/Object Pos/3.bin"
+SLZ3_Objects:			binclude "Levels/SLZ/Object Pos/3.bin"
 	ObjectLayoutBoundary
 	even
-SBZ1_Sprites:			binclude "Levels/SBZ/Object Pos/1.bin"
+SBZ1_Objects:			binclude "Levels/SBZ/Object Pos/1.bin"
 	ObjectLayoutBoundary
 	even
-SBZ2_Sprites:			binclude "Levels/SBZ/Object Pos/2.bin"
+SBZ2_Objects:			binclude "Levels/SBZ/Object Pos/2.bin"
 	ObjectLayoutBoundary
 	even
-SBZ3_Sprites:			binclude "Levels/LZ/Object Pos/SBZ3.bin"
+SBZ3_Objects:			binclude "Levels/LZ/Object Pos/SBZ3.bin"
 	ObjectLayoutBoundary
 	even
-Final_Sprites:			binclude "Levels/SBZ/Object Pos/Final.bin"
+Final_Objects:			binclude "Levels/SBZ/Object Pos/Final.bin"
 	ObjectLayoutBoundary
 	even
-Ending_Sprites:			binclude "Levels/GHZ/Object Pos/Ending.bin"
+Ending_Objects:			binclude "Levels/GHZ/Object Pos/Ending.bin"
 	ObjectLayoutBoundary
 	even
 

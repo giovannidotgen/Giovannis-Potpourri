@@ -39,7 +39,7 @@
 		; Level data 2
 		dc.l GHZ_Solid								; Level solid
 		dc.l GHZ3_Layout								; Level layout
-		dc.l GHZ3_Sprites								; Level sprites
+		dc.l GHZ3_Objects								; Level sprites
 		dc.l GHZ3_Rings								; Level rings
 
 		; PLC

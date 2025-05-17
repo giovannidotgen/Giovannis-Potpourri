@@ -39,7 +39,7 @@
 		; Level data 2
 		dc.l LZ_Solid									; Level solid
 		dc.l LZ3_Layout								; Level layout
-		dc.l LZ3_Sprites								; Level sprites
+		dc.l LZ3_Objects								; Level sprites
 		dc.l LZ3_Rings								; Level rings
 
 		; PLC
