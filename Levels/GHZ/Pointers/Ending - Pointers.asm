@@ -43,7 +43,7 @@ LevelLoadPointer_Ending:
 		; Level data 2
 		dc.l GHZ_Solid								; Level solid
 		dc.l Ending_Layout							; Level layout
-		dc.l Ending_Sprites							; Level sprites
+		dc.l Ending_Objects							; Level sprites
 		dc.l 0										; Level rings
 
 		; PLC
