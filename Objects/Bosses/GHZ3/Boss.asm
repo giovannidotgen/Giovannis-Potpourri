@@ -296,24 +296,28 @@ Obj_BossBall_Crane:
 
 .circular
 		move.w	objoff_3A(a0),d0
-		tst.b	objoff_39(a0)
-		bne.s	.circular2
-		addq.w	#8,d0
-		move.w	d0,objoff_3A(a0)
-		sub.w	d0,objoff_3C(a0)
+
+		; check
+		tst.b	objoff_39(a0)										; is the ball moving left?
+		bne.s	.cleft										; if yes, branch
+		addq.w	#8,d0										; moving to the right
+
+		; check
 		cmpi.w	#$200,d0
-		bne.s	.refresh
-		st	objoff_39(a0)
-		bra.s	.refresh
+		seq	objoff_39(a0)
+		bra.s	.cset
 ; ---------------------------------------------------------------------------
 
-.circular2
-		subq.w	#8,d0
+.cleft
+		subq.w	#8,d0										; moving to the left
+
+		; check
+		cmpi.w	#-$200,d0
+		sne	objoff_39(a0)
+
+.cset
 		move.w	d0,objoff_3A(a0)
 		sub.w	d0,objoff_3C(a0)
-		cmpi.w	#-$200,d0
-		bne.s	.refresh
-		clr.b	objoff_39(a0)
 
 .refresh
 		jsr	(Refresh_ChildPosition).w
