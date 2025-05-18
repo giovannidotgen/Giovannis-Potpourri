@@ -528,5 +528,5 @@ PLC_BossBall_end
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Bosses/GHZ3/Object Data/Map - Giant Ball Crane.asm"
-		include "Objects/Bosses/GHZ3/Object Data/DPLC - Giant Ball.asm"
 		include "Objects/Bosses/GHZ3/Object Data/Map - Giant Ball.asm"
+		include "Objects/Bosses/GHZ3/Object Data/DPLC - Giant Ball.asm"
