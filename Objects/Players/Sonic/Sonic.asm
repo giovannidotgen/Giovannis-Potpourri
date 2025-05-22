@@ -2564,7 +2564,8 @@ BubbleShield_Bounce:
 		sub.w	d0,y_pos(a0)
 		move.b	#2,(Shield+anim).w
 		sfx	sfx_BubbleAttack,1
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Sonic_Hurt:
 
@@ -2596,6 +2597,7 @@ loc_12302:
 		bsr.s	sub_12318
 		bsr.w	Player_LevelBound
 		bsr.w	Sonic_RecordPos
+		bsr.w	Sonic_Water
 		bsr.w	sub_125E0
 		jmp	(Draw_Sprite).w
 

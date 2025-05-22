@@ -2505,7 +2505,8 @@ loc_17B6A:
 
 locret_17BB4:
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Knuckles_Hurt:
 
@@ -2537,6 +2538,7 @@ loc_17BFA:
 		bsr.s	sub_17C10
 		bsr.w	Player_LevelBound
 		bsr.w	Sonic_RecordPos
+		bsr.w	Knuckles_Water
 		bsr.w	sub_17D1E
 		jmp	(Draw_Sprite).w
 
