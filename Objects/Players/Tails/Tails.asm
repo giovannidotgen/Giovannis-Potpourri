@@ -3000,7 +3000,8 @@ loc_1565E:
 		move.b	d0,scroll_delay_counter(a0)
 		move.b	d0,double_jump_flag(a0)
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Tails_Hurt:
 
@@ -3044,6 +3045,7 @@ loc_15700:
 		bsr.s	sub_15716
 		bsr.w	Player_LevelBound
 		bsr.w	Sonic_RecordPos
+		bsr.w	Tails_Water
 		bsr.w	sub_15842
 		jmp	(Draw_Sprite).w
 
