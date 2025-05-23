@@ -25,6 +25,8 @@ word_12650:
 word_12668:
 		dc.w $10, $1300+setLZPlatformPos, $1252+setLZPlatformPos, $20A, $13DE+setLZPlatformPos, $20A, $13DE+setLZPlatformPos, $2BE, $1252+setLZPlatformPos, $2BE
 
+; =============== S U B R O U T I N E =======================================
+
 ObjPosLZPlatform_Index: offsetTable
 		offsetTableEntry.w ObjPos_LZ1pf1
 		offsetTableEntry.w ObjPos_LZ1pf2
