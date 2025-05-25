@@ -76,9 +76,7 @@ Obj_SpikePole:
 		jsr	(HurtCharacter_Directly2).w					; hurt character
 
 .draw
-		moveq	#-$80,d0								; round down to nearest $80
-		and.w	x_pos(a0),d0								; get object position
-		jmp	(Sprite_OnScreen_Test2).w
+		jmp	(Sprite_OnScreen_Test).w
 ; ---------------------------------------------------------------------------
 
 .range
