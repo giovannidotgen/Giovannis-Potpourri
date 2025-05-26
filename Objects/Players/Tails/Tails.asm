@@ -3340,7 +3340,8 @@ loc_159A4:
 		moveq	#0,d2
 
 loc_159BC:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		addq.b	#1,anim_frame(a0)
 
@@ -3371,7 +3372,8 @@ loc_15A00:
 		moveq	#0,d2
 
 loc_15A0A:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		bra.w	sub_158B0
 ; ---------------------------------------------------------------------------
@@ -3494,7 +3496,8 @@ Tails_Load_PLC2:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
-		lsr.w	#8,d3
+		move.w	d3,-(sp)
+		move.b	(sp)+,d3
 		andi.w	#$F0,d3
 		addi.w	#$10,d3
 		andi.w	#$FFF,d1
