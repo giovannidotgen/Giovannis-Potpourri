@@ -2936,7 +2936,8 @@ loc_12742:
 		moveq	#0,d2
 
 loc_1275A:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		addq.b	#1,anim_frame(a0)
 
@@ -2978,7 +2979,8 @@ loc_1279C:
 		moveq	#0,d2
 
 loc_127B4:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		addq.b	#1,anim_frame(a0)
 
@@ -3207,7 +3209,8 @@ loc_12A5E:
 		moveq	#0,d2
 
 loc_12A68:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		bra.w	SAnim_Do2
 ; ---------------------------------------------------------------------------
@@ -3268,7 +3271,8 @@ Sonic_Load_PLC2:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
-		lsr.w	#8,d3
+		move.w	d3,-(sp)
+		move.b	(sp)+,d3
 		andi.w	#$F0,d3
 		addi.w	#$10,d3
 		andi.w	#$FFF,d1
