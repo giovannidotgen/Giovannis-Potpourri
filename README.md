@@ -145,7 +145,7 @@ Example of correct code:
 ### Red Miso Studios Staff
 
 - TheBlad768 -- Project lead, sole programmer, S.C.E. Game Engine
-- iamchloya -- Level art and level design edits, sprite art and other things
+- Nichloya -- Level art and level design edits, sprite art and other things
 - pixelcat -- Sprite art, UI art and other things
 - FoxConED -- S.C.E. Level Select font art
 - Dolphman -- Robotnik head art
