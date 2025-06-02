@@ -289,7 +289,7 @@ SpawnLevelMainSprites:
 		; set fall
 		moveq	#AniIDSonAni_Slide,d1
 		btst	#Status_Roll,(SBZ2_player_roll).w										; is Sonic rolling after SBZ2?
-		beq.s	.setfall					 										; if not, branch
+		beq.s	.setfall															; if not, branch
 		moveq	#AniIDSonAni_Roll,d1
 
 .setfall

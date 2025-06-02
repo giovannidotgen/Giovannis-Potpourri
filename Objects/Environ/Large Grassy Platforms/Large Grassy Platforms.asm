@@ -9,7 +9,7 @@ LGorigY:		= objoff_30
 ; =============== S U B R O U T I N E =======================================
 
 LGrass_Data: offsetTable
-		LargeGrassEntry LGrass_Data1, 0, 128 						; collision angle data, frame number, platform width
+		LargeGrassEntry LGrass_Data1, 0, 128						; collision angle data, frame number, platform width
 		LargeGrassEntry LGrass_Data3, 1, 128
 		LargeGrassEntry LGrass_Data2, 2, 64
 ; ---------------------------------------------------------------------------

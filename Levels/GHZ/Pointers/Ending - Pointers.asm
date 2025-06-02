@@ -28,14 +28,14 @@ LevelLoadPointer_Ending:
 
 		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
 		levartptrs \
- 		GHZ_8x8_KosPM, \
- 		0, \
- 		GHZ_16x16_Unc, \
- 		0, \
- 		0, \
- 		Chunk_table, \
- 		Ending_128x128_KosP, \
- 		0, \
+		GHZ_8x8_KosPM, \
+		0, \
+		GHZ_16x16_Unc, \
+		0, \
+		0, \
+		Chunk_table, \
+		Ending_128x128_KosP, \
+		0, \
 		PalID_Ending, \
 		PalID_WaterGHZ, \
 		mus_Ending

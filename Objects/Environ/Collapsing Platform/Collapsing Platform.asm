@@ -28,7 +28,7 @@ Obj_CollapsingPlatform:
 		beq.s	.stand											; if not, branch
 		tst.b	cplat_timedelay(a0)									; has time delay reached zero?
 		beq.w	ObjPlatformCollapse_CreateFragments				; if yes, branch
-		subq.b	#1,cplat_timedelay(a0)	 							; subtract 1 from time
+		subq.b	#1,cplat_timedelay(a0)								; subtract 1 from time
 
 .stand
 		moveq	#standing_mask,d0

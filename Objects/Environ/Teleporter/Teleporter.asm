@@ -13,12 +13,12 @@ Teleport_Offset:			= *
 tele_player1_attached		= *
 
 .routine					ds.b 1	; 0
-.sine						ds.b 1 	; 1
+.sine						ds.b 1	; 1
 .timer					ds.w 1	; 2
 .size						ds.w 1	; 4
 .pointer					ds.l 1	; 6	; save address
 .saveX					ds.w 1	; $A
-.saveY					ds.w 1 	; $C
+.saveY					ds.w 1	; $C
 
 	dephase
 
@@ -28,12 +28,12 @@ tele_player1_attached		= *
 tele_player2_attached		= *
 
 .routine					ds.b 1	; 0
-.sine						ds.b 1 	; 1
+.sine						ds.b 1	; 1
 .timer					ds.w 1	; 2
 .size						ds.w 1	; 4
 .pointer					ds.l 1	; 6	; save address
 .saveX					ds.w 1	; $A
-.saveY					ds.w 1 	; $C
+.saveY					ds.w 1	; $C
 
 	dephase
 	!org	Teleport_Offset
