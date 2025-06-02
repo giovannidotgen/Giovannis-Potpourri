@@ -872,7 +872,7 @@ stopZ80 macro
 
 .wait
 		btst	#0,(Z80_bus_request).l
-		bne.s	.wait 						; loop until it says it's stopped
+		bne.s	.wait						; loop until it says it's stopped
 	endif
 
     endm
@@ -896,7 +896,7 @@ waitZ80 macro
 	if OptimiseStopZ80=0
 .wait
 		btst	#0,(Z80_bus_request).l
-		bne.s	.wait 						; loop until
+		bne.s	.wait						; loop until
 	endif
 
     endm
@@ -931,7 +931,7 @@ resetZ80a macro
 startZ80 macro
 
 	if OptimiseStopZ80=0
-		move.w	#0,(Z80_bus_request).l	; start the Z80
+		move.w	#0,(Z80_bus_request).l		; start the Z80
 	endif
 
     endm
@@ -948,7 +948,7 @@ stopZ802 macro
 
 .wait
 		btst	#0,(Z80_bus_request).l
-		bne.s	.wait 						; loop until it says it's stopped
+		bne.s	.wait						; loop until it says it's stopped
 	endif
 
     endm

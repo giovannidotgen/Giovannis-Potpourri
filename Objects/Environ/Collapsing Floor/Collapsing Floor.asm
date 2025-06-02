@@ -44,7 +44,7 @@ Obj_CollapseFloor:
 		beq.s	.stand										; if not, branch
 		tst.b	cflo_timedelay(a0)								; has time delay reached zero?
 		beq.s	.collapse										; if yes, branch
-		subq.b	#1,cflo_timedelay(a0) 							; subtract 1 from time
+		subq.b	#1,cflo_timedelay(a0)							; subtract 1 from time
 
 .stand
 		moveq	#standing_mask,d0
