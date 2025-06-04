@@ -24,7 +24,7 @@ ArtUnc_DashDust:					binclude "Objects/Players/Spin Dust/Uncompressed Art/Dash D
 	even
 ArtUnc_SplashDrown:					binclude "Objects/Players/Spin Dust/Uncompressed Art/Splash Drown.unc"
 	even
-ArtUnc_Invincibility:					binclude "Objects/Players/Shields/Uncompressed Art/Invincibility.unc"
+ArtUnc_Invincibility:					bincludeEntry "Objects/Players/Shields/Uncompressed Art/Invincibility.unc"
 	even
 ArtUnc_InstaShield:					binclude "Objects/Players/Shields/Uncompressed Art/Insta-Shield.unc"
 	even
@@ -32,15 +32,15 @@ ArtUnc_FireShield:					binclude "Objects/Players/Shields/Uncompressed Art/Fire S
 	even
 ArtUnc_LightningShield:				binclude "Objects/Players/Shields/Uncompressed Art/Lightning Shield.unc"
 	even
-ArtUnc_LightningShield_Sparks:		binclude "Objects/Players/Shields/Uncompressed Art/Sparks.unc"
+ArtUnc_LightningShield_Sparks:		bincludeEntry "Objects/Players/Shields/Uncompressed Art/Sparks.unc"
 	even
 ArtUnc_BubbleShield:					binclude "Objects/Players/Shields/Uncompressed Art/Bubble Shield.unc"
 	even
 ArtUnc_BlueShield:					binclude "Objects/Players/Shields/Uncompressed Art/Blue Shield.unc"
 	even
-ArtUnc_SuperSonic_Stars:				binclude "Objects/Players/Transform/Uncompressed Art/Super Sonic Stars.unc"
+ArtUnc_SuperSonic_Stars:				bincludeEntry "Objects/Players/Transform/Uncompressed Art/Super Sonic Stars.unc"
 	even
-ArtUnc_HyperSonicStars:				binclude "Objects/Players/Transform/Uncompressed Art/Hyper Sonic Stars.unc"
+ArtUnc_HyperSonicStars:				bincludeEntry "Objects/Players/Transform/Uncompressed Art/Hyper Sonic Stars.unc"
 	even
-ArtUnc_SuperTailsBirds:				binclude "Objects/Players/Transform/Uncompressed Art/Super Tails birds.unc"
+ArtUnc_SuperTailsBirds:				bincludeEntry "Objects/Players/Transform/Uncompressed Art/Super Tails birds.unc"
 	even

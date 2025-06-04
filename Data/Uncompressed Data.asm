@@ -12,15 +12,15 @@ ArtUnc_DebugDigits:				binclude "Objects/Renders/HUD/Uncompressed Art/Debug Digi
 	even
 ArtUnc_EndSigns:				binclude "Objects/Main/Signpost/Uncompressed Art/End Signs.unc"
 	even
-ArtUnc_SignpostStub:				binclude "Objects/Main/Signpost/Uncompressed Art/Stub.unc"
+ArtUnc_SignpostStub:				bincludeEntry "Objects/Main/Signpost/Uncompressed Art/Stub.unc"
 	even
 ArtUnc_BigRing:					binclude "Objects/Main/Big Ring/Uncompressed Art/Big Ring.unc"
 	even
 ArtUnc_BigRingFlash:				binclude "Objects/Main/Big Ring/Uncompressed Art/Big Ring Flash.unc"
 	even
-ArtUnc_RobotnikShip1:			binclude "Objects/Bosses/Robotnik/Uncompressed Art/Robotnik Ship 1.unc"
+ArtUnc_RobotnikShip1:			bincludeEntry "Objects/Bosses/Robotnik/Uncompressed Art/Robotnik Ship 1.unc"
 	even
-ArtUnc_RobotnikShip2:			binclude "Objects/Bosses/Robotnik/Uncompressed Art/Robotnik Ship 2.unc"
+ArtUnc_RobotnikShip2:			bincludeEntry "Objects/Bosses/Robotnik/Uncompressed Art/Robotnik Ship 2.unc"
 	even
 ArtUnc_AirCountDown:			binclude "Objects/Main/Count Down/Uncompressed Art/Air Countdown.unc"
 	even

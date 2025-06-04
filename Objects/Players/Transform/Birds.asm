@@ -12,8 +12,10 @@ superTailsBirds_target_address	= $42
 
 Obj_SuperTailsBirds:
 
+.artsize	:= (ArtUnc_SuperTailsBirds_end-ArtUnc_SuperTailsBirds)&$FFFF
+
 		; load birds art
-		QueueStaticDMA ArtUnc_SuperTailsBirds,tiles_to_bytes(14),tiles_to_bytes(ArtTile_Player_1)
+		QueueStaticDMA ArtUnc_SuperTailsBirds,.artsize,tiles_to_bytes(ArtTile_Player_1)
 
 		; load
 		lea	(a0),a1
