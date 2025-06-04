@@ -361,8 +361,10 @@ BossBlock_Defeated:
 		; use the first line of the palette
 		andi.w	#$87FF,art_tile(a0)
 
+.artsize	:= (ArtUnc_RobotnikShip1_end-ArtUnc_RobotnikShip1)&$FFFF
+
 		; load alternative ship art
-		QueueStaticDMA ArtUnc_RobotnikShip1,tiles_to_bytes($41),tiles_to_bytes($3B6)
+		QueueStaticDMA ArtUnc_RobotnikShip1,.artsize,tiles_to_bytes($3B6)
 
 		; restore the level palette
 		lea	(Pal_SYZ).l,a1

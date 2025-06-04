@@ -6,8 +6,10 @@
 
 Obj_SuperSonicKnux_Stars:
 
+.artsize	:= (ArtUnc_SuperSonic_Stars_end-ArtUnc_SuperSonic_Stars)&$FFFF
+
 		; load stars art
-		QueueStaticDMA ArtUnc_SuperSonic_Stars,tiles_to_bytes($1A),tiles_to_bytes(ArtTile_Shield)
+		QueueStaticDMA ArtUnc_SuperSonic_Stars,.artsize,tiles_to_bytes(ArtTile_Shield)
 
 		; init
 		move.l	#Map_SuperSonic_Stars,mappings(a0)
@@ -83,8 +85,10 @@ loc_19230:
 
 Obj_HyperSonic_Stars:
 
+.artsize	:= (ArtUnc_HyperSonicStars_end-ArtUnc_HyperSonicStars)&$FFFF
+
 		; load stars art
-		QueueStaticDMA ArtUnc_HyperSonicStars,tiles_to_bytes($23),tiles_to_bytes(ArtTile_Shield)
+		QueueStaticDMA ArtUnc_HyperSonicStars,.artsize,tiles_to_bytes(ArtTile_Shield)
 
 		; load
 		lea	(a0),a1
