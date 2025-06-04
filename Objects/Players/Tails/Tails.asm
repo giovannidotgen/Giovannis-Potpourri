@@ -3461,7 +3461,7 @@ Tails_Tail_Load_PLC:
 
 .notspecial
 		move.l	#dmaSource(ArtUnc_Tails_Tail),d6
-		bra.s	Tails_Load_PLC2.loop
+		bra.s	Tails_Load_PLC2.readentry
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3473,6 +3473,8 @@ Tails_Load_PLC2:
 		cmp.b	(Player_prev_frame_P2).w,d0
 		beq.s	.return
 		move.b	d0,(Player_prev_frame_P2).w
+
+		; load
 		add.w	d0,d0
 		lea	(DPLC_Tails).l,a2
 		adda.w	(a2,d0.w),a2
@@ -3489,10 +3491,10 @@ Tails_Load_PLC2:
 .notspecial
 		move.l	#dmaSource(ArtUnc_Tails),d6
 		cmpi.w	#$D1*2,d0										; mapping frame * 2
-		blo.s		.loop
+		blo.s		.readentry
 		move.l	#dmaSource(ArtUnc_Tails_Extra),d6
 
-.loop
+.readentry
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -3507,7 +3509,7 @@ Tails_Load_PLC2:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).w
-		dbf	d5,.loop
+		dbf	d5,.readentry
 
 .return
 		rts

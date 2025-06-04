@@ -2864,6 +2864,8 @@ Knuckles_Load_PLC2:
 		cmp.b	(Player_prev_frame).w,d0
 		beq.s	.return
 		move.b	d0,(Player_prev_frame).w
+
+		; load
 		add.w	d0,d0
 		lea	(DPLC_Knuckles).l,a2
 		adda.w	(a2,d0.w),a2
@@ -2875,10 +2877,10 @@ Knuckles_Load_PLC2:
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_1),d4					; normal
 		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.loop											; if not, branch
+		bne.s	.readentry										; if not, branch
 		move.w	#tiles_to_bytes($79C),d4							; Special Stage
 
-.loop
+.readentry
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -2893,7 +2895,7 @@ Knuckles_Load_PLC2:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).w
-		dbf	d5,.loop
+		dbf	d5,.readentry
 
 .return
 		rts
