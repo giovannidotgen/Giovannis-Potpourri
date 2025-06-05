@@ -2,6 +2,11 @@
 
 ![Title](https://i.imgur.com/VbQoOjT.png)
 
+# Download
+
+- [Current version](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/archive/refs/heads/flamedriver.zip)
+- [Releases](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/releases)
+
 ## Disclaimer
 
 This is a port of Sonic The Hedgehog (1991) to Sonic Clean Engine (S.C.E.), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
