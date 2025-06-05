@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "S1S3",
-    "node": "45eaebc9-9a6e-430e-aa3b-8a133cbccdc9",
+    "node": "4b0ca86f-7aa1-4e9d-a6fe-53662e690e3c",
     "objects": [
         {
             "name": "Player",
@@ -307,8 +307,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Explosion/KosinskiPM Art/Boss Explosion.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Explosion/KosinskiPM Art/Boss Explosion.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -336,8 +336,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Bosses/Robotnik/KosinskiPM Art/Egg Robo Head.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Bosses/Robotnik/KosinskiPM Art/Egg Robo Head.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -361,8 +361,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Bosses/Robotnik/KosinskiPM Art/Robotnik Ship 1.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Bosses/Robotnik/KosinskiPM Art/Robotnik Ship 1.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -386,8 +386,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Bosses/MZ3/KosinskiPM Art/Tube.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Bosses/MZ3/KosinskiPM Art/Tube.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -419,8 +419,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Egg Capsule/KosinskiPM Art/Egg Capsule.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Egg Capsule/KosinskiPM Art/Egg Capsule.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -435,16 +435,21 @@
                     "uuid": "6355e6ce-e3a8-4fd7-8d6d-9cd8865fb147"
                 },
                 {
-                    "format": "Sonic 1.js",
+                    "format": "Sonic 3&K Object.js",
                     "name": "Explosion",
-                    "palettes": [],
+                    "palettes": [
+                        {
+                            "path": "..\\Objects\\Players\\Sonic\\Palettes\\Sonic.pal",
+                            "length": 1
+                        }
+                    ],
                     "art": {
-                        "path": "",
-                        "compression": "Uncompressed",
+                        "path": "..\\Objects\\Main\\Explosion\\KosinskiPM Art\\Explosion.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "",
+                        "path": "..\\Objects\\Main\\Explosion\\Object Data\\Map - Explosion.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -464,8 +469,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Monitor/KosinskiPM Art/Monitors.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Monitor/KosinskiPM Art/Monitors.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -489,8 +494,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Monitor/KosinskiPM Art/Monitors.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Monitor/KosinskiPM Art/Monitors.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -509,7 +514,7 @@
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 1
                         }
                     ],
@@ -589,8 +594,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Spikes/KosinskiPM Art/SpikesSprings.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Spikes/KosinskiPM Art/SpikesSprings.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -614,8 +619,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Spikes/KosinskiPM Art/SpikesSprings.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Spikes/KosinskiPM Art/SpikesSprings.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -639,8 +644,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/StarPost/KosinskiPM Art/Enemy points.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/StarPost/KosinskiPM Art/Enemy points.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -672,8 +677,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Blue Flicky.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Blue Flicky.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -697,8 +702,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Chicken.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Chicken.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -722,8 +727,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Penguin.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Penguin.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -747,8 +752,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Pig.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Pig.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -772,8 +777,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Rabbit.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Rabbit.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -797,8 +802,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Seal.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Seal.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -822,8 +827,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Animals/KosinskiPM Art/Squirrel.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Animals/KosinskiPM Art/Squirrel.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -855,24 +860,53 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Bosses/GHZ3/KosinskiPM Art/Giant Ball.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "..\\Objects\\Bosses\\GHZ3\\Uncompressed Art\\Giant Ball.unc",
+                        "compression": "Uncompressed",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Bosses/GHZ3/Object Data/Map - Giant Ball.asm",
+                        "path": "..\\Objects\\Bosses\\GHZ3\\Object Data\\Map - Giant Ball.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": true,
+                        "path": "..\\Objects\\Bosses\\GHZ3\\Object Data\\DPLC - Giant Ball.asm",
+                        "label": ""
+                    }
+                },
+                {
+                    "name": "Breakable Wall",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Breakable Wall/KosinskiPM Art/GHZ Breakable Wall.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Breakable Wall/Object Data/Map - Breakable Wall.asm",
                         "label": ""
                     },
                     "dplcs": {
                         "enabled": false,
                         "path": "",
                         "label": ""
-                    }
+                    },
+                    "uuid": "99eaa239-c304-4fd4-9422-f43f5ed13c29"
                 },
                 {
                     "name": "Bridge",
@@ -883,13 +917,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Bridge/KosinskiPM Art/Bridge.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Bridge/KosinskiPM Art/Bridge.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -904,122 +938,6 @@
                     "uuid": "0d6d9cd8-865f-4147-9299-99eaa239c304"
                 },
                 {
-                    "name": "Swinging Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Swinging Platform/KosinskiPM Art/GHZ Swinging Platform.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Swinging Platform/Object Data/Map - Swinging Platforms(GHZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6d9cd886-5fb1-4792-9999-eaa239c3047f"
-                },
-                {
-                    "name": "Helix of spikes on a pole",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Spike Pole/KosinskiPM Art/Spike Pole.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Spike Pole/Object Data/Map - Spike Pole.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "9cd8865f-b147-4299-99ea-a239c3047fd4"
-                },
-                {
-                    "name": "Floating Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/GHZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "d8865fb1-4792-4999-aaa2-39c3047fd4d4"
-                },
-                {
-                    "name": "Collapsing Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/GHZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Collapsing Platform/Object Data/Map - Collapsing Platform.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "865fb147-9299-49ea-a239-c3047fd4d422"
-                },
-                {
                     "name": "Bridge stump",
                     "palettes": [
                         {
@@ -1027,14 +945,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Bridge/KosinskiPM Art/Bridge.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Bridge/KosinskiPM Art/Bridge.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1049,35 +967,6 @@
                     "uuid": "5fb14792-9999-4aa2-b9c3-047fd4d422f4"
                 },
                 {
-                    "name": "Crabmeat",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Crabmeat/KosinskiPM Art/Enemy Crabmeat.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Crabmeat/Object Data/Map - Crabmeat.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "b1479299-99ea-4239-8304-7fd4d422f43f"
-                },
-                {
                     "name": "Buzz Bomber",
                     "palettes": [
                         {
@@ -1085,14 +974,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1114,14 +1003,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Chopper/KosinskiPM Art/Enemy Chopper.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Chopper/KosinskiPM Art/Enemy Chopper.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1136,25 +1025,25 @@
                     "uuid": "929999ea-a239-4304-bfd4-d422f43f5ed1"
                 },
                 {
-                    "name": "Purple rock",
+                    "name": "Crabmeat",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Purple Rock/KosinskiPM Art/Purple Rock.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Crabmeat/KosinskiPM Art/Enemy Crabmeat.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Purple Rock/Object Data/Map - Purple Rock.asm",
+                        "path": "../Objects/Enemies/Crabmeat/Object Data/Map - Crabmeat.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1162,10 +1051,10 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "9999eaa2-39c3-447f-94d4-22f43f5ed13c"
+                    "uuid": "b1479299-99ea-4239-8304-7fd4d422f43f"
                 },
                 {
-                    "name": "Breakable Wall",
+                    "name": "Collapsing Platform",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -1173,17 +1062,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Breakable Wall/KosinskiPM Art/GHZ Breakable Wall.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Levels/GHZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Breakable Wall/Object Data/Map - Breakable Wall.asm",
+                        "path": "../Objects/Environ/Collapsing Platform/Object Data/Map - Collapsing Platform.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1191,7 +1080,65 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "99eaa239-c304-4fd4-9422-f43f5ed13c29"
+                    "uuid": "865fb147-9299-49ea-a239-c3047fd4d422"
+                },
+                {
+                    "name": "Floating Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/GHZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(GHZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d8865fb1-4792-4999-aaa2-39c3047fd4d4"
+                },
+                {
+                    "name": "Helix of spikes on a pole",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Spike Pole/KosinskiPM Art/Spike Pole.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Spike Pole/Object Data/Map - Spike Pole.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "9cd8865f-b147-4299-99ea-a239c3047fd4"
                 },
                 {
                     "name": "Moto Bug",
@@ -1201,14 +1148,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Moto Bug/KosinskiPM Art/Enemy Motobug.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Moto Bug/KosinskiPM Art/Enemy Motobug.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1231,13 +1178,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Newtron/KosinskiPM Art/Enemy Newtron.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Newtron/KosinskiPM Art/Enemy Newtron.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1252,6 +1199,64 @@
                     "uuid": "a239c304-7fd4-4422-b43f-5ed13c29d58b"
                 },
                 {
+                    "name": "Purple rock",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Purple Rock/KosinskiPM Art/Purple Rock.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Purple Rock/Object Data/Map - Purple Rock.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "9999eaa2-39c3-447f-94d4-22f43f5ed13c"
+                },
+                {
+                    "name": "Swinging Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Swinging Platform/KosinskiPM Art/GHZ Swinging Platform.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Swinging Platform/Object Data/Map - Swinging Platforms(GHZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6d9cd886-5fb1-4792-9999-eaa239c3047f"
+                },
+                {
                     "name": "Wall Barrier",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -1260,13 +1265,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Edge Walls/KosinskiPM Art/GHZ Edge Walls.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Edge Walls/KosinskiPM Art/GHZ Edge Walls.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1289,25 +1294,25 @@
             "name": "MZ",
             "children": [
                 {
-                    "name": "Fireball Spawner",
-                    "format": "Sonic 3&K Object.js",
+                    "name": "Basaran",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
+                    "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Fireballs.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Basaran/KosinskiPM Art/Enemy Basaran.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Lava Ball/Object Data/Map - Fireballs.asm",
+                        "path": "../Objects/Enemies/Basaran/Object Data/Map - Basaran.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1315,7 +1320,65 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "6bdae612-ef85-4e41-a2ca-5284d18ba250"
+                    "uuid": "a25059c7-1df9-4d67-aa04-238a0756b351"
+                },
+                {
+                    "name": "Brick",
+                    "format": "Sonic 3&K Object Static.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/MZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Marble Brick/Object Data/Map - Marble Brick.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "a2ca5284-d18b-4250-99c7-1df96d676a04"
+                },
+                {
+                    "name": "Button",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Main/Button/KosinskiPM Art/MZ Gray Button.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "85be41a2-ca52-44d1-8ba2-5059c71df96d"
                 },
                 {
                     "name": "Buzz Bomber",
@@ -1325,14 +1388,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1347,6 +1410,93 @@
                     "uuid": "e612ef85-be41-42ca-9284-d18ba25059c7"
                 },
                 {
+                    "name": "Caterkiller",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Caterkiller/Object Data/Map - Caterkiller.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "5059c71d-f96d-476a-8423-8a0756b3511a"
+                },
+                {
+                    "name": "Collapsing Floor",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Collapsing Floor/Object Data/Map - Collapsing Floor.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "8ba25059-c71d-496d-a76a-04238a0756b3"
+                },
+                {
+                    "name": "Fireball Spawner",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Fireballs.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Lava Ball/Object Data/Map - Fireballs.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6bdae612-ef85-4e41-a2ca-5284d18ba250"
+                },
+                {
                     "name": "Grass Platform",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -1355,13 +1505,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "Levels/MZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Levels/MZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1383,14 +1533,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Glass Block/KosinskiPM Art/Glass Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Glass Block/KosinskiPM Art/Glass Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1405,35 +1555,6 @@
                     "uuid": "ef85be41-a2ca-4284-918b-a25059c71df9"
                 },
                 {
-                    "name": "Button",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Main/Button/KosinskiPM Art/MZ Gray Button.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "85be41a2-ca52-44d1-8ba2-5059c71df96d"
-                },
-                {
                     "name": "Movable Block",
                     "palettes": [
                         {
@@ -1441,14 +1562,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1463,122 +1584,6 @@
                     "uuid": "be41a2ca-5284-418b-a250-59c71df96d67"
                 },
                 {
-                    "name": "Sideways Stomper",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Chained Stompers/KosinskiPM Art/Metal Blocks.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Chained Stompers/Object Data/Map - Sideways Stomp.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "41a2ca52-84d1-4ba2-9059-c71df96d676a"
-                },
-                {
-                    "name": "Brick",
-                    "format": "Sonic 3&K Object Static.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/MZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Marble Brick/Object Data/Map - Marble Brick.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "a2ca5284-d18b-4250-99c7-1df96d676a04"
-                },
-                {
-                    "name": "Wall of Lava",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Lava Wall/KosinskiPM Art/Lava Wall.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Lava Wall/Object Data/Map - Lava Wall.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "ca5284d1-8ba2-4059-871d-f96d676a0423"
-                },
-                {
-                    "name": "Smashable Block",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Smash Block/Object Data/Map - Smash Block.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "84d18ba2-5059-471d-b96d-676a04238a07"
-                },
-                {
                     "name": "Moving Block Platform",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -1587,13 +1592,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -1608,25 +1613,25 @@
                     "uuid": "d18ba250-59c7-4df9-ad67-6a04238a0756"
                 },
                 {
-                    "name": "Collapsing Floor",
+                    "name": "Sideways Stomper",
+                    "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
-                    "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Chained Stompers/KosinskiPM Art/Metal Blocks.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Collapsing Floor/Object Data/Map - Collapsing Floor.asm",
+                        "path": "../Objects/Environ/Chained Stompers/Object Data/Map - Sideways Stomp.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1634,28 +1639,28 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "8ba25059-c71d-496d-a76a-04238a0756b3"
+                    "uuid": "41a2ca52-84d1-4ba2-9059-c71df96d676a"
                 },
                 {
-                    "name": "Basaran",
+                    "name": "Smashable Block",
+                    "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
-                    "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Basaran/KosinskiPM Art/Enemy Basaran.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Moving Blocks/KosinskiPM Art/Green Pushable Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Enemies/Basaran/Object Data/Map - Basaran.asm",
+                        "path": "../Objects/Environ/Smash Block/Object Data/Map - Smash Block.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1663,28 +1668,28 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "a25059c7-1df9-4d67-aa04-238a0756b351"
+                    "uuid": "84d18ba2-5059-471d-b96d-676a04238a07"
                 },
                 {
-                    "name": "Caterkiller",
+                    "name": "Wall of Lava",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/MZ/Palettes/Marble Zone.pal",
+                            "path": "../Levels/MZ/Palettes/Marble Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Lava Wall/KosinskiPM Art/Lava Wall.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Enemies/Caterkiller/Object Data/Map - Caterkiller.asm",
+                        "path": "../Objects/Environ/Lava Wall/Object Data/Map - Lava Wall.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -1692,7 +1697,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "5059c71d-f96d-476a-8423-8a0756b3511a"
+                    "uuid": "ca5284d1-8ba2-4059-871d-f96d676a0423"
                 }
             ],
             "isDirectory": true,
@@ -1703,296 +1708,6 @@
             "name": "SYZ",
             "children": [
                 {
-                    "name": "Siren Light",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "Levels/SYZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Main/Still Sprites/Object Data/Map - Still Sprites.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6337c46a-a914-4b30-85fe-2f6400cd250e"
-                },
-                {
-                    "name": "Floating Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/SYZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SYZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "37c46aa9-148b-4085-be2f-6400cd250e81"
-                },
-                {
-                    "name": "Crabmeat",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Crabmeat/KosinskiPM Art/Enemy Crabmeat.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Crabmeat/Object Data/Map - Crabmeat.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "c46aa914-8b30-45fe-af64-00cd250e813f"
-                },
-                {
-                    "name": "Buzz Bomber",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Buzz Bomber/Object Data/Map - Buzz Bomber.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6aa9148b-3085-4e2f-a400-cd250e813fb4"
-                },
-                {
-                    "name": "Button",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "a9148b30-85fe-4f64-80cd-250e813fb40e"
-                },
-                {
-                    "name": "Roller",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Roller/KosinskiPM Art/Enemy Roller.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Roller/Object Data/Map - Roller.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "148b3085-fe2f-4400-8d25-0e813fb40ef0"
-                },
-                {
-                    "name": "Bumper",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Bumper/KosinskiPM Art/Bumper.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Bumper/Object Data/Map - Bumper.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "8b3085fe-2f64-40cd-a50e-813fb40ef06c"
-                },
-                {
-                    "name": "Yadrin",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Yadrin/KosinskiPM Art/Enemy Yadrin.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Yadrin/Object Data/Map - Yadrin.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "3085fe2f-6400-4d25-8e81-3fb40ef06ce8"
-                },
-                {
-                    "name": "Floating Blocks and Doors",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/SYZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "85fe2f64-00cd-450e-813f-b40ef06ce8c1"
-                },
-                {
-                    "name": "Spikeball Chain",
-                    "format": "Sonic 3&K Object Static.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Spiked Ball and Chain/KosinskiPM Art/Spiked Ball and Chain.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (SYZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "fe2f6400-cd25-4e81-bfb4-0ef06ce8c1cf"
-                },
-                {
                     "name": "Big Spiked Ball",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -2001,13 +1716,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Big Spiked Ball/KosinskiPM Art/Large Spikeball.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Big Spiked Ball/KosinskiPM Art/Large Spikeball.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2022,6 +1737,93 @@
                     "uuid": "2f6400cd-250e-413f-b40e-f06ce8c1cfd2"
                 },
                 {
+                    "name": "Bumper",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Bumper/KosinskiPM Art/Bumper.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Bumper/Object Data/Map - Bumper.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "8b3085fe-2f64-40cd-a50e-813fb40ef06c"
+                },
+                {
+                    "name": "Button",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "a9148b30-85fe-4f64-80cd-250e813fb40e"
+                },
+                {
+                    "name": "Buzz Bomber",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Buzz Bomber/KosinskiPM Art/Enemy Buzz Bomber.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Buzz Bomber/Object Data/Map - Buzz Bomber.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6aa9148b-3085-4e2f-a400-cd250e813fb4"
+                },
+                {
                     "name": "Caterkiller",
                     "palettes": [
                         {
@@ -2029,14 +1831,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2050,6 +1852,209 @@
                     },
                     "uuid": "6400cd25-0e81-4fb4-8ef0-6ce8c1cfd238",
                     "expanded": true
+                },
+                {
+                    "name": "Crabmeat",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Crabmeat/KosinskiPM Art/Enemy Crabmeat.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Crabmeat/Object Data/Map - Crabmeat.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "c46aa914-8b30-45fe-af64-00cd250e813f"
+                },
+                {
+                    "name": "Floating Blocks and Doors",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/SYZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "85fe2f64-00cd-450e-813f-b40ef06ce8c1"
+                },
+                {
+                    "name": "Floating Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/SYZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SYZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "37c46aa9-148b-4085-be2f-6400cd250e81"
+                },
+                {
+                    "name": "Roller",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Roller/KosinskiPM Art/Enemy Roller.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Roller/Object Data/Map - Roller.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "148b3085-fe2f-4400-8d25-0e813fb40ef0"
+                },
+                {
+                    "name": "Siren Light",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Levels/SYZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Main/Still Sprites/Object Data/Map - Still Sprites.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6337c46a-a914-4b30-85fe-2f6400cd250e"
+                },
+                {
+                    "name": "Spikeball Chain",
+                    "format": "Sonic 3&K Object Static.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Spiked Ball and Chain/KosinskiPM Art/Spiked Ball and Chain.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (SYZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "fe2f6400-cd25-4e81-bfb4-0ef06ce8c1cf"
+                },
+                {
+                    "name": "Yadrin",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SYZ/Palettes/Spring Yard Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Yadrin/KosinskiPM Art/Enemy Yadrin.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Yadrin/Object Data/Map - Yadrin.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "3085fe2f-6400-4d25-8e81-3fb40ef06ce8"
                 }
             ],
             "isDirectory": true,
@@ -2060,7 +2065,7 @@
             "name": "LZ",
             "children": [
                 {
-                    "name": "Pole",
+                    "name": "Block/Cork",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -2068,17 +2073,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Pole that Breaks/KosinskiPM Art/Breakable Pole.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Floating Blocks and Doors/KosinskiPM Art/LZ Horizontal Door.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Pole that Breaks/Object Data/Map - Pole that Breaks.asm",
+                        "path": "../Objects/Environ/Labyrinth Blocks/Object Data/Map - Labyrinth Blocks.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2086,10 +2091,10 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "047fd4d4-22f4-4f5e-913c-29d58b5f0d2c"
+                    "uuid": "5f0d2c6b-dae6-42ef-85be-41a2ca5284d1"
                 },
                 {
-                    "name": "Flapping Door",
+                    "name": "Bubbles",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -2097,17 +2102,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Flapping Door/KosinskiPM Art/Flapping Door.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Bubbler/KosinskiPM Art/Bubbles.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Flapping Door/Object Data/Map - Flapping Door.asm",
+                        "path": "../Objects/Main/Bubbler/Object Data/Map - Bubbler.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2115,65 +2120,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "7fd4d422-f43f-4ed1-bc29-d58b5f0d2c6b"
-                },
-                {
-                    "name": "Harpoon",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Harpoon/KosinskiPM Art/Harpoon.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Harpoon/Object Data/Map - Harpoon.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "d4d422f4-3f5e-413c-a9d5-8b5f0d2c6bda"
-                },
-                {
-                    "name": "Jaws",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Enemies/Jaws/KosinskiPM Art/Enemy Jaws.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Jaws/Object Data/Map - Jaws.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "d422f43f-5ed1-4c29-958b-5f0d2c6bdae6"
+                    "uuid": "8b5f0d2c-6bda-4612-af85-be41a2ca5284"
                 },
                 {
                     "name": "Burrobot",
@@ -2183,14 +2130,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Burrobot/KosinskiPM Art/Enemy Burrobot.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Burrobot/KosinskiPM Art/Enemy Burrobot.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2213,13 +2160,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2234,25 +2181,25 @@
                     "uuid": "f43f5ed1-3c29-458b-9f0d-2c6bdae612ef"
                 },
                 {
-                    "name": "Moving Block Platform",
                     "format": "Sonic 3&K Object Static.js",
+                    "name": "Conveyor Belt Platform",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Labyrinth Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "Levels/LZ/KosinskiPM Art/LZ 32x16 Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Labyrinth Conveyor/KosinskiPM Art/Labyrinth Conveyor.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Moving Blocks/Object Data/Map - Moving Blocks (LZ).asm",
+                        "path": "../Objects/Environ/Labyrinth Conveyor/Object Data/Map - Labyrinth Conveyor Platform.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2260,123 +2207,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "3f5ed13c-29d5-4b5f-8d2c-6bdae612ef85"
-                },
-                {
-                    "name": "Door",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Floating Blocks and Doors/KosinskiPM Art/LZ Vertical Door.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "5ed13c29-d58b-4f0d-ac6b-dae612ef85be"
-                },
-                {
-                    "name": "Spikeball on Chain",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Spiked Ball and Chain/KosinskiPM Art/Spiked Ball and Chain.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (LZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "d13c29d5-8b5f-4d2c-abda-e612ef85be41"
-                },
-                {
-                    "name": "Orbinaut",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Orbinaut/Object Data/Map - Orbinaut.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "3c29d58b-5f0d-4c6b-9ae6-12ef85be41a2"
-                },
-                {
-                    "name": "Gargoyle",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Gargoyle/KosinskiPM Art/Gargoyle and Fireball.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Gargoyle/Object Data/Map - Gargoyle.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "29d58b5f-0d2c-4bda-a612-ef85be41a2ca"
+                    "uuid": "cb3949d8-8f3f-466e-8c57-920b484fc301"
                 },
                 {
                     "name": "Conveyor Belt Wheel",
@@ -2387,12 +2218,12 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "Levels/LZ/Animated Tiles/Uncompressed Art/Conveyor Wheel.unc",
+                        "path": "../Levels/LZ/Tiles/Animated/Uncompressed Art/Conveyor Wheel.unc",
                         "compression": "Uncompressed",
                         "offset": 0
                     },
@@ -2408,25 +2239,170 @@
                     "uuid": "d58b5f0d-2c6b-4ae6-92ef-85be41a2ca52"
                 },
                 {
+                    "name": "Door",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Floating Blocks and Doors/KosinskiPM Art/LZ Vertical Door.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "5ed13c29-d58b-4f0d-ac6b-dae612ef85be"
+                },
+                {
+                    "name": "Flapping Door",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Flapping Door/KosinskiPM Art/Flapping Door.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Flapping Door/Object Data/Map - Flapping Door.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "7fd4d422-f43f-4ed1-bc29-d58b5f0d2c6b"
+                },
+                {
+                    "name": "Gargoyle",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Gargoyle/KosinskiPM Art/Gargoyle and Fireball.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Gargoyle/Object Data/Map - Gargoyle.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "29d58b5f-0d2c-4bda-a612-ef85be41a2ca"
+                },
+                {
+                    "name": "Harpoon",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Harpoon/KosinskiPM Art/Harpoon.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Harpoon/Object Data/Map - Harpoon.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d4d422f4-3f5e-413c-a9d5-8b5f0d2c6bda"
+                },
+                {
+                    "name": "Jaws",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Enemies/Jaws/KosinskiPM Art/Enemy Jaws.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Jaws/Object Data/Map - Jaws.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d422f43f-5ed1-4c29-958b-5f0d2c6bdae6"
+                },
+                {
+                    "name": "Moving Block Platform",
                     "format": "Sonic 3&K Object Static.js",
-                    "name": "Conveyor Belt Platform",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Labyrinth Zone.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Labyrinth Conveyor/KosinskiPM Art/Labyrinth Conveyor.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Levels/LZ/KosinskiPM Art/LZ 32x16 Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Labyrinth Conveyor/Object Data/Map - Labyrinth Conveyor Platform.asm",
+                        "path": "../Objects/Environ/Moving Blocks/Object Data/Map - Moving Blocks (LZ).asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2434,10 +2410,10 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "cb3949d8-8f3f-466e-8c57-920b484fc301"
+                    "uuid": "3f5ed13c-29d5-4b5f-8d2c-6bdae612ef85"
                 },
                 {
-                    "name": "Bubbles",
+                    "name": "Orbinaut",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -2445,17 +2421,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Main/Bubbler/KosinskiPM Art/Bubbles.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Main/Bubbler/Object Data/Map - Bubbler.asm",
+                        "path": "../Objects/Enemies/Orbinaut/Object Data/Map - Orbinaut.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2463,10 +2439,10 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "8b5f0d2c-6bda-4612-af85-be41a2ca5284"
+                    "uuid": "3c29d58b-5f0d-4c6b-9ae6-12ef85be41a2"
                 },
                 {
-                    "name": "Block/Cork",
+                    "name": "Pole",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -2474,17 +2450,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Floating Blocks and Doors/KosinskiPM Art/LZ Horizontal Door.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Pole that Breaks/KosinskiPM Art/Breakable Pole.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Labyrinth Blocks/Object Data/Map - Labyrinth Blocks.asm",
+                        "path": "../Objects/Environ/Pole that Breaks/Object Data/Map - Pole that Breaks.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2492,7 +2468,36 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "5f0d2c6b-dae6-42ef-85be-41a2ca5284d1"
+                    "uuid": "047fd4d4-22f4-4f5e-913c-29d58b5f0d2c"
+                },
+                {
+                    "name": "Spikeball on Chain",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Spiked Ball and Chain/KosinskiPM Art/Spiked Ball and Chain.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (LZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d13c29d5-8b5f-4d2c-abda-e612ef85be41"
                 },
                 {
                     "name": "Waterfall",
@@ -2503,13 +2508,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
+                            "path": "../Levels/LZ/Palettes/Scrap Brain Zone Act 3.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Labyrinth Waterfalls/KosinskiPM Art/Water and Splashes.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Labyrinth Waterfalls/KosinskiPM Art/Water and Splashes.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2532,25 +2537,25 @@
             "name": "SLZ",
             "children": [
                 {
-                    "name": "Fireball Spawner",
-                    "format": "Sonic 3&K Object.js",
+                    "name": "Bomb",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
+                    "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Fireballs.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Bomb/KosinskiPM Art/Enemy Bomb.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Lava Ball/Object Data/Map - Fireballs.asm",
+                        "path": "../Objects/Enemies/Bomb/Object Data/Map - Bomb.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2558,94 +2563,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "e8ddd81c-539e-496a-b65c-d177686c6337"
-                },
-                {
-                    "name": "Swinging Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Swinging Platform/KosinskiPM Art/SLZ Swinging Platform.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Swinging Platform/Object Data/Map - Swinging Platforms(SLZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "ddd81c53-9e89-4a36-9cd1-77686c6337c4"
-                },
-                {
-                    "name": "Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/SLZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SLZ).asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "d81c539e-896a-465c-9177-686c6337c46a"
-                },
-                {
-                    "name": "Fireball Thrower",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Cannon.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Main/Still Sprites/Object Data/Map - Still Sprites.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "1c539e89-6a36-4cd1-b768-6c6337c46aa9"
+                    "uuid": "77686c63-37c4-4aa9-948b-3085fe2f6400"
                 },
                 {
                     "name": "Breakable Wall",
@@ -2655,14 +2573,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Breakable Wall/KosinskiPM Art/SLZ Breakable Wall.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Breakable Wall/KosinskiPM Art/SLZ Breakable Wall.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2684,14 +2602,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Environ/Collapsing Floor/KosinskiPM Art/SLZ 32x32 Block.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Collapsing Floor/KosinskiPM Art/SLZ 32x32 Block.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2714,17 +2632,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "Levels/SLZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Levels/SLZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Elevators/Object Data/Map - Elevators.asm",
+                        "path": "../Objects/Environ/Elevators/Object Data/Map - Elevators.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2735,64 +2653,6 @@
                     "uuid": "896a365c-d177-486c-a337-c46aa9148b30"
                 },
                 {
-                    "name": "Rotating Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/SLZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Circling Platform/Object Data/Map - Circling Platform.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6a365cd1-7768-4c63-b7c4-6aa9148b3085"
-                },
-                {
-                    "name": "Staircase",
-                    "format": "Sonic 3&K Object Static.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "Levels/SLZ/Tiles/Primary.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Staircase/Object Data/Map - Staircase.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "365cd177-686c-4337-846a-a9148b3085fe"
-                },
-                {
                     "name": "Fan",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -2801,13 +2661,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Fan/KosinskiPM Art/Fan.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Fan/KosinskiPM Art/Fan.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2822,7 +2682,7 @@
                     "uuid": "5cd17768-6c63-47c4-aaa9-148b3085fe2f"
                 },
                 {
-                    "name": "Seesaw",
+                    "name": "Fireball Spawner",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
                         {
@@ -2830,17 +2690,17 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Seesaw/KosinskiPM Art/Seesaw.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Fireballs.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Environ/Seesaw/Object Data/Map - Seesaw.asm",
+                        "path": "../Objects/Environ/Lava Ball/Object Data/Map - Fireballs.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2848,28 +2708,28 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "d177686c-6337-446a-a914-8b3085fe2f64"
+                    "uuid": "e8ddd81c-539e-496a-b65c-d177686c6337"
                 },
                 {
-                    "name": "Bomb",
+                    "name": "Fireball Thrower",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Bomb/KosinskiPM Art/Enemy Bomb.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Lava Ball/KosinskiPM Art/Cannon.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Objects/Enemies/Bomb/Object Data/Map - Bomb.asm",
+                        "path": "../Objects/Main/Still Sprites/Object Data/Map - Still Sprites.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -2877,7 +2737,65 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "77686c63-37c4-4aa9-948b-3085fe2f6400"
+                    "uuid": "1c539e89-6a36-4cd1-b768-6c6337c46aa9"
+                },
+                {
+                    "name": "Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/SLZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SLZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d81c539e-896a-465c-9177-686c6337c46a"
+                },
+                {
+                    "name": "Rotating Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/SLZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Circling Platform/Object Data/Map - Circling Platform.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6a365cd1-7768-4c63-b7c4-6aa9148b3085"
                 },
                 {
                     "name": "Orbinaut",
@@ -2888,13 +2806,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2917,13 +2835,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -2936,6 +2854,93 @@
                         "label": ""
                     },
                     "uuid": "48491034-5866-4f6c-9caa-7ec10d36aa30"
+                },
+                {
+                    "name": "Seesaw",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Seesaw/KosinskiPM Art/Seesaw.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Seesaw/Object Data/Map - Seesaw.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "d177686c-6337-446a-a914-8b3085fe2f64"
+                },
+                {
+                    "name": "Staircase",
+                    "format": "Sonic 3&K Object Static.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Levels/SLZ/Tiles/Primary.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Staircase/Object Data/Map - Staircase.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "365cd177-686c-4337-846a-a9148b3085fe"
+                },
+                {
+                    "name": "Swinging Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SLZ/Palettes/Star Light Zone.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Swinging Platform/KosinskiPM Art/SLZ Swinging Platform.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Swinging Platform/Object Data/Map - Swinging Platforms(SLZ).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "ddd81c53-9e89-4a36-9cd1-77686c6337c4"
                 }
             ],
             "isDirectory": true,
@@ -2946,35 +2951,6 @@
             "name": "SBZ",
             "children": [
                 {
-                    "name": "Swinging Spikeball",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Big Spiked Ball/KosinskiPM Art/Large Spikeball.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Big Spiked Ball/Object Data/Map - Big Spiked Ball.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "c71df96d-676a-4423-8a07-56b3511a57a1"
-                },
-                {
                     "name": "Ball Hog",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -2983,13 +2959,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Ball Hog/KosinskiPM Art/Enemy Ball Hog.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Ball Hog/KosinskiPM Art/Enemy Ball Hog.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3004,122 +2980,6 @@
                     "uuid": "1df96d67-6a04-438a-8756-b3511a57a1e8"
                 },
                 {
-                    "name": "Small Door",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Small Door/KosinskiPM Art/Small Vertical Door.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Small Door/Object Data/Map - Small Door.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "f96d676a-0423-4a07-96b3-511a57a1e8dd"
-                },
-                {
-                    "name": "Button",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6d676a04-238a-4756-b351-1a57a1e8ddd8"
-                },
-                {
-                    "name": "Moving Block Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Stomper and Door/KosinskiPM Art/SBZ Sliding Floor Trap.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": "0"
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Stomper and Door/Object Data/Map - Stomper and Door.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "676a0423-8a07-46b3-911a-57a1e8ddd81c"
-                },
-                {
-                    "name": "Collapsing Floor",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Collapsing Floor/KosinskiPM Art/SBZ Collapsing Floor.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Collapsing Floor/Object Data/Map - Collapsing Floor.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6a04238a-0756-4351-9a57-a1e8ddd81c53"
-                },
-                {
                     "name": "Bomb",
                     "palettes": [
                         {
@@ -3127,14 +2987,14 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "format": "Sonic 3&K Object.js",
                     "art": {
-                        "path": "../Objects/Enemies/Bomb/KosinskiPM Art/Enemy Bomb.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Bomb/KosinskiPM Art/Enemy Bomb.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3149,6 +3009,209 @@
                     "uuid": "04238a07-56b3-411a-97a1-e8ddd81c539e"
                 },
                 {
+                    "name": "Button",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Main/Button/KosinskiPM Art/Gray Button.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Main/Button/Object Data/Map - Button.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6d676a04-238a-4756-b351-1a57a1e8ddd8"
+                },
+                {
+                    "name": "Caterkiller",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Enemies/Caterkiller/Object Data/Map - Caterkiller.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "57a1e8dd-d81c-439e-896a-365cd177686c"
+                },
+                {
+                    "name": "Collapsing Floor",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Collapsing Floor/KosinskiPM Art/SBZ Collapsing Floor.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Collapsing Floor/Object Data/Map - Collapsing Floor.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6a04238a-0756-4351-9a57-a1e8ddd81c53"
+                },
+                {
+                    "name": "Electrocuter",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Electrocuter/KosinskiPM Art/Electrocuter.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Electrocuter/Object Data/Map - Electrocuter.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "511a57a1-e8dd-481c-939e-896a365cd177"
+                },
+                {
+                    "name": "Flamethrower",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Flamethrower/KosinskiPM Art/Flaming Pipe.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Flamethrower/Object Data/Map - Flamethrower.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "b3511a57-a1e8-4dd8-9c53-9e896a365cd1"
+                },
+                {
+                    "name": "Girder Block",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Girder Block/KosinskiPM Art/Crushing Girder.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Girder Block/Object Data/Map - Girder Block.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "1a57a1e8-ddd8-4c53-9e89-6a365cd17768"
+                },
+                {
+                    "name": "Moving Block Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Stomper and Door/KosinskiPM Art/SBZ Sliding Floor Trap.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": "0"
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Stomper and Door/Object Data/Map - Stomper and Door.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "676a0423-8a07-46b3-911a-57a1e8ddd81c"
+                },
+                {
                     "name": "Orbinaut",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
@@ -3157,13 +3220,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3186,13 +3249,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Orbinaut/KosinskiPM Art/Enemy Orbinaut.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3215,13 +3278,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Rotating Junction/KosinskiPM Art/Junction Wheel.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Rotating Junction/KosinskiPM Art/Junction Wheel.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3236,209 +3299,6 @@
                     "uuid": "8a0756b3-511a-47a1-a8dd-d81c539e896a"
                 },
                 {
-                    "name": "Spinning Platform",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Spinning Platforms/KosinskiPM Art/Spinning Platform.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Spinning Platforms/Object Data/Map - Spinning Platforms.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "0756b351-1a57-41e8-9dd8-1c539e896a36"
-                },
-                {
-                    "format": "Sonic 3&K Object.js",
-                    "name": "Trapdoor",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Spinning Platforms/KosinskiPM Art/Trapdoor.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Spinning Platforms/Object Data/Map - Trapdoor.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "6a940c1f-12a0-4e4e-8bdc-4f107893d9da"
-                },
-                {
-                    "name": "Vanishing Platform",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Vanishing Platforms/Object Data/Map - Vanishing Platforms.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "56b3511a-57a1-48dd-981c-539e896a365c"
-                },
-                {
-                    "name": "Flamethrower",
-                    "format": "Sonic 3&K Object.js",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "art": {
-                        "path": "../Objects/Environ/Flamethrower/KosinskiPM Art/Flaming Pipe.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Flamethrower/Object Data/Map - Flamethrower.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "b3511a57-a1e8-4dd8-9c53-9e896a365cd1"
-                },
-                {
-                    "name": "Electrocuter",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Electrocuter/KosinskiPM Art/Electrocuter.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Electrocuter/Object Data/Map - Electrocuter.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "511a57a1-e8dd-481c-939e-896a365cd177"
-                },
-                {
-                    "name": "Girder Block",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Environ/Girder Block/KosinskiPM Art/Crushing Girder.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Environ/Girder Block/Object Data/Map - Girder Block.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "1a57a1e8-ddd8-4c53-9e89-6a365cd17768"
-                },
-                {
-                    "name": "Caterkiller",
-                    "palettes": [
-                        {
-                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
-                            "length": 1
-                        },
-                        {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
-                            "length": 3
-                        }
-                    ],
-                    "format": "Sonic 3&K Object.js",
-                    "art": {
-                        "path": "../Objects/Enemies/Caterkiller/KosinskiPM Art/Enemy Caterkiller.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Objects/Enemies/Caterkiller/Object Data/Map - Caterkiller.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "57a1e8dd-d81c-439e-896a-365cd177686c"
-                },
-                {
                     "format": "Sonic 3&K Object.js",
                     "name": "Scrap Eggman",
                     "palettes": [
@@ -3447,7 +3307,7 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
@@ -3476,7 +3336,7 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
@@ -3505,13 +3365,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3534,13 +3394,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3553,6 +3413,151 @@
                         "label": ""
                     },
                     "uuid": "3ece29ac-bc66-4e91-ae04-dbf4b5c4cc5b"
+                },
+                {
+                    "name": "Small Door",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Small Door/KosinskiPM Art/Small Vertical Door.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Small Door/Object Data/Map - Small Door.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "f96d676a-0423-4a07-96b3-511a57a1e8dd"
+                },
+                {
+                    "name": "Spinning Platform",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Spinning Platforms/KosinskiPM Art/Spinning Platform.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Spinning Platforms/Object Data/Map - Spinning Platforms.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "0756b351-1a57-41e8-9dd8-1c539e896a36"
+                },
+                {
+                    "name": "Swinging Spikeball",
+                    "format": "Sonic 3&K Object.js",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Big Spiked Ball/KosinskiPM Art/Large Spikeball.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Big Spiked Ball/Object Data/Map - Big Spiked Ball.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "c71df96d-676a-4423-8a07-56b3511a57a1"
+                },
+                {
+                    "format": "Sonic 3&K Object.js",
+                    "name": "Trapdoor",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Environ/Spinning Platforms/KosinskiPM Art/Trapdoor.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Spinning Platforms/Object Data/Map - Trapdoor.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6a940c1f-12a0-4e4e-8bdc-4f107893d9da"
+                },
+                {
+                    "name": "Vanishing Platform",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        },
+                        {
+                            "path": "../Levels/SBZ/Palettes/Scrap Brain Zone Act 2.pal",
+                            "length": 3
+                        }
+                    ],
+                    "format": "Sonic 3&K Object.js",
+                    "art": {
+                        "path": "../Objects/Environ/Vanishing Platforms/KosinskiPM Art/Vanishing Platforms.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Environ/Vanishing Platforms/Object Data/Map - Vanishing Platforms.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "56b3511a-57a1-48dd-981c-539e896a365c"
                 }
             ],
             "isDirectory": true,
@@ -3642,13 +3647,13 @@
                     "name": "Emeralds - Ending",
                     "palettes": [
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone Ending.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone Ending.pal",
                             "length": 1
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Ending/KosinskiPM Art/Emeralds Ending.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Ending/KosinskiPM Art/Emeralds Ending.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3671,13 +3676,13 @@
                             "length": 1
                         },
                         {
-                            "path": "Levels/GHZ/Palettes/Green Hill Zone Ending.pal",
+                            "path": "../Levels/GHZ/Palettes/Green Hill Zone Ending.pal",
                             "length": 3
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Ending/KosinskiPM Art/StH Logo Ending.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Ending/KosinskiPM Art/StH Logo Ending.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3701,6 +3706,31 @@
             "children": [
                 {
                     "format": "Sonic 3&K Object.js",
+                    "name": "Sonic - Title",
+                    "palettes": [
+                        {
+                            "path": "../Screens/Title/Palettes/1.pal",
+                            "length": 1
+                        }
+                    ],
+                    "art": {
+                        "path": "../Screens/Title/KosinskiPM Art/Sonic.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Screens/Title/Object Data/Map - Title Sonic.asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "8c836ae2-2072-4c69-9677-75b8c92e2ac8"
+                },
+                {
+                    "format": "Sonic 3&K Object.js",
                     "name": "Team Text - Title",
                     "palettes": [
                         {
@@ -3709,8 +3739,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Title/KosinskiPM Art/Title Screen Text.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Title/KosinskiPM Art/Text.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3734,12 +3764,12 @@
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Title/KosinskiPM Art/Title Screen Foreground.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Title/KosinskiPM Art/Foreground.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Screens/Title/Object Data/Map - Title Press Start and TM.asm",
+                        "path": "../Screens/Title/Object Data/Map - Title Press Start.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -3748,31 +3778,6 @@
                         "label": ""
                     },
                     "uuid": "6ae22072-dc69-4677-b5b8-c92e2ac8bf09"
-                },
-                {
-                    "format": "Sonic 3&K Object.js",
-                    "name": "Sonic - Title",
-                    "palettes": [
-                        {
-                            "path": "../Screens/Title/Palettes/1.pal",
-                            "length": 1
-                        }
-                    ],
-                    "art": {
-                        "path": "../Screens/Title/KosinskiPM Art/Title Screen Sonic.kosm",
-                        "compression": "Kosinski-M",
-                        "offset": 0
-                    },
-                    "mappings": {
-                        "path": "../Screens/Title/Object Data/Map - Title Sonic.asm",
-                        "label": ""
-                    },
-                    "dplcs": {
-                        "enabled": false,
-                        "path": "",
-                        "label": ""
-                    },
-                    "uuid": "8c836ae2-2072-4c69-9677-75b8c92e2ac8"
                 }
             ],
             "isDirectory": true,
@@ -3784,7 +3789,7 @@
             "children": [
                 {
                     "format": "Sonic 3&K Object.js",
-                    "name": "Player Sprites - Continue",
+                    "name": "Egg Robo Badnik - Continue",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
@@ -3796,12 +3801,12 @@
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Continue/KosinskiPM Art/Player Sprites.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Continue/KosinskiPM Art/Egg Robo Badnik.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Screens/Continue/Object Data/Map - Player Sprites.asm",
+                        "path": "../Screens/Continue/Object Data/Map - Egg Robo Badnik.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -3809,7 +3814,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "72dc69d6-7775-48c9-ae2a-c8bf09101bf9"
+                    "uuid": "69d67775-b8c9-4e2a-88bf-09101bf9e81e"
                 },
                 {
                     "format": "Sonic 3&K Object.js",
@@ -3825,8 +3830,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Continue/KosinskiPM Art/Player Icons.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Continue/KosinskiPM Art/Player Icons.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
@@ -3842,7 +3847,7 @@
                 },
                 {
                     "format": "Sonic 3&K Object.js",
-                    "name": "Egg Robo Badnik - Continue",
+                    "name": "Player Sprites - Continue",
                     "palettes": [
                         {
                             "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
@@ -3854,12 +3859,12 @@
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Continue/KosinskiPM Art/Egg Robo Badnik.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Continue/KosinskiPM Art/Player Sprites.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Screens/Continue/Object Data/Map - Egg Robo Badnik.asm",
+                        "path": "../Screens/Continue/Object Data/Map - Player Sprites.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -3867,7 +3872,7 @@
                         "path": "",
                         "label": ""
                     },
-                    "uuid": "69d67775-b8c9-4e2a-88bf-09101bf9e81e"
+                    "uuid": "72dc69d6-7775-48c9-ae2a-c8bf09101bf9"
                 }
             ],
             "isDirectory": true,
@@ -3886,17 +3891,17 @@
                             "length": 1
                         },
                         {
-                            "path": "../Screens/Credits/Palettes/Credits.pal",
+                            "path": "../Screens/Credits/Palettes/1.pal",
                             "length": 2
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Credits/KosinskiPM Art/Credits Egg Robo.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Credits/KosinskiPM Art/Egg Robo.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Screens/Credits/Object Data/Map - Credits Egg Robo.asm",
+                        "path": "../Screens/Credits/Object Data/Map - Egg Robo.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -3915,17 +3920,17 @@
                             "length": 1
                         },
                         {
-                            "path": "../Screens/Credits/Palettes/Credits.pal",
+                            "path": "../Screens/Credits/Palettes/1.pal",
                             "length": 2
                         }
                     ],
                     "art": {
-                        "path": "../Screens/Credits/KosinskiPM Art/Credits Robotnik.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Screens/Credits/KosinskiPM Art/Robotnik.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
-                        "path": "../Screens/Credits/Object Data/Map - Credits Robotnik.asm",
+                        "path": "../Screens/Credits/Object Data/Map - Robotnik.asm",
                         "label": ""
                     },
                     "dplcs": {
@@ -3953,8 +3958,8 @@
                         }
                     ],
                     "art": {
-                        "path": "../Objects/Enemies/Splats/KosinskiPM Art/Enemy Splats.kosm",
-                        "compression": "Kosinski-M",
+                        "path": "../Objects/Enemies/Splats/KosinskiPM Art/Enemy Splats.kospm",
+                        "compression": "KosinskiPlus-M",
                         "offset": 0
                     },
                     "mappings": {
