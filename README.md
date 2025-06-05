@@ -2,6 +2,11 @@
 
 ![Title](https://i.imgur.com/VbQoOjT.png)
 
+# Download
+
+- [Current version](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/archive/refs/heads/Clone-Driver-v2.zip)
+- [Releases](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/releases)
+
 ## Disclaimer
 
 Source code with the Sonic 2 Clone Driver v2 (Mega PCM 2.0 version). Unstable version. I haven't tested how well the game works with this sound driver. You can use this version of the source code, but it's not recommended.
