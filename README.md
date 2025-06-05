@@ -117,7 +117,7 @@ You don't have to add the letters **'ENOZ' (ZONE)** because those letters are al
 
 #### Why don't mappings use MapMacros?
 
-- Unfortunately, not all programs support MapMacros, so I wanted to maintain compatibility with older programs. I don't want to just throw away SonMapEd. But there is support for MapMacros here, and you can use it if you want.
+- Unfortunately, not all programs support MapMacros, so I wanted to maintain compatibility with older programs. I don't want to just throw away **SonMapEd**. But there is support for MapMacros here, and you can use it if you want.
 
 ## The Macro Assembler AS issues
 
