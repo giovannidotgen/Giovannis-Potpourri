@@ -623,8 +623,8 @@ Title_CopyrightText:
 
 ; ---------------------------------------------------------------------------
 
-		include "Screens/Title/Object Data/Anim - Title Sonic.asm"
-		include "Screens/Title/Object Data/Map - Title Text.asm"
-		include "Screens/Title/Object Data/Map - Title Sonic.asm"
-		include "Screens/Title/Object Data/Map - Title Press Start.asm"
-		include "Screens/Title/Object Data/Map - Title TM.asm"
+		include "Screens/Title/Object Data/Anim - Sonic.asm"
+		include "Screens/Title/Object Data/Map - Text.asm"
+		include "Screens/Title/Object Data/Map - Sonic.asm"
+		include "Screens/Title/Object Data/Map - Press Start.asm"
+		include "Screens/Title/Object Data/Map - TM.asm"
