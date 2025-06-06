@@ -410,6 +410,31 @@
             "name": "Common",
             "children": [
                 {
+                    "format": "Sonic 3&K Object.js",
+                    "name": "Diagonal Spring",
+                    "palettes": [
+                        {
+                            "path": "../Objects/Players/Sonic/Palettes/Sonic.pal",
+                            "length": 1
+                        }
+                    ],
+                    "art": {
+                        "path": "../Objects/Main/Spring/KosinskiPM Art/Diagonal Spring.kospm",
+                        "compression": "KosinskiPlus-M",
+                        "offset": 0
+                    },
+                    "mappings": {
+                        "path": "../Objects/Main/Spring/Object Data/Map - Spring(Red).asm",
+                        "label": ""
+                    },
+                    "dplcs": {
+                        "enabled": false,
+                        "path": "",
+                        "label": ""
+                    },
+                    "uuid": "6aed68df-b052-40a7-a1cb-69aeb56753be"
+                },
+                {
                     "name": "Egg Capsule",
                     "format": "Sonic 3&K Object.js",
                     "palettes": [
