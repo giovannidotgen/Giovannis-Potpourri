@@ -1,7 +1,7 @@
 {
     "Flex": 2,
     "name": "S1S3",
-    "node": "4b0ca86f-7aa1-4e9d-a6fe-53662e690e3c",
+    "node": "da472ab9-f363-45e6-8ee3-a83fd70d6d9c",
     "objects": [
         {
             "name": "Player",
@@ -14,7 +14,7 @@
                             "length": 1
                         }
                     ],
-                    "format": "Sonic 3&K Player.js",
+                    "format": "Sonic 3&K Sonic.js",
                     "art": {
                         "path": "../Objects/Players/Sonic/Uncompressed Art/Sonic.unc",
                         "compression": "Uncompressed",
