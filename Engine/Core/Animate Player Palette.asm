@@ -132,7 +132,7 @@ SuperHyper_PalCycle_SuperSonic:
 		move.w	(Palette_frame).w,d0
 		addq.w	#3*2,(Palette_frame).w						; next frame
 		cmpi.w	#((PalCycle_SuperSonic_end-PalCycle_SuperSonic)-(3*2)),(Palette_frame).w	; is it the last frame?
-		blo.s		.skip										; if not, branch
+		bls.s		.skip										; if not, branch
 		move.w	#((PalCycle_SuperSonic_end-PalCycle_SuperSonic)-(12*2)),(Palette_frame).w	; reset frame counter (Super Sonic's normal palette cycle starts at $24. Everything before that is for the palette fade)
 
 .skip
