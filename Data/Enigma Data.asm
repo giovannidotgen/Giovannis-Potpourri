@@ -7,25 +7,25 @@
 ; Enigma compressed Sega screen data
 ; ===========================================================================
 
-MapEni_Sega:					binclude "Screens/Sega/Enigma Map/Foreground.eni"
+MapEni_Sega:				binclude "Screens/Sega/Enigma Map/Foreground.eni"
 	even
-MapEni_SegaProto:				binclude "Screens/Sega Proto/Enigma Map/Foreground.eni"
+MapEni_SegaProto:			binclude "Screens/Sega Proto/Enigma Map/Foreground.eni"
 	even
 
 ; ===========================================================================
 ; Enigma compressed Title screen data
 ; ===========================================================================
 
-MapEni_TitleFG:					binclude "Screens/Title/Enigma Map/Foreground.eni"
+MapEni_TitleFG:				binclude "Screens/Title/Enigma Map/Foreground.eni"
 	even
-MapEni_TitleCredits:				binclude "Screens/Title/Enigma Map/Hidden Credits.eni"
+MapEni_TitleCredits:			binclude "Screens/Title/Enigma Map/Hidden Credits.eni"
 	even
 
 ; ===========================================================================
 ; Enigma compressed Options screen data
 ; ===========================================================================
 
-MapEni_OptionsBG:				binclude "Screens/Options/Enigma Map/Background.eni"
+MapEni_OptionsBG:			binclude "Screens/Options/Enigma Map/Background.eni"
 	even
 
 ; ===========================================================================
@@ -41,7 +41,7 @@ MapEni_LevelSelectRSDKIcons:		binclude "Screens/Level Select RSDK/Enigma Map/Ico
 ; Enigma compressed Special Stage screen data
 ; ===========================================================================
 
-MapEni_SSBg1:					binclude "Screens/Special Stage/Enigma Map/Background 1.eni"
+MapEni_SSBg1:				binclude "Screens/Special Stage/Enigma Map/Background 1.eni"
 	even
-MapEni_SSBg2:					binclude "Screens/Special Stage/Enigma Map/Background 2.eni"
+MapEni_SSBg2:				binclude "Screens/Special Stage/Enigma Map/Background 2.eni"
 	even
