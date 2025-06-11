@@ -3,32 +3,32 @@
 ; ---------------------------------------------------------------------------
 
 ; Constants
-Options_Offset:					= *
-Options_VRAM:					= $50F
+Options_Offset:				= *
+Options_VRAM:				= $50F
 
 ; Variables
-Options_MaxCount:				= 7
+Options_MaxCount:			= 7
 Options_MaxCharacters:			= 5
-Options_MaxMusicOpt:			= 2									; on/off
-Options_MaxSoundOpt:			= 2									; on/off
-Options_MaxMusicNumber:		= (mus__End-mus__First)-1
-Options_MaxSoundNumber:		= (sfx__End-sfx__First)-1
+Options_MaxMusicOpt:			= 2								; on/off
+Options_MaxSoundOpt:			= 2								; on/off
+Options_MaxMusicNumber:			= (mus__End-mus__First)-1
+Options_MaxSoundNumber:			= (sfx__End-sfx__First)-1
 Options_MaxSampleNumber:		= $10
 
 ; RAM
 	phase ramaddr(RAM_start)
 
-Options_buffer:					ds.b $1000							; foreground buffer (copy)
-Options_buffer2:					ds.b $1000							; foreground buffer (main)
+Options_buffer:				ds.b $1000							; foreground buffer (copy)
+Options_buffer2:			ds.b $1000							; foreground buffer (main)
 
 	dephase
 
 	phase ramaddr(Object_load_addr_front)
 
-Options_music_count:				ds.w 1
-Options_sound_count:				ds.w 1
+Options_music_count:			ds.w 1
+Options_sound_count:			ds.w 1
 Options_sample_count:			ds.w 1
-Options_save_music:				ds.w 1
+Options_save_music:			ds.w 1
 Options_control_timer:			ds.w 1
 Options_vertical_count:			ds.w 1
 
@@ -37,24 +37,24 @@ Options_vertical_count:			ds.w 1
 ; ---------------------------------------------------------------------------
 
 Options_VDP:
-		dc.w $8004													; disable HInt, HV counter, 8-colour mode
-		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)					; set foreground nametable address
-		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)					; set window nametable address
-		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)					; set background nametable address
-		dc.w $8700+(2<<4)											; set background colour (line 3; colour 0)
-		dc.w $8B00													; full-screen horizontal and vertical scrolling
-		dc.w $8C81													; set 40cell screen size, no interlacing, no s/h
-		dc.w $9001													; 64x32 cell nametable area
-		dc.w $9100													; set window H position at default
-		dc.w $9200													; set window V position at default
-		dc.w 0														; end marker
+		dc.w $8004										; disable HInt, HV counter, 8-colour mode
+		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)						; set foreground nametable address
+		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)						; set window nametable address
+		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)						; set background nametable address
+		dc.w $8700+(2<<4)									; set background colour (line 3; colour 0)
+		dc.w $8B00										; full-screen horizontal and vertical scrolling
+		dc.w $8C81										; set 40cell screen size, no interlacing, no s/h
+		dc.w $9001										; 64x32 cell nametable area
+		dc.w $9100										; set window H position at default
+		dc.w $9200										; set window V position at default
+		dc.w 0											; end marker
 
 ; =============== S U B R O U T I N E =======================================
 
 OptionsScreen:
-		music	mus_Stop											; stop music
+		music	mus_Stop									; stop music
 		jsr	(Clear_KosPlus_Module_Queue).w							; clear KosPlusM PLCs
-		ResetDMAQueue												; clear DMA queue
+		ResetDMAQueue										; clear DMA queue
 		jsr	(Pal_FadeToBlack).w
 		disableInts
 		move.l	#VInt,(V_int_addr).w
@@ -64,10 +64,10 @@ OptionsScreen:
 		lea	Options_VDP(pc),a1
 		jsr	(Load_VDP).w
 		jsr	(Clear_Palette).w
-		clearRAM Object_RAM, Object_RAM_end						; clear the object RAM
-		clearRAM Lag_frame_count, Lag_frame_count_end				; clear variables
-		clearRAM Camera_RAM, Camera_RAM_end						; clear the camera RAM
-		clearRAM Oscillating_variables, Oscillating_variables_end			; clear variables
+		clearRAM Object_RAM, Object_RAM_end							; clear the object RAM
+		clearRAM Lag_frame_count, Lag_frame_count_end						; clear variables
+		clearRAM Camera_RAM, Camera_RAM_end							; clear the camera RAM
+		clearRAM Oscillating_variables, Oscillating_variables_end				; clear variables
 
 		; clear
 		move.b	d0,(Water_full_screen_flag).w
@@ -89,11 +89,11 @@ OptionsScreen:
 		jsr	(Wait_VSync).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
-		bne.s	.waitplc												; wait for KosPlusM queue to clear
+		bne.s	.waitplc									; wait for KosPlusM queue to clear
 		disableInts
 
 		; load mapping
-		EniDecomp	MapEni_OptionsBG, RAM_start, 1, 2, 0				; decompress Enigma mappings
+		EniDecomp	MapEni_OptionsBG, RAM_start, 1, 2, 0					; decompress Enigma mappings
 		copyTilemap	VRAM_Plane_B_Name_Table, 320, 224
 
 		; clear foreground buffers
@@ -122,8 +122,8 @@ OptionsScreen:
 		jsr	(PalLoad_Line48).w
 
 		; set
-		music	mus_Menu											; play music
-		move.w	d0,(Options_save_music).w								; save id music
+		music	mus_Menu									; play music
+		move.w	d0,(Options_save_music).w							; save id music
 
 		; next
 		move.b	#VintID_LevelSelect,(V_int_routine).w
@@ -143,7 +143,7 @@ OptionsScreen:
 		bpl.s	.loop
 
 		; exit
-		move.b	#GameModeID_TitleScreen,(Game_mode).w				; set screen mode to Title Screen
+		move.b	#GameModeID_TitleScreen,(Game_mode).w						; set screen mode to Title Screen
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -168,17 +168,17 @@ Options_Controls:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.getcharacter											; 0
-		rts		; nop
-		bra.s	.getmusicopt											; 4
-		rts		; nop
-		bra.s	.getsoundopt											; 8
-		rts		; nop
-		bra.s	.getmusic											; C
-		rts		; nop
-		bra.w	.getsound											; 10
-		bra.w	.getsample											; 14
-		rts															; 18
+		bra.s	.getcharacter									; 0
+		rts	; nop
+		bra.s	.getmusicopt									; 4
+		rts	; nop
+		bra.s	.getsoundopt									; 8
+		rts	; nop
+		bra.s	.getmusic									; C
+		rts	; nop
+		bra.w	.getsound									; 10
+		bra.w	.getsample									; 14
+		rts											; 18
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -239,7 +239,7 @@ Options_Controls:
 		; check disable sfx flag
 		tst.b	d3
 		bne.s	.return
-		sfx	sfx_RingRight,1											; play ring sound
+		sfx	sfx_RingRight,1									; play ring sound
 ; ---------------------------------------------------------------------------
 
 .return
@@ -263,13 +263,13 @@ Options_Controls:
 
 		; check stop music
 		btst	#button_B,d1
-		bne.s	.stop												; branch if B is pressed
+		bne.s	.stop										; branch if B is pressed
 
 		; play music
 		move.w	d3,d0
-		addq.w	#mus__First,d0										; $00 is reserved for silence
-		move.w	d0,(Options_save_music).w								; save id music
-		jmp	(Play_Music).w											; play music
+		addq.w	#mus__First,d0									; $00 is reserved for silence
+		move.w	d0,(Options_save_music).w							; save id music
+		jmp	(Play_Music).w									; play music
 ; --------------------------------------------------------------------------
 
 .stop
@@ -293,8 +293,8 @@ Options_Controls:
 
 		; play sfx
 		move.w	d3,d0
-		addq.w	#sfx__First,d0										; $00 is reserved for silence
-		jmp	(Play_SFX).w												; play sfx
+		addq.w	#sfx__First,d0									; $00 is reserved for silence
+		jmp	(Play_SFX).w									; play sfx
 
 ; ---------------------------------------------------------------------------
 ; Play sample
@@ -312,8 +312,8 @@ Options_Controls:
 		and.b	(Ctrl_1_pressed).w,d1
 		beq.s	Options_FindUpDownControls.returnup
 		move.w	d3,d0
-		addq.w	#1,d0												; $00 is reserved for pause
-		jmp	(Play_Sample).w											; play sample
+		addq.w	#1,d0										; $00 is reserved for pause
+		jmp	(Play_Sample).w									; play sample
 
 ; ---------------------------------------------------------------------------
 ; Control (up/down)
@@ -353,7 +353,7 @@ Options_FindUpDownControls:
 .notdown
 		addq.w	#1,d3
 		cmp.w	d2,d3
-		bls.s		.returndown
+		bls.s	.returndown
 		moveq	#0,d3
 
 .returndown
@@ -397,7 +397,7 @@ Options_FindLeftRightControls:
 .notright
 		addq.w	#1,d3
 		cmp.w	d2,d3
-		bls.s		.returnright
+		bls.s	.returnright
 		moveq	#0,d3
 
 .returnright
@@ -438,7 +438,7 @@ Options_MarkFields:
 
 	rept 8
 		move.w	(a1)+,d0
-		add.w	d3,d0												; VRAM shift
+		add.w	d3,d0										; VRAM shift
 		move.w	d0,(a2)+
 	endr
 
@@ -447,7 +447,7 @@ Options_MarkFields:
 		; check icon
 		cmpi.w	#palette_line_1,d3
 		bne.s	.skipi
-		move.l	#words_to_long($253B,$253C),-(38*2)(a2)				; send icon data
+		move.l	#words_to_long($253B,$253C),-(38*2)(a2)						; send icon data
 
 .skipi
 
@@ -463,19 +463,19 @@ Options_MarkFields:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.w	.loadcharacter										; 0
-		bra.s	.musicopt											; 4
-		rts		; nop
-		bra.s	.soundopt											; 8
-		rts		; nop
-		bra.s	.drawmusic											; C
-		rts		; nop
-		bra.s	.drawsound											; 10
-		rts		; nop
-		bra.s	.drawsample											; 14
-		rts		; nop
-		rts		; nop												; 18
-		rts		; nop
+		bra.w	.loadcharacter									; 0
+		bra.s	.musicopt									; 4
+		rts	; nop
+		bra.s	.soundopt									; 8
+		rts	; nop
+		bra.s	.drawmusic									; C
+		rts	; nop
+		bra.s	.drawsound									; 10
+		rts	; nop
+		bra.s	.drawsample									; 14
+		rts	; nop
+		rts	; nop										; 18
+		rts	; nop
 ; ---------------------------------------------------------------------------
 
 .drawsample
@@ -496,7 +496,7 @@ Options_MarkFields:
 
 .drawnumbers
 		move.w	d0,d2
-		move.w	d0,-(sp)												; division by $100
+		move.w	d0,-(sp)									; division by $100
 		move.b	(sp)+,d0
 		bsr.s	.getnumber
 		move.b	d2,d0
@@ -506,9 +506,9 @@ Options_MarkFields:
 
 .getnumber
 		andi.w	#$F,d0
-		cmpi.b	#10,d0												; is digit $A-$F?
-		blo.s		.skipsymbols											; if not, branch
-		addq.b	#6,d0												; use alpha characters
+		cmpi.b	#10,d0										; is digit $A-$F?
+		blo.s	.skipsymbols									; if not, branch
+		addq.b	#6,d0										; use alpha characters
 
 .skipsymbols
 		addq.b	#1,d0
@@ -557,7 +557,7 @@ Options_MarkFields:
 		move.w	(Player_option).w,d0
 		add.w	d0,d0
 		lea	LevelSelect_LoadCharacterText1(pc),a0
-		tst.b	(Graphics_flags).w										; check console region
+		tst.b	(Graphics_flags).w								; check console region
 		bmi.s	.notMiles
 		lea	LevelSelect_LoadCharacterText2(pc),a0
 
@@ -600,13 +600,13 @@ Options_LoadText:
 
 .load
 		moveq	#0,d2
-		move.b	(a2)+,d2												; text size
-		move.w	(a0)+,d0												; offset
-		lea	(a1,d0.w),a3												; RAM shift
+		move.b	(a2)+,d2									; text size
+		move.w	(a0)+,d0									; offset
+		lea	(a1,d0.w),a3									; RAM shift
 
 .copy
 		moveq	#0,d0
-		move.b	(a2)+,d0												; load letter
+		move.b	(a2)+,d0									; load letter
 		add.w	d3,d0
 		move.w	d0,(a3)+
 		dbf	d2,.copy
@@ -631,8 +631,8 @@ Options_LoadText:
 ; ---------------------------------------------------------------------------
 
 ; misc
-Options_On:		optstr "ON"
-Options_Off:		optstr "OFF"
+Options_On:	optstr "ON"
+Options_Off:	optstr "OFF"
 
 ; main text
 Options_Text:

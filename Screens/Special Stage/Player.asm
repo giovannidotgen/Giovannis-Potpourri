@@ -9,7 +9,7 @@ Obj_PlayerSpecial:
 
 	if GameDebug
 		tst.w	(Debug_placement_mode).w					; is debug mode being used?
-		beq.s	Obj09_Normal								; if not, branch
+		beq.s	Obj09_Normal							; if not, branch
 		bsr.w	Debug_Mode
 		bra.w	SS_FixCamera
 ; ---------------------------------------------------------------------------
@@ -26,7 +26,7 @@ loc_4B97C:
 		move.b	#2,anim(a0)
 		bsr.s	sub_4B99E
 		moveq	#0,d0
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.b	mapping_frame(a1),d0
 		jsr	(Perform_Player_DPLC).l
 		bsr.w	SS_FixCamera
@@ -51,10 +51,10 @@ loc_4B9B6:
 ; ---------------------------------------------------------------------------
 
 Obj09_Index: offsetTable
-		offsetTableEntry.w Obj09_Main				; 0
-		offsetTableEntry.w Obj09_ChkDebug			; 2
-		offsetTableEntry.w Obj09_ExitStage			; 4
-		offsetTableEntry.w Obj09_Exit2				; 6
+		offsetTableEntry.w Obj09_Main		; 0
+		offsetTableEntry.w Obj09_ChkDebug	; 2
+		offsetTableEntry.w Obj09_ExitStage	; 4
+		offsetTableEntry.w Obj09_Exit2		; 6
 ; ---------------------------------------------------------------------------
 
 off_4B9C2:
@@ -63,9 +63,9 @@ off_4B9C2:
 		dc.l Map_Knuckles	; 3/4
 ; ---------------------------------------------------------------------------
 
-Obj09_Main:													; Routine 0
+Obj09_Main:										; Routine 0
 		addq.b	#2,routine(a0)
-		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)			; set y_radius and x_radius (rolling)
+		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)				; set y_radius and x_radius (rolling)
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
 
 		; check player
@@ -93,26 +93,26 @@ loc_4B9E8:
 
 		; init
 		move.w	#make_art_tile($79C,0,0),art_tile(a0)
-		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.b	#AniIDSonAni_Roll,anim(a0)
 		bset	#Status_Roll,status(a0)
 		bset	#Status_InAir,status(a0)
 
-Obj09_ChkDebug:											; Routine 2
+Obj09_ChkDebug:										; Routine 2
 
 	if GameDebug
-		tst.b	(Debug_mode_flag).w								; is debug mode cheat enabled?
-		beq.s	Obj09_NoDebug								; if not, branch
-		btst	#button_B,(Ctrl_1_pressed).w						; is button B pressed?
-		beq.s	Obj09_NoDebug								; if not, branch
+		tst.b	(Debug_mode_flag).w						; is debug mode cheat enabled?
+		beq.s	Obj09_NoDebug							; if not, branch
+		btst	#button_B,(Ctrl_1_pressed).w					; is button B pressed?
+		beq.s	Obj09_NoDebug							; if not, branch
 		move.w	#1,(Debug_placement_mode).w					; change player into a ring
 
 Obj09_NoDebug:
 	endif
 
 		clr.b	objoff_30(a0)
-		btst	#Status_InAir,status(a0)							; is the player in the air?
-		bne.s	Obj09_InAir									; if yes, branch
+		btst	#Status_InAir,status(a0)					; is the player in the air?
+		bne.s	Obj09_InAir							; if yes, branch
 
 Obj09_OnWall:
 		bsr.w	Obj09_Jump
@@ -129,13 +129,13 @@ Obj09_InAir:
 ; =============== S U B R O U T I N E =======================================
 
 Obj09_Move:
-		btst	#button_left,(Ctrl_1_logical).w						; is left being pressed?
-		beq.s	Obj09_ChkRight								; if not, branch
+		btst	#button_left,(Ctrl_1_logical).w					; is left being pressed?
+		beq.s	Obj09_ChkRight							; if not, branch
 		bsr.w	Obj09_MoveLeft
 
 Obj09_ChkRight:
-		btst	#button_right,(Ctrl_1_logical).w					; is right being pressed?
-		beq.s	loc_1BA78									; if not, branch
+		btst	#button_right,(Ctrl_1_logical).w				; is right being pressed?
+		beq.s	loc_1BA78							; if not, branch
 		bsr.w	Obj09_MoveRight
 
 loc_1BA78:
@@ -238,9 +238,9 @@ locret_1BB54:
 ; =============== S U B R O U T I N E =======================================
 
 Obj09_Jump:
-		moveq	#btnABC,d0									; is A, B or C pressed?
+		moveq	#btnABC,d0							; is A, B or C pressed?
 		and.b	(Ctrl_1_pressed_logical).w,d0
-		beq.s	locret_1BB54									; if not, branch
+		beq.s	locret_1BB54							; if not, branch
 
 	if ~~SpecialStageRotation
 		moveq	#-4,d0
@@ -260,7 +260,7 @@ Obj09_Jump:
 		asr.l	#8,d0
 		move.w	d0,y_vel(a0)
 		bset	#Status_InAir,status(a0)
-		sfx	sfx_Jump,1										; play jumping sound
+		sfx	sfx_Jump,1							; play jumping sound
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to fix the camera on player's position (Special Stage)
@@ -416,10 +416,10 @@ sub_1BCE8:
 
 sub_1BD30:
 		beq.s	locret_1BD44
-		cmpi.b	#$28,d4										; is the item an extra life?
-		beq.s	locret_1BD44									; if yes, branch
-		cmpi.b	#$4F,d4										; is the item an emerald?
-		beq.s	locret_1BD44									; if yes, branch
+		cmpi.b	#$28,d4								; is the item an extra life?
+		beq.s	locret_1BD44							; if yes, branch
+		cmpi.b	#$4F,d4								; is the item an emerald?
+		beq.s	locret_1BD44							; if yes, branch
 		cmpi.b	#$3A,d4
 		blo.s		loc_1BD46
 		cmpi.b	#$4B,d4
@@ -457,7 +457,7 @@ Obj09_ChkItems:
 ; ---------------------------------------------------------------------------
 
 Obj09_ChkCont:
-		cmpi.b	#$3A,d4										; is the item a	ring?
+		cmpi.b	#$3A,d4								; is the item a	ring?
 		bne.s	Obj09_Chk1Up
 		bsr.w	SS_RemoveCollectedItem
 		bne.s	Obj09_GetCont
@@ -465,23 +465,23 @@ Obj09_ChkCont:
 		move.l	a1,4(a2)
 
 Obj09_GetCont:
-		addq.w	#1,(Special_stage_ring_count).w				; add 1 to rings
-		sfx	sfx_RingRight									; play ring sound
+		addq.w	#1,(Special_stage_ring_count).w					; add 1 to rings
+		sfx	sfx_RingRight							; play ring sound
 
 		; check
 		cmpi.w	#50,(Special_stage_ring_count).w				; check if you have 50 rings
 		blo.s		.perfect
 		bset	#0,(Extra_life_flags).w
 		bne.s	.perfect
-		addq.b	#1,(Continue_count).w							; add 1 to number of continues
-		sfx	sfx_Continue										; play extra continue sound
+		addq.b	#1,(Continue_count).w						; add 1 to number of continues
+		sfx	sfx_Continue							; play extra continue sound
 
 .perfect
 		tst.w	(Special_stage_rings_left).w
 		beq.s	Obj09_NoCont
 
 		; update
-		ori.b	#1,(Update_HUD_ring_count).w				; update ring counter
+		ori.b	#1,(Update_HUD_ring_count).w					; update ring counter
 		cmpi.w	#1,(Special_stage_rings_left).w
 		beq.s	.resetHUD
 		cmpi.w	#10,(Special_stage_rings_left).w
@@ -490,13 +490,13 @@ Obj09_GetCont:
 		bne.s	.updateHUD
 
 .resetHUD
-		move.b	#$80,(Update_HUD_ring_count).w				; update ring counter
+		move.b	#$80,(Update_HUD_ring_count).w					; update ring counter
 
 .updateHUD
 		subq.w	#1,(Special_stage_rings_left).w
 		bne.s	Obj09_NoCont
 		st	(HUD_RAM.status).w
-		sfx	sfx_Perfect										; play perfect sound
+		sfx	sfx_Perfect							; play perfect sound
 
 Obj09_NoCont:
 		moveq	#0,d4
@@ -504,7 +504,7 @@ Obj09_NoCont:
 ; ---------------------------------------------------------------------------
 
 Obj09_Chk1Up:
-		cmpi.b	#$28,d4										; is the item an extra life?
+		cmpi.b	#$28,d4								; is the item an extra life?
 		bne.s	Obj09_ChkEmer
 		bsr.w	SS_RemoveCollectedItem
 		bne.s	Obj09_Get1Up
@@ -512,20 +512,20 @@ Obj09_Chk1Up:
 		move.l	a1,4(a2)
 
 Obj09_Get1Up:
-		addq.b	#1,(Life_count).w								; add 1 to number of lives
+		addq.b	#1,(Life_count).w						; add 1 to number of lives
 		addq.b	#1,(Update_HUD_life_count).w					; update the lives counter
-		music	mus_ExtraLife								; play the 1up song
+		music	mus_ExtraLife							; play the 1up song
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
 Obj09_ChkEmer:
-		cmpi.b	#$4F,d4										; is the item an emerald?
-		beq.s	.emerald										; if yes, branch
-		cmpi.b	#$3B,d4										; is the item an emerald?
-		blo.s		Obj09_ChkGhost								; if not, branch
-		cmpi.b	#$40,d4										; is the item an emerald?
-		bhi.s	Obj09_ChkGhost								; if not, branch
+		cmpi.b	#$4F,d4								; is the item an emerald?
+		beq.s	.emerald							; if yes, branch
+		cmpi.b	#$3B,d4								; is the item an emerald?
+		blo.s		Obj09_ChkGhost						; if not, branch
+		cmpi.b	#$40,d4								; is the item an emerald?
+		bhi.s	Obj09_ChkGhost							; if not, branch
 
 .emerald
 		bsr.w	SS_RemoveCollectedItem
@@ -534,8 +534,8 @@ Obj09_ChkEmer:
 		move.l	a1,4(a2)
 
 Obj09_GetEmer:
-		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w	; do you have all the emeralds?
-		beq.s	Obj09_NoEmer								; if yes, branch
+		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
+		beq.s	Obj09_NoEmer							; if yes, branch
 
 		; get emerald
 		moveq	#0,d0
@@ -547,22 +547,22 @@ Obj09_GetEmer:
 
 Obj09_NoEmer:
 		st	(HUD_RAM.status).w
-		music	mus_Emerald								; play emerald music
+		music	mus_Emerald							; play emerald music
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
 Obj09_ChkGhost:
-		cmpi.b	#$41,d4										; is the item a	ghost block?
+		cmpi.b	#$41,d4								; is the item a	ghost block?
 		bne.s	Obj09_ChkGhostTag
-		move.b	#1,objoff_3A(a0)								; mark the ghost block as "passed"
+		move.b	#1,objoff_3A(a0)						; mark the ghost block as "passed"
 
 Obj09_ChkGhostTag:
-		cmpi.b	#$4A,d4										; is the item a	switch for ghost blocks?
+		cmpi.b	#$4A,d4								; is the item a	switch for ghost blocks?
 		bne.s	Obj09_NoGhost
-		cmpi.b	#1,objoff_3A(a0)								; have the ghost blocks	been passed?
-		bne.s	Obj09_NoGhost								; if not, branch
-		move.b	#2,objoff_3A(a0)								; mark the ghost blocks	as "solid"
+		cmpi.b	#1,objoff_3A(a0)						; have the ghost blocks	been passed?
+		bne.s	Obj09_NoGhost							; if not, branch
+		move.b	#2,objoff_3A(a0)						; mark the ghost blocks	as "solid"
 
 Obj09_NoGhost:
 		moveq	#-1,d4
@@ -570,23 +570,23 @@ Obj09_NoGhost:
 ; ---------------------------------------------------------------------------
 
 Obj09_MakeGhostSolid:
-		cmpi.b	#2,objoff_3A(a0)								; is the ghost marked as "solid"?
-		bne.s	Obj09_GhostNotSolid							; if not, branch
+		cmpi.b	#2,objoff_3A(a0)						; is the ghost marked as "solid"?
+		bne.s	Obj09_GhostNotSolid						; if not, branch
 
 		; find ghost solid
 		lea	(SStage_Ghost_Buffer).l,a2
 
 .ghostloop
-		moveq	#-1,d0										; set RAM_start
-		move.w	(a2),d0										; get ghost solid address
-		beq.s	Obj09_GhostNotSolid							; if there are no ghost solids, branch
-		clr.w	(a2)+										; clear address
+		moveq	#-1,d0								; set RAM_start
+		move.w	(a2),d0								; get ghost solid address
+		beq.s	Obj09_GhostNotSolid						; if there are no ghost solids, branch
+		clr.w	(a2)+								; clear address
 
 		; load ghost solid
-		movea.l	d0,a1										; get address (RAM_start+$XXXX)
+		movea.l	d0,a1								; get address (RAM_start+$XXXX)
 
 		; set
-		move.b	#$2C,(a1)									; replace ghost block with a solid block
+		move.b	#$2C,(a1)							; replace ghost block with a solid block
 
 		; back
 		bra.s	.ghostloop
@@ -616,7 +616,7 @@ locret_1BEAC:
 ; ---------------------------------------------------------------------------
 
 Obj09_ChkBumper:
-		cmpi.b	#$25,d0										; is the item a bumper?
+		cmpi.b	#$25,d0								; is the item a bumper?
 		bne.s	Obj09_GOAL
 		move.l	objoff_32(a0),d1
 		subi.l	#$FF0001,d1
@@ -648,53 +648,53 @@ Obj09_ChkBumper:
 		move.l	d0,4(a2)
 
 Obj09_BumpSnd:
-		sfx	sfx_Bumper,1										; play bumper sound
+		sfx	sfx_Bumper,1							; play bumper sound
 ; ---------------------------------------------------------------------------
 
 Obj09_GOAL:
-		cmpi.b	#$27,d0										; is the item a	"GOAL"?
+		cmpi.b	#$27,d0								; is the item a	"GOAL"?
 		bne.s	Obj09_UPblock
-		addq.b	#2,routine(a0)								; run routine "Obj09_ExitStage"
+		addq.b	#2,routine(a0)							; run routine "Obj09_ExitStage"
 		st	(HUD_RAM.status).w
-		sfx	sfx_SSGoal,1										; play "GOAL" sound
+		sfx	sfx_SSGoal,1							; play "GOAL" sound
 ; ---------------------------------------------------------------------------
 
 Obj09_UPblock:
-		cmpi.b	#$29,d0										; is the item an "UP" block?
+		cmpi.b	#$29,d0								; is the item an "UP" block?
 		bne.s	Obj09_DOWNblock
 		tst.b	objoff_36(a0)
 		bne.w	Obj09_NoGlass
 		move.b	#30,objoff_36(a0)
 		btst	#6,(SStage_scalar_index_1+1).w
 		beq.s	Obj09_UPsnd
-		asl.w	(SStage_scalar_index_1).w						; increase stage rotation speed
+		asl.w	(SStage_scalar_index_1).w					; increase stage rotation speed
 		movea.l	objoff_32(a0),a1
 		subq.w	#1,a1
-		move.b	#$2A,(a1)									; change item to a "DOWN" block
+		move.b	#$2A,(a1)							; change item to a "DOWN" block
 
 Obj09_UPsnd:
-		sfx	sfx_SSItem,1										; play up/down sound
+		sfx	sfx_SSItem,1							; play up/down sound
 ; ---------------------------------------------------------------------------
 
 Obj09_DOWNblock:
-		cmpi.b	#$2A,d0										; is the item a	"DOWN" block?
+		cmpi.b	#$2A,d0								; is the item a	"DOWN" block?
 		bne.s	Obj09_Rblock
 		tst.b	objoff_36(a0)
 		bne.w	Obj09_NoGlass
 		move.b	#30,objoff_36(a0)
 		btst	#6,(SStage_scalar_index_1+1).w
 		bne.s	Obj09_DOWNsnd
-		asr.w	(SStage_scalar_index_1).w						; reduce stage rotation speed
+		asr.w	(SStage_scalar_index_1).w					; reduce stage rotation speed
 		movea.l	objoff_32(a0),a1
 		subq.w	#1,a1
-		move.b	#$29,(a1)									; change item to an "UP" block
+		move.b	#$29,(a1)							; change item to an "UP" block
 
 Obj09_DOWNsnd:
-		sfx	sfx_SSItem,1										; play up/down sound
+		sfx	sfx_SSItem,1							; play up/down sound
 ; ---------------------------------------------------------------------------
 
 Obj09_Rblock:
-		cmpi.b	#$2B,d0										; is the item an "R" block?
+		cmpi.b	#$2B,d0								; is the item an "R" block?
 		bne.s	Obj09_ChkGlass
 		tst.b	objoff_37(a0)
 		bne.s	Obj09_NoGlass
@@ -707,19 +707,19 @@ Obj09_Rblock:
 		move.l	d0,4(a2)
 
 Obj09_RevStage:
-		neg.w	(SStage_scalar_index_1).w						; reverse stage rotation
-		sfx	sfx_SSItem,1										; play sound
+		neg.w	(SStage_scalar_index_1).w					; reverse stage rotation
+		sfx	sfx_SSItem,1							; play sound
 ; ---------------------------------------------------------------------------
 
 Obj09_ChkGlass:
-		cmpi.b	#$2D,d0										; is the item a	glass block?
-		beq.s	Obj09_Glass									; if yes, branch
+		cmpi.b	#$2D,d0								; is the item a	glass block?
+		beq.s	Obj09_Glass							; if yes, branch
 		cmpi.b	#$2E,d0
 		beq.s	Obj09_Glass
 		cmpi.b	#$2F,d0
 		beq.s	Obj09_Glass
 		cmpi.b	#$30,d0
-		bne.s	Obj09_NoGlass								; if not, branch
+		bne.s	Obj09_NoGlass							; if not, branch
 
 Obj09_Glass:
 		bsr.w	SS_RemoveCollectedItem
@@ -729,16 +729,16 @@ Obj09_Glass:
 		subq.w	#1,a1
 		move.l	a1,4(a2)
 		move.b	(a1),d0
-		addq.b	#1,d0										; change glass type when touched
+		addq.b	#1,d0								; change glass type when touched
 		cmpi.b	#$30,d0
-		bls.s		Obj09_GlassUpdate							; if glass is still there, branch
-		clr.b	d0												; remove the glass block when it's destroyed
+		bls.s		Obj09_GlassUpdate					; if glass is still there, branch
+		clr.b	d0								; remove the glass block when it's destroyed
 
 Obj09_GlassUpdate:
-		move.b	d0,4(a2)										; update the stage layout
+		move.b	d0,4(a2)							; update the stage layout
 
 Obj09_GlassSnd:
-		sfx	sfx_SSGlass,1										; play glass block sound
+		sfx	sfx_SSGlass,1							; play glass block sound
 ; ---------------------------------------------------------------------------
 
 Obj09_NoGlass:
