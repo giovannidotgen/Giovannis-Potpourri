@@ -14,7 +14,7 @@ Obj_SuperSonicKnux_Stars:
 		; init
 		move.l	#Map_SuperSonic_Stars,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)				; set screen coordinates flag and height and width
 
 		; check
 		btst	#high_priority_bit,(Player_1+art_tile).w
@@ -38,7 +38,7 @@ loc_191A4:
 		; next
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#6,mapping_frame(a0)
-		blo.s		loc_191E8
+		blo.s	loc_191E8
 		clr.b	mapping_frame(a0)
 
 		; set
@@ -63,7 +63,7 @@ loc_19200:
 		bne.s	loc_19222
 		mvabs.w	(Player_1+ground_vel).w,d0
 		cmpi.w	#$800,d0
-		blo.s		loc_19222
+		blo.s	loc_19222
 		clr.b	mapping_frame(a0)
 		move.b	#1,objoff_34(a0)
 		bra.s	loc_191EE
@@ -99,7 +99,7 @@ Obj_HyperSonic_Stars:
 .createObject
 		move.l	#Obj_HyperSonic_Stars_Init,address(a1)
 		move.b	d0,angle(a1)
-		addi.b	#256/4,d0										; 90 degrees
+		addi.b	#256/4,d0									; 90 degrees
 		addq.b	#1,d2
 		move.b	d2,anim_frame_timer(a1)
 		lea	next_object(a1),a1
@@ -124,7 +124,7 @@ Obj_HyperSonic_Stars_Init:
 		; init
 		move.l	#Map_HyperSonicStars,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)	; set screen coordinates flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)				; set screen coordinates flag and height and width
 		move.b	#6,mapping_frame(a0)
 		cmpa.w	#Invincibility_stars,a0
 		beq.s	.isParent
@@ -157,7 +157,7 @@ Obj_HyperSonic_Stars_Main:
 		; next
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s		loc_1941C
+		blo.s	loc_1941C
 		moveq	#0,d0
 		move.b	d0,mapping_frame(a0)
 		move.w	d0,objoff_30(a0)
