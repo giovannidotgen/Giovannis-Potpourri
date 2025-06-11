@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-superTailsBirds_target_found	= $30
-superTailsBirds_search_delay	= $32
+superTailsBirds_target_found		= $30
+superTailsBirds_search_delay		= $32
 superTailsBirds_angle			= $34
-superTailsBirds_target_address	= $42
+superTailsBirds_target_address		= $42
 
 ; =============== S U B R O U T I N E =======================================
 
