@@ -17,7 +17,7 @@ SLZ1_BackgroundInit:
 
 		; update BG
 		jsr	(Reset_TileOffsetPositionEff).w
-		moveq	#0,d1							; Camera_X_pos_BG_copy
+		moveq	#0,d1								; Camera_X_pos_BG_copy
 		jsr	(Refresh_PlaneFull).w
 
 		; deform
@@ -35,7 +35,7 @@ SLZ1_BackgroundEvent:
 		; update BG
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
-		moveq	#0,d1							; Camera_X_pos_BG_copy
+		moveq	#0,d1								; Camera_X_pos_BG_copy
 		moveq	#512/16,d6
 		jsr	(Draw_TileRow).w
 
@@ -54,28 +54,28 @@ SLZ1_Transition:
 SLZ1_Deform:
 
 		; yscroll
-		move.w	(Camera_Y_pos_copy).w,d0		; 100% to d0 ($1000)
+		move.w	(Camera_Y_pos_copy).w,d0					; 100% to d0 ($1000)
 		asr.w	d0								; get 50% ($800)
-		addi.w	#192,d0							; fix pos
-		move.w	d0,(Camera_Y_pos_BG_copy).w	; save 54.6875%
+		addi.w	#192,d0								; fix pos
+		move.w	d0,(Camera_Y_pos_BG_copy).w					; save 54.6875%
 
 		; xscroll
 		lea	(H_scroll_table).w,a1
-		move.l	(Camera_X_pos_copy).w,d0		; 100% to d0 ($10000)
+		move.l	(Camera_X_pos_copy).w,d0					; 100% to d0 ($10000)
 
 		; unused
-		clr.w	(a1)+							; save 0%
+		clr.w	(a1)+								; save 0%
 
 		; stars
-		move.l	d0,d1							; copy 100% to d1 ($10000)
-		move.l	d0,d2							; copy 100% to d2 ($10000)
+		move.l	d0,d1								; copy 100% to d1 ($10000)
+		move.l	d0,d2								; copy 100% to d2 ($10000)
 		asr.l	#5,d2								; get 3.125% ($800)
 
 	rept 27
 		swap	d1
 		move.w	d1,(a1)+							; save 100% - 3.125%
 		swap	d1
-		sub.l	d2,d1							; sub 3.125% from d1 ($800)
+		sub.l	d2,d1								; sub 3.125% from d1 ($800)
 	endr
 
 		; last star
@@ -83,18 +83,18 @@ SLZ1_Deform:
 		move.w	d1,(a1)+							; save 100% - 3.125%
 
 		; distant black buildings
-		move.l	d0,d1							; copy 100% to d1 ($10000)
+		move.l	d0,d1								; copy 100% to d1 ($10000)
 		asr.l	#3,d1								; get 12.5% ($2000)
-		move.l	d1,d2							; copy 12.5% to d2 ($2000)
-		asr.l	d2									; get 6.25% ($1000)
-		add.l	d2,d1							; add 6.25% to d1 ($3000)
+		move.l	d1,d2								; copy 12.5% to d2 ($2000)
+		asr.l	d2								; get 6.25% ($1000)
+		add.l	d2,d1								; add 6.25% to d1 ($3000)
 		swap	d1
 		move.w	d1,(a1)+							; save 18.75% ($3000)
 
 		; closer buildings
-		asr.l	d0									; get 50% ($8000)
-		move.l	d0,d1							; copy 50% to d1 ($8000)
-		asr.l	d0									; get 25% ($4000)
+		asr.l	d0								; get 50% ($8000)
+		move.l	d0,d1								; copy 50% to d1 ($8000)
+		asr.l	d0								; get 25% ($4000)
 		swap	d0
 		move.w	d0,(a1)+							; save 25%
 
@@ -105,7 +105,7 @@ SLZ1_Deform:
 ; ---------------------------------------------------------------------------
 
 SLZ1_BGDeformArray:
-		dc.w 192			; unused
-		dcb.w 28, 16		; stars
-		dcb.w 2, 80		; distant black buildings and closer buildings
-		dc.w $7FFF		; bottom part of background
+		dc.w 192	; unused
+		dcb.w 28, 16	; stars
+		dcb.w 2, 80	; distant black buildings and closer buildings
+		dc.w $7FFF	; bottom part of background

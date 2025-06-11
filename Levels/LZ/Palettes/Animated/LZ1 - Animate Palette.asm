@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; LZ palette cycling
+; Animated palette routine - Labyrinth Zone
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -15,10 +15,10 @@ AnPal_LZ:
 		; cycle
 		moveq	#$18,d0							; if cycle > 3, reset to 0
 		and.w	2(a0),d0
-		addq.w	#8,2(a0)							; increment cycle number
+		addq.w	#8,2(a0)						; increment cycle number
 		lea	(Pal_LZCyc1).l,a1
-		cmpi.b	#3,(Current_act).w				; check if level is SBZ3
-		bne.s	.notsbz3							; if not, branch
+		cmpi.b	#3,(Current_act).w					; check if level is SBZ3
+		bne.s	.notsbz3						; if not, branch
 		lea	(Pal_SBZ3Cyc).l,a1					; load SBZ3 palette instead
 
 .notsbz3
@@ -37,7 +37,7 @@ AnPal_LZ:
 		; conveyor belts
 		moveq	#7,d0
 		and.w	(Level_frame_counter).w,d0
-		move.b	PCycLZ_Seq(pc,d0.w),d0			; get byte from palette sequence
+		move.b	PCycLZ_Seq(pc,d0.w),d0					; get byte from palette sequence
 		beq.s	.return							; if byte is 0, branch
 		moveq	#1,d1
 		tst.b	(Convey_rev_flag).w					; have conveyor belts been reversed?
@@ -49,7 +49,7 @@ AnPal_LZ:
 		and.w	4(a0),d0
 		add.w	d1,d0
 		cmpi.w	#3,d0
-		blo.s		.loc_1A0A
+		blo.s	.loc_1A0A
 		move.w	d0,d1
 		moveq	#0,d0
 		tst.w	d1
@@ -79,5 +79,5 @@ AnPal_LZ:
 		rts
 ; ---------------------------------------------------------------------------
 
-PCycLZ_Seq:		dc.b 1, 0, 0, 1, 0, 0, 1, 0
+PCycLZ_Seq:	dc.b 1, 0, 0, 1, 0, 0, 1, 0
 	even

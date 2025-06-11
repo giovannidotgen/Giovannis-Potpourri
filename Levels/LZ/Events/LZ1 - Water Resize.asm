@@ -6,12 +6,12 @@
 
 LZ1_WaterResize:
 		move.w	(Camera_X_pos).w,d0
-		move.w	#$B8,d1											; water height
-		cmpi.w	#$800,d0										; has screen reached next position?
-		blo.s		.setwater											; if not, branch
+		move.w	#$B8,d1								; water height
+		cmpi.w	#$800,d0							; has screen reached next position?
+		blo.s		.setwater						; if not, branch
 		move.w	#$108,d1
-		cmpi.w	#$200,(Player_1+y_pos).w							; is Sonic above $200 y-axis?
-		blo.s		.sonicishigh										; if yes, branch
+		cmpi.w	#$200,(Player_1+y_pos).w					; is Sonic above $200 y-axis?
+		blo.s		.sonicishigh						; if yes, branch
 		cmpi.w	#$E00,d0
 		blo.s		.setwater
 		move.w	#$318,d1
@@ -22,9 +22,9 @@ LZ1_WaterResize:
 		cmpi.w	#$1580,d0
 		blo.s		.setwater
 		move.w	#$3A8,d1
-		cmp.w	(Mean_water_level).w,d1							; has water reached last height?
-		bne.s	.setwater											; if not, branch
-		move.l	#.routine2,(Level_data_addr_RAM.WaterResize).w	; use second routine next
+		cmp.w	(Mean_water_level).w,d1						; has water reached last height?
+		bne.s	.setwater							; if not, branch
+		move.l	#.routine2,(Level_data_addr_RAM.WaterResize).w			; use second routine next
 
 .setwater
 		move.w	d1,(Target_water_level).w
@@ -43,8 +43,8 @@ LZ1_WaterResize:
 
 .routine2
 		move.w	(Camera_X_pos).w,d0
-		cmpi.w	#$2E0,(Player_1+y_pos).w							; is Sonic above $2E0 y-axis?
-		bhs.s	.skip											; if not, branch
+		cmpi.w	#$2E0,(Player_1+y_pos).w					; is Sonic above $2E0 y-axis?
+		bhs.s	.skip								; if not, branch
 		move.w	#$3A8,d1
 		cmpi.w	#$1500,d0
 		blo.s		.setwater2

@@ -3,24 +3,24 @@
 ; ---------------------------------------------------------------------------
 
 		; Level init
-		dc.l SBZ2_Resize								; Resize
-		dc.l 0										; Water resize
-		dc.l 0										; After boss
+		dc.l SBZ2_Resize							; Resize
+		dc.l 0									; Water resize
+		dc.l 0									; After boss
 
 		; Animate palette
 		dc.l AnPal_SBZ								; Animate palette main code
-		dc.l 0										; Animate palette scripts
+		dc.l 0									; Animate palette scripts
 
 		; Level setup
 		dc.l SBZ2_ScreenInit							; Screen init
 		dc.l SBZ2_BackgroundInit						; Background init
 		dc.l SBZ2_ScreenEvent							; Screen event
-		dc.l SBZ2_BackgroundEvent					; Background event
+		dc.l SBZ2_BackgroundEvent						; Background event
 
 		; Animate tiles
-		dc.l 0										; Animate tiles init
-		dc.l 0										; Animate tiles main code
-		dc.l -1										; Animate tiles PLC scripts
+		dc.l 0									; Animate tiles init
+		dc.l 0									; Animate tiles main code
+		dc.l -1									; Animate tiles PLC scripts
 
 		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
 		levartptrs \
@@ -38,20 +38,20 @@
 
 		; Level data 2
 		dc.l SBZ_Solid								; Level solid
-		dc.l SBZ2_Layout								; Level layout
-		dc.l SBZ2_Objects								; Level sprites
+		dc.l SBZ2_Layout							; Level layout
+		dc.l SBZ2_Objects							; Level sprites
 		dc.l SBZ2_Rings								; Level rings
 
 		; PLC
-		dc.l PLC1_SBZ2_Before						; PLC1
+		dc.l PLC1_SBZ2_Before							; PLC1
 		dc.l PLC2_SBZ2_After							; PLC2
 		dc.l PLCAnimals_SBZ1							; PLC animals
 
 		; Level size
-		dc.w 0										; Level xstart
-		dc.w $2040									; Level xend
-		dc.w -$100									; Level ystart
-		dc.w $800									; Level yend
+		dc.w 0									; Level xstart
+		dc.w $2040								; Level xend
+		dc.w -$100								; Level ystart
+		dc.w $800								; Level yend
 
 		; Starting water height
 		dc.w $1000
@@ -71,5 +71,5 @@
 	if (GameDebug)&&(~~GameDebugAlt)
 		dc.l Debug_SBZ1								; Debug Mode
 	else
-		dc.l 0										; Unused
+		dc.l 0									; Unused
 	endif

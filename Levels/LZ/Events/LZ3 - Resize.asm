@@ -9,10 +9,10 @@ LZ3_Resize:
 		beq.s	.normal
 
 		; change chunk
-		bsr.w	Redraw_LZ3AltChunks										; modify level layout
+		bsr.w	Redraw_LZ3AltChunks						; modify level layout
 		move.l	#.normal,(Level_data_addr_RAM.Resize).w
-		sfx	sfx_Rumbling												; play sound $B7 (rumbling)
-		move.w	#$3F,(Screen_shaking_flag).w								; screen shake
+		sfx	sfx_Rumbling							; play sound $B7 (rumbling)
+		move.w	#$3F,(Screen_shaking_flag).w					; screen shake
 
 .normal
 		cmpi.w	#$1EA0,(Camera_X_pos).w
@@ -23,7 +23,7 @@ LZ3_Resize:
 		; load boss
 		moveq	#0,d0
 		move.l	d0,(Level_data_addr_RAM.Resize).w
-		move.l	d0,(Level_data_addr_RAM.AnimateTiles).w					; disable animate tiles
+		move.l	d0,(Level_data_addr_RAM.AnimateTiles).w				; disable animate tiles
 
 		; load art
 		lea	(PLC_BossWater).l,a5
@@ -41,7 +41,7 @@ LZ3_Resize:
 
 		; create boss
 		music	mus_ZoneBoss
-		move.b	d0,(Current_music+1).w									; save music
+		move.b	d0,(Current_music+1).w						; save music
 		jsr	(Create_New_Sprite).w
 		bne.s	.return
 		move.l	#Obj_BossWater,address(a1)
@@ -73,22 +73,22 @@ End_LZ3Boss:
 ; =============== S U B R O U T I N E =======================================
 
 Redraw_LZ3NormalChunks:
-		lea	(RAM_start+$5F00).l,a1										; get $BE-$BF chunks
-		lea	-$4680(a1),a2												; get $31-$32 chunks
+		lea	(RAM_start+$5F00).l,a1						; get $BE-$BF chunks
+		lea	-$4680(a1),a2							; get $31-$32 chunks
 		bra.s	Redraw_LZ3AltChunks.redraw
 ; ---------------------------------------------------------------------------
 
 Redraw_LZ3AltChunks:
-		lea	(RAM_start+$5F00).l,a1										; get $BE-$BF chunks
-		lea	$100(a1),a2													; get $C0-$C1 chunks
+		lea	(RAM_start+$5F00).l,a1						; get $BE-$BF chunks
+		lea	$100(a1),a2							; get $C0-$C1 chunks
 
 .redraw
 
 		set	.a,0
 
-	rept 4*2																; replace 2 chunks
+	rept 4*2									; replace 2 chunks
 		movem.l	(a2)+,d0-d7
-		movem.l	d0-d7,.a(a1)												; copy $20 bytes
+		movem.l	d0-d7,.a(a1)							; copy $20 bytes
 		set	.a,.a + $20
 	endr
 

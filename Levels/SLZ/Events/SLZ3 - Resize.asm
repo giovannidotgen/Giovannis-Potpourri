@@ -40,7 +40,7 @@ SLZ3_Resize:
 		move.l	#.return,(Level_data_addr_RAM.Resize).w
 
 		; remove pylon
-		moveq	#1,d1										; current slot priority
+		moveq	#1,d1								; current slot priority
 		jsr	(DeleteSlot_ExtraRender).w
 
 		; load art

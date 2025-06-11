@@ -1,6 +1,9 @@
+; ---------------------------------------------------------------------------
+; Animated pattern routine - Marble Zone (Lava)
+; ---------------------------------------------------------------------------
 
 ; RAM
-vLavaMZBuffer		= RAM_start+$7E00			; buffer size is $200 bytes
+vLavaMZBuffer		= RAM_start+$7E00						; buffer size is $200 bytes
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -13,19 +16,19 @@ AnimateTiles_MZ:
 		lea	(Anim_Counters+8).w,a1
 
 		; wait
-		subq.b	#1,(a1)							; decrement timer
-		bpl.s	.return							; if time remains, branch
+		subq.b	#1,(a1)								; decrement timer
+		bpl.s	.return								; if time remains, branch
 		addq.b	#1+1,(a1)							; reset timer to 1 frames
 
 		; load art
-		lea	(ArtUnc_MZLava2).l,a4				; load lava patterns
+		lea	(ArtUnc_MZLava2).l,a4						; load lava patterns
 		move.b	-7(a1),d0							; get surface lava frame number
-		subq.b	#1,d0							; fix dbf
-		andi.w	#3,d0							; max number
-		ror.w	#7,d0							; multiply frame num by $200
-		adda.w	d0,a4							; jump to appropriate tile
+		subq.b	#1,d0								; fix dbf
+		andi.w	#3,d0								; max number
+		ror.w	#7,d0								; multiply frame num by $200
+		adda.w	d0,a4								; jump to appropriate tile
 		moveq	#0,d3
-		move.b	(Oscillating_Data+8).w,d3			; get oscillating value
+		move.b	(Oscillating_Data+8).w,d3					; get oscillating value
 
 	if ((vLavaMZBuffer)&$8000)
 		lea	(vLavaMZBuffer).w,a5
@@ -33,7 +36,7 @@ AnimateTiles_MZ:
 		lea	(vLavaMZBuffer).l,a5
 	endif
 
-		moveq	#4-1,d2							; $80*4=$200
+		moveq	#4-1,d2								; $80*4=$200
 
 .loop
 		lea	(a4),a1
@@ -41,9 +44,9 @@ AnimateTiles_MZ:
 		and.w	d3,d0
 		add.w	d0,d0
 		add.w	d0,d0
-		moveq	#($80/4)-1,d1					; size
+		moveq	#($80/4)-1,d1							; size
 		jsr	AniArt_MZextra(pc,d0.w)
-		addq.w	#4,d3							; next
+		addq.w	#4,d3								; next
 		dbf	d2,.loop
 
 		; load art
@@ -52,19 +55,17 @@ AnimateTiles_MZ:
 .return
 		rts
 
-; ===========================================================================
-; Animated pattern routine - Marble Zone (Lava)
-; ===========================================================================
+; =============== S U B R O U T I N E =======================================
 
 AniArt_MZextra:
 		bra.s	loc_1C3EE	; 0
-		rts		; nop
+		rts	; nop
 		bra.s	loc_1C3FA	; 4
-		rts		; nop
+		rts	; nop
 		bra.s	loc_1C410	; 8
-		rts		; nop
+		rts	; nop
 		bra.s	loc_1C41E	; C
-		rts		; nop
+		rts	; nop
 		bra.w	loc_1C434	; 10
 		bra.w	loc_1C442	; 14
 		bra.w	loc_1C458	; 18
@@ -78,7 +79,7 @@ AniArt_MZextra:
 		bra.w	loc_1C4E8	; 38
 ; ---------------------------------------------------------------------------
 
-loc_1C4FA:					; 3C
+loc_1C4FA:				; 3C
 		move.l	(a1),d0
 		move.b	$F(a1),d0
 		ror.l	#8,d0
