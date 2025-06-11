@@ -396,8 +396,8 @@ Target_palette_line_4:					ds.b palette_line_size
 Oscillating_variables:					= *
 Oscillating_table:					= *
 Oscillating_Numbers:					= *
-Oscillation_Control:					ds.w 1
-Oscillating_Data:					ds.b $40
+Oscillation_Control:					ds.l 1
+Oscillating_Data:					ds.b $48
 Anim_Counters:						ds.b $10					; each word stores data on animated level art, including duration and current frame
 AIZ_vine_angle:						ds.w 1
 Level_trigger_array:					ds.b $10					; used by buttons, etc
