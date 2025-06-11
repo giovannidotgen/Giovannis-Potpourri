@@ -71,8 +71,8 @@ Game_Modes:
 		GameModeEntry SegaScreen						; SEGA screen mode
 		GameModeEntry TitleScreen						; Title screen mode
 		GameModeEntry OptionsScreen						; Options mode
-		GameModeEntry LevelSelectScreen						; Level select mode (SCE)
-		GameModeEntry LevelSelectRSDKScreen					; Level select mode (RSDK)
+		GameModeEntry LevelSelectScreen						; Level Select mode (SCE)
+		GameModeEntry LevelSelectRSDKScreen					; Level Select mode (RSDK)
 		GameModeEntry DemoScreen						; Demo mode
 		GameModeEntry LevelScreen						; Zone play mode
 		GameModeEntry ContinueScreen						; Continue mode
