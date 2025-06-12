@@ -242,11 +242,11 @@ Render_sprite_first_RAM:				ds.l 8
 Render_sprite_first_RAM_end				= *
 Render_sprite_last_RAM:					ds.l 1
 Chain_stomp_addr:					ds.w 1
-Push_block_addr:						ds.w 1
-Float_block_flag:						ds.b 1
+Push_block_addr:					ds.w 1
+Float_block_flag:					ds.b 1
 Scrap_stomp_flag:					ds.b 1
 _unkFAAC:						ds.b 1
-Convey_rev_flag:						ds.b 1
+Convey_rev_flag:					ds.b 1
 Convey_rev_buffer:					ds.b 6
 Palette_cycle_counters:					ds.b $40
 Palette_frame:						ds.w 1
