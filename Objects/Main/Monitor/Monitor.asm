@@ -306,22 +306,22 @@ loc_1D850:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	Monitor_Give_Eggman			; 0
-		rts		; nop
-		bra.s	Monitor_Give_1up				; 2
-		rts		; nop
-		bra.s	Monitor_Give_Eggman			; 4
-		rts		; nop
-		bra.s	Monitor_Give_Rings				; 6
-		rts		; nop
-		bra.s	Monitor_Give_SpeedShoes			; 8
-		rts		; nop
-		bra.s	Monitor_Give_Fire_Shield			; A
-		rts		; nop
-		bra.w	Monitor_Give_Lightning_Shield	; C
-		bra.w	Monitor_Give_Bubble_Shield		; E
-		bra.w	Monitor_Give_Invincibility			; 10
-		bra.w	Monitor_Give_SuperSonic			; 12
+		bra.s	Monitor_Give_Eggman						; 0
+		rts									; nop
+		bra.s	Monitor_Give_1up						; 2
+		rts									; nop
+		bra.s	Monitor_Give_Eggman						; 4
+		rts									; nop
+		bra.s	Monitor_Give_Rings						; 6
+		rts									; nop
+		bra.s	Monitor_Give_SpeedShoes						; 8
+		rts									; nop
+		bra.s	Monitor_Give_Fire_Shield					; A
+		rts									; nop
+		bra.w	Monitor_Give_Lightning_Shield					; C
+		bra.w	Monitor_Give_Bubble_Shield					; E
+		bra.w	Monitor_Give_Invincibility					; 10
+		bra.w	Monitor_Give_SuperSonic						; 12
 ; ---------------------------------------------------------------------------
 
 		; give blue shield							; 14
@@ -392,19 +392,19 @@ Monitor_Give_Bubble_Shield:
 ; ---------------------------------------------------------------------------
 
 Monitor_Give_Invincibility:
-		tst.b	(Super_Sonic_Knux_flag).w							; is Sonic Super/Hyper?
-		bne.s	.return											; if so, branch
-		tst.b	(Super_Tails_flag).w									; is Tails Super?
-		bne.s	.return											; if so, branch
+		tst.b	(Super_Sonic_Knux_flag).w					; is Sonic Super/Hyper?
+		bne.s	.return								; if so, branch
+		tst.b	(Super_Tails_flag).w						; is Tails Super?
+		bne.s	.return								; if so, branch
 		bset	#Status_Invincible,status_secondary(a1)
 		move.b	#(20*60)/8,invincibility_timer(a1)
-		tst.b	(Music_results_flag).w									; don't change music if level is end
+		tst.b	(Music_results_flag).w						; don't change music if level is end
 		bne.s	.skipmusic
 		tst.b	(Boss_flag).w
 		bne.s	.skipmusic
 		cmpi.b	#12,air_left(a1)
 		bls.s	.skipmusic
-		music	mus_Invincible									; if invincible, play invincibility music
+		music	mus_Invincible							; if invincible, play invincibility music
 
 .skipmusic
 		move.l	#Obj_Invincibility,(Invincibility_stars+address).w

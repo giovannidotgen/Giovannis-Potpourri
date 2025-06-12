@@ -169,13 +169,13 @@ Options_Controls:
 
 .index
 		bra.s	.getcharacter									; 0
-		rts	; nop
+		rts											; nop
 		bra.s	.getmusicopt									; 4
-		rts	; nop
+		rts											; nop
 		bra.s	.getsoundopt									; 8
-		rts	; nop
+		rts											; nop
 		bra.s	.getmusic									; C
-		rts	; nop
+		rts											; nop
 		bra.w	.getsound									; 10
 		bra.w	.getsample									; 14
 		rts											; 18
@@ -465,17 +465,17 @@ Options_MarkFields:
 .index
 		bra.w	.loadcharacter									; 0
 		bra.s	.musicopt									; 4
-		rts	; nop
+		rts											; nop
 		bra.s	.soundopt									; 8
-		rts	; nop
+		rts											; nop
 		bra.s	.drawmusic									; C
-		rts	; nop
+		rts											; nop
 		bra.s	.drawsound									; 10
-		rts	; nop
+		rts											; nop
 		bra.s	.drawsample									; 14
-		rts	; nop
-		rts	; nop										; 18
-		rts	; nop
+		rts											; nop
+		rts											; 18
+		rts											; nop
 ; ---------------------------------------------------------------------------
 
 .drawsample

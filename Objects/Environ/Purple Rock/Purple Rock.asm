@@ -7,14 +7,14 @@
 Obj_PurpleRock:
 
 		; init
-		movem.l	ObjDat_PurpleRock(pc),d0-d3				; copy data to d0-d3
-		movem.l	d0-d3,address(a0)					; set data from d0-d3 to current object
+		movem.l	ObjDat_PurpleRock(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 
 .solid
-		moveq	#(32/2)+$B,d1						; width
-		moveq	#32/2,d2						; height
+		moveq	#(32/2)+$B,d1							; width
+		moveq	#32/2,d2							; height
 		move.w	d2,d3
-		addq.w	#1,d3							; height+1
+		addq.w	#1,d3								; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 
