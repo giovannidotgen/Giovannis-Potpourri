@@ -14,12 +14,12 @@ Obj_AnimatedStillSprite:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.b	d0,mapping_frame(a0)
-		add.w	d0,d0									; multiply by 6
+		add.w	d0,d0								; multiply by 6
 		move.w	d0,d1
 		add.w	d0,d0
 		add.w	d1,d0
 		lea	.index(pc,d0.w),a1
-		move.l	(a1)+,priority(a0)							; set priority and VRAM
+		move.l	(a1)+,priority(a0)						; set priority and VRAM
 		move.w	(a1),height_pixels(a0)						; set height and width
 		move.l	#.anim,address(a0)
 
@@ -31,7 +31,7 @@ Obj_AnimatedStillSprite:
 
 .index
 
-		; empty yet...						; 0
+		; empty yet...								; 0
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Main/Still Sprites/Object Data/Anim - Still Sprites(Animated).asm"

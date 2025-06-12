@@ -8,27 +8,27 @@ Obj_Button:
 
 		; init
 		movem.l	ObjDat_Button(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 
 		; check level
 		cmpi.b	#LevelID_MZ,(Current_zone).w					; is level Marble Zone?
-		bne.s	.notMZ										; if not, branch
+		bne.s	.notMZ								; if not, branch
 		ori.w	#palette_line_2,art_tile(a0)					; MZ specific code
 
 .notMZ
 		addq.w	#4,y_pos(a0)
 
 		; check
-		btst	#5,subtype(a0)									; $20?
+		btst	#5,subtype(a0)							; $20?
 		bne.s	Button_Alternate
 
 .main
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	.draw										; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.draw								; if not, branch
 
 		; solid
-		moveq	#(32/2)+$B,d1								; width
-		moveq	#(10/2)+1,d3									; height+1
+		moveq	#(32/2)+$B,d1							; width
+		moveq	#(10/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTop).w
 		clr.b	mapping_frame(a0)
@@ -40,28 +40,28 @@ Obj_Button:
 		adda.w	d0,a3
 
 		; set
-		moveq	#0,d3										; bit 0
-		btst	#6,subtype(a0)									; $40?
+		moveq	#0,d3								; bit 0
+		btst	#6,subtype(a0)							; $40?
 		beq.s	.checkMZ
-		moveq	#7,d3										; bit 7
+		moveq	#7,d3								; bit 7
 
 .checkMZ
 		tst.b	subtype(a0)
 		bpl.s	.skip
 
 		; check pushable block
-		bsr.w	But_MZBlock									; is block touch the button?
-		bne.s	.press										; if yes, branch
+		bsr.w	But_MZBlock							; is block touch the button?
+		bne.s	.press								; if yes, branch
 
 .skip
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; is Sonic or Tails standing on the object?
-		bne.s	.press										; if yes, branch
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		bne.s	.press								; if yes, branch
 
 		; check
-		btst	#4,subtype(a0)									; $10?
+		btst	#4,subtype(a0)							; $10?
 		bne.s	.draw
-		bclr	d3,(a3)											; set as unpressed
+		bclr	d3,(a3)								; set as unpressed
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ Obj_Button:
 		sfx	sfx_Switch
 
 .set
-		bset	d3,(a3)											; set as pressed
+		bset	d3,(a3)								; set as pressed
 		move.b	#1,mapping_frame(a0)
 
 .draw
@@ -85,12 +85,12 @@ Button_Alternate:
 		move.l	#.main,address(a0)
 
 .main
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	.draw										; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.draw								; if not, branch
 
 		; solid
-		moveq	#32/2,d1										; width
-		moveq	#(10/2)+1,d3									; height+1
+		moveq	#32/2,d1							; width
+		moveq	#(10/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTop).w
 		clr.b	mapping_frame(a0)
@@ -102,20 +102,20 @@ Button_Alternate:
 		adda.w	d0,a3
 
 		; set
-		moveq	#0,d3										; bit 0
-		btst	#6,subtype(a0)									; $40?
+		moveq	#0,d3								; bit 0
+		btst	#6,subtype(a0)							; $40?
 		beq.s	.skip
-		moveq	#7,d3										; bit 7
+		moveq	#7,d3								; bit 7
 
 .skip
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; is Sonic or Tails standing on the object?
-		bne.s	.press										; if yes, branch
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		bne.s	.press								; if yes, branch
 
 		; check
-		btst	#4,subtype(a0)									; $10?
+		btst	#4,subtype(a0)							; $10?
 		bne.s	.draw
-		bclr	d3,(a3)											; set as unpressed
+		bclr	d3,(a3)								; set as unpressed
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ Button_Alternate:
 		sfx	sfx_Switch
 
 .set
-		bset	d3,(a3)											; set as pressed
+		bset	d3,(a3)								; set as pressed
 		move.b	#1,mapping_frame(a0)
 
 .draw
@@ -139,7 +139,7 @@ Button_Alternate:
 
 But_MZBlock:
 		move.w	(Push_block_addr).w,d0
-		beq.s	.fail											; if zero, branch
+		beq.s	.fail								; if zero, branch
 
 		; load pushable block address
 		movea.w	d0,a1

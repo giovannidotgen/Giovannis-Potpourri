@@ -30,13 +30,13 @@ Obj_RetractingSpring:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	sub_23A04												; 0
-		bra.s	sub_23A20												; 2
-		bra.s	sub_23A3C												; 4
-		bra.s	sub_23A58												; 6
+		bra.s	sub_23A04		; 0
+		bra.s	sub_23A20		; 2
+		bra.s	sub_23A3C		; 4
+		bra.s	sub_23A58		; 6
 ; ---------------------------------------------------------------------------
 
-																		; 8
+						; 8
 		move.l	#loc_23A8E,address(a0)
 
 loc_23A8E:
@@ -102,32 +102,32 @@ loc_23A26:
 ; =============== S U B R O U T I N E =======================================
 
 RetractingSpring_Delay:
-		tst.w	objoff_3A(a0)											; is it time for spring to move again?
-		beq.s	.chkdir													; if yes, branch
-		subq.w	#1,objoff_3A(a0)											; else, decrement timer
-		bne.s	.return													; branch, if timer didn't reach 0
-		tst.b	render_flags(a0)												; are spring on screen?
-		bpl.s	.return													; if not, branch
-		sfx	sfx_SpikeMove,1												; play spike movement sount
+		tst.w	objoff_3A(a0)							; is it time for spring to move again?
+		beq.s	.chkdir								; if yes, branch
+		subq.w	#1,objoff_3A(a0)						; else, decrement timer
+		bne.s	.return								; branch, if timer didn't reach 0
+		tst.b	render_flags(a0)						; are spring on screen?
+		bpl.s	.return								; if not, branch
+		sfx	sfx_SpikeMove,1							; play spike movement sount
 ; ---------------------------------------------------------------------------
 
 .chkdir
-		tst.w	objoff_38(a0)												; do spring need to move away from initial position?
-		beq.s	.retract													; if yes, branch
-		subi.w	#$800,objoff_36(a0)										; subtract 8 pixels from offset
-		bhs.s	.return													; branch, if offset is not yet 0
-		clr.l	objoff_36(a0)													; switch state
-		move.w	#60,objoff_3A(a0)										; reset timer
+		tst.w	objoff_38(a0)							; do spring need to move away from initial position?
+		beq.s	.retract							; if yes, branch
+		subi.w	#$800,objoff_36(a0)						; subtract 8 pixels from offset
+		bhs.s	.return								; branch, if offset is not yet 0
+		clr.l	objoff_36(a0)							; switch state
+		move.w	#60,objoff_3A(a0)						; reset timer
 		rts
 ; ---------------------------------------------------------------------------
 
 .retract
-		addi.w	#$800,objoff_36(a0)										; add 8 pixels to offset
-		cmpi.w	#$2000,objoff_36(a0)										; is offset the width of one spring block (32 pixels)?
-		blo.s		.return													; if not, branch
+		addi.w	#$800,objoff_36(a0)						; add 8 pixels to offset
+		cmpi.w	#$2000,objoff_36(a0)						; is offset the width of one spring block (32 pixels)?
+		blo.s	.return								; if not, branch
 		move.w	#$2000,objoff_36(a0)
-		move.w	#1,objoff_38(a0)											; switch state
-		move.w	#60,objoff_3A(a0)										; reset timer
+		move.w	#1,objoff_38(a0)						; switch state
+		move.w	#60,objoff_3A(a0)						; reset timer
 
 .return
 		rts
