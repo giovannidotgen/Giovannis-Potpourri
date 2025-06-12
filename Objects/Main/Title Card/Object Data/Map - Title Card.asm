@@ -3,17 +3,17 @@
 ; ---------------------------------------------------------------------------
 
 Map_TitleCard:
-		dc.w 0										; null
+		dc.w 0						; null
 		dc.w Map_TitleCardRBanner-Map_TitleCard		; red banner
-		dc.w Map_TitleCardAct-Map_TitleCard			; ACT
-		dc.w Map_TitleCardZone-Map_TitleCard			; ZONE
-		dc.w Map_TitleCardGHZ-Map_TitleCard			; GREEN HILL
-		dc.w Map_TitleCardMZ-Map_TitleCard			; MARBLE
-		dc.w Map_TitleCardSYZ-Map_TitleCard			; SPRING YARD
-		dc.w Map_TitleCardLZ-Map_TitleCard			; LABYRINTH
-		dc.w Map_TitleCardSLZ-Map_TitleCard			; STAR LIGHT
-		dc.w Map_TitleCardSBZ-Map_TitleCard			; SCRAP BRAIN
-		dc.w Map_TitleCardFZ-Map_TitleCard			; FINAL
+		dc.w Map_TitleCardAct-Map_TitleCard		; ACT
+		dc.w Map_TitleCardZone-Map_TitleCard		; ZONE
+		dc.w Map_TitleCardGHZ-Map_TitleCard		; GREEN HILL
+		dc.w Map_TitleCardMZ-Map_TitleCard		; MARBLE
+		dc.w Map_TitleCardSYZ-Map_TitleCard		; SPRING YARD
+		dc.w Map_TitleCardLZ-Map_TitleCard		; LABYRINTH
+		dc.w Map_TitleCardSLZ-Map_TitleCard		; STAR LIGHT
+		dc.w Map_TitleCardSBZ-Map_TitleCard		; SCRAP BRAIN
+		dc.w Map_TitleCardFZ-Map_TitleCard		; FINAL
 Map_TitleCardRBanner:
 		dc.w $10
 		dc.b $58, 9, $80, $10, $FF, $E8
@@ -38,8 +38,8 @@ Map_TitleCardAct:
 		dc.b 0, $F, $80, $3D, $FF, $F5
 Map_TitleCardZone:
 		dc.w 4
-		dc.b 0, 6, $80, $31, $FF, $DC		; Z
-		dc.b 0, $A, $80, $28, $FF, $EC		; O
+		dc.b 0, 6, $80, $31, $FF, $DC			; Z
+		dc.b 0, $A, $80, $28, $FF, $EC			; O
 		dc.b 0, 6, $80, $22, 0, 4			; N
 		dc.b 0, 6, $80, $1C, 0, $14			; E
 Map_TitleCardGHZ:
@@ -48,49 +48,49 @@ Map_TitleCardGHZ:
 		dc.b 0, 6, $80, $1C, 0, $20			; E
 		dc.b 0, 6, $80, $1C, 0, $30			; E
 		dc.b 0, 6, $80, $22, 0, $40			; N
-		dc.b 0, $E, $80, $59, 0, $58		; HIL
+		dc.b 0, $E, $80, $59, 0, $58			; HIL
 		dc.b 0, 2, $80, $62, 0, $78			; L
 Map_TitleCardMZ:
 		dc.w 4
-		dc.b 0, $E, $80, $4D, 0, $20		; MA
-		dc.b 0, $E, $80, $59, 0, $40		; RB
+		dc.b 0, $E, $80, $4D, 0, $20			; MA
+		dc.b 0, $E, $80, $59, 0, $40			; RB
 		dc.b 0, 6, $80, $65, 0, $60			; L
 		dc.b 0, 6, $80, $1C, 0, $70			; E
 Map_TitleCardSYZ:
 		dc.w 7
-		dc.b 0, $E, $80, $4D, $FF, $E0		; SP
+		dc.b 0, $E, $80, $4D, $FF, $E0			; SP
 		dc.b 0, $A, $80, $59, 0, 0			; RI
 		dc.b 0, 6, $80, $22, 0, $18			; N
 		dc.b 0, 6, $80, $62, 0, $28			; G
-		dc.b 0, $E, $80, $68, 0, $40		; YA
+		dc.b 0, $E, $80, $68, 0, $40			; YA
 		dc.b 0, 6, $80, $59, 0, $60			; R
 		dc.b 0, 6, $80, $74, 0, $70			; D
 Map_TitleCardLZ:
 		dc.w 5
 		dc.b 0, $E, $80, $4D, 0, 0			; LAB
-		dc.b 0, $E, $80, $59, 0, $20		; BYR
+		dc.b 0, $E, $80, $59, 0, $20			; BYR
 		dc.b 0, 6, $80, $65, 0, $40			; RI
 		dc.b 0, 6, $80, $22, 0, $50			; N
-		dc.b 0, $E, $80, $6B, 0, $60		; TH
+		dc.b 0, $E, $80, $6B, 0, $60			; TH
 Map_TitleCardSLZ:
 		dc.w 5
-		dc.b 0, $E, $80, $4D, $FF, $F8		; ST
+		dc.b 0, $E, $80, $4D, $FF, $F8			; ST
 		dc.b 0, $E, $80, $59, 0, $18			; AR
-		dc.b 0, $E, $80, $65, 0, $40		; LIG
+		dc.b 0, $E, $80, $65, 0, $40			; LIG
 		dc.b 0, 6, $80, $71, 0, $60			; H
 		dc.b 0, 6, $80, $53, 0, $70			; T
 Map_TitleCardSBZ:
 		dc.w 7
-		dc.b 0, $E, $80, $4D, $FF, $E0		; SC
+		dc.b 0, $E, $80, $4D, $FF, $E0			; SC
 		dc.b 0, $E, $80, $59, 0, 0			; RA
 		dc.b 0, 6, $80, $65, 0, $20			; P
 		dc.b 0, 6, $80, $6B, 0, $38			; B
-		dc.b 0, $E, $80, $59, 0, $48		; RA
+		dc.b 0, $E, $80, $59, 0, $48			; RA
 		dc.b 0, 2, $80, $71, 0, $68			; I
 		dc.b 0, 6, $80, $22, 0, $70			; N
 Map_TitleCardFZ:
 		dc.w 3
-		dc.b 0, $A, $80, $4D, 0, $40		; FI
+		dc.b 0, $A, $80, $4D, 0, $40			; FI
 		dc.b 0, 6, $80, $22, 0, $58			; N
-		dc.b 0, $A, $80, $56, 0, $68		; AL
+		dc.b 0, $A, $80, $56, 0, $68			; AL
 	even

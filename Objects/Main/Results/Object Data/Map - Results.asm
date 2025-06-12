@@ -3,7 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 Map_Results:
-		dc.w 0							; 0 Null
+		dc.w 0					; 0 Null
 		dc.w word_2F2E2-Map_Results		; 1 (Number 0)
 		dc.w word_2F2EA-Map_Results		; 2 (Number 1)
 		dc.w word_2F2F2-Map_Results		; 3 (Number 2)
@@ -96,22 +96,22 @@ word_2F332:
 		dc.w 3
 		dc.b 0, 1, $A0, $24, 0, 0
 		dc.b 0, $D, $A0, $22, 0, 8
-		dc.b $F6, 6, $80, $14, 0, $24			; (Drop Art)
-word_2F346:									; Bonus
+		dc.b $F6, 6, $80, $14, 0, $24		; (Drop Art)
+word_2F346:						; Bonus
 		dc.w 3
 		dc.b 0, $D, $A0, $1A, $FF, $FF
-		dc.b 0, 1, $A1, $C4, 0, $20				; HUD address
-		dc.b $F6, 6, $80, $14, 0, $24			; (Drop Art)
+		dc.b 0, 1, $A1, $C4, 0, $20		; HUD address
+		dc.b $F6, 6, $80, $14, 0, $24		; (Drop Art)
 word_2F35A:
-		dc.w 1								; Ring
-		dc.b 0, $D, $A1, $CC, 0, 0				; HUD address
+		dc.w 1					; Ring
+		dc.b 0, $D, $A1, $CC, 0, 0		; HUD address
 word_2F362:
-		dc.w 1								; Time
-		dc.b 0, $D, $A1, $D4, 0, 0				; HUD address
-word_2F36A:									; ACT
+		dc.w 1					; Time
+		dc.b 0, $D, $A1, $D4, 0, 0		; HUD address
+word_2F36A:						; ACT
 		dc.w 2
-		dc.b $10, 9, $80, $2A, 0, 0				; ACT
-		dc.b 0, $F, $80, $66, 0, $11				; (Number)
+		dc.b $10, 9, $80, $2A, 0, 0		; ACT
+		dc.b 0, $F, $80, $66, 0, $11		; (Number)
 word_2F378:
 		dc.w 6
 		dc.b 0, 5, $80, $40, 0, 0
@@ -125,26 +125,26 @@ word_2F39E:
 		dc.b 0, 5, $80, $30, 0, 0
 		dc.b 0, 5, $80, $38, 0, $10
 		dc.b 0, 5, $80, $40, 0, $1E
-word_2F3B2:									; SUPER/HYPER
+word_2F3B2:						; SUPER/HYPER
 		dc.w 3
 		dc.b 0, $D, $7F, -$20, 0, 0
 		dc.b 0, $D, $7F, -$18, 0, $20
 		dc.b 0, 5, $7F, -$10, 0, $40
-word_2F3C6:									; SONIC
+word_2F3C6:						; SONIC
 		dc.w 3
 		dc.b 0, $D, $80, $48, 0, 1
 		dc.b 0, $D, $80, $50, 0, $21
 		dc.b 0, 1, $80, $58, 0, $41
-word_2F3DA:								; MILES
+word_2F3DA:						; MILES
 		dc.w 3
 		dc.b 0, $D, $80, $48, 0, 6
 		dc.b 0, $D, $80, $50, 0, $26
 		dc.b 0, 1, $80, $58, 0, $46
-word_2F3EE:									; TAILS
+word_2F3EE:						; TAILS
 		dc.w 2
 		dc.b 0, $D, $80, $48, 0, 1
 		dc.b 0, $D, $80, $50, 0, $21
-word_2F3FC:									; KNUCKLES
+word_2F3FC:						; KNUCKLES
 		dc.w 4
 		dc.b 0, $D, $80, $48, 0, 4
 		dc.b 0, $D, $80, $50, 0, $24
@@ -156,107 +156,107 @@ word_2F416:	dc.w 5
 		dc.b 0, 9, $A1, $DE, 0, $28
 		dc.b 0, $D, $A1, $E4, 0, $40
 		dc.b $F6, 6, $80, $14, $FF, $C4
-word_2F436:									; Bonus (Special Stage)
+word_2F436:						; Bonus (Special Stage)
 		dc.w 4
-		dc.b 0, $D, $E1, $CC, 0, 0				; RING
-		dc.b 0, $D, $E0, $1A, 0, $28			; BONU
-		dc.b 0, 1, $E1, $C4, 0, $48				; S
-		dc.b $F6, 6, $80, $14, 0, $4C			; (Drop Art)
-word_2F450:									; Perfect (Special Stage)
+		dc.b 0, $D, $E1, $CC, 0, 0		; RING
+		dc.b 0, $D, $E0, $1A, 0, $28		; BONU
+		dc.b 0, 1, $E1, $C4, 0, $48		; S
+		dc.b $F6, 6, $80, $14, 0, $4C		; (Drop Art)
+word_2F450:						; Perfect (Special Stage)
 		dc.w 3
 		dc.b 0, $D, $E0, $CC, 0, 0
 		dc.b 0, 9, $E0, $D4, 0, $20
-		dc.b $F6, 6, $80, $14, 0, $34			; (Drop Art)
-word_2F464:									; Continue (Special Stage)
+		dc.b $F6, 6, $80, $14, 0, $34		; (Drop Art)
+word_2F464:						; Continue (Special Stage)
 		dc.w 3
 		dc.b 0, $D, $E0, $DA, 0, 0
 		dc.b 0, $D, $E0, $E2, 0, $20
-		dc.b $F6, 6, $80, $14, 0, $3C			; (Drop Art)
+		dc.b $F6, 6, $80, $14, 0, $3C		; (Drop Art)
 word_2F478:
 		dc.w 1
-		dc.b $F8, 5, $C0, $BC, $FF, $F8			; (Emerald 1 Art)
+		dc.b $F8, 5, $C0, $BC, $FF, $F8		; (Emerald 1 Art)
 word_2F480:
 		dc.w 1
-		dc.b $F8, 5, $C0, $B8, $FF, $F8			; (Emerald 2 Art)
+		dc.b $F8, 5, $C0, $B8, $FF, $F8		; (Emerald 2 Art)
 word_2F488:
 		dc.w 1
-		dc.b $F8, 5, $C0, $C0, $FF, $F8			; (Emerald 3 Art)
+		dc.b $F8, 5, $C0, $C0, $FF, $F8		; (Emerald 3 Art)
 word_2F490:
 		dc.w 1
-		dc.b $F8, 5, $A0, $B8, $FF, $F8			; (Emerald 4 Art)
+		dc.b $F8, 5, $A0, $B8, $FF, $F8		; (Emerald 4 Art)
 word_2F498:
 		dc.w 1
-		dc.b $F8, 5, $80, $C8, $FF, $F8			; (Emerald 5 Art)
+		dc.b $F8, 5, $80, $C8, $FF, $F8		; (Emerald 5 Art)
 word_2F4A0:
 		dc.w 1
-		dc.b $F8, 5, $80, $C4, $FF, $F8			; (Emerald 6 Art)
+		dc.b $F8, 5, $80, $C4, $FF, $F8		; (Emerald 6 Art)
 word_2F4A8:
 		dc.w 1
-		dc.b $F8, 5, $A0, $BC, $FF, $F8			; (Emerald 7 Art)
+		dc.b $F8, 5, $A0, $BC, $FF, $F8		; (Emerald 7 Art)
 word_2F4B0:
 		dc.w $C
-		dc.b 0, 5, $80, $A6, $FF, $A0			; S
-		dc.b 0, 5, $80, $9E, $FF, $B0			; P
-		dc.b 0, 5, $80, $80, $FF, $C0			; E
-		dc.b 0, 5, $80, $78, $FF, $D0			; C
-		dc.b 0, 1, $80, $8C, $FF, $E0			; I
-		dc.b 0, 5, $80, $70, $FF, $E8			; A
-		dc.b 0, 5, $80, $8E, $FF, $F8			; L
-		dc.b 0, 5, $80, $A6, 0, $10				; S
-		dc.b 0, 5, $80, $AA, 0, $20				; T
-		dc.b 0, 5, $80, $70, 0, $30				; A
-		dc.b 0, 5, $80, $84, 0, $40				; G
-		dc.b 0, 5, $80, $80, 0, $50				; E
+		dc.b 0, 5, $80, $A6, $FF, $A0		; S
+		dc.b 0, 5, $80, $9E, $FF, $B0		; P
+		dc.b 0, 5, $80, $80, $FF, $C0		; E
+		dc.b 0, 5, $80, $78, $FF, $D0		; C
+		dc.b 0, 1, $80, $8C, $FF, $E0		; I
+		dc.b 0, 5, $80, $70, $FF, $E8		; A
+		dc.b 0, 5, $80, $8E, $FF, $F8		; L
+		dc.b 0, 5, $80, $A6, 0, $10		; S
+		dc.b 0, 5, $80, $AA, 0, $20		; T
+		dc.b 0, 5, $80, $70, 0, $30		; A
+		dc.b 0, 5, $80, $84, 0, $40		; G
+		dc.b 0, 5, $80, $80, 0, $50		; E
 word_2F4FA:
 		dc.w 4
-		dc.b 0, 5, $80, $84, 0, 0				; G
-		dc.b 0, 5, $80, $9A, 0, $11				; O
-		dc.b 0, 5, $80, $AA, 0, $20				; T
-		dc.b 0, 5, $80, $70, 0, $38				; A
+		dc.b 0, 5, $80, $84, 0, 0		; G
+		dc.b 0, 5, $80, $9A, 0, $11		; O
+		dc.b 0, 5, $80, $AA, 0, $20		; T
+		dc.b 0, 5, $80, $70, 0, $38		; A
 word_2F514:
 		dc.w $C
-		dc.b 0, 5, $80, $78, $FF, $9C			; C
-		dc.b 0, 5, $80, $88, $FF, $AC			; H
-		dc.b 0, 5, $80, $70, $FF, $BC			; A
-		dc.b 0, 5, $80, $9A, $FF, $CC			; O
-		dc.b 0, 5, $80, $A6, $FF, $DC			; S
-		dc.b 0, 5, $80, $80, $FF, $F4			; E
-		dc.b 0, 5, $80, $92, 0, 4				; M
-		dc.b 0, 5, $80, $80, 0, $14				; E
-		dc.b 0, 5, $80, $A2, 0, $24				; R
-		dc.b 0, 5, $80, $70, 0, $34				; A
-		dc.b 0, 5, $80, $8E, 0, $44				; L
-		dc.b 0, 5, $80, $7C, 0, $54				; D
+		dc.b 0, 5, $80, $78, $FF, $9C		; C
+		dc.b 0, 5, $80, $88, $FF, $AC		; H
+		dc.b 0, 5, $80, $70, $FF, $BC		; A
+		dc.b 0, 5, $80, $9A, $FF, $CC		; O
+		dc.b 0, 5, $80, $A6, $FF, $DC		; S
+		dc.b 0, 5, $80, $80, $FF, $F4		; E
+		dc.b 0, 5, $80, $92, 0, 4		; M
+		dc.b 0, 5, $80, $80, 0, $14		; E
+		dc.b 0, 5, $80, $A2, 0, $24		; R
+		dc.b 0, 5, $80, $70, 0, $34		; A
+		dc.b 0, 5, $80, $8E, 0, $44		; L
+		dc.b 0, 5, $80, $7C, 0, $54		; D
 word_2F55E:
 		dc.w 2
-		dc.b 0, 5, $80, $8E, 0, $48				; L
-		dc.b 0, 5, $80, $8E, 0, $56				; L
+		dc.b 0, 5, $80, $8E, 0, $48		; L
+		dc.b 0, 5, $80, $8E, 0, $56		; L
 word_2F56C:
 		dc.w 1
-		dc.b 0, 5, $80, $A6, 0, $64				; S
+		dc.b 0, 5, $80, $A6, 0, $64		; S
 word_2F574:
 		dc.w 3
-		dc.b 0, 5, $E0, $96, 0, 0				; N
-		dc.b 0, 5, $E0, $9A, 0, $11				; O
-		dc.b 0, 9, $E0, $B2, 0, $20				; W
+		dc.b 0, 5, $E0, $96, 0, 0		; N
+		dc.b 0, 5, $E0, $9A, 0, $11		; O
+		dc.b 0, 9, $E0, $B2, 0, $20		; W
 word_2F588:
 		dc.w 3
-		dc.b 0, 5, $E0, $78, 0, 0				; C
-		dc.b 0, 5, $E0, $70, 0, $10				; A
-		dc.b 0, 5, $E0, $96, 0, $20				; N
+		dc.b 0, 5, $E0, $78, 0, 0		; C
+		dc.b 0, 5, $E0, $70, 0, $10		; A
+		dc.b 0, 5, $E0, $96, 0, $20		; N
 word_2F59C:
 		dc.w 2
-		dc.b 0, 5, $E0, $74, 0, 0				; B
-		dc.b 0, 5, $E0, $80, 0, $F				; E
+		dc.b 0, 5, $E0, $74, 0, 0		; B
+		dc.b 0, 5, $E0, $80, 0, $F		; E
 word_2F5AA:
 		dc.w 1
-		dc.b $E8, $A, $80, $EA, $FF, $F4		; (Sonic Icon)
+		dc.b $E8, $A, $80, $EA, $FF, $F4	; (Sonic Icon)
 word_2F5B2:
 		dc.w 1
-		dc.b $E8, $A, $81, $80, $FF, $F4		; (Tails Icon)
+		dc.b $E8, $A, $81, $80, $FF, $F4	; (Tails Icon)
 word_2F5BA:
 		dc.w 1
-		dc.b $E8, $A, $81, $89, $FF, $F4		; (Knuckles Icon)
+		dc.b $E8, $A, $81, $89, $FF, $F4	; (Knuckles Icon)
 word_2F5C2:	dc.w 7
 		dc.b 0, 5, $E5, $2B, $FF, $C0
 		dc.b 0, 5, $E5, $23, $FF, $D0
