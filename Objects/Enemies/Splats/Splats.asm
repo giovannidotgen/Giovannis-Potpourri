@@ -35,23 +35,23 @@ Obj_Splats:
 
 .floor
 		jsr	(MoveSprite).w
-		move.b	#1,mapping_frame(a0)							; set jump frame
+		move.b	#1,mapping_frame(a0)						; set jump frame
 		tst.w	y_vel(a0)
 		bmi.s	.wall
-		clr.b	mapping_frame(a0)								; set normal frame
+		clr.b	mapping_frame(a0)						; set normal frame
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1
 		bpl.s	.wall
 		add.w	d1,y_pos(a0)
 
 		; check lava
-		move.w	(a1),d0										; get id of the 16x16 block
+		move.w	(a1),d0								; get id of the 16x16 block
 		andi.w	#$3FF,d0
-		cmpi.w	#$16A,d0									; Splats has touched the lava?
-		bhs.s	.destroy										; if yes, branch
+		cmpi.w	#$16A,d0							; Splats has touched the lava?
+		bhs.s	.destroy							; if yes, branch
 
 		; play sfx
-		sfx	sfx_SSItem										; play "jump" sfx
+		sfx	sfx_SSItem							; play "jump" sfx
 
 		; check Sonic
 		jsr	(Find_SonicTails).w
@@ -78,7 +78,7 @@ Obj_Splats:
 
 Splats_CheckWall:
 		move.b	(V_int_run_count+3).w,d0
-		add.b	d7,d0										; d7 - object count (Process_Sprites)
+		add.b	d7,d0								; d7 - object count (Process_Sprites)
 		andi.b	#3,d0
 		bne.s	.nottouch
 
@@ -92,7 +92,7 @@ Splats_CheckWall:
 		bpl.s	.nottouch
 
 .settouch
-		moveq	#1,d0										; Splats has touched the wall
+		moveq	#1,d0								; Splats has touched the wall
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ Splats_CheckWall:
 		bmi.s	.settouch
 
 .nottouch
-		moveq	#0,d0										; Splats didn't touch the wall
+		moveq	#0,d0								; Splats didn't touch the wall
 		rts
 
 ; =============== S U B R O U T I N E =======================================

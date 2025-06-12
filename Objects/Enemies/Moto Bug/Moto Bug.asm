@@ -4,7 +4,7 @@
 
 ; Dynamic object variables
 moto_time			= objoff_2E
-moto_smokedelay		= objoff_39
+moto_smokedelay			= objoff_39
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -13,7 +13,7 @@ Obj_MotoBug:
 		; init
 		lea	ObjDat_MotoBug(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.w	#bytes_to_word(28/2,40/2),y_radius(a0)		; set y_radius and x_radius
+		move.w	#bytes_to_word(28/2,40/2),y_radius(a0)				; set y_radius and x_radius
 		move.l	#.checkfall,address(a0)
 
 .checkfall
@@ -42,10 +42,10 @@ Obj_MotoBug:
 .move
 		move.l	#.findfloor,objoff_34(a0)
 		move.b	#1,anim(a0)
-		move.w	#-$100,x_vel(a0)								; move object to the left
+		move.w	#-$100,x_vel(a0)						; move object to the left
 		bchg	#0,status(a0)
 		bne.s	.wait
-		neg.w	x_vel(a0)									; change direction
+		neg.w	x_vel(a0)							; change direction
 
 .wait
 		rts
@@ -55,10 +55,10 @@ Obj_MotoBug:
 		MoveSpriteXOnly a0
 		jsr	(ObjCheckFloorDist).w
 		cmpi.w	#-8,d1
-		blt.s		.pause
+		blt.s	.pause
 		cmpi.w	#12,d1
 		bge.s	.pause
-		add.w	d1,y_pos(a0)									; match object's position with the floor
+		add.w	d1,y_pos(a0)							; match object's position with the floor
 
 		; wait
 		subq.b	#1,moto_smokedelay(a0)
@@ -67,7 +67,7 @@ Obj_MotoBug:
 
 		; create smoke
 		lea	Child6_MotoBug_Smoke(pc),a2
-		jsr	(CreateChild6_Simple).w							; load exhaust smoke object
+		jsr	(CreateChild6_Simple).w						; load exhaust smoke object
 		bne.s	.nosmoke
 		move.b	status(a0),status(a1)
 		move.b	#2,anim(a1)
@@ -77,9 +77,9 @@ Obj_MotoBug:
 ; ---------------------------------------------------------------------------
 
 .pause
-		move.w	#60-1,moto_time(a0)							; set pause time to 1 second
+		move.w	#60-1,moto_time(a0)						; set pause time to 1 second
 		move.l	#.move,objoff_34(a0)
-		clr.w	x_vel(a0)									; stop the object moving
+		clr.w	x_vel(a0)							; stop the object moving
 		clr.b	anim(a0)
 		rts
 
@@ -111,7 +111,7 @@ Obj_MotoBug_Smoke:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_MotoBug:				subObjData Map_Moto, $561, 0, 0, 40, 40, 4, 0, $C
+ObjDat_MotoBug:			subObjData Map_Moto, $561, 0, 0, 40, 40, 4, 0, $C
 ObjDat3_MotoBug_Smoke:		subObjData3 8, 8, 4, 0, 0
 
 Child6_MotoBug_Smoke:

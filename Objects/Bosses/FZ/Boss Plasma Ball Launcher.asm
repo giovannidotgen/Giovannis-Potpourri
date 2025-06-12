@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-obBFZBP_Enable				= objoff_2D ; .b
-obBFZBP_Timer				= objoff_2E ; .w
-obBFZBP_Count				= objoff_30 ; .b
-obBFZBP_Count2				= objoff_31 ; .b
+obBFZBP_Enable				= objoff_2D	; .b
+obBFZBP_Timer				= objoff_2E	; .w
+obBFZBP_Count				= objoff_30	; .b
+obBFZBP_Count2				= objoff_31	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -35,12 +35,12 @@ Obj_BossPlasma:
 		jsr	(CreateChild6_Simple).w
 
 		; save plasma balls count
-		lsr.w	d2											; subtype
+		lsr.w	d2								; subtype
 		move.b	d2,obBFZBP_Count(a0)
 		move.b	d2,obBFZBP_Count2(a0)
 
 .checkpend
-		tst.b	obBFZBP_Count(a0)								; plasma create wait
+		tst.b	obBFZBP_Count(a0)						; plasma create wait
 		bne.s	.solid
 		move.l	#.setanim,address(a0)
 		bra.s	.solid
@@ -51,9 +51,9 @@ Obj_BossPlasma:
 		move.l	#.checkpbend,address(a0)
 
 .checkpbend
-		tst.b	obBFZBP_Count2(a0)								; plasma ball wait
+		tst.b	obBFZBP_Count2(a0)						; plasma ball wait
 		bne.s	.solid
-		move.l	#Obj_BossPlasma.checkattack,address(a0)		; return
+		move.l	#Obj_BossPlasma.checkattack,address(a0)				; return
 
 		; load Eggman address
 		movea.w	parent3(a0),a1
@@ -83,7 +83,7 @@ Obj_BossPlasma:
 ; ---------------------------------------------------------------------------
 
 .defeated
-		move.w	#bytes_to_word(16/2,16/2),objoff_3A(a0)		; set explosion radius
+		move.w	#bytes_to_word(16/2,16/2),objoff_3A(a0)				; set explosion radius
 
 		; create explosions
 		jsr	(sub_83E84).l
@@ -106,8 +106,8 @@ Obj_BossPlasma_Ball:
 		jsr	(Random_Number).w
 		moveq	#0,d1
 		move.b	subtype(a0),d1
-		lsr.w	d1											; division by 2
-		muls.w	#-$59,d1										; devon fix
+		lsr.w	d1								; division by 2
+		muls.w	#-$59,d1							; devon fix
 		move.w	(Camera_max_X_pos).w,d2
 		addi.w	#$118,d2
 		add.w	d2,d1
@@ -133,7 +133,7 @@ Obj_BossPlasma_Ball:
 		move.w	x_pos(a0),d0
 		sub.w	obBFZBPB_Xpos(a0),d0
 		bhs.s	.skip
-		sub.w	d0,x_pos(a0)									; devon fix
+		sub.w	d0,x_pos(a0)							; devon fix
 		clr.w	x_vel(a0)
 
 		; load plasma address
@@ -195,7 +195,7 @@ Obj_BossPlasma_Ball:
 
 ; mapping
 ObjDat_BossPlasma:		subObjData Map_PLaunch, $300, 0, 0, 16, 16, 3, 0, 0
-ObjDat_BossPlasmaBall:	subObjData Map_Plasma, $300, 1, 0, 24, 24, 3, 0, $1A|$80
+ObjDat_BossPlasmaBall:		subObjData Map_Plasma, $300, 1, 0, 24, 24, 3, 0, $1A|$80
 
 Child6_BossPlasma:
 		dc.w 1-1

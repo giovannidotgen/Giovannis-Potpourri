@@ -3,11 +3,11 @@
 ; ---------------------------------------------------------------------------
 
 ; Options
-_CRABMEAT_SLOPE_	= 0	; if 1, enable slope animation
+_CRABMEAT_SLOPE_		= 0	; if 1, enable slope animation
 
 ; Dynamic object variables
 crab_timedelay			= objoff_30
-crab_mode				= objoff_32
+crab_mode			= objoff_32
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16,7 +16,7 @@ Obj_Crabmeat:
 		; init
 		lea	ObjDat_Crabmeat(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.w	#bytes_to_word(32/2,32/2),y_radius(a0)			; set y_radius and x_radius
+		move.w	#bytes_to_word(32/2,32/2),y_radius(a0)				; set y_radius and x_radius
 		move.l	#.checkfall,address(a0)
 
 .checkfall
@@ -44,17 +44,17 @@ Obj_Crabmeat:
 ; =============== S U B R O U T I N E =======================================
 
 .waittofire
-		subq.w	#1,crab_timedelay(a0)							; subtract 1 from time delay
+		subq.w	#1,crab_timedelay(a0)						; subtract 1 from time delay
 		bpl.s	.dontmove
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	.movecrab									; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.movecrab							; if not, branch
 		bchg	#1,crab_mode(a0)
 		bne.s	.fire
 
 .movecrab
 		move.l	#.walkonfloor,objoff_34(a0)
-		move.w	#128-1,crab_timedelay(a0)						; set time delay to approx 2 seconds
-		move.w	#$80,x_vel(a0)								; move Crabmeat to the right
+		move.w	#128-1,crab_timedelay(a0)					; set time delay to approx 2 seconds
+		move.w	#$80,x_vel(a0)							; move Crabmeat to the right
 
 	if _CRABMEAT_SLOPE_
 		bsr.w	Crab_SetAni
@@ -66,7 +66,7 @@ Obj_Crabmeat:
 
 		bchg	#0,status(a0)
 		bne.s	.noflip
-		neg.w	x_vel(a0)									; change direction
+		neg.w	x_vel(a0)							; change direction
 
 .dontmove
 .noflip
@@ -75,7 +75,7 @@ Obj_Crabmeat:
 
 .fire
 		move.w	#60-1,crab_timedelay(a0)
-		move.b	#6,anim(a0)									; use firing animation
+		move.b	#6,anim(a0)							; use firing animation
 
 		; create
 		sfx	sfx_Projectile
@@ -99,7 +99,7 @@ Obj_Crabmeat:
 		add.w	x_pos(a0),d3
 		jsr	(ObjCheckFloorDist2).w
 		cmpi.w	#-8,d1
-		blt.s		.chgdirection
+		blt.s	.chgdirection
 		cmpi.w	#12,d1
 		bge.s	.chgdirection
 		rts
@@ -148,7 +148,7 @@ Crab_SetAni:
 		move.b	angle(a0),d3
 		bmi.s	.alt
 		cmpi.b	#6,d3
-		blo.s		.return
+		blo.s	.return
 		moveq	#1,d0
 		btst	#0,status(a0)
 		bne.s	.return
@@ -182,7 +182,7 @@ Obj_Crabmeat_Missile:
 		; init
 		lea	ObjDat3_Crabmeat_Missile(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
-		bset	#3,shield_reaction(a0)								; bounce off all shields
+		bset	#3,shield_reaction(a0)						; bounce off all shields
 		move.l	#.main,address(a0)
 		move.l	#words_to_long(-$100,-$400),x_vel(a0)
 		tst.b	subtype(a0)
@@ -194,7 +194,7 @@ Obj_Crabmeat_Missile:
 
 		; animate
 		moveq	#8,d0
-		btst	#1,(V_int_run_count+3).w							; 0 or 2
+		btst	#1,(V_int_run_count+3).w					; 0 or 2
 		beq.s	.setframe
 		addq.b	#1,d0
 
@@ -205,14 +205,14 @@ Obj_Crabmeat_Missile:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Crabmeat:			subObjData Map_Crab, $3FC, 0, 0, 32, 48, 3, 0, 6
+ObjDat_Crabmeat:		subObjData Map_Crab, $3FC, 0, 0, 32, 48, 3, 0, 6
 ObjDat3_Crabmeat_Missile:	subObjData3 16, 16, 3, 0, 7|$80
 
 Child1_Crabmeat_Missile:
 		dc.w 2-1
-		dc.l Obj_Crabmeat_Missile		; left
+		dc.l Obj_Crabmeat_Missile	; left
 		dc.b -16, 0
-		dc.l Obj_Crabmeat_Missile		; right
+		dc.l Obj_Crabmeat_Missile	; right
 		dc.b 16, 0
 ; ---------------------------------------------------------------------------
 

@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-cat_count:		= objoff_2E	; byte
-cat_timer:		= objoff_2F	; byte
+cat_count:			= objoff_2E	; byte
+cat_timer:			= objoff_2F	; byte
 cat_flag:			= objoff_30	; byte
-cat_flag2:		= objoff_31	; byte	; $00-$0F bytes
+cat_flag2:			= objoff_31	; byte ; $00-$0F bytes
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16,9 +16,9 @@ Obj_Caterkiller:
 		lea	ObjDat_Caterkiller(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		clr.b	routine(a0)
-		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)			; set y_radius and x_radius
+		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)				; set y_radius and x_radius
 		andi.b	#3,render_flags(a0)
-		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.b	render_flags(a0),status(a0)
 		move.l	#.checkfall,address(a0)
 
@@ -34,7 +34,7 @@ Obj_Caterkiller:
 
 		; create tail
 		lea	Child8_Caterkiller_FragBody(pc),a2
-		moveq	#2,d2										; set subtype
+		moveq	#2,d2								; set subtype
 		jsr	(CreateChild8_TreeListRepeated2).w
 		bne.s	.fail
 
@@ -176,7 +176,7 @@ Obj_Caterkiller_BodySegments:
 
 		; calc count and xpos
 		moveq	#0,d0
-		movea.w	objoff_44(a0),a1								; head address
+		movea.w	objoff_44(a0),a1						; head address
 		move.w	x_pos(a1),d2
 		move.b	subtype(a0),d0
 		move.w	d0,d1
@@ -199,10 +199,10 @@ Obj_Caterkiller_BodySegments:
 		jsr	(SetUp_ObjAttributes3).w
 
 		; fix flip
-		movea.w	objoff_44(a0),a1								; head address
+		movea.w	objoff_44(a0),a1						; head address
 		move.b	status(a1),status(a0)
 		move.b	status(a1),render_flags(a0)
-		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)			; set y_radius and x_radius
+		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)				; set y_radius and x_radius
 		move.l	#Cat_BodySeg1,address(a0)
 		cmpi.b	#4,subtype(a0)
 		bne.s	Cat_BodySeg1
@@ -211,7 +211,7 @@ Obj_Caterkiller_BodySegments:
 ; =============== S U B R O U T I N E =======================================
 
 Cat_BodySeg2:
-		movea.w	parent3(a0),a1								; body address
+		movea.w	parent3(a0),a1							; body address
 		move.b	cat_flag(a1),cat_flag(a0)
 		bpl.s	Cat_BodySeg1
 		lea	Ani_Cat(pc),a1
@@ -230,7 +230,7 @@ Cat_BodySeg2:
 ; =============== S U B R O U T I N E =======================================
 
 Cat_BodySeg1:
-		movea.w	parent3(a0),a1								; body address
+		movea.w	parent3(a0),a1							; body address
 		btst	#6,status(a0)
 		bne.w	Caterkiller_FragBody
 		move.b	cat_flag(a1),cat_flag(a0)
@@ -289,21 +289,21 @@ Cat_BodySeg1:
 		move.b	d1,cat_flag2(a0,d0.w)
 
 .loc_16C64
-		movea.w	objoff_44(a0),a2								; head address
+		movea.w	objoff_44(a0),a2						; head address
 		btst	#6,status(a2)
 		bne.s	Caterkiller_FragBody
 		jmp	(Child_DrawTouch_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================
 
-				; head, body1, body2, body3
+		; head, body1, body2, body3
 Cat_FragSpeed:	dc.w -$200, -$180, $180, $200
 ; ---------------------------------------------------------------------------
 
-Caterkiller_FragBody:											; body
-		bset	#6,status(a1)										; set for head
+Caterkiller_FragBody:									; body
+		bset	#6,status(a1)							; set for head
 
-Caterkiller_FragHead:											; head
+Caterkiller_FragHead:									; head
 		moveq	#6,d0
 		and.b	subtype(a0),d0
 		move.w	Cat_FragSpeed(pc,d0.w),d0
@@ -315,7 +315,7 @@ Caterkiller_FragHead:											; head
 		move.w	d0,x_vel(a0)
 		move.w	#-$400,y_vel(a0)
 		andi.b	#$F8,mapping_frame(a0)
-		bset	#3,shield_reaction(a0)								; bounce off all shields
+		bset	#3,shield_reaction(a0)						; bounce off all shields
 		move.l	#.main,address(a0)
 
 .main
@@ -334,7 +334,7 @@ Caterkiller_FragHead:											; head
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Caterkiller:			subObjData Map_Cat, $552, 1, 0, 32, 16, 4, 0, $B
+ObjDat_Caterkiller:		subObjData Map_Cat, $552, 1, 0, 32, 16, 4, 0, $B
 ObjDat3_Caterkiller_BodySeg:	subObjData3 32, 16, 5, 8, $B|$C0
 
 Child8_Caterkiller_FragBody:

@@ -11,12 +11,12 @@ BossWater_Xpos				= $1FE0
 BossWater_Ypos				= $C0
 
 ; Dynamic object variables
-obBW_Timer					= objoff_2E	; .w
-obBW_Xpos					= objoff_30	; .l
-obBW_Jump					= objoff_34	; .l
+obBW_Timer				= objoff_2E	; .w
+obBW_Xpos				= objoff_30	; .l
+obBW_Jump				= objoff_34	; .l
 obBW_Counter				= objoff_39	; .b
 obBW_Timer2				= objoff_3E	; .w
-obBW_Ypos					= objoff_40	; .l
+obBW_Ypos				= objoff_40	; .l
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -55,7 +55,7 @@ BossWater_MoveUp:
 		moveq	#-$40,d1
 		add.w	(Camera_saved_min_X_pos).w,d1
 		cmp.w	d1,d0
-		blo.s		.return
+		blo.s	.return
 		move.l	#words_to_long($60,-$180),x_vel(a0)
 		move.l	#BossWater_MoveRight,obBW_Jump(a0)
 
@@ -77,7 +77,7 @@ BossWater_MoveRight:
 		move.w	(Camera_saved_min_Y_pos).w,d1
 		addi.w	#$440,d1
 		cmp.w	obBW_Ypos(a0),d1
-		blt.s		.loc_17FCA
+		blt.s	.loc_17FCA
 		move.w	d1,obBW_Ypos(a0)
 		clr.w	y_vel(a0)
 		addq.w	#1,d0
@@ -105,7 +105,7 @@ BossWater_MoveUp2:
 		move.w	(Camera_saved_min_Y_pos).w,d1
 		addi.w	#$400,d1
 		cmp.w	obBW_Ypos(a0),d1
-		blt.s		.loc_1800A
+		blt.s	.loc_1800A
 		move.w	d1,obBW_Ypos(a0)
 		clr.w	y_vel(a0)
 		addq.w	#1,d0
@@ -125,7 +125,7 @@ BossWater_MoveSwing:
 		moveq	#$40,d1
 		add.w	(Camera_saved_min_Y_pos).w,d1
 		cmp.w	obBW_Ypos(a0),d1
-		blt.s		.loc_1804E
+		blt.s	.loc_1804E
 		move.w	d1,obBW_Ypos(a0)
 		move.l	#words_to_long($140,-$80),x_vel(a0)
 		tst.b	obBW_Counter(a0)
@@ -158,15 +158,15 @@ BossWater_MoveSwing:
 		move.w	y_vel(a0),d0
 		move.w	y_pos(a2),d1
 		sub.w	y_pos(a0),d1
-		blo.s		.loc_180A2
+		blo.s	.loc_180A2
 		subi.w	#72,d1
-		blo.s		.loc_180A2
+		blo.s	.loc_180A2
 		asr.w	d0
 		subi.w	#40,d1
-		blo.s		.loc_180A2
+		blo.s	.loc_180A2
 		asr.w	d0
 		subi.w	#40,d1
-		blo.s		.loc_180A2
+		blo.s	.loc_180A2
 		moveq	#0,d0
 
 .loc_180A2
@@ -195,7 +195,7 @@ BossWater_MoveUp3:
 .loc_180D2
 		move.w	(Camera_saved_min_Y_pos).w,d1
 		cmp.w	obBW_Ypos(a0),d1
-		blt.s		.loc_180E6
+		blt.s	.loc_180E6
 		move.w	d1,obBW_Ypos(a0)
 		clr.w	y_vel(a0)
 		addq.w	#1,d0
@@ -219,11 +219,11 @@ BossWater_MoveUp4:
 		moveq	#$30,d1
 		add.w	(Camera_saved_min_Y_pos).w,d1
 		cmp.w	y_pos(a2),d1
-		blt.s		.return
+		blt.s	.return
 		move.b	#50,obBW_Timer2(a0)
 
 .loc_18112
-		music	mus_LZ											; play LZ music
+		music	mus_LZ								; play LZ music
 		bset	#0,render_flags(a0)
 		move.l	#BossWater_MoveUp5,obBW_Jump(a0)
 
@@ -259,7 +259,7 @@ BossWater_MoveUp6:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -286,16 +286,16 @@ BossWater_MoveUp6:
 ; =============== S U B R O U T I N E =======================================
 
 BossWater_Setup2:
-		movem.w	x_vel(a0),d0-d1								; load xy speed
-		asl.l	#8,d0												; shift velocity to line up with the middle 16 bits of the 32-bit position
-		asl.l	#8,d1												; shift velocity to line up with the middle 16 bits of the 32-bit position
-		add.l	d0,obBW_Xpos(a0)								; add to x-axis position ; note this affects the subpixel position x_sub(a0) = 2+x_pos(a0)
-		add.l	d1,obBW_Ypos(a0)								; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
+		movem.w	x_vel(a0),d0-d1							; load xy speed
+		asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+		asl.l	#8,d1								; shift velocity to line up with the middle 16 bits of the 32-bit position
+		add.l	d0,obBW_Xpos(a0)						; add to x-axis position ; note this affects the subpixel position x_sub(a0) = 2+x_pos(a0)
+		add.l	d1,obBW_Ypos(a0)						; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
 		move.w	obBW_Xpos(a0),x_pos(a0)
 		move.w	obBW_Ypos(a0),y_pos(a0)
 
 BossWater_Setup:
-		lea	(Player_1).w,a2										; a2=character
+		lea	(Player_1).w,a2							; a2=character
 		movea.l	obBW_Jump(a0),a1
 		jsr	(a1)
 
@@ -317,27 +317,27 @@ BossWater_MainProcess:
 		; check touch
 		tst.b	obBW_Counter(a0)
 		bne.s	.return
-		tst.b	status(a0)											; bit 7
-		bmi.s	BossWater_Defeated								; branch, if boss is defeated
-		tst.b	collision_flags(a0)										; are boss's collisions enabled?
-		bne.s	.return											; if yes, branch
-		tst.b	boss_invulnerable_time(a0)							; is boss invulnerable?
-		bne.s	.flash											; if yes, branch
+		tst.b	status(a0)							; bit 7
+		bmi.s	BossWater_Defeated						; branch, if boss is defeated
+		tst.b	collision_flags(a0)						; are boss's collisions enabled?
+		bne.s	.return								; if yes, branch
+		tst.b	boss_invulnerable_time(a0)					; is boss invulnerable?
+		bne.s	.flash								; if yes, branch
 		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
-		sfx	sfx_BossHit											; play "boss hit" sound
-		bset	#6,status(a0)											; set "boss hit" flag
+		sfx	sfx_BossHit							; play "boss hit" sound
+		bset	#6,status(a0)							; set "boss hit" flag
 
 .flash
-		moveq	#0,d0											; load normal palette
+		moveq	#0,d0								; load normal palette
 		btst	#0,boss_invulnerable_time(a0)
 		bne.s	.skip
-		addq.w	#3*2,d0											; load flashing palette
+		addq.w	#3*2,d0								; load flashing palette
 
 .skip
 		jsr	(BossFlash2).w
-		subq.b	#1,boss_invulnerable_time(a0)						; decrease boss invincibility timer
+		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)											; clear "boss hit" flag
+		bclr	#6,status(a0)							; clear "boss hit" flag
 		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
@@ -350,7 +350,7 @@ BossWater_MainProcess:
 ; =============== S U B R O U T I N E =======================================
 
 BossWater_Defeated:
-		st	obBW_Counter(a0)									; don't touch the boss anymore
+		st	obBW_Counter(a0)						; don't touch the boss anymore
 
 		; create explosion
 		lea	(Child6_CreateBossExplosion).l,a2

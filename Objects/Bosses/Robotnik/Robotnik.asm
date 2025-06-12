@@ -13,13 +13,13 @@ Obj_RobotnikHead3:
 		move.l	#Ani_RobotnikHead,objoff_30(a0)
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w
 		bne.s	.notknux
-		bsr.s	sub_67B14								; load Egg Robo art
+		bsr.s	sub_67B14							; load Egg Robo art
 
 .notknux
 		movea.w	parent3(a0),a1
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
-		or.w	d0,art_tile(a0)								; set VRAM
+		or.w	d0,art_tile(a0)							; set VRAM
 
 		; check
 		btst	#high_priority_bit,art_tile(a1)
@@ -33,22 +33,22 @@ Obj_RobotnikHead3:
 		btst	#7,status(a1)
 		bne.s	.defeated
 
-		move.b	#2,anim(a0)								; hurt animate
+		move.b	#2,anim(a0)							; hurt animate
 		btst	#6,status(a1)
 		bne.s	.draw
 
 		; check laugh flag
-		move.b	#1,anim(a0)								; laugh animate
+		move.b	#1,anim(a0)							; laugh animate
 		btst	#6,objoff_38(a1)
 		bne.s	.draw
 		moveq	#PlayerID_Hurt-1,d0
 		cmp.b	(Player_1+routine).w,d0
-		blo.s		.draw
+		blo.s	.draw
 		cmp.b	(Player_2+routine).w,d0
-		blo.s		.draw
+		blo.s	.draw
 
 		; head anim
-		clr.b	anim(a0)									; normal animate
+		clr.b	anim(a0)							; normal animate
 
 .draw
 		jsr	(Refresh_ChildPositionAdjusted_Animate2).w
@@ -58,14 +58,14 @@ Obj_RobotnikHead3:
 ; ---------------------------------------------------------------------------
 
 .defeated
-		move.b	#3,anim(a0)								; defeated animate
+		move.b	#3,anim(a0)							; defeated animate
 		move.l	#.draw,address(a0)
 		bra.s	.draw
 
 ; =============== S U B R O U T I N E =======================================
 
 sub_67B14:
-		move.l	#Map_EggRoboHead,mappings(a0)			; if player is Knuckles, use Egg Robo head
+		move.l	#Map_EggRoboHead,mappings(a0)					; if player is Knuckles, use Egg Robo head
 
 loc_67B1C:
 		move.l	#Ani_EggRoboHead,objoff_30(a0)
@@ -93,13 +93,13 @@ Obj_RobotnikHead4:
 		move.l	#Ani_RobotnikHead,objoff_30(a0)
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w
 		bne.s	.notknux
-		bsr.s	sub_67B14								; load Egg Robo art
+		bsr.s	sub_67B14							; load Egg Robo art
 
 .notknux
 		movea.w	parent3(a0),a1
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
-		or.w	d0,art_tile(a0)								; set VRAM
+		or.w	d0,art_tile(a0)							; set VRAM
 
 .main
 		movea.w	parent3(a0),a1
@@ -108,22 +108,22 @@ Obj_RobotnikHead4:
 		btst	#7,status(a1)
 		bne.s	.defeated
 
-		move.b	#2,anim(a0)								; hurt animate
+		move.b	#2,anim(a0)							; hurt animate
 		btst	#6,status(a1)
 		bne.s	.draw
 
 		; check laugh flag
-		move.b	#1,anim(a0)								; laugh animate
+		move.b	#1,anim(a0)							; laugh animate
 		btst	#6,objoff_38(a1)
 		bne.s	.draw
 		moveq	#PlayerID_Hurt-1,d0
 		cmp.b	(Player_1+routine).w,d0
-		blo.s		.draw
+		blo.s	.draw
 		cmp.b	(Player_2+routine).w,d0
-		blo.s		.draw
+		blo.s	.draw
 
 		; head anim
-		clr.b	anim(a0)									; normal animate
+		clr.b	anim(a0)							; normal animate
 
 .draw
 		jsr	(Refresh_ChildPositionAdjusted_Animate2).w
@@ -141,7 +141,7 @@ Obj_RobotnikHead4:
 ; ---------------------------------------------------------------------------
 
 .defeated
-		move.b	#3,anim(a0)								; defeated animate
+		move.b	#3,anim(a0)							; defeated animate
 		move.l	#.draw,address(a0)
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
@@ -165,7 +165,7 @@ Obj_RobotnikShipFlame:
 
 .main
 		movea.w	parent3(a0),a1
-		btst	#5,objoff_38(a1)								; 4
+		btst	#5,objoff_38(a1)						; 4
 		bne.s	Obj_RobotnikHead4.delete
 		jsr	(Refresh_ChildPositionAdjusted).w
 		btst	#0,(V_int_run_count+3).w
@@ -193,16 +193,16 @@ Obj_RobotnikShipPieces:
 		jsr	(SetUp_ObjAttributes).w
 		move.l	#Obj_FlickerMove,address(a0)
 		move.b	subtype(a0),d0
-		lsr.b	d0											; division by 2
+		lsr.b	d0								; division by 2
 		move.b	d0,mapping_frame(a0)
-		moveq	#2<<2,d0								; set index velocity
+		moveq	#2<<2,d0							; set index velocity
 		jsr	(Set_IndexedVelocity).w
 		jmp	(Draw_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_RobotnikShip:			subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, $C, $F
+ObjDat_RobotnikShip:		subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, $C, $F
 ObjDat_RobotnikShip_Glass:	subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, 7, $F
 ObjDat_RobotnikShip2:		subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, $C, $F
 ObjDat_RobotnikShip2_Glass:	subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, 7, $F
