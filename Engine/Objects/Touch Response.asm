@@ -515,15 +515,15 @@ HurtCharacter:
 		clr.w	ground_vel(a0)
 
 		; set anim
-;		moveq	#AniIDSonAni_Hurt2,d0					; normal anim
+;		moveq	#AniIDSonAni_Hurt2,d0						; normal anim
 ;		btst	#Status_FireShield,shield_reaction(a2)
 ;		beq.s	.notfire
-;		moveq	#AniIDSonAni_HurtBW,d0					; fire anim
+;		moveq	#AniIDSonAni_HurtBW,d0						; fire anim
 
 ;.notfire
-;		move.b	d0,anim(a0)								; set hurt anim
+;		move.b	d0,anim(a0)							; set hurt anim
 
-		move.b	#AniIDSonAni_Hurt2,anim(a0)				; set hurt anim
+		move.b	#AniIDSonAni_Hurt2,anim(a0)					; set hurt anim
 		move.b	#2*60,invulnerability_timer(a0)					; set temp invincible time to 2 seconds
 		moveq	#signextendB(sfx_SpikeHit),d0					; load spikes damage sound
 		move.l	mappings(a2),d1
@@ -575,15 +575,15 @@ Kill_Character:
 		clr.w	ground_vel(a0)
 
 		; set anim
-;		moveq	#AniIDSonAni_Death,d1					; normal anim
+;		moveq	#AniIDSonAni_Death,d1						; normal anim
 ;		btst	#Status_FireShield,shield_reaction(a2)
 ;		beq.s	.notfire
-;		moveq	#AniIDSonAni_DeathBW,d1				; fire anim
+;		moveq	#AniIDSonAni_DeathBW,d1						; fire anim
 
 ;.notfire
-;		move.b	d1,anim(a0)								; set death anim
+;		move.b	d1,anim(a0)							; set death anim
 
-		move.b	#AniIDSonAni_Death,anim(a0)			; set death anim
+		move.b	#AniIDSonAni_Death,anim(a0)					; set death anim
 		cmpa.w	#Player_1,a0							; is this the main character?
 		bne.s	.notp1								; if not, branch
 		move.l	priority(a0),(Debug_saved_priority).w				; save priority and art_tile
@@ -625,7 +625,7 @@ Touch_Special:
 		cmpi.b	#$A,d1
 		beq.s	loc_103FA
 		cmpi.b	#$B,d1								; is collision type $CB?
-		beq.w	React_Caterkiller							; if yes, branch
+		beq.w	React_Caterkiller						; if yes, branch
 		cmpi.b	#$C,d1
 		beq.s	React_Yadrin
 		cmpi.b	#$15,d1
