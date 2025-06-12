@@ -139,7 +139,7 @@ locret_1E942:
 
 AutoSpin_MainX_Alt:
 		cmp.w	x_pos(a1),d1
-		bls.s	locret_1E9B4
+		bls.s	locret_1E942
 		clr.b	-1(a2)
 		move.w	y_pos(a0),d2
 		move.w	d2,d3
