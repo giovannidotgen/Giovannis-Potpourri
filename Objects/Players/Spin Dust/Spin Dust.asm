@@ -39,8 +39,8 @@ Obj_DashDust:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.splash			; 1
-		bra.s	.spindashdust		; 2
+		bra.s	.splash									; 1
+		bra.s	.spindashdust								; 2
 
 ; =============== S U B R O U T I N E =======================================
 
