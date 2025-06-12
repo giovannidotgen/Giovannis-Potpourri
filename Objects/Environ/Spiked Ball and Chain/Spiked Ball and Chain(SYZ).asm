@@ -3,6 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
+sball_angle			= objoff_3C	; angle (1 byte)
 sball_speed			= objoff_3E	; rate of spin (2 bytes)
 
 ; =============== S U B R O U T I N E =======================================
@@ -22,7 +23,7 @@ Obj_SpikeBall:
 		move.b	status(a0),d0
 		ror.b	#2,d0
 		andi.b	#$C0,d0
-		move.b	d0,objoff_3C(a0)
+		move.b	d0,sball_angle(a0)
 
 		; get RAM slot
 		getobjectRAMslot a2
@@ -70,7 +71,7 @@ Obj_SpikeBall:
 
 .main
 		move.w	sball_speed(a0),d0
-		sub.w	d0,objoff_3C(a0)
+		sub.w	d0,sball_angle(a0)
 		jmp	(Sprite_CheckDelete).w
 
 ; ---------------------------------------------------------------------------
@@ -81,7 +82,7 @@ Obj_SpikeBall:
 
 Obj_SpikeBall_Child:
 		movea.w	parent3(a0),a1
-		move.b	objoff_3C(a1),objoff_3C(a0)					; angle
+		move.b	sball_angle(a1),sball_angle(a0)					; angle
 		moveq	#4,d2								; radius
 		jsr	(MoveSprite_CircularSimple).w
 
