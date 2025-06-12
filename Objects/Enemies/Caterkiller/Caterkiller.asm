@@ -123,7 +123,7 @@ Obj_Caterkiller:
 		beq.s	.notmoving
 		jsr	(ObjCheckFloorDist).w
 		cmpi.w	#-8,d1
-		blt.s		.loc_16B70
+		blt.s	.loc_16B70
 		cmpi.w	#12,d1
 		bge.s	.loc_16B70
 		add.w	d1,y_pos(a0)

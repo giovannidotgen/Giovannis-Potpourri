@@ -64,7 +64,7 @@ Obj_Basaran:
 		move.b	render_flags(a0),status(a0)
 		move.w	bas_sypos(a0),d3
 		sub.w	y_pos(a0),d3
-		blo.s		.chkdel
+		blo.s	.chkdel
 		cmpi.w	#16,d3								; is basaran close to Sonic vertically?
 		bhs.s	.dropmore							; if not, branch
 		move.w	#-$100,d0							; make basaran fly horizontally
@@ -95,7 +95,7 @@ Obj_Basaran:
 		; check players
 		jsr	(Find_SonicTails).w
 		cmpi.w	#128,d2								; is Basaran within $80 pixels of Sonic?
-		blo.s		.dontflyup						; if yes, branch
+		blo.s	.dontflyup							; if yes, branch
 		move.b	(V_int_run_count+3).w,d0
 		add.b	d7,d0								; d7 - object count (Process_Sprites)
 		andi.b	#7,d0

@@ -160,7 +160,7 @@ Obj_TitleCard:
 		; load second main plc
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notknux
+		blo.s	.notknux
 		lea	(PLC2_Knuckles).l,a5
 
 .notknux

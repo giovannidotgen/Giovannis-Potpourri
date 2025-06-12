@@ -7,14 +7,14 @@
 SYZ2_Resize:
 		move.w	#$520,d0
 		cmpi.w	#$27A0,(Camera_X_pos).w
-		blo.s		.set
+		blo.s	.set
 		moveq	#$20,d0
 		move.w	(Player_1+y_pos).w,d1
 		cmpi.w	#$D0,d1
-		blo.s		.set
+		blo.s	.set
 		move.w	#$420,d0
 		cmpi.w	#$4D0,d1
-		blo.s		.set
+		blo.s	.set
 		move.w	#$520,d0
 
 .set

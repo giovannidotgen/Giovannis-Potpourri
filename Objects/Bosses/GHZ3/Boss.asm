@@ -249,7 +249,7 @@ BossBall_Defeated:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -446,7 +446,7 @@ Obj_BossBall_Scaled:
 		move.l	#.wait,address(a0)
 		move.l	#ArtScaled_RobotnikGHZ,d0					; art pointer
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w				; is Knuckles?
-		blo.s		.notknux						; if not, branch
+		blo.s	.notknux							; if not, branch
 		move.l	#ArtScaled_EggRoboGHZ,d0					; art pointer
 
 .notknux

@@ -220,7 +220,7 @@ Obj09_MoveRight:
 		bmi.s	loc_1BB48
 		addi.w	#$C,d0
 		cmpi.w	#$800,d0
-		blt.s		loc_1BB42
+		blt.s	loc_1BB42
 		move.w	#$800,d0
 
 loc_1BB42:
@@ -273,14 +273,14 @@ SS_FixCamera:
 		move.w	x_pos(a0),d3
 		move.w	(Camera_X_pos).w,d0
 		subi.w	#320/2,d3
-		blo.s		loc_1BBCE
+		blo.s	loc_1BBCE
 		sub.w	d3,d0
 		sub.w	d0,(Camera_X_pos).w
 
 loc_1BBCE:
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#224/2,d2
-		blo.s		locret_1BBDE
+		blo.s	locret_1BBDE
 		sub.w	d2,d0
 		sub.w	d0,(Camera_Y_pos).w
 
@@ -297,7 +297,7 @@ Obj09_ExitStage:
 
 loc_1BBF4:
 		cmpi.w	#$3000,(SStage_scalar_index_1).w
-		blt.s		loc_1BC16
+		blt.s	loc_1BC16
 		addq.b	#2,routine(a0)
 		clr.w	(SStage_scalar_index_1).w
 		move.w	#$4000,(SStage_scalar_index_0).w
@@ -421,7 +421,7 @@ sub_1BD30:
 		cmpi.b	#$4F,d4								; is the item an emerald?
 		beq.s	locret_1BD44							; if yes, branch
 		cmpi.b	#$3A,d4
-		blo.s		loc_1BD46
+		blo.s	loc_1BD46
 		cmpi.b	#$4B,d4
 		bhs.s	loc_1BD46
 
@@ -470,7 +470,7 @@ Obj09_GetCont:
 
 		; check
 		cmpi.w	#50,(Special_stage_ring_count).w				; check if you have 50 rings
-		blo.s		.perfect
+		blo.s	.perfect
 		bset	#0,(Extra_life_flags).w
 		bne.s	.perfect
 		addq.b	#1,(Continue_count).w						; add 1 to number of continues
@@ -523,7 +523,7 @@ Obj09_ChkEmer:
 		cmpi.b	#$4F,d4								; is the item an emerald?
 		beq.s	.emerald							; if yes, branch
 		cmpi.b	#$3B,d4								; is the item an emerald?
-		blo.s		Obj09_ChkGhost						; if not, branch
+		blo.s	Obj09_ChkGhost							; if not, branch
 		cmpi.b	#$40,d4								; is the item an emerald?
 		bhi.s	Obj09_ChkGhost							; if not, branch
 
@@ -731,7 +731,7 @@ Obj09_Glass:
 		move.b	(a1),d0
 		addq.b	#1,d0								; change glass type when touched
 		cmpi.b	#$30,d0
-		bls.s		Obj09_GlassUpdate					; if glass is still there, branch
+		bls.s	Obj09_GlassUpdate						; if glass is still there, branch
 		clr.b	d0								; remove the glass block when it's destroyed
 
 Obj09_GlassUpdate:

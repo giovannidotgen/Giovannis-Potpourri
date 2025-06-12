@@ -81,7 +81,7 @@ EndingScreen:
 		; load player palette
 		lea	(Level_data_addr_RAM.Spal).w,a1							; load Sonic palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		blo.s		.notknux								; if not, branch
+		blo.s	.notknux									; if not, branch
 		addq.w	#1,a1										; load Knuckles palette
 
 .notknux
@@ -435,7 +435,7 @@ Obj_Sonic_Ending:
 
 .notatails2
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		blo.s		.loadobja2								; if not, branch
+		blo.s	.loadobja2									; if not, branch
 		lea	ObjDat_KnuxEnding(pc),a1							; load Knuckles data
 
 .loadobja2

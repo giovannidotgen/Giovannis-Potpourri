@@ -56,7 +56,7 @@ End_MoveSonic:
 		add.w	d2,d0
 		sub.w	x_pos(a1),d0
 		beq.s	.done
-		blo.s		.setlog
+		blo.s	.setlog
 		move.w	#bytes_to_word(btnR,0),d1
 
 .setlog

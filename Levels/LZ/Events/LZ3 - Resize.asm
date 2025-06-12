@@ -16,7 +16,7 @@ LZ3_Resize:
 
 .normal
 		cmpi.w	#$1EA0,(Camera_X_pos).w
-		blo.s		.return
+		blo.s	.return
 		cmpi.w	#$600,(Camera_Y_pos).w
 		bhs.s	.return
 

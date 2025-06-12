@@ -195,7 +195,7 @@ TitleLevelSelect_Controls:
 
 		; check vertical line
 		subi.w	#TitleLevelSelect_SpecialStageCount,d3
-		blo.s		.return
+		blo.s	.return
 		add.w	d3,d3
 		jmp	.index(pc,d3.w)
 ; ---------------------------------------------------------------------------
@@ -259,7 +259,7 @@ TitleLevelSelect_Controls:
 		; check music or sfx
 		lea	(Play_Music).w,a1
 		cmpi.w	#mus__End,d0
-		blo.s		.play
+		blo.s	.play
 		subi.w	#(mus__End-mus__First),d0
 		lea	(Play_SFX).w,a1
 
@@ -429,7 +429,7 @@ TitleLevelSelect_MarkFields:
 .getnumber
 		andi.w	#$F,d0
 		cmpi.b	#10,d0										; is digit $A-$F?
-		blo.s		.skipsymbols								; if not, branch
+		blo.s	.skipsymbols									; if not, branch
 		addq.b	#6,d0										; use alpha characters
 
 .skipsymbols

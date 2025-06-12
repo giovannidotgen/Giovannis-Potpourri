@@ -41,7 +41,7 @@ Obj_EggmanCylinder:
 
 		; check flipy
 		cmpi.b	#2,subtype(a0)
-		ble.s		.main
+		ble.s	.main
 		bset	#1,render_flags(a0)						; 4 and 6 only (flipy sprite)
 
 .main
@@ -67,7 +67,7 @@ Obj_EggmanCylinder:
 		movea.w	parent3(a0),a1							; load Eggman address
 		moveq	#-10,d0								; 0 and 2 (down pos)
 		cmpi.b	#2,subtype(a0)
-		ble.s		.downcyl
+		ble.s	.downcyl
 		moveq	#14,d0								; 4 and 6 (up pos)
 
 .downcyl
@@ -114,7 +114,7 @@ Obj_EggmanCylinder:
 
 .abs
 		sub.w	d2,d1
-		blo.s		.setframe
+		blo.s	.setframe
 		addq.b	#1,d0								; add frame
 		asr.w	#4,d1
 		add.w	d1,d0
@@ -132,7 +132,7 @@ EggmanCylinder_Movement:
 		; set jmp
 		lea	.moveup(pc),a1							; move up
 		cmpi.b	#2,subtype(a0)
-		ble.s		.downcyl
+		ble.s	.downcyl
 		lea	.movedown(pc),a1						; move down
 
 .downcyl

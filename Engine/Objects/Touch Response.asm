@@ -655,7 +655,7 @@ React_Yadrin:
 		sub.w	d2,d0
 		bhs.s	.loc_1B13C
 		addi.w	#24,d0
-		blo.s		.loc_1B140
+		blo.s	.loc_1B140
 		bra.s	.normalenemy
 ; ---------------------------------------------------------------------------
 

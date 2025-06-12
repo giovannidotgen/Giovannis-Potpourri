@@ -170,7 +170,7 @@ Obj_BossPlasma_Ball:
 		move.w	(Camera_min_Y_pos).w,d0
 		addi.w	#$D0,d0
 		cmp.w	y_pos(a0),d0
-		blo.s		.delete
+		blo.s	.delete
 		subq.w	#1,obBFZBPB_Timer(a0)						; timer
 		beq.s	.delete
 

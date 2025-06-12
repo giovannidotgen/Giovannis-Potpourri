@@ -78,7 +78,7 @@ MZ1_Deform:
 		move.w	#512,d0								; start with 512px, ignoring 4 chunks
 		move.w	(Camera_Y_pos_copy).w,d1
 		subi.w	#512-56,d1							; 0% scrolling when y <= 56px
-		blo.s		.noYscroll
+		blo.s	.noYscroll
 		move.w	d1,d2
 		add.w	d1,d1
 		add.w	d2,d1

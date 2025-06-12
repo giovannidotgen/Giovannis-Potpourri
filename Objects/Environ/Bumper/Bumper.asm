@@ -8,23 +8,23 @@ Obj_Bumper:
 
 		; init
 		movem.l	ObjDat_Bumper(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 		move.b	#$17|$C0,collision_flags(a0)
 
 .hit
 		tst.b	collision_property(a0)
 		beq.s	.display
-		lea	(Player_1).w,a1									; a1=character
-		bclr	#0,collision_property(a0)							; has Sonic touched the bumper?
-		beq.s	.p2											; if not, branch
+		lea	(Player_1).w,a1							; a1=character
+		bclr	#0,collision_property(a0)					; has Sonic touched the bumper?
+		beq.s	.p2								; if not, branch
 		bsr.s	.bounce
 
 .p2
-		lea	(Player_2).w,a1									; a1=character
-		tst.l	address(a1)										; is player RAM empty?
-		beq.s	.reset										; if yes, branch
-		bclr	#1,collision_property(a0)							; has Tails touched the bumper?
-		beq.s	.reset										; if not, branch
+		lea	(Player_2).w,a1							; a1=character
+		tst.l	address(a1)							; is player RAM empty?
+		beq.s	.reset								; if yes, branch
+		bclr	#1,collision_property(a0)					; has Tails touched the bumper?
+		beq.s	.reset								; if not, branch
 		bsr.s	.bounce
 
 .reset
@@ -55,11 +55,11 @@ Obj_Bumper:
 		move.w	d0,y_vel(a1)
 
 		; check
-		cmpa.w	#Player_2,a1									; is this the second character?
-		bne.s	.notcarry										; if not, branch
+		cmpa.w	#Player_2,a1							; is this the second character?
+		bne.s	.notcarry							; if not, branch
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	.notcarry
-		lea	(Player_1).w,a2									; a2=character
+		lea	(Player_1).w,a2							; a2=character
 		clr.b	object_control(a2)
 		clr.b	anim_frame(a2)
 		clr.b	anim_frame_timer(a2)
@@ -69,27 +69,27 @@ Obj_Bumper:
 .notcarry
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_Push,status(a1)
-		btst	#Status_Roll,status(a1)								; is the player rolling?
-		bne.s	.notroll										; if yes, branch
-		clr.b	anim(a1)											; AniIDSonAni_Walk
+		btst	#Status_Roll,status(a1)						; is the player rolling?
+		bne.s	.notroll							; if yes, branch
+		clr.b	anim(a1)							; AniIDSonAni_Walk
 
 .notroll
 		clr.b	jumping(a1)
 		clr.b	double_jump_flag(a1)
-		move.b	#1,anim(a0)									; use "hit" animation
-		sfx	sfx_Bumper										; play bumper sound
+		move.b	#1,anim(a0)							; use "hit" animation
+		sfx	sfx_Bumper							; play bumper sound
 
 		; add score
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.addscore									; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
-		cmpi.b	#10+$80,(a2)									; has bumper been hit 10 times? ($80(bit 7) = draw flag)
-		bhs.s	.return										; if yes, Sonic gets no points
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.addscore							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
+		cmpi.b	#10+$80,(a2)							; has bumper been hit 10 times? ($80(bit 7) = draw flag)
+		bhs.s	.return								; if yes, Sonic gets no points
 		addq.b	#1,(a2)
 
 .addscore
 		moveq	#1,d0
-		jsr	(HUD_AddToScore).w								; add 10 to score
+		jsr	(HUD_AddToScore).w						; add 10 to score
 
 		; draw score
 		lea	Child6_EndSignScore(pc),a2

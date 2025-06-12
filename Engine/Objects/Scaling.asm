@@ -61,7 +61,7 @@ Process_ArtScaling:
 		moveq	#0,d1
 		move.b	objoff_40(a0),d1
 		cmpi.b	#28,d1
-		blo.s		loc_2469A
+		blo.s	loc_2469A
 		moveq	#28,d1								; maximum 28 different "scales"
 
 loc_2469A:
@@ -211,7 +211,7 @@ sub_24802:
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s		loc_24814
+		blo.s	loc_24814
 		moveq	#0,d0
 
 loc_24814:
@@ -219,7 +219,7 @@ loc_24814:
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s		loc_24826
+		blo.s	loc_24826
 		moveq	#0,d1
 
 loc_24826:

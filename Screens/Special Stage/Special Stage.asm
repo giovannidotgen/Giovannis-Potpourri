@@ -700,7 +700,7 @@ loc_1B1C0:
 		move.w	(a1),d4										; get xpos
 		addi.w	#288,d4
 		cmpi.w	#112,d4
-		blo.s		.nextlevel
+		blo.s	.nextlevel
 		cmpi.w	#464,d4
 		bhs.s	.nextlevel
 
@@ -708,7 +708,7 @@ loc_1B1C0:
 		move.w	2(a1),d5									; get ypos
 		addi.w	#240,d5
 		cmpi.w	#112,d5
-		blo.s		.nextlevel
+		blo.s	.nextlevel
 		cmpi.w	#368,d5
 		bhs.s	.nextlevel
 
@@ -1189,7 +1189,7 @@ SS_Load:
 		move.b	d0,(Saved_special_stage).w
 		addq.b	#1,(Current_special_stage).w
 		cmpi.b	#ChaosEmer_Count,(Current_special_stage).w
-		blo.s		SS_ChkEmldNum
+		blo.s	SS_ChkEmldNum
 		clr.b	(Current_special_stage).w							; reset if higher than 6/7
 
 SS_ChkEmldNum:
@@ -1198,7 +1198,7 @@ SS_ChkEmldNum:
 		moveq	#0,d1
 		move.b	(Chaos_emerald_count).w,d1
 		subq.b	#1,d1
-		blo.s		SS_LoadData
+		blo.s	SS_LoadData
 		lea	(Collected_emeralds_array).w,a3							; check which emeralds you have
 
 SS_ChkEmldLoop:

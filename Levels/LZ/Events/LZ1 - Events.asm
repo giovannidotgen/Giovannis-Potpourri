@@ -96,9 +96,9 @@ LZ1_ApplyDeformWater:
 		bmi.s	.normal								; vertical wrapping fix
 		move.w	(Water_level).w,d1
 		sub.w	d0,d1
-		bls.s		.waterfull						; if completely underwater, only do water deformation
+		bls.s	.waterfull							; if completely underwater, only do water deformation
 		cmpi.w	#224,d1
-		blt.s		.water
+		blt.s	.water
 
 .normal
 

@@ -321,7 +321,7 @@ TitleScreen:
 		move.w	(Next_demo_number).w,d1
 		addq.w	#1,d1
 		cmpi.w	#(DemoLevels_end-DemoLevels)/2,d1
-		blo.s		.dnotreset
+		blo.s	.dnotreset
 		moveq	#0,d1
 
 .dnotreset

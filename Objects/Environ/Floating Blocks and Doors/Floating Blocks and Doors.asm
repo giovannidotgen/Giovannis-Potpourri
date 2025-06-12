@@ -5,42 +5,42 @@
 ; Dynamic object variables
 fb_origX			= objoff_34	; original x-axis position
 fb_origY			= objoff_30	; original y-axis position
-fb_height		= objoff_3A	; total object height
-fb_type			= objoff_3C	; subtype (2nd digit only)
+fb_height			= objoff_3A	; total object height
+fb_type				= objoff_3C	; subtype (2nd digit only)
 
 ; =============== S U B R O U T I N E =======================================
 
 FBlock_Var:				; height/2, width/2
-		dc.b 32/2, 32/2	; subtype 0x/8x
-		dc.b 64/2, 64/2	; subtype 1x/9x
-		dc.b 64/2, 32/2	; subtype 2x/Ax
-		dc.b 52/2, 64/2	; subtype 3x/Bx
-		dc.b 78/2, 32/2	; subtype 4x/Cx
-		dc.b 32/2, 32/2	; subtype 5x/Dx
-		dc.b 64/2, 16/2	; subtype 6x/Ex
+		dc.b 32/2, 32/2		; subtype 0x/8x
+		dc.b 64/2, 64/2		; subtype 1x/9x
+		dc.b 64/2, 32/2		; subtype 2x/Ax
+		dc.b 52/2, 64/2		; subtype 3x/Bx
+		dc.b 78/2, 32/2		; subtype 4x/Cx
+		dc.b 32/2, 32/2		; subtype 5x/Dx
+		dc.b 64/2, 16/2		; subtype 6x/Ex
 		dc.b 32/2, 128/2	; subtype 7x/Fx
 ; ---------------------------------------------------------------------------
 
 Obj_FloatingBlock:
 
 		; init
-		movem.l	ObjDat_FloatingBlock(pc),d0-d3							; copy data to d0-d3
-		movem.l	d0-d3,address(a0)											; set data from d0-d3 to current object
+		movem.l	ObjDat_FloatingBlock(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 
 		; check
-		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
-		bne.s	.notLZ													; if not, branch
-		move.w	#make_art_tile($3C4,2,0),art_tile(a0)						; LZ specific code
+		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ
+		bne.s	.notLZ								; if not, branch
+		move.w	#make_art_tile($3C4,2,0),art_tile(a0)				; LZ specific code
 
 .notLZ
 
 		; set
-		move.b	subtype(a0),d0											; get subtype
+		move.b	subtype(a0),d0							; get subtype
 		lsr.w	#3,d0
-		andi.w	#$E,d0													; read only the 1st digit
-		lea	FBlock_Var(pc,d0.w),a2										; get size data
-		move.w	(a2),height_pixels(a0)										; set height and width
-		lsr.b	d0															; division by 2
+		andi.w	#$E,d0								; read only the 1st digit
+		lea	FBlock_Var(pc,d0.w),a2						; get size data
+		move.w	(a2),height_pixels(a0)						; set height and width
+		lsr.b	d0								; division by 2
 		move.b	d0,mapping_frame(a0)
 		move.w	x_pos(a0),fb_origX(a0)
 		move.w	y_pos(a0),fb_origY(a0)
@@ -65,12 +65,12 @@ Obj_FloatingBlock:
 ; ---------------------------------------------------------------------------
 
 .dontdelete
-		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
-		beq.s	.stillnotLZ												; if so, branch
+		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ
+		beq.s	.stillnotLZ							; if so, branch
 		moveq	#$F,d0
-		and.b	subtype(a0),d0											; SYZ/SLZ specific code
+		and.b	subtype(a0),d0							; SYZ/SLZ specific code
 		subq.w	#8,d0
-		blo.s		.stillnotLZ
+		blo.s	.stillnotLZ
 		add.w	d0,d0
 		add.w	d0,d0
 		lea	(Oscillating_Data+$2A).w,a2
@@ -90,9 +90,9 @@ Obj_FloatingBlock:
 		move.w	#$80,fb_height(a0)
 
 .chkstate
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.action													; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.action								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		btst	#0,(a2)
 		beq.s	.action
 		addq.b	#1,subtype(a0)
@@ -100,17 +100,17 @@ Obj_FloatingBlock:
 
 .action
 		move.w	x_pos(a0),-(sp)
-		moveq	#$F,d0													; read only the 2nd digit
-		and.b	subtype(a0),d0											; get object subtype
-		beq.s	.skipt													; if zero, branch
+		moveq	#$F,d0								; read only the 2nd digit
+		and.b	subtype(a0),d0							; get object subtype
+		beq.s	.skipt								; if zero, branch
 		add.w	d0,d0
 		move.w	BlocksDoors_TypeIndex-2(pc,d0.w),d0
-		jsr	BlocksDoors_TypeIndex(pc,d0.w)								; move block subroutines
+		jsr	BlocksDoors_TypeIndex(pc,d0.w)					; move block subroutines
 
 .skipt
 		move.w	(sp)+,d4
-		tst.b	render_flags(a0)												; object visible on the screen?
-		bpl.s	.chkdel													; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.chkdel								; if not, branch
 
 		; solid
 		moveq	#$B,d1
@@ -135,9 +135,9 @@ Obj_FloatingBlock:
 		bne.s	.draw
 
 .delete
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.delete2													; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.delete2							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#7,(a2)
 
 .delete2
@@ -146,25 +146,25 @@ Obj_FloatingBlock:
 ; =============== S U B R O U T I N E =======================================
 
 BlocksDoors_TypeIndex: offsetTable
-		offsetTableEntry.w .type01		; 1
-		offsetTableEntry.w .type02		; 2
-		offsetTableEntry.w .type03		; 3
-		offsetTableEntry.w .type04		; 4
-		offsetTableEntry.w .type05		; 5
-		offsetTableEntry.w .type06		; 6
-		offsetTableEntry.w .type07		; 7
-		offsetTableEntry.w .type08		; 8
-		offsetTableEntry.w .type09		; 9
-		offsetTableEntry.w .type0A		; A
-		offsetTableEntry.w .type0B		; B
-		offsetTableEntry.w .type0C		; C
-		offsetTableEntry.w .type0D		; D
+		offsetTableEntry.w .type01	; 1
+		offsetTableEntry.w .type02	; 2
+		offsetTableEntry.w .type03	; 3
+		offsetTableEntry.w .type04	; 4
+		offsetTableEntry.w .type05	; 5
+		offsetTableEntry.w .type06	; 6
+		offsetTableEntry.w .type07	; 7
+		offsetTableEntry.w .type08	; 8
+		offsetTableEntry.w .type09	; 9
+		offsetTableEntry.w .type0A	; A
+		offsetTableEntry.w .type0B	; B
+		offsetTableEntry.w .type0C	; C
+		offsetTableEntry.w .type0D	; D
 ; ---------------------------------------------------------------------------
 
 .type01
 
 		; moves side-to-side
-		moveq	#$40,d1													; set move distance
+		moveq	#$40,d1								; set move distance
 		moveq	#0,d0
 		move.b	(Oscillating_Data+8).w,d0
 		bra.s	.moveLR
@@ -173,7 +173,7 @@ BlocksDoors_TypeIndex: offsetTable
 .type02
 
 		; moves side-to-side
-		move.w	#$80,d1													; set move distance
+		move.w	#$80,d1								; set move distance
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$1C).w,d0
 
@@ -186,14 +186,14 @@ BlocksDoors_TypeIndex: offsetTable
 .noflip
 		move.w	fb_origX(a0),d1
 		sub.w	d0,d1
-		move.w	d1,x_pos(a0)												; move object horizontally
+		move.w	d1,x_pos(a0)							; move object horizontally
 		rts
 ; ---------------------------------------------------------------------------
 
 .type03
 
 		; moves up/down
-		moveq	#$40,d1													; set move distance
+		moveq	#$40,d1								; set move distance
 		moveq	#0,d0
 		move.b	(Oscillating_Data+8).w,d0
 		bra.s	.moveUD
@@ -202,7 +202,7 @@ BlocksDoors_TypeIndex: offsetTable
 .type04
 
 		; moves up/down
-		move.w	#$80,d1													; set move distance
+		move.w	#$80,d1								; set move distance
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$1C).w,d0
 
@@ -215,7 +215,7 @@ BlocksDoors_TypeIndex: offsetTable
 .noflip04
 		move.w	fb_origY(a0),d1
 		sub.w	d0,d1
-		move.w	d1,y_pos(a0)												; move object vertically
+		move.w	d1,y_pos(a0)							; move object vertically
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -225,14 +225,14 @@ BlocksDoors_TypeIndex: offsetTable
 		tst.b	objoff_38(a0)
 		bne.s	.loc_104A4
 		cmpi.w	#bytes_to_word(LevelID_LZ,0),(Current_zone_and_act).w		; is level LZ1?
-		bne.s	.aaa														; if not, branch
+		bne.s	.aaa								; if not, branch
 		cmpi.b	#3,fb_type(a0)
 		bne.s	.aaa
 		clr.b	(WindTunnel_holding_flag).w
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
 		bhs.s	.aaa
-		move.b	#3,(WindTunnel_holding_flag).w							; Player_1 + Player_2 (bit set 0 + 1)
+		move.b	#3,(WindTunnel_holding_flag).w					; Player_1 + Player_2 (bit set 0 + 1)
 
 .aaa
 		lea	(Level_trigger_array).w,a2
@@ -241,7 +241,7 @@ BlocksDoors_TypeIndex: offsetTable
 		btst	#0,(a2,d0.w)
 		beq.s	.loc_104AE
 		cmpi.w	#bytes_to_word(LevelID_LZ,0),(Current_zone_and_act).w		; is level LZ1?
-		bne.s	.loc_1049E												; if not, branch
+		bne.s	.loc_1049E							; if not, branch
 		cmpi.b	#3,d0
 		bne.s	.loc_1049E
 		clr.b	(WindTunnel_holding_flag).w
@@ -270,9 +270,9 @@ BlocksDoors_TypeIndex: offsetTable
 .loc_104C8
 		addq.b	#1,subtype(a0)
 		clr.b	objoff_38(a0)
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.loc_104AE												; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_104AE							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bset	#0,(a2)
 		bra.s	.loc_104AE
 ; ---------------------------------------------------------------------------
@@ -311,9 +311,9 @@ BlocksDoors_TypeIndex: offsetTable
 .loc_1052C
 		subq.b	#1,subtype(a0)
 		clr.b	objoff_38(a0)
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.loc_10512												; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_10512							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#0,(a2)
 		bra.s	.loc_10512
 ; ---------------------------------------------------------------------------
@@ -321,7 +321,7 @@ BlocksDoors_TypeIndex: offsetTable
 .type07
 		tst.b	objoff_38(a0)
 		bne.s	.loc_1055E
-		tst.b	(Level_trigger_array+$F).w										; has switch number $F been pressed?
+		tst.b	(Level_trigger_array+$F).w					; has switch number $F been pressed?
 		beq.s	.locret_10578
 		move.b	#1,objoff_38(a0)
 		clr.w	fb_height(a0)
@@ -372,9 +372,9 @@ BlocksDoors_TypeIndex: offsetTable
 .loc_105C0
 		addq.b	#1,subtype(a0)
 		clr.b	objoff_38(a0)
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.loc_105A2												; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_105A2							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bset	#0,(a2)
 		bra.s	.loc_105A2
 ; ---------------------------------------------------------------------------
@@ -412,9 +412,9 @@ BlocksDoors_TypeIndex: offsetTable
 .loc_10624
 		subq.b	#1,subtype(a0)
 		clr.b	objoff_38(a0)
-		move.w	respawn_addr(a0),d0										; get address in respawn table
-		beq.s	.wtf														; if it's zero, it isn't remembered
-		movea.w	d0,a2													; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.wtf								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#0,(a2)
 		bra.s	.wtf
 ; ---------------------------------------------------------------------------

@@ -137,7 +137,7 @@ Obj_SpecialStage_Results:
 
 	if SonKnuxTransform
 		cmpi.b	#7,(Chaos_emerald_count).w
-		blo.s		.endr
+		blo.s	.endr
 	else
 		bra.s	.endr
 	endif

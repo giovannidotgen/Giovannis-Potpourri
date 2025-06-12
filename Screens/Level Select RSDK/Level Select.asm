@@ -475,7 +475,7 @@ LevelSelectRSDK_MarkFields:
 		; load line
 		moveq	#bytesToXcnt(12,4),d2
 		cmpi.w	#$13+1,d4									; is options?
-		blo.s		.copy									; if not, branch
+		blo.s	.copy										; if not, branch
 		moveq	#bytesToXcnt(16,4),d2
 
 .copy
@@ -569,7 +569,7 @@ LevelSelectRSDK_MarkFields:
 .getnumber
 		andi.w	#$F,d0
 		cmpi.b	#10,d0										; is digit $A-$F?
-		blo.s		.skipsymbols								; if not, branch
+		blo.s	.skipsymbols									; if not, branch
 		addq.b	#6,d0										; use alpha characters
 
 .skipsymbols

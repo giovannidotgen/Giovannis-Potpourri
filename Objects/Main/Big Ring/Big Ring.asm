@@ -37,7 +37,7 @@ Obj_BigRing:
 		tst.w	(Debug_placement_mode).w
 		bne.s	.draw								; if in debug mode, don't allow collision
 		cmpi.b	#8,mapping_frame(a0)
-		blo.s		.draw							; if ring hasn't finished forming, don't allow collision
+		blo.s	.draw								; if ring hasn't finished forming, don't allow collision
 
 		; check range
 		lea	BigRing_Range(pc),a1

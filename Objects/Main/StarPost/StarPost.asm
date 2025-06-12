@@ -352,7 +352,7 @@ Obj_StarPost_Stars:
 
 		; check bonus
 		cmp.l	(Next_extra_life_score).w,d1					; if score is greater than next 50000 point increment
-		blo.s		.fset
+		blo.s	.fset
 		addi.l	#5000,(Next_extra_life_score).w					; set next 50000
 		addq.b	#1,(Life_count).w						; give an additional extra life
 

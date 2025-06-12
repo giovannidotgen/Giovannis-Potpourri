@@ -190,7 +190,7 @@ LZ_WaterTunnels:
 		bhs.w	.chknext
 		move.w	y_pos(a1),d1
 		cmp.w	2(a2),d1
-		blo.s		.chknext
+		blo.s	.chknext
 		cmp.w	6(a2),d1
 		bhs.s	.chknext
 
@@ -326,7 +326,7 @@ LZSlide_Move:
 		tst.b	d0
 		bpl.s	loc_7254
 		cmp.b	d0,d1
-		ble.s		loc_725E
+		ble.s	loc_725E
 		subi.w	#$40,ground_vel(a1)
 		bra.s	loc_725E
 ; ---------------------------------------------------------------------------

@@ -96,7 +96,7 @@ Obj_EndSign:
 		; set frame
 		moveq	#3,d0								; set Robotnik frame
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.setframe2
+		blo.s	.setframe2
 		addq.b	#1,d0								; set Egg Robo frame
 
 .setframe2
@@ -238,7 +238,7 @@ Obj_EndSign:
 		; load second main plc
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notknux2
+		blo.s	.notknux2
 		lea	(PLC2_Knuckles).l,a5
 
 .notknux2

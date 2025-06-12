@@ -403,7 +403,7 @@ Monitor_Give_Invincibility:
 		tst.b	(Boss_flag).w
 		bne.s	.skipmusic
 		cmpi.b	#12,air_left(a1)
-		bls.s		.skipmusic
+		bls.s	.skipmusic
 		music	mus_Invincible									; if invincible, play invincibility music
 
 .skipmusic

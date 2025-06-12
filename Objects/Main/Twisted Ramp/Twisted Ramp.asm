@@ -29,7 +29,7 @@ Obj_TwistedRamp:
 		moveq	#16,d0
 		add.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
-		blo.s		.return
+		blo.s	.return
 		cmpi.w	#32,d0
 		bge.s	.return
 
@@ -37,7 +37,7 @@ Obj_TwistedRamp:
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#-20,d0
-		blt.s		.return
+		blt.s	.return
 		cmpi.w	#32,d0
 		bgt.s	.return
 
@@ -47,7 +47,7 @@ Obj_TwistedRamp:
 
 		; right
 		cmpi.w	#$400,x_vel(a1)
-		blt.s		.return
+		blt.s	.return
 		addi.w	#$400,x_vel(a1)
 		bra.s	.launch
 ; ---------------------------------------------------------------------------
