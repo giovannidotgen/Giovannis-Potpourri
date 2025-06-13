@@ -164,7 +164,7 @@ LoadLevelPointer:
 		lsr.w	#6,d0
 		mulu.w	#(Level_data_addr_RAM_end-Level_data_addr_RAM),d0
 	else
-		move.w	d0,d1								; multiply by $82
+		move.w	d0,d1								; multiply by $86
 		lsr.w	#5,d1
 		add.w	d0,d0
 		add.w	d1,d0
