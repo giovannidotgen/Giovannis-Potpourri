@@ -14,12 +14,12 @@ Obj_SinkingMud:
 		moveq	#$30,d0
 		move.b	d0,objoff_38(a0)
 		move.b	d0,objoff_3A(a0)
-		bset	#7,status(a0)									; disable player's balance animation
+		bset	#7,status(a0)							; disable player's balance animation
 		move.l	#.main,address(a0)
 
 .main
-		tst.w	(Debug_placement_mode).w				; is debug mode on?
-		bne.w	loc_32B62								; if yes, branch
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
+		bne.w	loc_32B62							; if yes, branch
 		lea	(Player_1).w,a1
 		btst	#p1_standing_bit,status(a0)
 		bne.s	loc_32AEA

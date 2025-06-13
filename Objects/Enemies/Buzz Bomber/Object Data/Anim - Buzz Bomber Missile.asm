@@ -3,9 +3,9 @@
 ; ---------------------------------------------------------------------------
 
 Ani_Missile: offsetTable
-		offsetTableEntry.w .flare		; 0
-		offsetTableEntry.w .missile		; 1
+		offsetTableEntry.w .flare	; 0
+		offsetTableEntry.w .missile	; 1
 
-.flare	dc.b 7, 0, 1, afRoutine, afEnd
+.flare		dc.b 7, 0, 1, afRoutine, afEnd
 .missile	dc.b 1, 2, 3, afEnd
 	even

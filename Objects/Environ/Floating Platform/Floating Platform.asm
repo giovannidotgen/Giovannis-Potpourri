@@ -10,30 +10,30 @@ Obj_FloatingPlatform:
 		move.l	#Map_Plat_GHZ,d0
 		move.w	#make_art_tile(0,2,0),art_tile(a0)
 		cmpi.b	#LevelID_SYZ,(Current_zone).w					; check if level is SYZ
-		bne.s	.notSYZ										; if not, branch
+		bne.s	.notSYZ								; if not, branch
 		move.l	#Map_Plat_SYZ,d0
 
 .notSYZ
 		cmpi.b	#LevelID_SLZ,(Current_zone).w					; check if level is SLZ
-		bne.s	.notSLZ										; if not, branch
+		bne.s	.notSLZ								; if not, branch
 		move.l	#Map_Plat_SLZ,d0
 		move.b	#3,subtype(a0)
 
 .notSLZ
 		move.l	d0,mappings(a0)
-		move.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(34/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	x_pos(a0),objoff_32(a0)
 		move.w	y_pos(a0),objoff_34(a0)
 		move.b	status(a0),objoff_2E(a0)
-		move.w	#$80+320+$40+$80,objoff_42(a0)				; out_of_xrange
+		move.w	#$80+320+$40+$80,objoff_42(a0)					; out_of_xrange
 		move.w	x_pos(a0),objoff_44(a0)						; out_of_xrange
 		moveq	#$F,d0
 		and.b	subtype(a0),d0
 		cmpi.b	#10,d0
 		bne.s	.skip
-		move.b	#1,mapping_frame(a0)							; large platform
+		move.b	#1,mapping_frame(a0)						; large platform
 
 .skip
 		add.b	d0,d0
@@ -47,18 +47,18 @@ loc_255F4:
 		move.w	FloatingPlatform_TypeIndex(pc,d0.w),d0
 		jsr	FloatingPlatform_TypeIndex(pc,d0.w)
 		move.w	(sp)+,d4
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	loc_25628									; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	loc_25628							; if not, branch
 
 		; solid
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
-		moveq	#(16/2)+1,d3									; height+1
+		moveq	#(16/2)+1,d3							; height+1
 		jsr	(SolidObjectTop).w
 
 loc_25628:
-		moveq	#-$80,d0									; round down to nearest $80
-		and.w	objoff_44(a0),d0								; get object position
+		moveq	#-$80,d0							; round down to nearest $80
+		and.w	objoff_44(a0),d0						; get object position
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmp.w	objoff_42(a0),d0
 		bhi.s	loc_25642
@@ -66,9 +66,9 @@ loc_25628:
 ; ---------------------------------------------------------------------------
 
 loc_25642:
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.delete										; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.delete								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#7,(a2)
 
 .delete
@@ -78,22 +78,22 @@ loc_25642:
 
 FloatingPlatform_TypeIndex: offsetTable
 		offsetTableEntry.w FloatingPlatform_Nudge		; 0
-		offsetTableEntry.w FloatingPlatform_LeftRight	; 1
+		offsetTableEntry.w FloatingPlatform_LeftRight		; 1
 		offsetTableEntry.w FloatingPlatform_UpDown		; 2
 		offsetTableEntry.w FloatingPlatform_CheckFalling	; 3
 		offsetTableEntry.w FloatingPlatform_Falling		; 4
-		offsetTableEntry.w FloatingPlatform_LeftRight	; 5
+		offsetTableEntry.w FloatingPlatform_LeftRight		; 5
 		offsetTableEntry.w FloatingPlatform_UpDown		; 6
 		offsetTableEntry.w FloatingPlatform_Button		; 7
 		offsetTableEntry.w FloatingPlatform_Raise		; 8
 		offsetTableEntry.w FloatingPlatform_Nudge		; 9
 		offsetTableEntry.w FloatingPlatform_Large		; A
-		offsetTableEntry.w FloatingPlatform_UpDown2	; B
-		offsetTableEntry.w FloatingPlatform_UpDown2	; C
+		offsetTableEntry.w FloatingPlatform_UpDown2		; B
+		offsetTableEntry.w FloatingPlatform_UpDown2		; C
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_UpDown2:									; type0B(Up/Down) and type0C(Down/Up)
+FloatingPlatform_UpDown2:								; type0B(Up/Down) and type0C(Down/Up)
 		moveq	#$30,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$C).w,d0
@@ -101,7 +101,7 @@ FloatingPlatform_UpDown2:									; type0B(Up/Down) and type0C(Down/Up)
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_LeftRight:									; type01(Left/Right) and type05(Right/Left)
+FloatingPlatform_LeftRight:								; type01(Left/Right) and type05(Right/Left)
 		moveq	#$40,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$18).w,d0
@@ -119,10 +119,10 @@ FloatingPlatform_LeftRight:									; type01(Left/Right) and type05(Right/Left)
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_Nudge:										; type00
+FloatingPlatform_Nudge:									; type00
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; is Sonic or Tails standing on the object?
-		bne.s	loc_24FA6									; if yes, branch
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		bne.s	loc_24FA6							; if yes, branch
 		tst.b	objoff_3A(a0)
 		beq.s	loc_24FB2
 		subq.b	#4,objoff_3A(a0)
@@ -144,7 +144,7 @@ loc_24FB2:
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_UpDown:										; type02(Up/Down) and type06(Down/Up)
+FloatingPlatform_UpDown:								; type02(Up/Down) and type06(Down/Up)
 		moveq	#$40,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$18).w,d0
@@ -163,11 +163,11 @@ FloatingPlatform_UpDown:										; type02(Up/Down) and type06(Down/Up)
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_CheckFalling:									; type03
+FloatingPlatform_CheckFalling:								; type03
 		tst.w	objoff_3C(a0)
 		bne.s	.wait
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; check if players is standing on platform
+		and.b	status(a0),d0							; check if players is standing on platform
 		beq.s	.return
 		move.w	#60/2,objoff_3C(a0)
 
@@ -183,7 +183,7 @@ FloatingPlatform_CheckFalling:									; type03
 		rts
 ; ---------------------------------------------------------------------------
 
-FloatingPlatform_Falling:										; type04
+FloatingPlatform_Falling:								; type04
 		tst.w	objoff_3C(a0)
 		beq.s	.fall
 		subq.w	#1,objoff_3C(a0)
@@ -192,13 +192,13 @@ FloatingPlatform_Falling:										; type04
 		; set player falling
 		bclr	#p1_standing_bit,status(a0)
 		beq.s	.notp1
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bsr.s	FloatingPlatform_SetPlayerFalling
 
 .notp1
 		bclr	#p2_standing_bit,status(a0)
 		beq.s	.notp2
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		bsr.s	FloatingPlatform_SetPlayerFalling
 
 .notp2
@@ -234,13 +234,13 @@ FloatingPlatform_SetPlayerFalling:
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
 		bset	#Status_InAir,status(a1)
-		bne.s	.return										; if the player is already in the air, branch
+		bne.s	.return								; if the player is already in the air, branch
 
 		; set anim
 		tst.b	spin_dash_flag(a1)
 		bne.s	.return
 		cmpi.b	#AniIDSonAni_Roll,anim(a1)					; is player in his rolling animation?
-		beq.s	.return										; if so, branch
+		beq.s	.return								; if so, branch
 		move.b	#AniIDSonAni_Hurt,anim(a1)					; set falling animation
 
 .return
@@ -271,7 +271,7 @@ Obj_FallingPlatformIntangible:
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_Button:										; type07
+FloatingPlatform_Button:								; type07
 		tst.w	objoff_3C(a0)
 		bne.s	.wait
 		moveq	#0,d0
@@ -294,7 +294,7 @@ FloatingPlatform_Button:										; type07
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_Raise:										; type08
+FloatingPlatform_Raise:									; type08
 		subq.w	#2,y_pos(a0)
 		move.w	objoff_34(a0),d1
 		subi.w	#512,d1
@@ -308,7 +308,7 @@ FloatingPlatform_Raise:										; type08
 
 ; =============== S U B R O U T I N E =======================================
 
-FloatingPlatform_Large:										; type0A
+FloatingPlatform_Large:									; type0A
 		moveq	#$40,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$18).w,d0

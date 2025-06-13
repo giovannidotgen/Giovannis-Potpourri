@@ -8,12 +8,12 @@ Obj_WaterSplash:
 
 		; init
 		st	objoff_31(a0)
-		movem.l	ObjDat_WaterSplash(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)									; set data from d0-d3 to current object
+		movem.l	ObjDat_WaterSplash(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 		move.w	#2,mainspr_childsprites(a0)
 
 		; set
-		lea	sub2_x_pos(a0),a2									; $16-$23 bytes reserved
+		lea	sub2_x_pos(a0),a2						; $16-$23 bytes reserved
 		move.w	x_pos(a0),(a2)+
 		move.w	y_pos(a0),(a2)+
 		move.w	#bytes_to_word(0,5),(a2)+
@@ -31,7 +31,7 @@ Obj_WaterSplash:
 		addq.b	#2,d0
 		andi.b	#$F,d0
 		bne.s	loc_384DA
-		sfx	sfx_WaterSkid										; play water skid sound
+		sfx	sfx_WaterSkid							; play water skid sound
 
 loc_384DA:
 
@@ -43,7 +43,7 @@ loc_384DA:
 		; next
 		addq.b	#1,objoff_30(a0)
 		cmpi.b	#5,objoff_30(a0)
-		blo.s		loc_384F8
+		blo.s	loc_384F8
 		clr.b	objoff_30(a0)
 
 loc_384F8:
@@ -52,7 +52,7 @@ loc_384F8:
 		cmp.b	objoff_31(a0),d1
 		beq.s	.draw
 		move.b	d1,objoff_31(a0)
-		lsl.w	#6,d1												; multiply by $180/2
+		lsl.w	#6,d1								; multiply by $180/2
 		move.w	d1,d0
 		add.w	d0,d0
 		add.w	d0,d1
@@ -69,7 +69,7 @@ loc_384F8:
 sub_38534:
 
 		; check the player's running on water
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		lea	sub2_x_pos(a0),a2
 		moveq	#p1_standing_bit,d6
 		move.w	(Ctrl_1_logical).w,d5
@@ -82,7 +82,7 @@ sub_38534:
 		bset	#0,render_flags(a0)
 
 .notflipx
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		lea	sub3_x_pos(a0),a2
 		moveq	#p2_standing_bit,d6
 		move.w	(Ctrl_2_logical).w,d5
@@ -113,7 +113,7 @@ sub_38534:
 		bne.s	locret_385D0
 		mvabs.w	x_vel(a1),d0
 		cmpi.w	#$700,d0
-		blo.s		locret_385D0
+		blo.s	locret_385D0
 		bset	d6,status(a0)
 		move.w	x_pos(a1),sub2_x_pos-sub2_x_pos(a2)
 		move.w	(Water_level).w,sub2_y_pos-sub2_x_pos(a2)
@@ -140,15 +140,15 @@ loc_385D2:
 		bhi.s	loc_38646
 		mvabs.w	x_vel(a1),d1
 		cmpi.w	#$700,d1
-		blo.s		loc_38646
+		blo.s	loc_38646
 		move.w	d0,y_pos(a1)
 		clr.w	y_vel(a1)
 		move.w	x_pos(a1),sub2_x_pos-sub2_x_pos(a2)
 		move.w	(Water_level).w,sub2_y_pos-sub2_x_pos(a2)
 
 		; check
-		btst	#Status_InAir,status(a1)								; is the player in the air?
-		beq.s	locret_38636										; if not, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		beq.s	locret_38636							; if not, branch
 		andi.w	#bytes_to_word(btnLR,0),d5
 		bne.s	locret_38636
 
@@ -198,7 +198,7 @@ loc_38652:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_WaterSplash:		subObjMainData2 Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
+ObjDat_WaterSplash:	subObjMainData2 Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Main/Water Splash/Object Data/Map - Water Splash.asm"

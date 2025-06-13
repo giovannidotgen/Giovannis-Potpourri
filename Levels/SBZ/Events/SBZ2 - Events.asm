@@ -9,7 +9,7 @@ SBZ2_ScreenInit:
 		; set
 		move.w	#$7FF,(Screen_Y_wrap_value).w
 		move.w	#$7F0,(Camera_Y_pos_mask).w
-		move.w	#$3C,(Layout_row_index_mask).w				; set level y size: $7FF
+		move.w	#$3C,(Layout_row_index_mask).w					; set level y size: $7FF
 
 		; update FG
 		jsr	(Reset_TileOffsetPositionActual).w
@@ -31,9 +31,9 @@ SBZ2_BackgroundInit:
 		; set BG ypos
 		move.w	(Camera_Y_pos_copy).w,d0					; 100% to d0 ($1000)
 		and.w	(Screen_Y_wrap_value).w,d0					; camera limit 50% ($800)
-		asr.w	#3,d0										; get 12.5% ($200)
-		andi.w	#$3FF,d0									; size limit 25% (BG = $400 pixels)
-		move.w	d0,(Camera_Y_pos_BG_copy).w				; save 12.5%
+		asr.w	#3,d0								; get 12.5% ($200)
+		andi.w	#$3FF,d0							; size limit 25% (BG = $400 pixels)
+		move.w	d0,(Camera_Y_pos_BG_copy).w					; save 12.5%
 		bsr.s	SBZ2_Deform
 
 		; update BG
@@ -69,12 +69,12 @@ SBZ2_Deform:
 		; yscroll (to-do: find another method?)
 		move.w	(V_scroll_amount).w,d0						; 100% to d0 ($100)
 		ext.l	d0
-		asl.l	#5,d0											; get 3200% ($2000)
+		asl.l	#5,d0								; get 3200% ($2000)
 		add.l	d0,(Camera_Y_pos_BG_copy).w
-		andi.w	#$3FF,(Camera_Y_pos_BG_copy).w				; size limit 25% (BG = $400 pixels)
+		andi.w	#$3FF,(Camera_Y_pos_BG_copy).w					; size limit 25% (BG = $400 pixels)
 
 		; xscroll
 		move.w	(Camera_X_pos_copy).w,d0					; 100% to d0 ($1000)
-		asr.w	#2,d0										; get 25% ($400)
-		move.w	d0,(Camera_X_pos_BG_copy).w				; save 25%
+		asr.w	#2,d0								; get 25% ($400)
+		move.w	d0,(Camera_X_pos_BG_copy).w					; save 25%
 		rts

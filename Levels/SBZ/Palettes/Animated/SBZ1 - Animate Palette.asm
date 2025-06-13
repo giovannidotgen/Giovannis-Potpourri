@@ -1,15 +1,15 @@
 ; ---------------------------------------------------------------------------
-; SBZ palette cycling
+; Animated palette routine - Scrap Brain Zone
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
 AnPal_SBZ:
 
-		; startup
+		; check
 		lea	Pal_SBZCycList1(pc),a2
-		tst.b	(Current_act).w						; is act number 1?
-		beq.s	loc_1ADA						; if yes, branch
+		tst.b	(Current_act).w							; is act number 1?
+		beq.s	loc_1ADA							; if yes, branch
 		lea	Pal_SBZCycList2(pc),a2
 
 loc_1ADA:
@@ -29,7 +29,7 @@ loc_1AEA:
 		move.b	(a1),d0
 		addq.b	#1,d0
 		cmp.b	(a2)+,d0
-		blo.s		loc_1AF6
+		blo.s	loc_1AF6
 		moveq	#0,d0
 
 loc_1AF6:
@@ -47,13 +47,13 @@ loc_1B06:
 		lea	(Palette_cycle_counters).w,a0
 
 		; wait
-		subq.w	#1,(a0)							; decrement timer
-		bpl.s	locret_1B64						; if time remains, branch
-		addq.w	#1+1,(a0)						; reset timer to 1 frames
+		subq.w	#1,(a0)								; decrement timer
+		bpl.s	locret_1B64							; if time remains, branch
+		addq.w	#1+1,(a0)							; reset timer to 1 frames
 
 		; cycle
 		lea	(Pal_SBZCyc4).l,a1
-		tst.b	(Current_act).w						; is act number 1?
+		tst.b	(Current_act).w							; is act number 1?
 		beq.s	loc_1B2E							; if yes, branch
 		lea	(Pal_SBZCyc10).l,a1
 		clr.w	(a0)
@@ -69,7 +69,7 @@ loc_1B38:
 		and.w	2(a0),d0
 		add.w	d1,d0
 		cmpi.w	#3,d0
-		blo.s		loc_1B52
+		blo.s	loc_1B52
 		move.w	d0,d1
 		moveq	#0,d0
 		tst.w	d1

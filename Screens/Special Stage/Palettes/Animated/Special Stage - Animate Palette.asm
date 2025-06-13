@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Palette cycling routine - Special Stage (VInt)
+; Animated palette routine - Special Stage (VInt)
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -7,8 +7,8 @@
 PalCycle_SS:
 
 		; check
-		tst.b	(Game_paused).w																; is the game paused?
-		bne.s	.return																	; if yes, branch
+		tst.b	(Game_paused).w							; is the game paused?
+		bne.s	.return								; if yes, branch
 
 		; wait
 		subq.w	#1,(v_palss_time).w
@@ -33,15 +33,15 @@ PalCycle_SS:
 		move.w	d0,(v_ssbganim).w
 		lea	byte_4ABC(pc),a1
 		adda.w	d0,a1
-		move.w	#$8200,d0																; set foreground nametable address
+		move.w	#$8200,d0							; set foreground nametable address
 		move.b	(a1)+,d0
 		move.w	d0,VDP_control_port-VDP_control_port(a5)
 		move.b	(a1),(V_scroll_value).w
-		move.w	#$8400,d0																; set background nametable address
+		move.w	#$8400,d0							; set background nametable address
 		move.b	(a0)+,d0
 		move.w	d0,VDP_control_port-VDP_control_port(a5)
 		move.l	#vdpComm(0,VSRAM,WRITE),VDP_control_port-VDP_control_port(a5)
-		move.l	(V_scroll_value).w,VDP_data_port-VDP_data_port(a6)						; send screen ypos to VSRAM
+		move.l	(V_scroll_value).w,VDP_data_port-VDP_data_port(a6)		; send screen ypos to VSRAM
 		moveq	#0,d0
 		move.b	(a0)+,d0
 		bmi.s	.loc_49E8
@@ -61,8 +61,8 @@ PalCycle_SS:
 .loc_49E8
 		lea	(Pal_SSCyc2).l,a1
 		cmpi.w	#$8A,d0
-		blo.s		.loc_49F4
-		lea	$2A(a1),a1																	; palette size is $2A(21 colors) bytes (multiply by 0 or 1)
+		blo.s	.loc_49F4
+		lea	$2A(a1),a1							; palette size is $2A(21 colors) bytes (multiply by 0 or 1)
 
 .loc_49F4
 
@@ -79,7 +79,7 @@ PalCycle_SS:
 		lea	$C(a1),a1
 		lea	(Normal_palette_line_3+$18).w,a2
 		cmpi.w	#10,d0
-		blo.s		.loc_4A2E
+		blo.s	.loc_4A2E
 		subi.w	#10,d0
 		lea	(Normal_palette_line_4+$18).w,a2
 

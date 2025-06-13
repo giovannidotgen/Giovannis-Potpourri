@@ -4,7 +4,7 @@
 ; ---------------------------------------------------------------------------
 
 ; Hits
-BossBall_Hits					= 8
+BossBall_Hits				= 8
 
 ; Dynamic object variables
 obBGB_Timer				= objoff_2E	; .w
@@ -25,8 +25,8 @@ Obj_BossBall:
 		lea	ObjDat_RobotnikShip2(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
-		move.b	#BossBall_Hits,collision_property(a0)			; set hits
-		move.w	#$100,y_vel(a0)								; set move down
+		move.b	#BossBall_Hits,collision_property(a0)				; set hits
+		move.w	#$100,y_vel(a0)							; set move down
 		move.l	#BossBall_MoveDown,objoff_34(a0)
 
 		; create
@@ -52,7 +52,7 @@ BossBall_MoveDown:
 		; next
 		move.l	#BossBall_Setup3,address(a0)
 		move.l	#.createball,objoff_34(a0)
-		move.w	#-$100,x_vel(a0)								; set move left
+		move.w	#-$100,x_vel(a0)						; set move left
 		jmp	(Swing_Setup1).w
 ; ---------------------------------------------------------------------------
 
@@ -65,10 +65,10 @@ BossBall_MoveDown:
 		bne.s	.return
 
 		; next
-		clr.w	x_vel(a0)									; set stop move
+		clr.w	x_vel(a0)							; set stop move
 		move.w	#(2*60)-1,objoff_2E(a0)						; set wait
 		move.l	#.wait,objoff_34(a0)
-		bset	#6,objoff_38(a0)									; set laugh flag
+		bset	#6,objoff_38(a0)						; set laugh flag
 
 		; create
 		lea	Child9_GHZBall(pc),a2
@@ -80,7 +80,7 @@ BossBall_MoveDown:
 		move.w	#-$40,x_vel(a0)
 		move.l	#BossBall_Move.flipx,objoff_34(a0)
 		bset	#2,obBGB_Status(a0)
-		bclr	#6,objoff_38(a0)									; clear laugh flag
+		bclr	#6,objoff_38(a0)						; clear laugh flag
 
 .return
 		rts
@@ -129,7 +129,7 @@ BossBall_Setup:
 ; =============== S U B R O U T I N E =======================================
 
 BossBall_MainProcess:
-		btst	#2,obBGB_Status(a0)								; wait boss attack flag
+		btst	#2,obBGB_Status(a0)						; wait boss attack flag
 		beq.s	.draw
 		jsr	(Add_SpriteToCollisionResponseList).w
 
@@ -143,28 +143,28 @@ BossBall_MainProcess:
 ; =============== S U B R O U T I N E =======================================
 
 		; check touch
-		tst.b	collision_flags(a0)									; are boss's collisions enabled?
-		bne.s	.return										; if yes, branch
-		tst.b	collision_property(a0)								; has boss run out of hits?
-		beq.s	BossBall_Defeated								; if yes, branch
-		tst.b	boss_invulnerable_time(a0)						; is boss invulnerable?
-		bne.s	.flash										; if yes, branch
-		move.b	#$30,boss_invulnerable_time(a0)				; make boss invulnerable
-		sfx	sfx_BossHit										; play "boss hit" sound
-		bset	#6,status(a0)										; set "boss hit" flag
+		tst.b	collision_flags(a0)						; are boss's collisions enabled?
+		bne.s	.return								; if yes, branch
+		tst.b	collision_property(a0)						; has boss run out of hits?
+		beq.s	BossBall_Defeated						; if yes, branch
+		tst.b	boss_invulnerable_time(a0)					; is boss invulnerable?
+		bne.s	.flash								; if yes, branch
+		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
+		sfx	sfx_BossHit							; play "boss hit" sound
+		bset	#6,status(a0)							; set "boss hit" flag
 
 .flash
-		moveq	#0,d0										; load normal palette
+		moveq	#0,d0								; load normal palette
 		btst	#0,boss_invulnerable_time(a0)
 		bne.s	.skip
-		addq.w	#3*2,d0										; load flashing palette
+		addq.w	#3*2,d0								; load flashing palette
 
 .skip
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)										; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)		; if invincibility ended, allow collision again
+		bclr	#6,status(a0)							; clear "boss hit" flag
+		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -249,13 +249,13 @@ BossBall_Defeated:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .delete
-		bset	#5,objoff_38(a0)									; remove Robotnik head and fire
+		bset	#5,objoff_38(a0)						; remove Robotnik head and fire
 		clr.b	(Boss_flag).w
 		clr.b	(Intro_flag).w
 
@@ -273,9 +273,9 @@ Obj_BossBall_Crane:
 		; init
 		lea	ObjDat_BossBall_Crane(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		ori.b	#rfStatic,render_flags(a0)						; set static mapping flag
+		ori.b	#rfStatic,render_flags(a0)					; set static mapping flag
 		move.b	#26,child_dy(a0)
-		move.w	#-$200,objoff_3A(a0)							; speed
+		move.w	#-$200,objoff_3A(a0)						; speed
 		move.w	#$80,objoff_3C(a0)
 		bsr.s	BossBall_GetWaitTime
 		move.l	#.down,address(a0)
@@ -289,8 +289,8 @@ Obj_BossBall_Crane:
 ; ---------------------------------------------------------------------------
 
 .wait
-		movea.w	parent4(a0),a1								; load boss address
-		btst	#2,obBGB_Status(a1)								; wait boss attack flag
+		movea.w	parent4(a0),a1							; load boss address
+		btst	#2,obBGB_Status(a1)						; wait boss attack flag
 		beq.s	.refresh
 		move.l	#.circular,address(a0)
 		bra.s	.refresh
@@ -300,9 +300,9 @@ Obj_BossBall_Crane:
 		move.w	objoff_3A(a0),d0
 
 		; check
-		tst.b	objoff_39(a0)										; is the ball moving left?
-		bne.s	.cleft										; if yes, branch
-		addq.w	#8,d0										; moving to the right
+		tst.b	objoff_39(a0)							; is the ball moving left?
+		bne.s	.cleft								; if yes, branch
+		addq.w	#8,d0								; moving to the right
 
 		; check
 		cmpi.w	#$200,d0
@@ -311,7 +311,7 @@ Obj_BossBall_Crane:
 ; ---------------------------------------------------------------------------
 
 .cleft
-		subq.w	#8,d0										; moving to the left
+		subq.w	#8,d0								; moving to the left
 
 		; check
 		cmpi.w	#-$200,d0
@@ -325,7 +325,7 @@ Obj_BossBall_Crane:
 		jsr	(Refresh_ChildPosition).w
 
 .draw
-		moveq	#0,d0										; set index velocity
+		moveq	#0,d0								; set index velocity
 		jmp	(Child_Draw_Sprite_FlickerMove).w
 
 ; =============== S U B R O U T I N E =======================================
@@ -337,7 +337,7 @@ BossBall_GetWaitTime:
 		rts
 ; ---------------------------------------------------------------------------
 
-.time	dc.w 10*2, 20*2, 28*2, 36*2, 44*2, 60*2					; we've slowed the ball down, now we need twice as much time
+.time	dc.w 10*2, 20*2, 28*2, 36*2, 44*2, 60*2						; we've slowed the ball down, now we need twice as much time
 
 ; ---------------------------------------------------------------------------
 ; Chain
@@ -350,7 +350,7 @@ Obj_BossBall_Chain:
 		; init
 		lea	ObjDat_BossBall_Chain(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		ori.b	#rfStatic,render_flags(a0)						; set static mapping flag
+		ori.b	#rfStatic,render_flags(a0)					; set static mapping flag
 		bsr.s	BossBall_GetWaitTime
 		move.l	#.down,address(a0)
 
@@ -363,13 +363,13 @@ Obj_BossBall_Chain:
 ; ---------------------------------------------------------------------------
 
 .circular
-		movea.w	parent3(a0),a1								; load crane address
-		move.b	objoff_3C(a1),objoff_3C(a0)						; angle
-		moveq	#4,d2										; radius
+		movea.w	parent3(a0),a1							; load crane address
+		move.b	objoff_3C(a1),objoff_3C(a0)					; angle
+		moveq	#4,d2								; radius
 		jsr	(MoveSprite_CircularSimple).w
 
 .draw
-		moveq	#0,d0										; set index velocity
+		moveq	#0,d0								; set index velocity
 		jmp	(Child_Draw_Sprite_FlickerMove).w
 
 ; ---------------------------------------------------------------------------
@@ -383,7 +383,7 @@ Obj_BossBall_Ball:
 		; init
 		lea	ObjDat_BossBall_Ball(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		st	objoff_3A(a0)									; reset DPLC frame
+		st	objoff_3A(a0)							; reset DPLC frame
 		bsr.s	BossBall_GetWaitTime
 		move.l	#.down,address(a0)
 
@@ -391,32 +391,32 @@ Obj_BossBall_Ball:
 		addq.w	#1,y_pos(a0)
 		subq.w	#1,objoff_2E(a0)
 		bpl.s	.angle
-		move.b	#$F|$80,collision_flags(a0)						; set collision
+		move.b	#$F|$80,collision_flags(a0)					; set collision
 		move.l	#.wait,address(a0)
 
 .wait
-		movea.w	parent4(a0),a1								; load boss address
-		btst	#2,obBGB_Status(a1)								; wait boss attack flag
+		movea.w	parent4(a0),a1							; load boss address
+		btst	#2,obBGB_Status(a1)						; wait boss attack flag
 		beq.s	.circular
 		move.l	#.circular,address(a0)
 
 .circular
-		movea.w	parent3(a0),a1								; load crane address
-		move.b	objoff_3C(a1),objoff_3C(a0)						; angle
-		moveq	#3,d2										; radius
+		movea.w	parent3(a0),a1							; load crane address
+		move.b	objoff_3C(a1),objoff_3C(a0)					; angle
+		moveq	#3,d2								; radius
 		jsr	(MoveSprite_CircularSimple).w
 
 .angle
 
 		; set angle frame
-		movea.w	parent3(a0),a1								; load crane address
+		movea.w	parent3(a0),a1							; load crane address
 		move.b	objoff_3C(a1),d0
-		addq.b	#3,d0										; fix angle
+		addq.b	#3,d0								; fix angle
 		andi.b	#$3F,d0
-		lsr.b	#3,d0											; division by 8 (0-7 frames)
-		not.b	anim_frame(a0)								; 0 or -1
+		lsr.b	#3,d0								; division by 8 (0-7 frames)
+		not.b	anim_frame(a0)							; 0 or -1
 		bne.s	.setframe
-		moveq	#8,d0										; shiny frame
+		moveq	#8,d0								; shiny frame
 
 .setframe
 		move.b	d0,mapping_frame(a0)
@@ -424,7 +424,7 @@ Obj_BossBall_Ball:
 		; draw
 		lea	PLCPtr_BossBall_Ball(pc),a2
 		jsr	(Perform_DPLC).w
-		moveq	#0,d0										; set index velocity
+		moveq	#0,d0								; set index velocity
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).w
 
 ; ---------------------------------------------------------------------------
@@ -439,18 +439,18 @@ Obj_BossBall_Scaled:
 		lea	ObjDat_BossBall_Scaled(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		bset	#0,render_flags(a0)
-		st	objoff_41(a0)										; reset prev scale factor
+		st	objoff_41(a0)							; reset prev scale factor
 		move.w	#$3F,objoff_2E(a0)
 		move.l	#words_to_long($300,$200),x_vel(a0)
 		move.w	#tiles_to_bytes($340),objoff_3A(a0)				; VRAM
 		move.l	#.wait,address(a0)
 		move.l	#ArtScaled_RobotnikGHZ,d0					; art pointer
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; is Knuckles?
-		blo.s		.notknux										; if not, branch
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w				; is Knuckles?
+		blo.s	.notknux							; if not, branch
 		move.l	#ArtScaled_EggRoboGHZ,d0					; art pointer
 
 .notknux
-		move.l	d0,objoff_42(a0)								; set art pointer
+		move.l	d0,objoff_42(a0)						; set art pointer
 
 .wait
 		subq.w	#1,objoff_2E(a0)
@@ -472,20 +472,20 @@ Obj_BossBall_Scaled:
 		bne.s	.scale
 		cmpi.b	#5,objoff_20(a0)
 		bhs.s	.scale
-		addq.b	#1,objoff_20(a0)								; next frame
+		addq.b	#1,objoff_20(a0)						; next frame
 
 .scale
 		moveq	#0,d0
-		move.b	objoff_40(a0),d0								; get current scale factor
-		cmp.b	objoff_41(a0),d0								; check previous scale factor
+		move.b	objoff_40(a0),d0						; get current scale factor
+		cmp.b	objoff_41(a0),d0						; check previous scale factor
 		beq.s	.draw
-		move.b	d0,objoff_41(a0)								; save current scale factor
+		move.b	d0,objoff_41(a0)						; save current scale factor
 		jsr	(Perform_Art_Scaling).l
 
 .draw
 
 		; play continuous sfx
-		sfxcont	sfx_RobotnikSiren,7							; play robotnik siren sound every 8th frame
+		sfxcont	sfx_RobotnikSiren,7						; play robotnik siren sound every 8th frame
 
 		; check delete
 		out_of_yrange.s	.delete
@@ -510,17 +510,17 @@ Obj_BossBall_Scaled:
 ; mapping
 ObjDat_BossBall_Crane:		subObjData Map_GiantBall_Crane, $494, 0, 0, 16, 16, 6, 0, 0
 ObjDat_BossBall_Chain:		subObjData Map_GiantBall_Crane, $498, 0, 0, 16, 16, 6, 0, 0
-ObjDat_BossBall_Ball:			subObjData Map_GiantBall, $49C, 2, 0, 64, 64, 5, 0, 0
+ObjDat_BossBall_Ball:		subObjData Map_GiantBall, $49C, 2, 0, 64, 64, 5, 0, 0
 ObjDat_BossBall_Scaled:		subObjData Map_ScaledArt, $340, 0, 0, 128, 128, 1, 0, 0
 
 ; dplc
-PLCPtr_BossBall_Ball:			dc.l dmaSource(ArtUnc_GiantBall), DPLC_GiantBall
+PLCPtr_BossBall_Ball:		dc.l dmaSource(ArtUnc_GiantBall), DPLC_GiantBall
 
 Child9_GHZBall:
 		dc.w 6-1
 		dc.l Obj_BossBall_Crane		; 0
 		dcb.l 4, Obj_BossBall_Chain	; 2-8
-		dc.l Obj_BossBall_Ball			; A
+		dc.l Obj_BossBall_Ball		; A
 
 PLC_BossBall: plrlistheader
 		plreq $380, ArtKosPM_RobotnikShip2

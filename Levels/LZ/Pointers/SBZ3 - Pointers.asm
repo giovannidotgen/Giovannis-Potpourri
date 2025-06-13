@@ -56,16 +56,17 @@
 		; Starting water height
 		dc.w $228
 
-		; Sonic palette, Knuckles palette
+		; Players palette
 		dc.b PalID_Sonic
 		dc.b PalID_Knuckles
 
-		; Water Sonic palette, Water Knuckles palette
+		; Players water palette
 		dc.b PalID_WaterSonicSBZ
 		dc.b PalID_WaterKnucklesSBZ
 
 		; Players start location
-		binclude "Levels/LZ/Start Location/SBZ3.bin"
+		binclude "Levels/LZ/Start Location/Sonic/SBZ3.bin"
+		binclude "Levels/LZ/Start Location/Knuckles/SBZ3.bin"
 
 		; Debug Mode
 	if (GameDebug)&&(~~GameDebugAlt)

@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-see_origX		= objoff_30 ; original x-axis position
-see_origY		= objoff_34 ; original y-axis position
-see_speed		= objoff_38 ; speed of collision
-see_frame		= objoff_3A ; frame
+see_origX			= objoff_30	; original x-axis position (2 bytes)
+see_origY			= objoff_34	; original y-axis position (2 bytes)
+see_speed			= objoff_38	; speed of collision (2 bytes)
+see_frame			= objoff_3A	; frame (1 byte)
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -15,21 +15,21 @@ Obj_Seesaw:
 		; init
 		move.l	#Map_Seesaw,mappings(a0)
 		move.w	#make_art_tile($37A,0,0),art_tile(a0)
-		ori.b	#rfCoord,render_flags(a0)							; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(96/2,96/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),see_origX(a0)
 		move.l	#.main,address(a0)
 
 		; check boss
-		move.b	subtype(a0),d0									; is object type $80-$FF?
-		bpl.s	.noboss											; if not, branch
+		move.b	subtype(a0),d0							; is object type $80-$FF?
+		bpl.s	.noboss								; if not, branch
 
 		; SLZ boss
 		lea	(Boss_events).w,a1
 		andi.w	#$7F,d0
 		add.w	d0,d0
 		adda.w	d0,a1
-		move.w	a0,(a1)											; save address for boss
+		move.w	a0,(a1)								; save address for boss
 		bra.s	.noball
 ; ---------------------------------------------------------------------------
 
@@ -42,9 +42,9 @@ Obj_Seesaw:
 		move.b	status(a0),status(a1)
 
 .noball
-		btst	#0,status(a0)											; is seesaw flipped?
-		beq.s	.noflip											; if not, branch
-		move.b	#2,mapping_frame(a0)							; use different frame
+		btst	#0,status(a0)							; is seesaw flipped?
+		beq.s	.noflip								; if not, branch
+		move.b	#2,mapping_frame(a0)						; use different frame
 
 .noflip
 		move.b	mapping_frame(a0),see_frame(a0)
@@ -56,10 +56,10 @@ Obj_Seesaw:
 
 		; check side (Sonic/Knuckles and Tails)
 		moveq	#2,d1
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	x_pos(a0),d0
-		sub.w	x_pos(a1),d0										; is Sonic/Knuckles on the left side of the seesaw?
-		bhs.s	.leftside1											; if yes, branch
+		sub.w	x_pos(a1),d0							; is Sonic/Knuckles on the left side of the seesaw?
+		bhs.s	.leftside1							; if yes, branch
 		neg.w	d0
 		moveq	#0,d1
 
@@ -72,10 +72,10 @@ Obj_Seesaw:
 		btst	#p2_standing_bit,status(a0)
 		beq.s	.slope
 		moveq	#2,d2
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		move.w	x_pos(a0),d0
-		sub.w	x_pos(a1),d0										; is Tails on the left side of the seesaw?
-		bhs.s	.leftside2											; if yes, branch
+		sub.w	x_pos(a1),d0							; is Tails on the left side of the seesaw?
+		bhs.s	.leftside2							; if yes, branch
 		neg.w	d0
 		moveq	#0,d2
 
@@ -101,10 +101,10 @@ Obj_Seesaw:
 
 		; Tails
 		moveq	#2,d1
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		move.w	x_pos(a0),d0
-		sub.w	x_pos(a1),d0										; is Tails on the left side of the seesaw?
-		bhs.s	.leftside3											; if yes, branch
+		sub.w	x_pos(a1),d0							; is Tails on the left side of the seesaw?
+		bhs.s	.leftside3							; if yes, branch
 		neg.w	d0
 		moveq	#0,d1
 
@@ -119,7 +119,7 @@ Obj_Seesaw:
 		move.w	(Player_1+y_vel).w,d0
 		move.w	(Player_2+y_vel).w,d2
 		cmp.w	d0,d2
-		blt.s		.setspeed
+		blt.s	.setspeed
 		move.w	d2,d0
 
 .setspeed
@@ -132,8 +132,8 @@ Obj_Seesaw:
 
 		; load slope data
 		lea	See_DataSlope(pc),a2
-		btst	#0,mapping_frame(a0)								; is seesaw flat?
-		beq.s	.notflat											; if not, branch
+		btst	#0,mapping_frame(a0)						; is seesaw flat?
+		beq.s	.notflat							; if not, branch
 		lea	See_DataFlat(pc),a2
 
 .notflat
@@ -143,16 +143,16 @@ Obj_Seesaw:
 		jsr	(SolidObjectTopSloped2).w
 
 		; draw and delete
-		moveq	#-$80,d0										; round down to nearest $80
-		and.w	see_origX(a0),d0									; get object position
+		moveq	#-$80,d0							; round down to nearest $80
+		and.w	see_origX(a0),d0						; get object position
 		jmp	(Sprite_CheckDelete.skipxpos).w
 
 ; =============== S U B R O U T I N E =======================================
 
 See_ChgFrame:
 		move.b	mapping_frame(a0),d0
-		cmp.b	d1,d0											; does frame need to change?
-		beq.s	.noflip											; if not, branch
+		cmp.b	d1,d0								; does frame need to change?
+		beq.s	.noflip								; if not, branch
 		bhs.s	.loc_11772
 		addq.b	#2,d0
 
@@ -183,9 +183,9 @@ Obj_See_Spikeball:
 		move.w	x_pos(a0),see_origX(a0)
 		addi.w	#40,x_pos(a0)
 		move.w	y_pos(a0),see_origY(a0)
-		btst	#0,status(a0)											; is seesaw flipped?
-		beq.s	.main											; if not, branch
-		subi.w	#80,x_pos(a0)									; move spikeball to the other side
+		btst	#0,status(a0)							; is seesaw flipped?
+		beq.s	.main								; if not, branch
+		subi.w	#80,x_pos(a0)							; move spikeball to the other side
 		move.b	#2,see_frame(a0)
 
 .main
@@ -199,12 +199,12 @@ Obj_See_Spikeball:
 		neg.b	d0
 
 .loc_117FC
-		move.l	#words_to_long(-$114,-$818),d1						; x_vel + y_vel
+		move.l	#words_to_long(-$114,-$818),d1					; x_vel + y_vel
 		cmpi.b	#1,d0
 		beq.s	.loc_11822
 		move.l	#words_to_long(-$CC,-$AF0),d1					; x_vel + y_vel
 		cmpi.w	#$A00,see_speed(a1)
-		blt.s		.loc_11822
+		blt.s	.loc_11822
 		move.l	#words_to_long(-$A0,-$E00),d1					; x_vel + y_vel
 
 .loc_11822
@@ -248,8 +248,8 @@ Obj_See_Spikeball:
 		pea	.draw(pc)
 
 .spikefallskip
-		tst.w	y_vel(a0)										; is spikeball falling down?
-		bpl.s	.loc_1189A										; if yes, branch
+		tst.w	y_vel(a0)							; is spikeball falling down?
+		bpl.s	.loc_1189A							; if yes, branch
 		jsr	(MoveSprite).w
 		moveq	#-47,d0
 		add.w	see_origY(a0),d0
@@ -260,7 +260,7 @@ Obj_See_Spikeball:
 
 .loc_1189A
 		jsr	(MoveSprite).w
-		movea.w	parent3(a0),a1									; a1=parent object (seesaw)
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		lea	See_Speeds(pc),a2
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
@@ -271,11 +271,11 @@ Obj_See_Spikeball:
 
 .loc_118BA
 		add.w	d0,d0
-		move.w	see_origY(a0),d1									; d1 = bottom of seesaw y position
-		add.w	(a2,d0.w),d1										; + offset for current angle
-		cmp.w	y_pos(a0),d1										; return if y position < d1
+		move.w	see_origY(a0),d1						; d1 = bottom of seesaw y position
+		add.w	(a2,d0.w),d1							; + offset for current angle
+		cmp.w	y_pos(a0),d1							; return if y position < d1
 		bgt.s	.return2
-		movea.w	parent3(a0),a1									; a1=parent object (seesaw)
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		moveq	#2,d1
 		tst.w	x_vel(a0)
 		bmi.s	.spring
@@ -288,7 +288,7 @@ Obj_See_Spikeball:
 		beq.s	.clear
 
 		; launch main character if stood on seesaw
-		lea	(Player_1).w,a2										; a2=character
+		lea	(Player_1).w,a2							; a2=character
 		bclr	#p1_standing_bit,status(a1)
 		beq.s	.notplayer1
 		bsr.s	Seesaw_LaunchCharacter
@@ -296,13 +296,13 @@ Obj_See_Spikeball:
 .notplayer1
 
 		; launch sidekick if stood on seesaw
-		lea	(Player_2).w,a2										; a2=character
+		lea	(Player_2).w,a2							; a2=character
 		bclr	#p2_standing_bit,status(a1)
 		beq.s	.clear
 		bsr.s	Seesaw_LaunchCharacter
 
 .clear
-		clr.l	x_vel(a0)											; clear ball velocity
+		clr.l	x_vel(a0)							; clear ball velocity
 		move.l	#.main,address(a0)
 
 .return2
@@ -310,22 +310,22 @@ Obj_See_Spikeball:
 ; ---------------------------------------------------------------------------
 
 .draw
-		moveq	#-$80,d0										; round down to nearest $80
-		and.w	see_origX(a0),d0									; get object position
+		moveq	#-$80,d0							; round down to nearest $80
+		and.w	see_origX(a0),d0						; get object position
 		jmp	(Sprite_CheckDeleteTouch3.skipxpos).w
 
 ; =============== S U B R O U T I N E =======================================
 
 Seesaw_LaunchCharacter:
-		move.w	y_vel(a0),y_vel(a2)								; set character y velocity to inverse of sol
-		neg.w	y_vel(a2)											; y velocity
-		bset	#Status_InAir,status(a2)								; set character airborne flag
-		bclr	#Status_OnObj,status(a2)								; clear character on object flag
-		clr.b	jumping(a2)											; clear character jumping flag
-		clr.b	spin_dash_flag(a2)									; clear spin dash flag
-		move.b	#AniIDSonAni_Spring,anim(a2)						; change Sonic's animation to "spring" ($10)
-		move.b	#PlayerID_Control,routine(a2)						; set character to airborne state
-		sfx	sfx_Spring,1											; play spring sound
+		move.w	y_vel(a0),y_vel(a2)						; set character y velocity to inverse of sol
+		neg.w	y_vel(a2)							; y velocity
+		bset	#Status_InAir,status(a2)					; set character airborne flag
+		bclr	#Status_OnObj,status(a2)					; clear character on object flag
+		clr.b	jumping(a2)							; clear character jumping flag
+		clr.b	spin_dash_flag(a2)						; clear spin dash flag
+		move.b	#AniIDSonAni_Spring,anim(a2)					; change Sonic's animation to "spring" ($10)
+		move.b	#PlayerID_Control,routine(a2)					; set character to airborne state
+		sfx	sfx_Spring,1							; play spring sound
 
 ; =============== S U B R O U T I N E =======================================
 

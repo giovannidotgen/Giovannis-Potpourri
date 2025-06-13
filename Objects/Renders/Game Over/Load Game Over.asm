@@ -17,7 +17,7 @@ Render_GameOver:
 ; ---------------------------------------------------------------------------
 
 .endplc
-		addq.b	#1,GameOver_RAM.status-GameOver_RAM(a4)					; set 1
+		addq.b	#1,GameOver_RAM.status-GameOver_RAM(a4)				; set 1
 
 		; 1
 		move.w	#$80-48,GameOver_RAM.xpos-GameOver_RAM(a4)
@@ -39,8 +39,8 @@ Render_GameOver:
 
 		; check center
 		move.w	GameOver_RAM.xpos-GameOver_RAM(a4),d0
-		sub.w	GameOver_RAM.xpos2-GameOver_RAM(a4),d0					; is center position xpos?
-		beq.s	.settime														; if yes, branch
+		sub.w	GameOver_RAM.xpos2-GameOver_RAM(a4),d0				; is center position xpos?
+		beq.s	.settime							; if yes, branch
 
 		; move sprites
 		moveq	#16,d1
@@ -58,8 +58,8 @@ Render_GameOver:
 .wait
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
-		andi.b	#btnABCS,d0													; is A/B/C/Start pressed?
-		bne.s	.end															; if yes, branch
+		andi.b	#btnABCS,d0							; is A/B/C/Start pressed?
+		bne.s	.end								; if yes, branch
 
 		; wait
 		tst.w	GameOver_RAM.timer-GameOver_RAM(a4)
@@ -73,11 +73,11 @@ Render_GameOver:
 .end
 		tst.b	(Time_over_flag).w
 		bne.s	.restart
-		addq.w	#4*2,sp														; exit from object and current screen
-		move.b	#GameModeID_ContinueScreen,(Game_mode).w					; set screen mode to Continue
+		addq.w	#4*2,sp								; exit from object and current screen
+		move.b	#GameModeID_ContinueScreen,(Game_mode).w			; set screen mode to Continue
 		tst.b	(Continue_count).w
 		bne.s	.draw
-		move.b	#GameModeID_SegaScreen,(Game_mode).w						; set screen mode to Sega
+		move.b	#GameModeID_SegaScreen,(Game_mode).w				; set screen mode to Level Select
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -86,19 +86,19 @@ Render_GameOver:
 		st	(Restart_level_flag).w
 
 .draw
-		move.w	GameOver_RAM.ypos-GameOver_RAM(a4),d1					; ypos
-		move.w	#make_art_tile(ArtTile_Shield,0,1),d5							; VRAM
-		movea.l	GameOver_RAM.mappings-GameOver_RAM(a4),a1				; mappings
+		move.w	GameOver_RAM.ypos-GameOver_RAM(a4),d1				; ypos
+		move.w	#make_art_tile(ArtTile_Shield,0,1),d5				; VRAM
+		movea.l	GameOver_RAM.mappings-GameOver_RAM(a4),a1			; mappings
 
 		; GAME/TIME
-		move.w	GameOver_RAM.xpos-GameOver_RAM(a4),d0					; xpos
-		moveq	#2-1,d4														; tile count
-		jsr	(loc_1AF76).w													; draw
+		move.w	GameOver_RAM.xpos-GameOver_RAM(a4),d0				; xpos
+		moveq	#2-1,d4								; tile count
+		jsr	(loc_1AF76).w							; draw
 
 		; OVER
-		move.w	GameOver_RAM.xpos2-GameOver_RAM(a4),d0					; xpos
-		moveq	#2-1,d4														; tile count
-		jmp	(loc_1AF76).w													; draw
+		move.w	GameOver_RAM.xpos2-GameOver_RAM(a4),d0				; xpos
+		moveq	#2-1,d4								; tile count
+		jmp	(loc_1AF76).w							; draw
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Renders/Game Over/Object Data/Map - Game Over.asm"

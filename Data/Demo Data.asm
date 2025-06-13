@@ -4,9 +4,9 @@
 
 DemoDat_SonicTailsGHZ1:			include "Levels/GHZ/Demodata/GHZ1 - Sonic and Tails Demo.asm"
 	even
-DemoDat_SonicGHZ1:				include "Levels/GHZ/Demodata/GHZ1 - Sonic Demo.asm"
+DemoDat_SonicGHZ1:			include "Levels/GHZ/Demodata/GHZ1 - Sonic Demo.asm"
 	even
-DemoDat_TailsGHZ1:				include "Levels/GHZ/Demodata/GHZ1 - Tails Demo.asm"
+DemoDat_TailsGHZ1:			include "Levels/GHZ/Demodata/GHZ1 - Tails Demo.asm"
 	even
 DemoDat_KnucklesGHZ1:			include "Levels/GHZ/Demodata/GHZ1 - Knuckles Demo.asm"
 	even
@@ -14,9 +14,9 @@ DemoDat_KnucklesTailsGHZ1:		include "Levels/GHZ/Demodata/GHZ1 - Knuckles and Tai
 	even
 DemoDat_SonicTailsMZ1:			include "Levels/MZ/Demodata/MZ1 - Sonic and Tails Demo.asm"
 	even
-DemoDat_SonicMZ1:				include "Levels/MZ/Demodata/MZ1 - Sonic Demo.asm"
+DemoDat_SonicMZ1:			include "Levels/MZ/Demodata/MZ1 - Sonic Demo.asm"
 	even
-DemoDat_TailsMZ1:				include "Levels/MZ/Demodata/MZ1 - Tails Demo.asm"
+DemoDat_TailsMZ1:			include "Levels/MZ/Demodata/MZ1 - Tails Demo.asm"
 	even
 DemoDat_KnucklesMZ1:			include "Levels/MZ/Demodata/MZ1 - Knuckles Demo.asm"
 	even
@@ -24,9 +24,9 @@ DemoDat_KnucklesTailsMZ1:		include "Levels/MZ/Demodata/MZ1 - Knuckles and Tails 
 	even
 DemoDat_SonicTailsSYZ1:			include "Levels/SYZ/Demodata/SYZ1 - Sonic and Tails Demo.asm"
 	even
-DemoDat_SonicSYZ1:				include "Levels/SYZ/Demodata/SYZ1 - Sonic Demo.asm"
+DemoDat_SonicSYZ1:			include "Levels/SYZ/Demodata/SYZ1 - Sonic Demo.asm"
 	even
-DemoDat_TailsSYZ1:				include "Levels/SYZ/Demodata/SYZ1 - Tails Demo.asm"
+DemoDat_TailsSYZ1:			include "Levels/SYZ/Demodata/SYZ1 - Tails Demo.asm"
 	even
 DemoDat_KnucklesSYZ1:			include "Levels/SYZ/Demodata/SYZ1 - Knuckles Demo.asm"
 	even

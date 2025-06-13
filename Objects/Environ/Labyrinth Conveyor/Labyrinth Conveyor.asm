@@ -3,15 +3,15 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-conv_subtype				= objoff_2F ; .b ; save subtype
-conv_origX				= objoff_30 ; .w ; original x-axis position
+conv_subtype			= objoff_2F	; .b ; save subtype
+conv_origX			= objoff_30	; .w ; original x-axis position
 
-conv_saveX				= objoff_34 ; .w
-conv_saveY				= objoff_36 ; .w
-conv_origY				= objoff_38 ; .w ; original y-axis position
-conv_flag				= objoff_3E ; .b
-conv_flag2				= objoff_3F ; .b
-conv_pointer				= objoff_40 ; .l ; save address
+conv_saveX			= objoff_34	; .w
+conv_saveY			= objoff_36	; .w
+conv_origY			= objoff_38	; .w ; original y-axis position
+conv_flag			= objoff_3E	; .b
+conv_flag2			= objoff_3F	; .b
+conv_pointer			= objoff_40	; .l ; save address
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -31,7 +31,7 @@ Obj_LabyrinthConvey:
 		lea	ObjPosLZPlatform_Index(pc),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d1
-		movea.w	a0,a1										; load current object to a1
+		movea.w	a0,a1								; load current object to a1
 
 		; get RAM slot
 		getobjectRAMslot a3
@@ -43,11 +43,11 @@ Obj_LabyrinthConvey:
 		; create LZ platform object
 
 .find
-		lea	next_object(a1),a1									; goto next object RAM slot
-		tst.l	address(a1)										; is object RAM slot empty?
-		dbeq	d0,.find										; if not, branch
-		bne.s	.return										; branch, if object RAM slot is not empty
-		subq.w	#1,d0										; subtract from sprite table
+		lea	next_object(a1),a1						; goto next object RAM slot
+		tst.l	address(a1)							; is object RAM slot empty?
+		dbeq	d0,.find							; if not, branch
+		bne.s	.return								; branch, if object RAM slot is not empty
+		subq.w	#1,d0								; subtract from sprite table
 
 .load
 		move.l	#Obj_LabyrinthConvey_Platforms,address(a1)
@@ -55,8 +55,8 @@ Obj_LabyrinthConvey:
 		move.w	(a2)+,y_pos(a1)
 		move.w	(a2)+,d2
 		move.b	d2,subtype(a1)
-		tst.w	d0											; object RAM slots ended?
-		dbmi	d1,.create									; if not, loop
+		tst.w	d0								; object RAM slots ended?
+		dbmi	d1,.create							; if not, loop
 
 .return
 		rts
@@ -70,7 +70,7 @@ Obj_LabyrinthConvey_Platforms:
 		move.w	#make_art_tile($406,2,0),art_tile(a0)
 		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
 		move.l	#bytes_word_to_long(32/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
-		addq.b	#1,mapping_frame(a0)							; platform frame
+		addq.b	#1,mapping_frame(a0)						; platform frame
 		move.l	#sub_124B2,address(a0)
 
 		; set
@@ -96,7 +96,7 @@ Obj_LabyrinthConvey_Platforms:
 		move.b	conv_origY(a0),d1
 		add.b	conv_flag(a0),d1
 		cmp.b	conv_origY+1(a0),d1
-		blo.s		loc_12448
+		blo.s	loc_12448
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
@@ -119,7 +119,7 @@ sub_124B2:
 		move.w	(sp)+,d4
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
-		moveq	#(16/2)+1,d3			; height+1
+		moveq	#(16/2)+1,d3							; height+1
 		jsr	(SolidObjectTop).w
 
 LCon_CheckDelete:
@@ -130,8 +130,8 @@ LCon_CheckDelete:
 ; ---------------------------------------------------------------------------
 
 .loc_1236A:
-		cmpi.b	#2,(Current_act).w							; check if act is 3
-		bne.s	.loc_12378									; if not, branch
+		cmpi.b	#2,(Current_act).w						; check if act is 3
+		bne.s	.loc_12378							; if not, branch
 		cmpi.w	#-$80,d0
 		bhs.s	.draw
 
@@ -143,9 +143,9 @@ LCon_CheckDelete:
 		bclr	#0,(a2,d0.w)
 
 .offscreen
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.delete										; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.delete								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#7,(a2)
 
 .delete
@@ -177,7 +177,7 @@ loc_12534:
 		move.b	conv_origY(a0),d1
 		add.b	conv_flag(a0),d1
 		cmp.b	conv_origY+1(a0),d1
-		blo.s		loc_12552
+		blo.s	loc_12552
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
@@ -216,7 +216,7 @@ loc_12584:
 
 loc_12598:
 		cmp.w	d0,d1
-		blo.s		loc_125C2
+		blo.s	loc_125C2
 		move.w	x_pos(a0),d0
 		sub.w	conv_saveX(a0),d0
 		beq.s	loc_125AE

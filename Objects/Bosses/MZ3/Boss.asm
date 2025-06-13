@@ -7,8 +7,8 @@
 BossFire_Hits				= 8
 
 ; Dynamic object variables
-obBF_Timer					= objoff_2E	; .w
-obBF_Jump					= objoff_34	; .l
+obBF_Timer				= objoff_2E	; .w
+obBF_Jump				= objoff_34	; .l
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -23,8 +23,8 @@ Obj_BossFire:
 		lea	ObjDat_RobotnikShip2(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
-		move.b	#BossFire_Hits,collision_property(a0)			; set hits
-		move.w	#-$100,x_vel(a0)								; set move left
+		move.b	#BossFire_Hits,collision_property(a0)				; set hits
+		move.w	#-$100,x_vel(a0)						; set move left
 		move.l	#BossFire_MoveLeft,obBF_Jump(a0)
 
 		; create
@@ -78,7 +78,7 @@ loc_183DE:
 ; ---------------------------------------------------------------------------
 
 loc_183E6:
-		move.l	#words_to_long($200,$100),x_vel(a0)			; x_vel + y_vel
+		move.l	#words_to_long($200,$100),x_vel(a0)				; x_vel + y_vel
 		btst	#0,render_flags(a0)
 		bne.s	loc_183FE
 		neg.w	x_vel(a0)
@@ -95,10 +95,10 @@ Obj73_MakeLava:
 		; create
 		jsr	(Create_New_Sprite3).w
 		bne.s	loc_1844A
-		move.l	#Obj_LavaBall,address(a1)						; load lava ball object
+		move.l	#Obj_LavaBall,address(a1)					; load lava ball object
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$E8,d0
-		move.w	d0,y_pos(a1)									; set Y position
+		move.w	d0,y_pos(a1)							; set Y position
 		jsr	(Random_Number).w
 		swap	d0
 		clr.w	d0
@@ -132,7 +132,7 @@ loc_1845C:
 loc_18474:
 		addi.w	#48,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		locret_1849C
+		blt.s	locret_1849C
 		move.w	d0,x_pos(a0)
 
 loc_18482:
@@ -141,7 +141,7 @@ loc_18482:
 		moveq	#44,d0
 		add.w	(Camera_max_Y_pos).w,d0
 		cmp.w	y_pos(a0),d0
-		blo.s		loc_18498
+		blo.s	loc_18498
 		neg.w	y_vel(a0)
 
 loc_18498:
@@ -155,13 +155,13 @@ BossFire_AttackFire2:
 		moveq	#44,d0
 		add.w	(Camera_max_Y_pos).w,d0
 		sub.w	y_pos(a0),d0
-		blt.s		.return
+		blt.s	.return
 		tst.w	y_vel(a0)
 		beq.s	.skip
 		clr.w	y_vel(a0)
-		move.w	#$50,objoff_3E(a0)							; set wait
+		move.w	#$50,objoff_3E(a0)						; set wait
 		bchg	#0,render_flags(a0)
-		bset	#6,objoff_38(a0)									; set laugh flag
+		bset	#6,objoff_38(a0)						; set laugh flag
 
 		; create
 		jsr	(Create_New_Sprite3).w
@@ -185,7 +185,7 @@ BossFire_AttackFire2:
 		subq.w	#1,objoff_3E(a0)
 		bne.s	.return
 		move.l	#BossFire_MoveCircle,obBF_Jump(a0)
-		bclr	#6,objoff_38(a0)									; clear laugh flag
+		bclr	#6,objoff_38(a0)						; clear laugh flag
 
 .return
 		rts
@@ -224,28 +224,28 @@ BossFire_MainProcess:
 ; =============== S U B R O U T I N E =======================================
 
 		; check touch
-		tst.b	collision_flags(a0)									; are boss's collisions enabled?
-		bne.s	.return										; if yes, branch
-		tst.b	collision_property(a0)								; has boss run out of hits?
-		beq.s	BossFire_Defeated								; if yes, branch
-		tst.b	boss_invulnerable_time(a0)						; is boss invulnerable?
-		bne.s	.flash										; if yes, branch
-		move.b	#$28,boss_invulnerable_time(a0)				; make boss invulnerable
-		sfx	sfx_BossHit										; play "boss hit" sound
-		bset	#6,status(a0)										; set "boss hit" flag
+		tst.b	collision_flags(a0)						; are boss's collisions enabled?
+		bne.s	.return								; if yes, branch
+		tst.b	collision_property(a0)						; has boss run out of hits?
+		beq.s	BossFire_Defeated						; if yes, branch
+		tst.b	boss_invulnerable_time(a0)					; is boss invulnerable?
+		bne.s	.flash								; if yes, branch
+		move.b	#$28,boss_invulnerable_time(a0)					; make boss invulnerable
+		sfx	sfx_BossHit							; play "boss hit" sound
+		bset	#6,status(a0)							; set "boss hit" flag
 
 .flash
-		moveq	#0,d0										; load normal palette
+		moveq	#0,d0								; load normal palette
 		btst	#0,boss_invulnerable_time(a0)
 		bne.s	.skip
-		addq.w	#3*2,d0										; load flashing palette
+		addq.w	#3*2,d0								; load flashing palette
 
 .skip
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)										; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)		; if invincibility ended, allow collision again
+		bclr	#6,status(a0)							; clear "boss hit" flag
+		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -314,13 +314,13 @@ BossFire_Defeated:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .delete
-		bset	#5,objoff_38(a0)									; remove Robotnik head and fire
+		bset	#5,objoff_38(a0)						; remove Robotnik head and fire
 		clr.b	(Boss_flag).w
 		clr.b	(Intro_flag).w
 
@@ -344,7 +344,7 @@ Obj_BossFire_ShipTube:
 		jsr	(Refresh_ChildPositionAdjusted).w
 
 		; draw
-		moveq	#4,d0										; set index velocity
+		moveq	#4,d0								; set index velocity
 		jmp	(Child_Draw_Sprite_FlickerMove).w
 
 ; ---------------------------------------------------------------------------
@@ -382,8 +382,8 @@ Obj_BossFire_ShipTubeFlame:
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-obBFF_Timer					= objoff_2E	; .w
-obBFF_Jump					= objoff_34	; .l
+obBFF_Timer				= objoff_2E	; .w
+obBFF_Jump				= objoff_34	; .l
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -406,7 +406,7 @@ Obj_BossFire_Fire:
 ; ---------------------------------------------------------------------------
 
 loc_1870A:
-		sfx	sfx_Fireball										; play lava ball sound
+		sfx	sfx_Fireball							; play lava ball sound
 		move.b	#30,objoff_3F(a0)
 
 Obj74_Action:
@@ -457,12 +457,12 @@ Obj74_MakeFlame:
 
 	rept object_size/$24
 		movem.l	(a2)+,d0-d6/a4-a5
-		movem.l	d0-d6/a4-a5,.a(a3)							; copy $24 bytes
+		movem.l	d0-d6/a4-a5,.a(a3)						; copy $24 bytes
 		set	.a,.a + $24
 	endr
 
 	if object_size&2
-		move.w	d0,.a(a3)										; copy 2 bytes
+		move.w	d0,.a(a3)							; copy 2 bytes
 	endif
 
 		neg.w	x_vel(a1)
@@ -525,7 +525,7 @@ Obj74_Duplicate2:
 
 Obj74_FallEdge:
 		bclr	#1,status(a0)
-		addi.w	#$24,y_vel(a0)								; make flame fall
+		addi.w	#$24,y_vel(a0)							; make flame fall
 		move.w	x_pos(a0),d0
 		sub.w	objoff_32(a0),d0
 		bpl.s	.abs
@@ -589,12 +589,12 @@ Obj_BossFire_Scaled:
 		move.w	#$200,x_vel(a0)
 		move.w	#tiles_to_bytes($340),objoff_3A(a0)				; VRAM
 		move.l	#ArtScaled_RobotnikMZ,d0					; art pointer
-		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w		; is Knuckles?
-		blo.s		.artpointer									; if not, branch
-		move.l	#ArtScaled_EggRoboMZ,d0					; art pointer
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w				; is Knuckles?
+		blo.s	.artpointer							; if not, branch
+		move.l	#ArtScaled_EggRoboMZ,d0						; art pointer
 
 .artpointer
-		move.l	d0,objoff_42(a0)								; set art pointer
+		move.l	d0,objoff_42(a0)						; set art pointer
 		move.l	#.wait,address(a0)
 
 		; create decorative pillar
@@ -602,11 +602,11 @@ Obj_BossFire_Scaled:
 		bne.s	.wait
 		move.l	#Child_Draw_Sprite,address(a1)
 		move.l	#Map_BossFire_Pillar,mappings(a1)
-		move.b	#rfCoord,render_flags(a1)						; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)					; use screen coordinates
 		move.w	#priority_3,priority(a1)
 		move.w	#$1C20,x_pos(a1)
 		move.w	#$240,y_pos(a1)
-		move.w	a0,parent3(a1)								; parent RAM address into $46
+		move.w	a0,parent3(a1)							; parent RAM address into $46
 
 .wait
 		subq.w	#1,objoff_2E(a0)
@@ -648,9 +648,9 @@ Obj_BossFire_Scaled:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BossFire_Fire:				subObjData Map_Fire, $298, 0, 0, 16, 16, 5, 0, 0
+ObjDat_BossFire_Fire:			subObjData Map_Fire, $298, 0, 0, 16, 16, 5, 0, 0
 ObjDat_BossFire_ShipTube:		subObjData Map_BossFire_Tube, $420, 1, 0, 32, 48, 3, 0, 0
-ObjDat_BossFire_ShipTubeFlame:	subObjData Map_BossFire_Tube, $420, 1, 0, 8, 16, 5, 1, 0
+ObjDat_BossFire_ShipTubeFlame:		subObjData Map_BossFire_Tube, $420, 1, 0, 8, 16, 5, 1, 0
 ObjDat_BossFire_Scaled:			subObjData Map_ScaledArt, $340, 0, 0, 128, 128, 6, 0, 0
 
 Child1_BossFire_ShipTube:

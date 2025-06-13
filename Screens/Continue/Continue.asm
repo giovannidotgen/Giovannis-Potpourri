@@ -3,15 +3,15 @@
 ; ---------------------------------------------------------------------------
 
 ; Constants
-Continue_Offset:					= *
+Continue_Offset:			= *
 
 ; Variables
 
 ; RAM
 	phase ramaddr(Palette_cycle_counters)
 
-Continue_countdown:				ds.w 1
-Continue_routine:					ds.b 1
+Continue_countdown:			ds.w 1
+Continue_routine:			ds.b 1
 Continue_countdown_numbers:		ds.b 1
 Continue_countdown_update:		ds.b 1
 
@@ -19,24 +19,24 @@ Continue_countdown_update:		ds.b 1
 	!org	Continue_Offset
 
 Continue_VDP:
-		dc.w $8004															; disable HInt, HV counter, 8-colour mode
-		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)							; set foreground nametable address
-		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)							; set window nametable address
-		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)							; set background nametable address
-		dc.w $8700+(0<<4)													; set background colour (line 3; colour 0)
-		dc.w $8B00															; full-screen horizontal and vertical scrolling
-		dc.w $8C81															; set 40cell screen size, no interlacing, no s/h
-		dc.w $9001															; 64x32 cell nametable area
-		dc.w $9100															; set window H position at default
-		dc.w $9200															; set window V position at default
-		dc.w 0																; end marker
+		dc.w $8004										; disable HInt, HV counter, 8-colour mode
+		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)						; set foreground nametable address
+		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)						; set window nametable address
+		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)						; set background nametable address
+		dc.w $8700+(0<<4)									; set background colour (line 3; colour 0)
+		dc.w $8B00										; full-screen horizontal and vertical scrolling
+		dc.w $8C81										; set 40cell screen size, no interlacing, no s/h
+		dc.w $9001										; 64x32 cell nametable area
+		dc.w $9100										; set window H position at default
+		dc.w $9200										; set window V position at default
+		dc.w 0											; end marker
 
 ; =============== S U B R O U T I N E =======================================
 
 ContinueScreen:
-		music	mus_Stop													; stop music
-		jsr	(Clear_KosPlus_Module_Queue).w									; clear KosPlusM PLCs
-		ResetDMAQueue														; clear DMA queue
+		music	mus_Stop									; stop music
+		jsr	(Clear_KosPlus_Module_Queue).w							; clear KosPlusM PLCs
+		ResetDMAQueue										; clear DMA queue
 		jsr	(Pal_FadeToBlack).w
 		disableInts
 		move.l	#VInt,(V_int_addr).w
@@ -45,10 +45,10 @@ ContinueScreen:
 		jsr	(Clear_DisplayData).w
 		lea	Continue_VDP(pc),a1
 		jsr	(Load_VDP).w
-		clearRAM Object_RAM, Object_RAM_end								; clear the object RAM
+		clearRAM Object_RAM, Object_RAM_end							; clear the object RAM
 		clearRAM Lag_frame_count, Lag_frame_count_end						; clear variables
-		clearRAM Camera_RAM, Camera_RAM_end								; clear the camera RAM
-		clearRAM Oscillating_variables, Oscillating_variables_end					; clear variables
+		clearRAM Camera_RAM, Camera_RAM_end							; clear the camera RAM
+		clearRAM Oscillating_variables, Oscillating_variables_end				; clear variables
 
 		; clear
 		move.b	d0,(Water_full_screen_flag).w
@@ -66,17 +66,17 @@ ContinueScreen:
 		jsr	(Wait_VSync).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
-		bne.s	.waitplc														; wait for KosPlusM queue to clear
+		bne.s	.waitplc									; wait for KosPlusM queue to clear
 
 		; set
-		move.w	#(11*60)-1,(Demo_timer).w										; set to wait
+		move.w	#(11*60)-1,(Demo_timer).w							; set to wait
 
 		; load Sonic palette
 		lea	(Pal_Sonic).l,a1
 		lea	(Target_palette).w,a2
 		jsr	(PalLoad_Line16).w
 
-		move.w	#$222,-2(a2)													; fix black color
+		move.w	#$222,-2(a2)									; fix black color
 
 		; load main palette
 		lea	(Pal_Continue).l,a1
@@ -86,19 +86,19 @@ ContinueScreen:
 		lea	(Pal_Knuckles).l,a1
 		jsr	(PalLoad_Line16).w
 
-		move.w	#$222,-2(a2)													; fix black color...
+		move.w	#$222,-2(a2)									; fix black color...
 
 		; load text
 		lea	Credits_TextCONTINUE(pc),a1
-		move.l	#$C347C347,d5												; VRAM shift (font pos in VRAM) ; large and small font
+		move.l	#$C347C347,d5									; VRAM shift (font pos in VRAM) ; large and small font
 		bsr.w	Credits_LoadText
 
 		; check players
 		move.w	(Player_mode).w,d0
-		cmpi.w	#PlayerModeID_Knuckles,d0									; is Knuckles?
-		bhs.s	.main														; if yes, branch
-		cmpi.w	#PlayerModeID_Sonic,d0										; is Sonic alone?
-		bne.s	.notsa														; if not, branch
+		cmpi.w	#PlayerModeID_Knuckles,d0							; is Knuckles?
+		bhs.s	.main										; if yes, branch
+		cmpi.w	#PlayerModeID_Sonic,d0								; is Sonic alone?
+		bne.s	.notsa										; if not, branch
 		move.l	#Obj_Continue_SonicAlone,(Player_1+address).w					; create Sonic alone
 		bra.s	.main
 ; ---------------------------------------------------------------------------
@@ -108,13 +108,13 @@ ContinueScreen:
 		move.l	#Obj_Continue_TailsWSonic,(Player_2+address).w
 
 .main
-		move.l	#Obj_Continue_Knuckles,(Reserved_object_3+address).w			; create Knuckles for Sonic and Tails
+		move.l	#Obj_Continue_Knuckles,(Reserved_object_3+address).w				; create Knuckles for Sonic and Tails
 
 		; create countdown object
 		jsr	(Create_New_Sprite).w
 		bne.s	.notfree
 		move.l	#Obj_Continue_Countdown,address(a1)
-		move.w	a1,(Continue_countdown).w										; save parent
+		move.w	a1,(Continue_countdown).w							; save parent
 
 		; create stars object
 		jsr	(Create_New_Sprite4).w
@@ -140,7 +140,7 @@ ContinueScreen:
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w
-		move.b	(Continue_routine).w,d0										; load Continue routine
+		move.b	(Continue_routine).w,d0								; load Continue routine
 		beq.s	.loop
 		subq.b	#1,d0
 		beq.s	.back
@@ -162,7 +162,7 @@ ContinueScreen:
 		move.w	d0,(Ring_count).w
 		move.l	d0,(Timer).w
 		move.l	d0,(Score).w
-		subq.b	#1,(Continue_count).w											; subtract 1 from number of continue
+		subq.b	#1,(Continue_count).w								; subtract 1 from number of continue
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -172,13 +172,13 @@ ContinueScreen:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_Continue_Countdown:
-		move.b	#9+1,(Continue_countdown_numbers).w							; set 10 seconds
+		move.b	#9+1,(Continue_countdown_numbers).w						; set 10 seconds
 		move.l	#.main,address(a0)
 
 .main
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
-		bmi.s	.pstart														; if start was pressed, skip ahead
+		bmi.s	.pstart										; if start was pressed, skip ahead
 
 		; wait
 		subq.w	#1,objoff_2E(a0)
@@ -200,7 +200,7 @@ Obj_Continue_Countdown:
 ; ---------------------------------------------------------------------------
 
 .pstart
-		bset	#3,objoff_38(a0)													; set "press start" flag
+		bset	#3,objoff_38(a0)								; set "press start" flag
 		move.l	#.return,address(a0)
 
 .return
@@ -216,14 +216,14 @@ Obj_Continue_SonicWTails:
 
 		; init
 		movem.l	ObjDat_Continue_SonicWTails(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#$80+((320/2)-8),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
 
 .main
 		movea.w	(Continue_countdown).w,a1
-		btst	#3,objoff_38(a1)													; is Start was pressed?
-		bne.s	.pstart														; if yes, branch
+		btst	#3,objoff_38(a1)								; is Start was pressed?
+		bne.s	.pstart										; if yes, branch
 
 		; anim
 		moveq	#0,d0
@@ -256,16 +256,16 @@ Obj_Continue_SonicWTails:
 		; anim
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
-		addq.w	#2,d0														; next data
+		addq.w	#2,d0										; next data
 		cmpi.b	#(.aniraw_end-.aniraw),d0
 		bhs.s	.setrun
 		move.b	d0,anim_frame(a0)
 		lea	.aniraw(pc,d0.w),a2
 		move.b	(a2)+,mapping_frame(a0)
-		bclr	#0,render_flags(a0)												; clear flipx
+		bclr	#0,render_flags(a0)								; clear flipx
 		tst.b	(a2)
 		beq.s	.draw
-		bset	#0,render_flags(a0)												; set flipx
+		bset	#0,render_flags(a0)								; set flipx
 
 .draw
 		jsr	(Sonic_Load_PLC).l
@@ -276,7 +276,7 @@ Obj_Continue_SonicWTails:
 		move.l	#.waitrun,address(a0)
 		move.w	#bytes_to_word(0,1),anim(a0)
 		move.w	#$600,ground_vel(a0)
-		move.w	#(1<<4)-1,objoff_2E(a0)										; set wait
+		move.w	#(1<<4)-1,objoff_2E(a0)								; set wait
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -322,15 +322,15 @@ Obj_Continue_SonicWTails:
 Obj_Continue_SonicAlone:
 
 		; init
-		movem.l	ObjDat_Continue_SonicAlone(pc),d0-d3							; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_SonicAlone(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#$80+(320/2),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
 
 .main
 		movea.w	(Continue_countdown).w,a1
-		btst	#2,objoff_38(a1)													; Knuckles run to the middle of the screen?
-		bne.s	.setrun														; if yes, branch
+		btst	#2,objoff_38(a1)								; Knuckles run to the middle of the screen?
+		bne.s	.setrun										; if yes, branch
 		lea	AniRaw_5CBC5(pc),a1
 
 .anim
@@ -344,7 +344,7 @@ Obj_Continue_SonicAlone:
 .setrun
 		move.l	#.waitrun,address(a0)
 		move.b	#$BA,mapping_frame(a0)
-		move.w	#(1<<3)-1,objoff_2E(a0)										; set wait
+		move.w	#(1<<3)-1,objoff_2E(a0)								; set wait
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -365,7 +365,7 @@ Obj_Continue_SonicAlone:
 ; ---------------------------------------------------------------------------
 
 .stoprun
-		move.b	#1,(Continue_routine).w										; set screen routine
+		move.b	#1,(Continue_routine).w								; set screen routine
 		move.l	#.draw,address(a0)
 		bra.s	.draw
 
@@ -379,14 +379,14 @@ Obj_Continue_TailsWSonic:
 
 		; init
 		movem.l	ObjDat_Continue_TailsWSonic(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#$80+((320/2)+12),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
 
 .waitstart
 		movea.w	(Continue_countdown).w,a1
-		btst	#3,objoff_38(a1)													; is Start was pressed?
-		bne.s	.pstart														; if yes, branch
+		btst	#3,objoff_38(a1)								; is Start was pressed?
+		bne.s	.pstart										; if yes, branch
 
 		; anim
 		moveq	#5,d0
@@ -401,7 +401,7 @@ Obj_Continue_TailsWSonic:
 
 .pstart
 		move.l	#.main,address(a0)
-		addq.w	#4,y_pos(a0)													; fix pos
+		addq.w	#4,y_pos(a0)									; fix pos
 
 		; create tails
 		move.l	#Obj_Tails_Tail,(Tails_tails+address).w
@@ -415,9 +415,9 @@ Obj_Continue_TailsWSonic:
 		move.l	#Map_Tails,mappings(a0)
 		move.l	#words_to_long(priority_5,make_art_tile(ArtTile_Player_2,0,0)),priority(a0)	; set priority and art_tile
 		clr.b	(Player_prev_frame_P2).w
-		move.w	#bytes_to_word(5,0),anim(a0)									; set anim and prev_anim
+		move.w	#bytes_to_word(5,0),anim(a0)							; set anim and prev_anim
 		move.w	#bytes_to_word($AD,0),mapping_frame(a0)						; set frame and clear anim_frame
-		move.w	#$28-1,objoff_2E(a0)											; set wait
+		move.w	#$28-1,objoff_2E(a0)								; set wait
 		bra.s	.anim
 ; ---------------------------------------------------------------------------
 
@@ -429,7 +429,7 @@ Obj_Continue_TailsWSonic:
 		; set run
 		clr.b	anim(a0)
 		move.w	#$600,ground_vel(a0)
-		move.w	#$14-1,objoff_2E(a0)											; set wait
+		move.w	#$14-1,objoff_2E(a0)								; set wait
 
 .waitrun
 		subq.w	#1,objoff_2E(a0)
@@ -445,8 +445,8 @@ Obj_Continue_TailsWSonic:
 .run
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$80+(320+32),x_pos(a0)
-		blo.s		.anim
-		move.b	#1,(Continue_routine).w										; set screen routine
+		blo.s	.anim
+		move.b	#1,(Continue_routine).w								; set screen routine
 		bra.s	.anim
 
 ; ---------------------------------------------------------------------------
@@ -469,7 +469,7 @@ Obj_Continue_Knuckles:
 
 		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		bhs.s	.setknux														; if yes, branch
+		bhs.s	.setknux									; if yes, branch
 
 		; for Sonic and Tails
 		move.w	#$80-64,x_pos(a0)
@@ -483,16 +483,16 @@ Obj_Continue_Knuckles:
 .setknux
 
 		; init
-		movem.l	ObjDat_Continue_Knuckles(pc),d0-d3							; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_Knuckles(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.w	#$80+((320/2)-4),x_pos(a0)
 		move.w	#$80+((224/2)+48),y_pos(a0)
 
 .waitstart
-		move.w	#$2F,objoff_2E(a0)											; set wait
+		move.w	#$2F,objoff_2E(a0)								; set wait
 		movea.w	(Continue_countdown).w,a1
-		btst	#3,objoff_38(a1)													; is Start was pressed?
-		beq.s	.wait														; if not, branch
+		btst	#3,objoff_38(a1)								; is Start was pressed?
+		beq.s	.wait										; if not, branch
 		move.l	#.wait,address(a0)
 
 		; create egg robo
@@ -512,8 +512,8 @@ Obj_Continue_Knuckles:
 ; ---------------------------------------------------------------------------
 
 .main
-		movem.l	ObjDat_Continue_Knuckles2(pc),d0-d3							; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_Knuckles2(pc),d0-d3						; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.b	#7,mapping_frame(a0)
 		clr.b	anim_frame_timer(a0)
 		clr.b	anim_frame(a0)
@@ -522,8 +522,8 @@ Obj_Continue_Knuckles:
 
 .waitstart2
 		movea.w	(Continue_countdown).w,a1
-		btst	#3,objoff_38(a1)													; is Start was pressed?
-		bne.s	.pstart														; if yes, branch
+		btst	#3,objoff_38(a1)								; is Start was pressed?
+		bne.s	.pstart										; if yes, branch
 
 .draw
 		bsr.s	Knuckles_Load_PLC_Continue
@@ -539,8 +539,8 @@ Obj_Continue_Knuckles:
 		move.w	d0,x_pos(a0)
 		movea.w	(Continue_countdown).w,a1
 		cmpi.w	#$80+(320/2),d0
-		blo.s		.checkpos
-		bset	#2,objoff_38(a1)													; set Knuckles in the middle of the screen flag
+		blo.s	.checkpos
+		bset	#2,objoff_38(a1)								; set Knuckles in the middle of the screen flag
 
 .checkpos
 		cmpi.w	#$80+(320+32),d0
@@ -553,8 +553,8 @@ Obj_Continue_Knuckles:
 .stoprun
 		move.l	#.draw,address(a0)
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		blo.s		.draw														; if not, branch
-		move.b	#1,(Continue_routine).w										; set screen routine
+		blo.s	.draw										; if not, branch
+		move.b	#1,(Continue_routine).w								; set screen routine
 		bra.s	.draw
 
 ; ---------------------------------------------------------------------------
@@ -611,7 +611,7 @@ Obj_Continue_EggRobo:
 		; init
 		lea	ObjDat_919A6(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.b	#1,render_flags(a0)											; flipx
+		move.b	#1,render_flags(a0)								; flipx
 		move.l	#.main,address(a0)
 		move.w	#$80-32,x_pos(a0)
 		move.w	#$80+(224/2),y_pos(a0)
@@ -654,9 +654,9 @@ Obj_Continue_EggRobo_Legs:
 
 		; check
 		movea.w	parent3(a0),a1
-		btst	#2,render_flags(a1)												; is parent uses screen coordinates flag?
-		bne.s	.main														; if yes, branch
-		bclr	#2,render_flags(a0)												; clear screen coordinates flag
+		btst	#2,render_flags(a1)								; is parent uses screen coordinates flag?
+		bne.s	.main										; if yes, branch
+		bclr	#2,render_flags(a0)								; clear screen coordinates flag
 
 .main
 		jsr	(Refresh_ChildPositionAdjusted).w
@@ -665,7 +665,7 @@ Obj_Continue_EggRobo_Legs:
 		bmi.s	.setframe
 		moveq	#5,d0
 		cmpi.w	#$20,d1
-		blo.s		.setframe
+		blo.s	.setframe
 		moveq	#4,d0
 
 .setframe
@@ -687,9 +687,9 @@ Obj_Continue_EggRobo_Gun:
 
 		; check
 		movea.w	parent3(a0),a1
-		btst	#2,render_flags(a1)												; is parent uses screen coordinates flag?
-		bne.s	.main														; if yes, branch
-		bclr	#2,render_flags(a0)												; clear screen coordinates flag
+		btst	#2,render_flags(a1)								; is parent uses screen coordinates flag?
+		bne.s	.main										; if yes, branch
+		bclr	#2,render_flags(a0)								; clear screen coordinates flag
 
 .main
 		pea	(Child_Draw_Sprite).w
@@ -739,8 +739,8 @@ Refresh_ChildPositionAdjusted_Continue:
 Obj_Continue_Stars:
 
 		; init
-		movem.l	ObjDat_Continue_Stars(pc),d0-d3								; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_Stars(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 		move.b	#7,mapping_frame(a0)
 		move.w	#$80+(320/2),x_pos(a0)
 		move.w	#($80+(224/2))+5,y_pos(a0)
@@ -759,11 +759,11 @@ Continue_LoadIcons:
 		move.b	(Continue_count).w,d6
 		beq.s	.return
 		cmpi.b	#9,d6
-		blo.s		.create
-		moveq	#9,d6														; create 9 icons (max)
+		blo.s	.create
+		moveq	#9,d6										; create 9 icons (max)
 
 .create
-		subq.w	#1,d6														; fix dbf
+		subq.w	#1,d6										; fix dbf
 		moveq	#0,d2
 		jsr	(Create_New_Sprite).w
 		bne.s	.return
@@ -772,7 +772,7 @@ Continue_LoadIcons:
 		move.l	#Obj_Continue_Icons,address(a1)
 		move.b	d2,subtype(a1)
 		addq.w	#2,d2
-		jsr	(Create_New_Sprite4).w											; find next free object slot
+		jsr	(Create_New_Sprite4).w								; find next free object slot
 		dbne	d6,.loop
 
 .return
@@ -787,8 +787,8 @@ Continue_LoadIcons:
 Obj_Continue_Tails_tails_Icons:
 
 		; init
-		movem.l	ObjDat_Continue_Tails_tails_Icons(pc),d0-d3						; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_Tails_tails_Icons(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 
 .main
 		lea	AniRaw_5CBBB(pc),a1
@@ -804,13 +804,13 @@ Obj_Continue_Tails_tails_Icons:
 Obj_Continue_Icons:
 
 		; init
-		movem.l	ObjDat_Continue_Icons(pc),d0-d3								; copy data to d0-d3
-		movem.l	d0-d3,address(a0)												; set data from d0-d3 to current object
+		movem.l	ObjDat_Continue_Icons(pc),d0-d3							; copy data to d0-d3
+		movem.l	d0-d3,address(a0)								; set data from d0-d3 to current object
 
 		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notknux
-		ori.w	#palette_line_3,art_tile(a0)									; for Knuckles
+		blo.s	.notknux
+		ori.w	#palette_line_3,art_tile(a0)							; for Knuckles
 
 .notknux
 		bsr.s	Continue_Icons_GetPos
@@ -842,18 +842,18 @@ Continue_Icons_GetPos:
 		dc.w $80+184	; 2
 		dc.w $80+136	; 3
 		dc.w $80+208	; 4
-		dc.w $80+112		; 5
+		dc.w $80+112	; 5
 		dc.w $80+232	; 6
-		dc.w $80+88		; 7
+		dc.w $80+88	; 7
 		dc.w $80+256	; 8
-		dc.w $80+64		; 9
+		dc.w $80+64	; 9
 
 ; =============== S U B R O U T I N E =======================================
 
 Continue_Icons_LoadAnim:
 		move.w	(Player_mode).w,d4
-		cmpi.w	#PlayerModeID_Tails,d4										; is Tails?
-		bne.s	.nottails														; if not, branch
+		cmpi.w	#PlayerModeID_Tails,d4								; is Tails?
+		bne.s	.nottails									; if not, branch
 
 		; create tails tails icons
 		lea	Child6_Continue_Tails_tails_Icons(pc),a2
@@ -873,9 +873,9 @@ Continue_Icons_LoadAnim:
 		dc.l byte_5CBB2		; 3 (Knuckles)
 		dc.l byte_5CBB2		; 4 (Knuckles and Tails)
 
-byte_5CBAE:		dc.b 0, 1		; frames
-byte_5CBB0:		dc.b 2, 3
-byte_5CBB2:		dc.b 7, 8
+byte_5CBAE:	dc.b 0, 1		; frames
+byte_5CBB0:	dc.b 2, 3
+byte_5CBB2:	dc.b 7, 8
 
 ; ---------------------------------------------------------------------------
 ; Load numbers (VInt)
@@ -884,40 +884,40 @@ byte_5CBB2:		dc.b 7, 8
 ; =============== S U B R O U T I N E =======================================
 
 Continue_LoadNumbers:
-		tst.b	(Continue_countdown_update).w									; does the numbers need updating?
-		beq.s	.return														; if not, branch
+		tst.b	(Continue_countdown_update).w							; does the numbers need updating?
+		beq.s	.return										; if not, branch
 		clr.b	(Continue_countdown_update).w
 
 		; get countdown numbers
 		move.b	(Continue_countdown_numbers).w,d0
-		move.b	d0,d1														; copy numbers
+		move.b	d0,d1										; copy numbers
 
 		; calc left number (0)
 		andi.w	#$F0,d0
-		addq.w	#1,d0														; VRAM shift (numbers pos in VRAM)
+		addq.w	#1,d0										; VRAM shift (numbers pos in VRAM)
 		move.w	d0,d2
 		swap	d0
 		move.w	d2,d0
-		addq.w	#1,d0														; next tile
+		addq.w	#1,d0										; next tile
 
 		; calc right number (9)
 		andi.w	#$F,d1
 		add.w	d1,d1
-		addq.w	#1,d1														; VRAM shift (numbers pos in VRAM)
+		addq.w	#1,d1										; VRAM shift (numbers pos in VRAM)
 		move.w	d1,d2
 		swap	d1
 		move.w	d2,d1
-		addq.w	#1,d1														; next tile
+		addq.w	#1,d1										; next tile
 		move.w	#$8F80,VDP_control_port-VDP_control_port(a5)					; VRAM increment at $80 bytes (draw tiles vertically)
-		move.l	#vdpCommDelta(planeLoc(64,1,0)),d4							; row increment value
+		move.l	#vdpCommDelta(planeLoc(64,1,0)),d4						; row increment value
 
 		; draw numbers
 		locVRAM	(VRAM_Plane_A_Name_Table+$726),d2
-		move.l	d2,VDP_control_port-VDP_control_port(a5)						; set pos
-		move.l	d0,VDP_data_port-VDP_data_port(a6)							; left number
-		add.l	d4,d2														; next pos
-		move.l	d2,VDP_control_port-VDP_control_port(a5)						; set pos
-		move.l	d1,VDP_data_port-VDP_data_port(a6)							; right number
+		move.l	d2,VDP_control_port-VDP_control_port(a5)					; set pos
+		move.l	d0,VDP_data_port-VDP_data_port(a6)						; left number
+		add.l	d4,d2										; next pos
+		move.l	d2,VDP_control_port-VDP_control_port(a5)					; set pos
+		move.l	d1,VDP_data_port-VDP_data_port(a6)						; right number
 
 		; exit
 		move.w	#$8F02,VDP_control_port-VDP_control_port(a5)					; VRAM increment at 2 bytes (draw tiles horizontally)
@@ -933,10 +933,10 @@ ObjDat_Continue_SonicAlone:			subObjMainData2 Obj_Continue_SonicAlone.main, 0, 0
 ObjDat_Continue_TailsWSonic:			subObjMainData2 Obj_Continue_TailsWSonic.waitstart, 0, 0, 40, 32, 4, $8C, 0, 0, Map_ContinueSprites
 ObjDat_Continue_Knuckles:			subObjMainData2 Obj_Continue_Knuckles.waitstart, 0, 0, 48, 32, 4, $8C, 3, 0, Map_ContinueSprites
 ObjDat_Continue_Knuckles2:			subObjMainData2 Obj_Continue_Knuckles.waitstart2, 0, 0, 96, 64, 1, ArtTile_CutsceneKnuckles, 3, 0, Map_Knuckles
-ObjDat_919A6:						subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
-ObjDat3_919BE:						subObjData3 32, 24, 5, 6, 0
-ObjDat3_919C4:						subObjData3 24, 32, 5, 2, 0
-ObjDat3_919CA:						subObjData3 8, 64, 5, 7, 0
+ObjDat_919A6:					subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
+ObjDat3_919BE:					subObjData3 32, 24, 5, 6, 0
+ObjDat3_919C4:					subObjData3 24, 32, 5, 2, 0
+ObjDat3_919CA:					subObjData3 8, 64, 5, 7, 0
 ObjDat_Continue_Stars:				subObjMainData2 Draw_Sprite, 0, 0, 16, 16, 7, $8C, 1, 0, Map_ContinueSprites
 ObjDat_Continue_Tails_tails_Icons:		subObjMainData2 Obj_Continue_Tails_tails_Icons.main, 0, 0, 16, 16, 5, $D9, 0, 0, Map_ContinueIcons
 ObjDat_Continue_Icons:				subObjMainData2 Obj_Continue_Icons.main, 0, 0, 16, 16, 7, $D9, 0, 0, Map_ContinueIcons

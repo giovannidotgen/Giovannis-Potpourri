@@ -12,7 +12,7 @@ FZ_Resize:
 		cmp.w	(Camera_X_pos).w,d0
 		bhi.s	.return
 		move.l	#.addxcam,(Level_data_addr_RAM.Resize).w
-		clr.b	(Disable_wall_grab).w										; enable Knuckles wall grab
+		clr.b	(Disable_wall_grab).w						; enable Knuckles wall grab
 
 		; create boss
 		jsr	(Create_New_Sprite).w
@@ -58,8 +58,8 @@ FZ_Resize:
 ; ---------------------------------------------------------------------------
 
 .endboss
-		addq.w	#4*2,sp												; exit from resize and current screen
-		move.b	#GameModeID_EndingScreen,(Game_mode).w			; set screen mode to Ending
+		addq.w	#4*2,sp								; exit from resize and current screen
+		move.b	#GameModeID_EndingScreen,(Game_mode).w				; set screen mode to Ending
 		clr.b	(Last_star_post_hit).w
 		clr.b	(Special_bonus_entry_flag).w
 		rts

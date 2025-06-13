@@ -3,9 +3,9 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-cflo_timepointer		= objoff_30	; .l
-cflo_timedelay		= objoff_38	; .b
-cflo_collapse_flag		= objoff_3A	; .b
+cflo_timepointer			= objoff_30	; .l
+cflo_timedelay				= objoff_38	; .b
+cflo_collapse_flag			= objoff_3A	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -22,40 +22,40 @@ Obj_CollapseFloor:
 		move.l	#Map_CFlo,mappings(a0)
 		move.w	#make_art_tile($562,2,0),d0
 		cmpi.b	#LevelID_SLZ,(Current_zone).w					; is level Star Light Zone?
-		bne.s	.notSLZ										; if not, branch
+		bne.s	.notSLZ								; if not, branch
 		move.w	#make_art_tile($41C,2,0),d0
 		addq.b	#2,mapping_frame(a0)
 
 .notSLZ
 		cmpi.b	#LevelID_SBZ,(Current_zone).w					; is level Scrap Brain Zone?
-		bne.s	.notSBZ										; if not, branch
+		bne.s	.notSBZ								; if not, branch
 		move.w	#make_art_tile($2AA,2,0),d0
 
 .notSBZ
 		move.w	d0,art_tile(a0)
-		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(48/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cflo_timedelay(a0)
 		ori.b	#$80,status(a0)
 		move.l	#.check,address(a0)
 
 .check
-		tst.b	cflo_collapse_flag(a0)								; has Sonic touched the	object?
-		beq.s	.stand										; if not, branch
-		tst.b	cflo_timedelay(a0)								; has time delay reached zero?
-		beq.s	.collapse										; if yes, branch
-		subq.b	#1,cflo_timedelay(a0)							; subtract 1 from time
+		tst.b	cflo_collapse_flag(a0)						; has Sonic touched the	object?
+		beq.s	.stand								; if not, branch
+		tst.b	cflo_timedelay(a0)						; has time delay reached zero?
+		beq.s	.collapse							; if yes, branch
+		subq.b	#1,cflo_timedelay(a0)						; subtract 1 from time
 
 .stand
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0									; is Sonic or Tails standing on the object?
-		beq.s	.solid										; if not, branch
-		st	cflo_collapse_flag(a0)								; set object as	"touched"
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		beq.s	.solid								; if not, branch
+		st	cflo_collapse_flag(a0)						; set object as	"touched"
 
 .solid
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
-		moveq	#(16/2)+1,d3									; height+1
+		moveq	#(16/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTop).w
 		jmp	(Sprite_OnScreen_Test).w
@@ -80,10 +80,10 @@ CollapseFloor_PlayerRelease:
 
 		; start fall
 		move.l	#Obj_PlatformCollapseFall,address(a0)
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		moveq	#p1_standing_bit,d6
 		bsr.s	.check
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		addq.b	#1,d6
 
 .check
@@ -98,9 +98,9 @@ CollapseFloor_PlayerRelease:
 		; set anim
 		tst.b	spin_dash_flag(a1)
 		bne.s	.return
-		cmpi.b	#AniIDSonAni_Roll,anim(a1)						; is player in his rolling animation?
-		beq.s	.return											; if so, branch
-		move.b	#AniIDSonAni_Hurt,anim(a1)						; set falling animation
+		cmpi.b	#AniIDSonAni_Roll,anim(a1)					; is player in his rolling animation?
+		beq.s	.return								; if so, branch
+		move.b	#AniIDSonAni_Hurt,anim(a1)					; set falling animation
 
 .return
 		rts

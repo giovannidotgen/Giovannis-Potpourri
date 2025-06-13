@@ -11,7 +11,7 @@ LZ2_WaterResize:
 		jmp	(WaterResize_MaxYFromX).w
 ; ---------------------------------------------------------------------------
 
-LZ2_WaterResizeDat:		; water pos, xcamera
+LZ2_WaterResizeDat:	; water pos, xcamera
 		dc.w $328, $700
 		dc.w $3C8, $D00
 		dc.w $428, -1

@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-flame_time				= objoff_30	; .w
+flame_time			= objoff_30	; .w
 flame_savetime			= objoff_32	; .w
 flame_pausetime			= objoff_34	; .w
-flame_frame				= objoff_36	; .b
+flame_frame			= objoff_36	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -15,15 +15,15 @@ Obj_Flamethrower:
 		; flaming time
 		move.b	subtype(a0),d0
 		move.b	d0,d1
-		andi.w	#$F0,d0											; read 1st digit of object type
-		add.w	d0,d0											; multiply by 2
+		andi.w	#$F0,d0								; read 1st digit of object type
+		add.w	d0,d0								; multiply by 2
 		move.w	d0,flame_time(a0)
-		move.w	d0,flame_savetime(a0)								; set flaming time
+		move.w	d0,flame_savetime(a0)						; set flaming time
 
 		; pause time
-		andi.w	#$F,d1											; read 2nd digit of object type
-		lsl.w	#5,d1												; multiply by $20
-		move.w	d1,flame_pausetime(a0)							; set pause time
+		andi.w	#$F,d1								; read 2nd digit of object type
+		lsl.w	#5,d1								; multiply by $20
+		move.w	d1,flame_pausetime(a0)						; set pause time
 
 		; init
 		lea	ObjDat_Flamethrower(pc),a1
@@ -31,21 +31,21 @@ Obj_Flamethrower:
 		bset	#Status_FireShield,shield_reaction(a0)
 		move.l	#.action,address(a0)
 		move.b	#10,flame_frame(a0)
-		btst	#1,status(a0)											; is flipy?
-		beq.s	.action											; if not, branch
+		btst	#1,status(a0)							; is flipy?
+		beq.s	.action								; if not, branch
 		move.b	#21,flame_frame(a0)
 		move.b	#2,anim(a0)
 
 .action
-		subq.w	#1,flame_time(a0)									; subtract 1 from time
-		bpl.s	.animate											; if time remains, branch
+		subq.w	#1,flame_time(a0)						; subtract 1 from time
+		bpl.s	.animate							; if time remains, branch
 		move.w	flame_pausetime(a0),flame_time(a0)				; begin pause time
 		bchg	#0,anim(a0)
 		beq.s	.animate
-		move.w	flame_savetime(a0),flame_time(a0)					; begin flaming time
-		tst.b	render_flags(a0)										; object visible on the screen?
-		bpl.s	.animate											; if not, branch
-		sfx	sfx_Flamethrower										; play flame sound
+		move.w	flame_savetime(a0),flame_time(a0)				; begin flaming time
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.animate							; if not, branch
+		sfx	sfx_Flamethrower						; play flame sound
 
 .animate
 		lea	Ani_Flame(pc),a1

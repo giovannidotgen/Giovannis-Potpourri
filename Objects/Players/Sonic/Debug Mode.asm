@@ -8,9 +8,9 @@ Debug_Mode:
 		tst.b	(Debug_placement_routine).w
 		bne.w	.action
 		addq.b	#2,(Debug_placement_routine).w
-		move.l	mappings(a0),(Debug_saved_mappings).w			; save mappings
-		cmpi.b	#PlayerID_Death,routine(a0)						; is player dead?
-		bhs.s	.death											; if yes, branch
+		move.l	mappings(a0),(Debug_saved_mappings).w				; save mappings
+		cmpi.b	#PlayerID_Death,routine(a0)					; is player dead?
+		bhs.s	.death								; if yes, branch
 		move.l	priority(a0),(Debug_saved_priority).w				; save priority and art_tile
 
 .death
@@ -21,7 +21,7 @@ Debug_Mode:
 		bclr	#Status_Push,status(a0)
 		bclr	#Status_Underwater,status(a0)
 		beq.s	.select
-		movea.w	a0,a1											; a1=character
+		movea.w	a0,a1								; a1=character
 		jsr	(Player_ResetAirTimer).l
 
 		; set player speed (a4 warning!)
@@ -41,22 +41,22 @@ Debug_Mode:
 
 		; load player's breathing bubbles
 		lea	(Breathing_bubbles+objoff_30).w,a1
-		cmpi.b	#PlayerID_Tails,character_id(a0)					; is player Tails?
-		bne.s	.nottails											; if not, branch
+		cmpi.b	#PlayerID_Tails,character_id(a0)				; is player Tails?
+		bne.s	.nottails							; if not, branch
 		lea	(Breathing_bubbles_P2+objoff_30).w,a1
 
 .nottails
-		move.w	d0,(a1)											; clear drowning timer
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.notspecial										; if not, branch
-		move.l	d0,(SStage_scalar_index_0).w						; clear stage angle to "upright" and stage rotation speed
+		move.w	d0,(a1)								; clear drowning timer
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		bne.s	.notspecial							; if not, branch
+		move.l	d0,(SStage_scalar_index_0).w					; clear stage angle to "upright" and stage rotation speed
 
 .notspecial
 		movea.l	(Level_data_addr_RAM.Debug).w,a2
 		move.w	(a2)+,d6
-		cmp.b	(Debug_object).w,d6								; have you gone past the last item?
-		bhi.s	.notreset											; if not, branch
-		clr.b	(Debug_object).w										; back to start of list
+		cmp.b	(Debug_object).w,d6						; have you gone past the last item?
+		bhi.s	.notreset							; if not, branch
+		clr.b	(Debug_object).w						; back to start of list
 
 .notreset
 		bsr.w	.display
@@ -70,11 +70,11 @@ Debug_Mode:
 
 		; control
 		moveq	#btnDir,d4
-		and.b	(Ctrl_1_pressed).w,d4								; is up/down/left/right	pressed?
-		bne.s	.dirpressed										; if yes, branch
+		and.b	(Ctrl_1_pressed).w,d4						; is up/down/left/right	pressed?
+		bne.s	.dirpressed							; if yes, branch
 		moveq	#btnDir,d0
-		and.b	(Ctrl_1_held).w,d0								; is up/down/left/right	held?
-		bne.s	.dirheld											; if yes, branch
+		and.b	(Ctrl_1_held).w,d0						; is up/down/left/right	held?
+		bne.s	.dirheld							; if yes, branch
 		move.b	#12,(Debug_camera_delay).w
 		move.b	#15,(Debug_camera_speed).w
 		bra.s	.chgitem
@@ -99,8 +99,8 @@ Debug_Mode:
 		asr.l	#4,d1
 		move.l	y_pos(a0),d2
 		move.l	x_pos(a0),d3
-		btst	#button_up,d4										; is up being held?
-		beq.s	.notup											; if not, branch
+		btst	#button_up,d4							; is up being held?
+		beq.s	.notup								; if not, branch
 		sub.l	d1,d2
 		moveq	#0,d0
 		move.w	(Camera_min_Y_pos).w,d0
@@ -110,27 +110,27 @@ Debug_Mode:
 		move.l	d0,d2
 
 .notup
-		btst	#button_down,d4										; is down being held?
-		beq.s	.notdown											; if not, branch
+		btst	#button_down,d4							; is down being held?
+		beq.s	.notdown							; if not, branch
 		add.l	d1,d2
 		moveq	#0,d0
 		move.w	(Camera_target_max_Y_pos).w,d0
 		addi.w	#223,d0
 		swap	d0
 		cmp.l	d0,d2
-		blt.s		.notdown
+		blt.s	.notdown
 		move.l	d0,d2
 
 .notdown
-		btst	#button_left,d4										; is left being held?
-		beq.s	.notleft											; if not, branch
+		btst	#button_left,d4							; is left being held?
+		beq.s	.notleft							; if not, branch
 		sub.l	d1,d3
 		bhs.s	.notleft
 		moveq	#0,d3
 
 .notleft
-		btst	#button_right,d4										; is right being held?
-		beq.s	.notright											; if not, branch
+		btst	#button_right,d4						; is right being held?
+		beq.s	.notright							; if not, branch
 		add.l	d1,d3
 
 .notright
@@ -138,23 +138,23 @@ Debug_Mode:
 		move.l	d3,x_pos(a0)
 
 .chgitem
-		btst	#button_A,(Ctrl_1_held).w								; is button A held?
-		beq.s	.createitem										; if not, branch
-		btst	#button_C,(Ctrl_1_pressed).w							; is button C pressed?
-		beq.s	.nextitem										; if not, branch
-		subq.b	#1,(Debug_object).w								; go back 1 item
+		btst	#button_A,(Ctrl_1_held).w					; is button A held?
+		beq.s	.createitem							; if not, branch
+		btst	#button_C,(Ctrl_1_pressed).w					; is button C pressed?
+		beq.s	.nextitem							; if not, branch
+		subq.b	#1,(Debug_object).w						; go back 1 item
 		bhs.s	.display
 		add.b	d6,(Debug_object).w
 		bra.s	.display
 ; ---------------------------------------------------------------------------
 
 .nextitem
-		btst	#button_A,(Ctrl_1_pressed).w							; is button A pressed?
-		beq.s	.createitem										; if not, branch
-		addq.b	#1,(Debug_object).w								; go forwards 1 item
+		btst	#button_A,(Ctrl_1_pressed).w					; is button A pressed?
+		beq.s	.createitem							; if not, branch
+		addq.b	#1,(Debug_object).w						; go forwards 1 item
 		cmp.b	(Debug_object).w,d6
 		bhi.s	.display
-		clr.b	(Debug_object).w										; loop back to first item
+		clr.b	(Debug_object).w						; loop back to first item
 
 .display
 		moveq	#0,d0
@@ -164,17 +164,17 @@ Debug_Mode:
 		add.w	d0,d0
 		add.w	d0,d0
 		add.w	d1,d0
-		move.l	4(a2,d0.w),mappings(a0)							; load mappings for item
-		move.w	8(a2,d0.w),art_tile(a0)								; load VRAM setting for item
-		move.b	(a2,d0.w),mapping_frame(a0)						; load frame number for item
+		move.l	4(a2,d0.w),mappings(a0)						; load mappings for item
+		move.w	8(a2,d0.w),art_tile(a0)						; load VRAM setting for item
+		move.b	(a2,d0.w),mapping_frame(a0)					; load frame number for item
 		rts
 ; ---------------------------------------------------------------------------
 
 .createitem
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		beq.s	.backtonormal									; if yes, branch
-		btst	#button_C,(Ctrl_1_pressed).w							; is button C pressed?
-		beq.s	.backtonormal									; if not, branch
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		beq.s	.backtonormal							; if yes, branch
+		btst	#button_C,(Ctrl_1_pressed).w					; is button C pressed?
+		beq.s	.backtonormal							; if not, branch
 		jsr	(Create_New_Sprite).w
 		bne.s	.backtonormal
 		move.w	x_pos(a0),x_pos(a1)
@@ -199,13 +199,13 @@ Debug_Mode:
 ; ---------------------------------------------------------------------------
 
 .backtonormal
-		btst	#button_B,(Ctrl_1_pressed).w							; is button B pressed?
-		beq.s	.stayindebug										; if not, branch
-		clr.w	(Debug_placement_mode).w						; deactivate debug mode
+		btst	#button_B,(Ctrl_1_pressed).w					; is button B pressed?
+		beq.s	.stayindebug							; if not, branch
+		clr.w	(Debug_placement_mode).w					; deactivate debug mode
 		disableInts
 		lea	(HUD_DrawZeroRingsSS).w,a1
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		beq.s	.special											; if yes, branch
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		beq.s	.special							; if yes, branch
 		lea	(HUD_DrawInitial).w,a1
 		move.b	#1,(Update_HUD_score).w
 		move.b	#$80,(Update_HUD_ring_count).w
@@ -213,19 +213,21 @@ Debug_Mode:
 .special
 		jsr	(a1)
 		enableInts
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.notspecial4										; if not, branch
-		clr.w	(SStage_scalar_index_0).w							; set stage angle to "upright"
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		bne.s	.notspecial4							; if not, branch
+		clr.w	(SStage_scalar_index_0).w					; set stage angle to "upright"
 		move.w	#$40,(SStage_scalar_index_1).w					; set stage rotation speed
 
 .notspecial4
-		move.l	(Debug_saved_mappings).w,mappings(a0)			; restore mappings
+		move.l	(Debug_saved_mappings).w,mappings(a0)				; restore mappings
 		move.l	(Debug_saved_priority).w,priority(a0)				; restore priority and art_tile
+
+		; reset
 		moveq	#0,d0
 		move.b	d0,anim(a0)
 		move.w	d0,x_sub(a0)
 		move.w	d0,y_sub(a0)
-		move.w	d0,object_control(a0)								; clear object control and double jump flag
+		move.w	d0,object_control(a0)						; clear object control and double jump flag
 		move.l	d0,x_vel(a0)
 		move.w	d0,ground_vel(a0)
 		move.b	d0,double_jump_flag(a0)
@@ -233,5 +235,5 @@ Debug_Mode:
 		andi.b	#setBit(Status_Facing),status(a0)
 		ori.b	#setBit(Status_InAir),status(a0)
 		move.b	#PlayerID_Control,routine(a0)
-		move.w	default_y_radius(a0),y_radius(a0)					; set y_radius and x_radius
+		move.w	default_y_radius(a0),y_radius(a0)				; set y_radius and x_radius
 		rts
