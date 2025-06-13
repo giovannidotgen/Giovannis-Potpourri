@@ -71,6 +71,8 @@ LevelLoadPointer_Ending:
 		; Players start location
 		dc.w $EE0-$60								; xpos
 		dc.w $16C								; ypos
+		dc.w $EE0-$60								; xpos
+		dc.w $16C								; ypos
 
 		; Debug Mode
 	if (GameDebug)&&(~~GameDebugAlt)

@@ -65,7 +65,8 @@
 		dc.b PalID_WaterKnuckles
 
 		; Players start location
-		binclude "Levels/GHZ/Start Location/3.bin"
+		binclude "Levels/GHZ/Start Location/Sonic/3.bin"
+		binclude "Levels/GHZ/Start Location/Knuckles/3.bin"
 
 		; Debug Mode
 	if (GameDebug)&&(~~GameDebugAlt)

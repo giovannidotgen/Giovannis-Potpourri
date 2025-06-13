@@ -71,6 +71,8 @@ LevelLoadPointer_Title:
 		; Players start location
 		dc.w $50								; xpos
 		dc.w 0									; ypos
+		dc.w $50								; xpos
+		dc.w 0									; ypos
 
 		; Debug Mode
 		dc.l 0									; Unused

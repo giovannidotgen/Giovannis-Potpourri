@@ -7,13 +7,13 @@
 LoadLevelLoadBlock:
 
 		; load primary level art
-		movea.l	(Level_data_addr_RAM.8x8data1).w,a1
+		movea.l	(Level_data_addr_RAM.8x8Data1).w,a1
 		move.w	(a1),d4								; save art size
 		moveq	#tiles_to_bytes(0),d2						; VRAM
 		bsr.w	Queue_KosPlus_Module
 
 		; load secondary level art
-		move.l	(Level_data_addr_RAM.8x8data2).w,d0
+		move.l	(Level_data_addr_RAM.8x8Data2).w,d0
 		beq.s	.waitplc
 		movea.l	d0,a1
 		move.w	d4,d2								; return art size for the starting position
@@ -88,7 +88,7 @@ LoadLevelLoadBlock2:
 		bsr.w	LoadPLC_Raw_KosPlusM
 
 .skipPLC
-		lea	(Level_data_addr_RAM.16x16ram).w,a2
+		lea	(Level_data_addr_RAM.16x16RAM).w,a2
 
 		; save blocks address
 		move.l	(a2)+,(Block_table_addr_ROM).w
@@ -168,6 +168,8 @@ LoadLevelPointer:
 		lsr.w	#5,d1
 		add.w	d0,d0
 		add.w	d1,d0
+		add.w	d1,d0
+		add.w	d1,d0
 	endif
 
 .skip
@@ -179,13 +181,13 @@ LoadLevelPointer:
 
 		; if you make a different buffer size, you need to change this code
 
-	if (Level_data_addr_RAM_end-Level_data_addr_RAM)<>$82
+	if (Level_data_addr_RAM_end-Level_data_addr_RAM)<>$86
 		fatal "Warning! The buffer size is different!"
 	endif
 
 		set	.a,0
 
-	rept (Level_data_addr_RAM_end-Level_data_addr_RAM)/$20				; copy $82 bytes
+	rept (Level_data_addr_RAM_end-Level_data_addr_RAM)/$20				; copy $86 bytes
 		movem.l	(a2)+,d0-d7
 		movem.l	d0-d7,.a(a3)							; copy $20 bytes
 		set	.a,.a + $20

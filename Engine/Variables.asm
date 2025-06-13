@@ -324,16 +324,16 @@ Level_data_addr_RAM:					= *
 .AnimateTiles						ds.l 1						; animate tiles main code
 .AnPLCScript						ds.l 1						; animate tiles PLC scripts
 .Palette						= *
-.8x8data1						ds.l 1
-.8x8data2						ds.l 1
+.8x8Data1						ds.l 1
+.8x8Data2						ds.l 1
 .WaterPalette						= *
-.16x16ram						ds.l 1
-.16x16data1						ds.l 1
-.16x16data2						ds.l 1
+.16x16RAM						ds.l 1
+.16x16Data1						ds.l 1
+.16x16Data2						ds.l 1
 .Music							= *
-.128x128ram						ds.l 1
-.128x128data1						ds.l 1
-.128x128data2						ds.l 1
+.128x128RAM						ds.l 1
+.128x128Data1						ds.l 1
+.128x128Data2						ds.l 1
 .Solid							ds.l 1
 .Layout							ds.l 1
 .Sprites						ds.l 1
@@ -346,11 +346,12 @@ Level_data_addr_RAM:					= *
 .ystart							ds.w 1
 .yend							ds.w 1
 .WaterHeight						ds.w 1
-.Spal							ds.b 1
-.Kpal							ds.b 1
-.WaterSpal						ds.b 1
-.WaterKpal						ds.b 1
-.Location						ds.l 1						; players start location (xypos)
+.SPal							ds.b 1
+.KPal							ds.b 1
+.WaterSPal						ds.b 1
+.WaterKPal						ds.b 1
+.SonLoc							ds.l 1						; Sonic start location (xypos)
+.KnuxLoc						ds.l 1						; Knuckles start location (xypos)
 .Debug							ds.l 1
 Level_data_addr_RAM_end					= *
 

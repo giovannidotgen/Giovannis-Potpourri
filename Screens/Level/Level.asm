@@ -73,7 +73,7 @@ LevelScreen:
 		move.w	(H_int_counter_command).w,VDP_control_port-VDP_control_port(a6)			; warning: don't overwrite a6
 
 		; load player palette
-		lea	(Level_data_addr_RAM.Spal).w,a1							; load Sonic palette
+		lea	(Level_data_addr_RAM.SPal).w,a1							; load Sonic palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
 		blo.s	.notknux									; if not, branch
 		addq.w	#1,a1										; load Knuckles palette

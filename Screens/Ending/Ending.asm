@@ -79,7 +79,7 @@ EndingScreen:
 		jsr	(LoadPLC_Raw_KosPlusM).w
 
 		; load player palette
-		lea	(Level_data_addr_RAM.Spal).w,a1							; load Sonic palette
+		lea	(Level_data_addr_RAM.SPal).w,a1							; load Sonic palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
 		blo.s	.notknux									; if not, branch
 		addq.w	#1,a1										; load Knuckles palette
@@ -103,7 +103,9 @@ EndingScreen:
 
 		; with emeralds
 		move.l	#words_to_long(0,$500),(Level_data_addr_RAM.xstart).w				; camerax (with emeralds)
-		move.w	#$620-$20,(Level_data_addr_RAM.Location).w					; xpos (with emeralds)
+		move.w	#$620-$20,d0
+		move.w	d0,(Level_data_addr_RAM.SonLoc).w					; xpos (with emeralds)
+		move.w	d0,(Level_data_addr_RAM.KnuxLoc).w					; xpos (with emeralds)
 
 .noemer
 

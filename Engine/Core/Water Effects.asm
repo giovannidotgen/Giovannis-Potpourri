@@ -107,10 +107,10 @@ CheckLevelForWater:
 		move.b	#1,(Water_speed).w
 
 		; load player water palette
-		lea	(Level_data_addr_RAM.WaterSpal).w,a1					; load Sonic palette
+		lea	(Level_data_addr_RAM.WaterSPal).w,a1					; load Sonic's palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notwaterknux
-		addq.w	#1,a1									; load Knuckles palette
+		addq.w	#1,a1									; load Knuckles's palette
 
 .notwaterknux
 		moveq	#0,d0
