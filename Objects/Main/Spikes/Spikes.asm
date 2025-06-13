@@ -214,7 +214,7 @@ MoveSpikes:
 
 ; =============== S U B R O U T I N E =======================================
 
-.push											; 6 (pushable spikes)	; FBZ
+.push											; 6 (pushable spikes) ; FBZ
 		moveq	#pushing_mask,d3						; is Sonic or Tails pushing the object?
 		and.b	status(a0),d3							; if not, branch
 		beq.s	.notp12
