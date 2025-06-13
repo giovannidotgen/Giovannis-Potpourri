@@ -56,11 +56,11 @@
 		; Starting water height
 		dc.w $900
 
-		; Sonic palette, Knuckles palette
+		; Players palette
 		dc.b PalID_Sonic
 		dc.b PalID_Knuckles
 
-		; Water Sonic palette, Water Knuckles palette
+		; Players water palette
 		dc.b PalID_WaterSonicLZ
 		dc.b PalID_WaterKnucklesLZ
 
