@@ -1241,7 +1241,7 @@ SS_LoadData:
 		move.w	(a0)+,(a1)+									; VRAM
 		dbf	d1,.loadm
 
-		; find all ghost solids
+		; find all ghost solids and rings
 		lea	(SStage_Ghost_Buffer).l,a1
 		lea	(SStage_BlockBuffer).l,a0
 		moveq	#$40-1,d1
