@@ -159,7 +159,7 @@ SpecialStageScreen:
 		lea	(Pal_SSSonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux
-		lea	(Pal_SSSonic_end-Pal_SSSonic)(a1),a1						; Pal_SSKnuckles
+		lea	(Pal_SSKnuckles-Pal_SSSonic)(a1),a1						; Pal_SSKnuckles
 
 .notknux
 		lea	(Target_palette_line_1).w,a2
