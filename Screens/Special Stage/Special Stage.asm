@@ -159,7 +159,7 @@ SpecialStageScreen:
 		lea	(Pal_SSSonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux
-		lea	(Pal_SSKnuckles).l,a1
+		lea	(Pal_SSSonic_end-Pal_SSSonic)(a1),a1						; Pal_SSKnuckles
 
 .notknux
 		lea	(Target_palette_line_1).w,a2
@@ -938,9 +938,8 @@ SS_AniItems:
 		move.b	(a0),d0
 		beq.s	.next
 		add.w	d0,d0
-		add.w	d0,d0
-		movea.l	.index-4(pc,d0.w),a1
-		jsr	(a1)
+		move.w	SS_AniItems_Index-2(pc,d0.w),d0
+		jsr	SS_AniItems_Index(pc,d0.w)
 
 .next
 		addq.w	#8,a0										; next
@@ -948,13 +947,13 @@ SS_AniItems:
 		rts
 ; ---------------------------------------------------------------------------
 
-.index
-		dc.l SS_AniRingSparks									; 1
-		dc.l SS_AniBumper									; 2
-		dc.l SS_Ani1Up										; 3 (unused)
-		dc.l SS_AniReverse									; 4
-		dc.l SS_AniEmeraldSparks								; 5
-		dc.l SS_AniGlassBlock									; 6
+SS_AniItems_Index: offsetTable
+		offsetTableEntry.w SS_AniRingSparks							; 1
+		offsetTableEntry.w SS_AniBumper								; 2
+		offsetTableEntry.w SS_Ani1Up								; 3 (unused)
+		offsetTableEntry.w SS_AniReverse							; 4
+		offsetTableEntry.w SS_AniEmeraldSparks							; 5
+		offsetTableEntry.w SS_AniGlassBlock							; 6
 ; ---------------------------------------------------------------------------
 
 SS_AniRingSparks:
@@ -1189,12 +1188,9 @@ SS_ChkEmldLoop:
 		cmpi.b	#1,(a3,d0.w)
 		bne.s	SS_ChkEmldRepeat
 		bra.s	SS_Load
-
-; ---------------------------------------------------------------------------
-; Special Stage layout pointers
 ; ---------------------------------------------------------------------------
 
-SS_LayoutIndex:	dc.l SS_1, SS_2, SS_3, SS_4, SS_5, SS_6, SS_7
+		include "Screens/Special Stage/Layout/Layout Pointers - Special Stages.asm"
 ; ---------------------------------------------------------------------------
 
 SS_ChkEmldRepeat:
