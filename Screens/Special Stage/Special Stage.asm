@@ -194,13 +194,6 @@ SpecialStageScreen:
 		; load layout
 		bsr.w	SS_Load										; load SS layout data
 
-		; load rings
-		moveq	#0,d0
-		move.b	(Saved_special_stage).w,d0
-		add.w	d0,d0
-		lea	SS_Rings(pc),a1
-		move.w	(a1,d0.w),(Special_stage_rings_left).w
-
 		; load character
 		move.l	#Obj_PlayerSpecial,(Player_1+address).w						; load special stage player object
 
@@ -406,15 +399,6 @@ SpecialStageScreen:
 SSExtraRender_Data:
 		dc.w 1-1
 		dc.l Render_SSHUD	; 0
-
-SS_Rings:				; rings count
-		dc.w 104		; stage 1
-		dc.w 125		; stage 2
-		dc.w 172		; stage 3
-		dc.w 187		; stage 4
-		dc.w 146		; stage 5
-		dc.w 108		; stage 6
-		dc.w 232		; stage 7
 
 ; ---------------------------------------------------------------------------
 ; Special Stage background loading subroutine
@@ -870,27 +854,27 @@ loc_1B350:
 		set	.a,0
 
 	rept 3
-		move.w	(a0)+,.a(a1)		; 1	; 0
-		move.w	(a0)+,.a+(1*8)(a1)	; 2	; 2
-		move.w	(a0)+,.a+(2*8)(a1)	; 3	; 4
-		move.w	(a0)+,.a+(3*8)(a1)	; 4	; 6
-		move.w	(a0)+,.a+(4*8)(a1)	; 5	; 8
-		move.w	(a0)+,.a+(5*8)(a1)	; 6	; A
-		move.w	(a0)+,.a+(6*8)(a1)	; 7	; C
-		move.w	(a0),.a+(7*8)(a1)	; 8	; E
-		lea	$12(a0),a0			; $10+2
-		set	.a,.a + 9*8			; next wall
+		move.w	(a0)+,.a(a1)									; 1 ; 0
+		move.w	(a0)+,.a+(1*8)(a1)								; 2 ; 2
+		move.w	(a0)+,.a+(2*8)(a1)								; 3 ; 4
+		move.w	(a0)+,.a+(3*8)(a1)								; 4 ; 6
+		move.w	(a0)+,.a+(4*8)(a1)								; 5 ; 8
+		move.w	(a0)+,.a+(5*8)(a1)								; 6 ; A
+		move.w	(a0)+,.a+(6*8)(a1)								; 7 ; C
+		move.w	(a0),.a+(7*8)(a1)								; 8 ; E
+		lea	$12(a0),a0									; $10+2
+		set	.a,.a + 9*8									; next wall
 	endr
 
 		; last (green)
-		move.w	(a0)+,.a(a1)		; 1	; 0
-		move.w	(a0)+,.a+(1*8)(a1)	; 2	; 2
-		move.w	(a0)+,.a+(2*8)(a1)	; 3	; 4
-		move.w	(a0)+,.a+(3*8)(a1)	; 4	; 6
-		move.w	(a0)+,.a+(4*8)(a1)	; 5	; 8
-		move.w	(a0)+,.a+(5*8)(a1)	; 6	; A
-		move.w	(a0)+,.a+(6*8)(a1)	; 7	; C
-		move.w	(a0),.a+(7*8)(a1)	; 8	; E
+		move.w	(a0)+,.a(a1)									; 1 ; 0
+		move.w	(a0)+,.a+(1*8)(a1)								; 2 ; 2
+		move.w	(a0)+,.a+(2*8)(a1)								; 3 ; 4
+		move.w	(a0)+,.a+(3*8)(a1)								; 4 ; 6
+		move.w	(a0)+,.a+(4*8)(a1)								; 5 ; 8
+		move.w	(a0)+,.a+(5*8)(a1)								; 6 ; A
+		move.w	(a0)+,.a+(6*8)(a1)								; 7 ; C
+		move.w	(a0),.a+(7*8)(a1)								; 8 ; E
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -965,12 +949,12 @@ SS_AniItems:
 ; ---------------------------------------------------------------------------
 
 .index
-		dc.l SS_AniRingSparks		; 1
-		dc.l SS_AniBumper		; 2
-		dc.l SS_Ani1Up			; 3 (unused)
-		dc.l SS_AniReverse		; 4
-		dc.l SS_AniEmeraldSparks	; 5
-		dc.l SS_AniGlassBlock		; 6
+		dc.l SS_AniRingSparks									; 1
+		dc.l SS_AniBumper									; 2
+		dc.l SS_Ani1Up										; 3 (unused)
+		dc.l SS_AniReverse									; 4
+		dc.l SS_AniEmeraldSparks								; 5
+		dc.l SS_AniGlassBlock									; 6
 ; ---------------------------------------------------------------------------
 
 SS_AniRingSparks:
@@ -1237,12 +1221,12 @@ SS_LoadData:
 		moveq	#$40-1,d1
 
 .nexti
-		moveq	#$40-1,d2
 
-.loadi
-		move.b	(a0)+,(a1)+
-		dbf	d2,.loadi
-		lea	$40(a1),a1
+	rept $40/4
+		move.l	(a0)+,(a1)+
+	endr
+
+		lea	$40(a1),a1									; next
 		dbf	d1,.nexti
 
 		; load mapping
@@ -1267,8 +1251,13 @@ SS_LoadData:
 
 .gloop
 		cmpi.b	#$41,(a0)									; is the item a	ghost block?
-		bne.s	.notgb										; if not, branch
+		bne.s	.gring										; if not, branch
 		move.w	a0,(a1)+									; save address ghost block
+
+.gring
+		cmpi.b	#$3A,(a0)									; is the item a	ring?
+		bne.s	.notgb										; if not, branch
+		addq.w	#1,(Special_stage_rings_left).w							; add ring to counter
 
 .notgb
 		addq.w	#1,a0
