@@ -327,7 +327,7 @@ SpecialStageScreen:
 		lea	(Pal_Sonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux2
-		lea	(Pal_Knuckles).l,a1
+		lea	(Pal_Knuckles-Pal_Sonic)(a1),a1							; Pal_Knuckles
 
 .notknux2
 		lea	(Target_palette_line_1).w,a2
@@ -1213,7 +1213,7 @@ SS_LoadData:
 
 		; items
 		lea	(SStage_BlockBuffer).l,a1
-		lea	(SStage_Buffer2).l,a0
+		lea	(SStage_Buffer2-SStage_BlockBuffer)(a1),a0
 		moveq	#$40-1,d1
 
 .nexti
@@ -1239,7 +1239,7 @@ SS_LoadData:
 
 		; find all ghost solids and rings
 		lea	(SStage_Ghost_Buffer).l,a1
-		lea	(SStage_BlockBuffer).l,a0
+		lea	(SStage_BlockBuffer-SStage_Ghost_Buffer)(a1),a0
 		moveq	#$40-1,d1
 
 .gloop2
