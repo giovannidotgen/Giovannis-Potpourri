@@ -2781,7 +2781,7 @@ loc_17E2E:
 		lea	(KnuxAni_Run).l,a1						; use running animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_17E42
-		lea	(KnuxAni_Walk-KnuxAni_Run)(a1),a1						; use walking animation
+		lea	(KnuxAni_Walk-KnuxAni_Run)(a1),a1				; use walking animation
 		add.b	d0,d0
 
 loc_17E42:
@@ -2829,7 +2829,7 @@ loc_17E84:
 		lea	(KnuxAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_17EB8
-		lea	(KnuxAni_Roll-KnuxAni_Roll2)(a1),a1						; use roll animation
+		lea	(KnuxAni_Roll-KnuxAni_Roll2)(a1),a1				; use roll animation
 
 loc_17EB8:
 		neg.w	d2

@@ -2913,7 +2913,7 @@ loc_1270A:
 		lea	(SonAni_Run).l,a1						; use running animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12724
-		lea	(SonAni_Walk-SonAni_Run)(a1),a1						; use walking animation
+		lea	(SonAni_Walk-SonAni_Run)(a1),a1					; use walking animation
 		add.b	d0,d0
 
 loc_12724:
@@ -3206,7 +3206,7 @@ loc_12A2A:
 		lea	(SonAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12A5E
-		lea	(SonAni_Roll-SonAni_Roll2)(a1),a1						; use roll animation
+		lea	(SonAni_Roll-SonAni_Roll2)(a1),a1				; use roll animation
 
 loc_12A5E:
 		neg.w	d2
