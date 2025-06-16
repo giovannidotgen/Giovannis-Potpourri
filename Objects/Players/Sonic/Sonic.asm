@@ -2799,7 +2799,7 @@ Animate_Sonic:
 		lea	(AniSonic).l,a1
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	.nots
-		lea	(AniSuperSonic).l,a1
+		lea	(AniSuperSonic-AniSonic)(a1),a1
 
 .nots
 		moveq	#0,d0
@@ -2908,10 +2908,12 @@ loc_126DC:
 loc_1270A:
 		tst.b	(Super_Sonic_Knux_flag).w
 		bne.s	loc_12766
+
+		; check
 		lea	(SonAni_Run).l,a1						; use running animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12724
-		lea	(SonAni_Walk).l,a1						; use walking animation
+		lea	(SonAni_Walk-SonAni_Run)(a1),a1					; use walking animation
 		add.b	d0,d0
 
 loc_12724:
@@ -2946,10 +2948,12 @@ locret_12764:
 ; ---------------------------------------------------------------------------
 
 loc_12766:
+
+		; check
 		lea	(SuperSonAni_Run).l,a1
 		cmpi.w	#$800,d2
 		bhs.s	loc_1277E
-		lea	(SuperSonAni_Walk).l,a1
+		lea	(SuperSonAni_Walk-SuperSonAni_Run)(a1),a1
 		add.b	d0,d0
 		add.b	d0,d0
 		bra.s	loc_12780
@@ -3197,10 +3201,12 @@ loc_12A2A:
 		bpl.w	SAnim_Delay
 		mvabs.w	ground_vel(a0),d2
 		add.w	(Camera_H_scroll_shift).w,d2
+
+		; check
 		lea	(SonAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12A5E
-		lea	(SonAni_Roll).l,a1						; use roll animation
+		lea	(SonAni_Roll-SonAni_Roll2)(a1),a1				; use roll animation
 
 loc_12A5E:
 		neg.w	d2
@@ -3230,10 +3236,12 @@ loc_12A82:
 loc_12A8A:
 		lsr.w	#6,d2
 		move.b	d2,anim_frame_timer(a0)
+
+		; check
 		lea	(SonAni_Push).l,a1						; use push animation
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	loc_12AA2
-		lea	(SuperSonAni_Push).l,a1
+		lea	(SuperSonAni_Push-SonAni_Push)(a1),a1
 
 loc_12AA2:
 		bra.w	SAnim_Do2
@@ -3254,7 +3262,7 @@ Sonic_Load_PLC2:
 		lea	(DPLC_Sonic).l,a2
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	.nots
-		lea	(DPLC_SuperSonic).l,a2
+		lea	(DPLC_SuperSonic-DPLC_Sonic)(a2),a2
 
 .nots
 		adda.w	(a2,d0.w),a2

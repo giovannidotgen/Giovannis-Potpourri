@@ -363,7 +363,7 @@ SpecialStageScreen:
 		lea	(ArtKosPM_SSResultsHYPER).l,a1
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
 		bne.s	.nottails									; if not, branch
-		lea	(ArtKosPM_SSResultsSUPER).l,a1
+		lea	(ArtKosPM_SSResultsSUPER-ArtKosPM_SSResultsHYPER)(a1),a1
 
 .nottails
 	else
