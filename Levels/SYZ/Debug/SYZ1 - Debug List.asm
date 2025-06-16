@@ -23,8 +23,8 @@ Debug_SYZ1: dbglistheader
 	dbglistobj Obj_Spring, Map_Spring2, $92, 3, ArtTile_SpikesSprings+$1C, 0, 0
 	dbglistobj Obj_Spring, Map_Spring, $A0, 6, ArtTile_SpikesSprings+$10, 0, 0
 	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, ArtTile_SpikesSprings+$10, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, $48C, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, $484, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, ArtTile_SpikesSprings+8, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, ArtTile_SpikesSprings, 0, 0
 	dbglistobj Obj_Roller, Map_Roll, 0, 0, $4F0, 0, 0
 	dbglistobj Obj_StillSprite, Map_StillSprites, 2, 2, $11, 0, 0
 	dbglistobj Obj_Bumper, Map_Bump, 0, 0, $372, 0, 0
