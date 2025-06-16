@@ -23,8 +23,8 @@ Debug_LZ1: dbglistheader
 	dbglistobj Obj_Spring, Map_Spring2, $92, 3, ArtTile_SpikesSprings+$1C, 0, 0
 	dbglistobj Obj_Spring, Map_Spring, $A0, 6, ArtTile_SpikesSprings+$10, 0, 0
 	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, ArtTile_SpikesSprings+$10, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, $48C, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, $484, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, ArtTile_SpikesSprings+8, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, ArtTile_SpikesSprings, 0, 0
 	dbglistobj Obj_Jaws, Map_Jaws, 8, 0, $4F0, 1, 0
 	dbglistobj Obj_Burrobot, Map_Burro, 0, 2, $510, 0, 0
 	dbglistobj Obj_Animal, Map_Animals4, 0, 2, $592, 0, 0

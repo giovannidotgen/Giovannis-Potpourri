@@ -23,8 +23,8 @@ Debug_SBZ1: dbglistheader
 	dbglistobj Obj_Spring, Map_Spring2, $92, 3, ArtTile_SpikesSprings+$1C, 0, 0
 	dbglistobj Obj_Spring, Map_Spring, $A0, 6, ArtTile_SpikesSprings+$10, 0, 0
 	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, ArtTile_SpikesSprings+$10, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, $48C, 0, 0
-	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, $484, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, ArtTile_SpikesSprings+8, 0, 0
+	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, ArtTile_SpikesSprings, 0, 0
 	dbglistobj Obj_BombBadnik, Map_Bomb, 0, 0, $500, 0, 0
 	dbglistobj Obj_Orbinaut, Map_Orb, 0, 0, $429, 0, 0
 	dbglistobj Obj_Caterkiller, Map_Cat, 0, 0, $552, 1, 0
