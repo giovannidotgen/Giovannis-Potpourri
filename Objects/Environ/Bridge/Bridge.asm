@@ -139,11 +139,11 @@ loc_3881E:
 loc_38822:
 		moveq	#0,d1
 		move.b	subtype(a0),d1
-		lsl.w	#3,d1
+		lsl.w	#3,d1								; multiply by 8
 		move.w	d1,d2								; width
 		addq.w	#8,d1
 		add.w	d2,d2
-		moveq	#8,d3								; height
+		moveq	#16/2,d3							; height
 		move.w	x_pos(a0),d4
 		bsr.w	SolidObject_TensionBridge
 		out_of_xrange.s	.chkdel

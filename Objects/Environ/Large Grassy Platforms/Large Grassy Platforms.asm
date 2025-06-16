@@ -46,10 +46,10 @@ Obj_LargeGrass:
 .solid
 		moveq	#$B,d1
 		add.b	width_pixels(a0),d1
-		moveq	#$20,d2								; height
+		moveq	#64/2,d2							; height
 		cmpi.b	#2,mapping_frame(a0)
 		bne.s	.skip
-		moveq	#$30,d2								; height
+		moveq	#96/2,d2							; height
 
 .skip
 		movea.l	objoff_3C(a0),a2
@@ -64,13 +64,13 @@ Obj_LargeGrass:
 ; =============== S U B R O U T I N E =======================================
 
 .index
-		bra.s	.type01		; 1
-		bra.s	.type02		; 2
-		bra.s	.type03		; 3
-		bra.s	.type04		; 4
+		bra.s	.type01								; 1
+		bra.s	.type02								; 2
+		bra.s	.type03								; 3
+		bra.s	.type04								; 4
 ; ---------------------------------------------------------------------------
 
-		; type05		; 5
+		; type05								; 5
 
 		; check standing on the object
 		moveq	#standing_mask,d0

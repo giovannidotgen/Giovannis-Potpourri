@@ -27,9 +27,9 @@ Obj_MarbleBrick:
 		jsr	.index-2(pc,d0.w)
 
 .solid
-		moveq	#$1B,d1
-		moveq	#$10,d2
-		moveq	#$11,d3
+		moveq	#(32/2)+$B,d1							; width
+		moveq	#32/2,d2							; height
+		moveq	#(32/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 

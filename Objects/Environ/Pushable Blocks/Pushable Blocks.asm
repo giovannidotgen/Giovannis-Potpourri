@@ -75,8 +75,8 @@ Obj_PushableBlock:
 		move.b	(Player_2+status).w,pushb_p2(a0)
 		moveq	#$B,d1
 		add.b	width_pixels(a0),d1
-		moveq	#$10,d2
-		moveq	#$11,d3
+		moveq	#32/2,d2							; height
+		moveq	#(32/2)+1,d3							; height+1
 		move.w	(sp)+,d4
 		jsr	(SolidObjectFull).w
 
@@ -233,8 +233,8 @@ PushableBlock_Floating:									; floating block on lava
 		move.b	(Player_2+status).w,pushb_p2(a0)
 		moveq	#$B,d1
 		add.b	width_pixels(a0),d1
-		moveq	#$10,d2
-		moveq	#$11,d3
+		moveq	#32/2,d2							; height
+		moveq	#(32/2)+1,d3							; height+1
 		move.w	(sp)+,d4
 		jsr	(SolidObjectFull).w
 		bsr.s	PushableBlock_ChkLava

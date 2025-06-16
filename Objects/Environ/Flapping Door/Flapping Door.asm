@@ -46,8 +46,8 @@ Obj_FlapDoor:
 		move.b	#3,(WindTunnel_holding_flag).w					; Player_1 + Player_2 (bit set 0 + 1) ; disable wind tunnel
 
 .solid
-		moveq	#$13,d1
-		moveq	#$20,d2
+		moveq	#(16/2)+$B,d1							; width
+		moveq	#64/2,d2							; height
 		move.w	d2,d3
 		addq.w	#1,d3
 		move.w	x_pos(a0),d4

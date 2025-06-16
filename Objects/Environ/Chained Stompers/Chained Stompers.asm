@@ -129,8 +129,8 @@ Obj_ChainStomp:
 		move.w	y_pos(a0),(Chain_stomp_addr).w
 		moveq	#$B,d1								; width
 		add.b	width_pixels(a0),d1
-		moveq	#$C,d2								; height
-		moveq	#$D,d3								; height+1
+		moveq	#24/2,d2							; height
+		moveq	#(24/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 
@@ -140,15 +140,15 @@ Obj_ChainStomp:
 ; =============== S U B R O U T I N E =======================================
 
 CStom_TypeIndex: offsetTable
-		offsetTableEntry.w CStom_Type00	; 0
-		offsetTableEntry.w CStom_Type01	; 1
-		offsetTableEntry.w CStom_Type01	; 2
-		offsetTableEntry.w CStom_Type03	; 3
-		offsetTableEntry.w CStom_Type01	; 4
-		offsetTableEntry.w CStom_Type03	; 5
-		offsetTableEntry.w CStom_Type01	; 6
-		offsetTableEntry.w CStom_Type03	; 7
-		offsetTableEntry.w CStom_Type01	; 8
+		offsetTableEntry.w CStom_Type00						; 0
+		offsetTableEntry.w CStom_Type01						; 1
+		offsetTableEntry.w CStom_Type01						; 2
+		offsetTableEntry.w CStom_Type03						; 3
+		offsetTableEntry.w CStom_Type01						; 4
+		offsetTableEntry.w CStom_Type03						; 5
+		offsetTableEntry.w CStom_Type01						; 6
+		offsetTableEntry.w CStom_Type03						; 7
+		offsetTableEntry.w CStom_Type01						; 8
 ; ---------------------------------------------------------------------------
 
 CStom_Type00:
