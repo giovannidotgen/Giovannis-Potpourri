@@ -17,12 +17,12 @@ Debug_MZ1: dbglistheader
 	dbglistobj Obj_Monitor, Map_Monitor, 9, $A, ArtTile_Monitors, 0, 0
 	dbglistobj Obj_PathSwap, Map_PathSwap, 9, 1, ArtTile_Ring, 1, 0
 	dbglistobj Obj_PathSwap, Map_PathSwap, $D, 5, ArtTile_Ring, 1, 0
-	dbglistobj Obj_Spring, Map_Spring, $81, 0, $494, 0, 0
-	dbglistobj Obj_Spring, Map_Spring2, $82, 0, $494, 0, 0
-	dbglistobj Obj_Spring, Map_Spring, $90, 3, $4A0, 0, 0
-	dbglistobj Obj_Spring, Map_Spring2, $92, 3, $4A0, 0, 0
-	dbglistobj Obj_Spring, Map_Spring, $A0, 6, $494, 0, 0
-	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, $494, 0, 0
+	dbglistobj Obj_Spring, Map_Spring, $81, 0, ArtTile_SpikesSprings+$10, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $82, 0, ArtTile_SpikesSprings+$10, 0, 0
+	dbglistobj Obj_Spring, Map_Spring, $90, 3, ArtTile_SpikesSprings+$1C, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $92, 3, ArtTile_SpikesSprings+$1C, 0, 0
+	dbglistobj Obj_Spring, Map_Spring, $A0, 6, ArtTile_SpikesSprings+$10, 0, 0
+	dbglistobj Obj_Spring, Map_Spring2, $A2, 6, ArtTile_SpikesSprings+$10, 0, 0
 	dbglistobj Obj_Spikes, Map_Spikes, 0, 0, $48C, 0, 0
 	dbglistobj Obj_Spikes, Map_Spikes, $10, 1, $484, 0, 0
 	dbglistobj Obj_BuzzBomber, Map_Buzz, 0, 0, $440, 0, 0
