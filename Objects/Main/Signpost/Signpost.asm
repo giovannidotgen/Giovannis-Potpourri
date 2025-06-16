@@ -239,7 +239,7 @@ Obj_EndSign:
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux2
-		lea	(PLC2_Knuckles).l,a5
+		lea	(PLC2_Knuckles-PLC2_Sonic)(a5),a5
 
 .notknux2
 		jsr	(LoadPLC_Raw_KosPlusM).w

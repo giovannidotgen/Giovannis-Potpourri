@@ -161,7 +161,7 @@ Obj_TitleCard:
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux
-		lea	(PLC2_Knuckles).l,a5
+		lea	(PLC2_Knuckles-PLC2_Sonic)(a5),a5
 
 .notknux
 		jsr	(LoadPLC_Raw_KosPlusM).w

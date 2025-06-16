@@ -16,10 +16,12 @@ AnPal_LZ:
 		moveq	#$18,d0								; if cycle > 3, reset to 0
 		and.w	2(a0),d0
 		addq.w	#8,2(a0)							; increment cycle number
+
+		; check
 		lea	(Pal_LZCyc1).l,a1
 		cmpi.b	#3,(Current_act).w						; check if level is SBZ3
 		bne.s	.notsbz3							; if not, branch
-		lea	(Pal_SBZ3Cyc).l,a1						; load SBZ3 palette instead
+		lea	(Pal_SBZ3Cyc-Pal_LZCyc1)(a1),a1					; load SBZ3 palette instead
 
 .notsbz3
 		adda.w	d0,a1

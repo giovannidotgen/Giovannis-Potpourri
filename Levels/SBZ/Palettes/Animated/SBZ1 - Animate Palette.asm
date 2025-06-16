@@ -51,11 +51,11 @@ loc_1B06:
 		bpl.s	locret_1B64							; if time remains, branch
 		addq.w	#1+1,(a0)							; reset timer to 1 frames
 
-		; cycle
+		; check
 		lea	(Pal_SBZCyc4).l,a1
 		tst.b	(Current_act).w							; is act number 1?
 		beq.s	loc_1B2E							; if yes, branch
-		lea	(Pal_SBZCyc10).l,a1
+		lea	(Pal_SBZCyc10-Pal_SBZCyc4)(a1),a1
 		clr.w	(a0)
 
 loc_1B2E:
@@ -80,6 +80,8 @@ loc_1B52:
 		move.w	d0,2(a0)
 		add.w	d0,d0
 		adda.w	d0,a1
+
+		; cycle
 		lea	(Normal_palette_line_3+$18).w,a2
 		move.l	(a1)+,(a2)+
 		move.w	(a1),(a2)
