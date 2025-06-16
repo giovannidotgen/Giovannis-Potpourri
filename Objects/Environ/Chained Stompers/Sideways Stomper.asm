@@ -80,9 +80,9 @@ Obj_SideStomp:
 		move.w	(sp)+,d4
 
 		; solid
-		moveq	#$17,d1								; width
-		moveq	#$20,d2								; height
-		moveq	#$21,d3								; height+1
+		moveq	#(24/2)+$B,d1							; width
+		moveq	#64/2,d2							; height
+		moveq	#(64/2)+1,d3							; height+1
 		jsr	(SolidObjectFull).w
 
 		; sub objects 2 (pole)
@@ -105,9 +105,9 @@ Obj_SideStomp:
 ; =============== S U B R O U T I N E =======================================
 
 SStom_TypeIndex: offsetTable
-		offsetTableEntry.w SStom_Type00		; 0
-		offsetTableEntry.w SStom_Type00		; 1
-		offsetTableEntry.w SStom_Type00		; 2
+		offsetTableEntry.w SStom_Type00						; 0
+		offsetTableEntry.w SStom_Type00						; 1
+		offsetTableEntry.w SStom_Type00						; 2
 ; ---------------------------------------------------------------------------
 
 SStom_Type00:
