@@ -105,11 +105,11 @@ Ending_128x128_KosP:		binclude "Levels/GHZ/Chunks/Ending.kosp"
 ; Collision data
 ; ===========================================================================
 
-AngleArray:			binclude "Misc/Floor/Angle Map.bin"
+AngleArray:			binclude "Data/Misc/Floor/Angle Map.bin"
 	even
-HeightMaps:			binclude "Misc/Floor/Height Maps.bin"
+HeightMaps:			binclude "Data/Misc/Floor/Height Maps.bin"
 	even
-HeightMapsRot:			binclude "Misc/Floor/Height Maps Rotated.bin"
+HeightMapsRot:			binclude "Data/Misc/Floor/Height Maps Rotated.bin"
 	even
 
 ; ===========================================================================
