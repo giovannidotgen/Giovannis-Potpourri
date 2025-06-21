@@ -3,6 +3,7 @@
 ![Title](https://i.imgur.com/VbQoOjT.png)
 
 ![GitHub Release](https://img.shields.io/github/v/release/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub Repo stars](https://img.shields.io/github/stars/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub watchers](https://img.shields.io/github/watchers/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub forks](https://img.shields.io/github/forks/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
