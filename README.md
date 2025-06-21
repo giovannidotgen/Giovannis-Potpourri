@@ -7,6 +7,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub watchers](https://img.shields.io/github/watchers/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub forks](https://img.shields.io/github/forks/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/total?style=flat-square)
 
 # Download
