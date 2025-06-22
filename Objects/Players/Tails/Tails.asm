@@ -3515,9 +3515,9 @@ Tails_Tail_Load_PLC:
 Tails_Load_PLC:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
-		move.b	(Player_curr_bank_P2).w,d4
 
 Tails_Load_PLC2:
+		move.b	(Player_curr_bank_P2).w,d4
 		cmp.b	(Player_prev_bank_P2).w,d4
 		bne.s	.doanyway
 		cmp.b	(Player_prev_frame_P2).w,d0

@@ -241,9 +241,9 @@ Player_SetSpriteBank:
 UnkPlayer_SetSpriteBank:
 		moveq	#0,d0					
 		move.b	character_id(a0),d0			; Get the character ID.
-		cmp.b	#0,d0					; Check if this is a character that even uses the Sprite bank system.
+		cmp.b	#1,d0					; Check if this is a character that even uses the Sprite bank system.
 		bhi.s	.return					; If not, return.
-		add.w	d0,d0
+		lsl.w	#2,d0					; x4
 		move.l	a1,-(sp)				; Back up a1, because the caller *might* need it.
 								; (i'm not sure what address i could use that would cause zero damage)
 		movea.l	SpriteBankCode_Index(pc,d0.w),a1	; Get the relevant character's sprite bank code
@@ -255,6 +255,7 @@ UnkPlayer_SetSpriteBank:
 		
 SpriteBankCode_Index:
 		dc.l	Sonic_SetSpriteBank
+		dc.l	Tails_SetSpriteBank
 
 ; ---------------------------------------------------------------------------
 ; Map Bank List format specifications:

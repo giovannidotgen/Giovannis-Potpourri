@@ -443,6 +443,7 @@ Obj_Continue_TailsWSonic:
 
 .anim
 		jsr	(Animate_Tails).l
+		jsr	(Tails_SetSpriteBank).l
 		jsr	(Tails_Load_PLC).l
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
