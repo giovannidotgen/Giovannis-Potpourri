@@ -25,6 +25,7 @@ Obj09_Normal:
 loc_4B97C:
 		move.b	#2,anim(a0)
 		bsr.s	sub_4B99E
+		jsr	(UnkPlayer_SetSpriteBank).l
 		moveq	#0,d0
 		lea	(Player_1).w,a1									; a1=character
 		move.b	mapping_frame(a1),d0
