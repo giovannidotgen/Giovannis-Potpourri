@@ -3565,7 +3565,7 @@ Tails_Load_PLC2:
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_2),d4				; normal
 		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
-		bne.s	.loop								; if not, branch
+		bne.s	.readentry							; if not, branch
 		move.w	#tiles_to_bytes($79C),d4					; Special Stage
 
 ; this will be handled by the sprite bank system
