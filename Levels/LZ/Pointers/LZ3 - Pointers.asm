@@ -24,14 +24,14 @@
 
 		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
 		levartptrs \
- 		LZ_8x8_KosPM, \
- 		0, \
- 		LZ_16x16_Unc, \
- 		0, \
- 		0, \
- 		Chunk_table, \
- 		LZ3_128x128_KosP, \
- 		0, \
+		LZ_8x8_KosPM, \
+		0, \
+		LZ_16x16_Unc, \
+		0, \
+		0, \
+		Chunk_table, \
+		LZ3_128x128_KosP, \
+		0, \
 		PalID_LZ, \
 		PalID_WaterLZ, \
 		mus_LZ
@@ -39,7 +39,7 @@
 		; Level data 2
 		dc.l LZ_Solid									; Level solid
 		dc.l LZ3_Layout								; Level layout
-		dc.l LZ3_Sprites								; Level sprites
+		dc.l LZ3_Objects								; Level sprites
 		dc.l LZ3_Rings								; Level rings
 
 		; PLC
@@ -56,16 +56,17 @@
 		; Starting water height
 		dc.w $900
 
-		; Sonic palette, Knuckles palette
+		; Players palette
 		dc.b PalID_Sonic
 		dc.b PalID_Knuckles
 
-		; Water Sonic palette, Water Knuckles palette
+		; Players water palette
 		dc.b PalID_WaterSonicLZ
 		dc.b PalID_WaterKnucklesLZ
 
 		; Players start location
-		binclude "Levels/LZ/Start Location/3.bin"
+		binclude "Levels/LZ/Start Location/Sonic/3.bin"
+		binclude "Levels/LZ/Start Location/Knuckles/3.bin"
 
 		; Debug Mode
 	if (GameDebug)&&(~~GameDebugAlt)

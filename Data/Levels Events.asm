@@ -14,6 +14,7 @@
 		include "Levels/GHZ/Events/GHZ3 - Resize.asm"
 
 		; MZ
+		include "Levels/MZ/Tiles/Animated/MZ1 - Animation PLC.asm"
 		include "Levels/MZ/Tiles/Animated/MZ1 - Animation PLC Scripts.asm"
 		include "Levels/MZ/Events/MZ1 - Events.asm"
 		include "Levels/MZ/Events/MZ1 - Resize.asm"
@@ -29,7 +30,7 @@
 		include "Levels/SYZ/Events/SYZ3 - Resize.asm"
 
 		; LZ
-		include "Levels/LZ/Tiles/Animated/LZ1 - Animation PLC Scripts.asm"
+		include "Levels/LZ/Tiles/Animated/LZ1 - Animation PLC.asm"
 		include "Levels/LZ/Palettes/Animated/LZ1 - Animate Palette.asm"
 		include "Levels/LZ/Events/LZ1 - Events.asm"
 		include "Levels/LZ/Events/LZ1 - Resize.asm"

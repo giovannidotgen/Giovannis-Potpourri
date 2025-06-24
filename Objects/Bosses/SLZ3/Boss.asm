@@ -8,7 +8,7 @@ BossSpikeBall_Hits			= 8
 
 ; Dynamic object variables
 obBSB_Timer				= objoff_2E	; .w
-obBSB_Jump					= objoff_34	; .l
+obBSB_Jump				= objoff_34	; .l
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -24,8 +24,10 @@ Obj_BossSpikeBall:
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
 		move.b	#BossSpikeBall_Hits,collision_property(a0)			; set hits
-		move.w	#-$100,x_vel(a0)									; set move left
+		move.w	#-$100,x_vel(a0)						; set move left
 		move.l	#BossSpikeBall_MoveLeft,obBSB_Jump(a0)
+
+		; create
 		lea	Child1_MakeRoboHead4(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboShipFlame(pc),a2
@@ -63,7 +65,7 @@ BossSpikeBall_MoveLeftRight:
 		neg.w	x_vel(a0)
 		addq.w	#8,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.exit
+		blt.s	.exit
 		bra.s	.setflipx
 
 .notflipx
@@ -85,22 +87,22 @@ BossSpikeBall_MoveLeftRight:
 		neg.w	d1
 
 .notleft
-		movea.w	-(a1),a2											; get seesaw #3 address to a2
+		movea.w	-(a1),a2							; get seesaw #3 address to a2
 		bsr.s	.checkpos
-		movea.w	-(a1),a2											; get seesaw #2 address to a2
+		movea.w	-(a1),a2							; get seesaw #2 address to a2
 		bsr.s	.checkpos
-		movea.w	-(a1),a2											; get seesaw #1 address to a2
+		movea.w	-(a1),a2							; get seesaw #1 address to a2
 
 .checkpos
 
 		; check slot
-		tst.w	(a1)												; is seesaw address enabled?
-		bpl.s	.return											; if not, branch
+		tst.w	(a1)								; is seesaw address enabled?
+		bpl.s	.return								; if not, branch
 
 		; check players standing
 		moveq	#standing_mask,d0
-		and.b	status(a2),d0										; is player 1 or player 2 standing on the seesaw?
-		bne.s	.return											; if yes, branch
+		and.b	status(a2),d0							; is player 1 or player 2 standing on the seesaw?
+		bne.s	.return								; if yes, branch
 
 		; check
 		move.w	x_pos(a2),d3
@@ -113,8 +115,8 @@ BossSpikeBall_MoveLeftRight:
 ; ---------------------------------------------------------------------------
 
 .found
-		move.w	a1,parent2(a0)									; save seesaw address buffer
-		move.w	a2,parent3(a0)									; save found seesaw address
+		move.w	a1,parent2(a0)							; save seesaw address buffer
+		move.w	a2,parent3(a0)							; save found seesaw address
 		move.l	#BossSpikeBall_Setup,address(a0)
 		move.l	#BossSpikeBall_MakeBall,obBSB_Jump(a0)
 		rts
@@ -127,16 +129,16 @@ BossSpikeBall_MakeBall:
 		lea	Child1_BossSpikeBall_SpikeBall(pc),a2
 		jsr	(CreateChild10_NormalAdjusted).w
 		bne.s	.nofree
-		move.w	a0,parent4(a1)									; save boss address
-		move.w	parent2(a0),parent2(a1)							; save seesaw address buffer
-		movea.w	parent3(a0),a2									; load found seesaw address
+		move.w	a0,parent4(a1)							; save boss address
+		move.w	parent2(a0),parent2(a1)						; save seesaw address buffer
+		movea.w	parent3(a0),a2							; load found seesaw address
 		move.b	status(a2),status(a1)
 		move.w	a2,parent3(a1)
 
 .nofree
 
 		; wait
-		move.w	#40-1,obBSB_Timer(a0)							; set wait
+		move.w	#40-1,obBSB_Timer(a0)						; set wait
 
 		; back
 		move.l	#BossSpikeBall_MoveRestore,obBSB_Jump(a0)
@@ -172,28 +174,28 @@ BossSpikeBall_MainProcess:
 
 ; =============== S U B R O U T I N E =======================================
 
-BossSpikeBall_CheckTouch:
-		tst.b	collision_flags(a0)										; are boss's collisions enabled?
-		bne.s	.return											; if yes, branch
-		tst.b	collision_property(a0)									; has boss run out of hits?
-		beq.s	BossSpikeBall_Defeated							; if yes, branch
-		tst.b	boss_invulnerable_time(a0)							; is boss invulnerable?
-		bne.s	.flash											; if yes, branch
+		; check touch
+		tst.b	collision_flags(a0)						; are boss's collisions enabled?
+		bne.s	.return								; if yes, branch
+		tst.b	collision_property(a0)						; has boss run out of hits?
+		beq.s	BossSpikeBall_Defeated						; if yes, branch
+		tst.b	boss_invulnerable_time(a0)					; is boss invulnerable?
+		bne.s	.flash								; if yes, branch
 		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
-		sfx	sfx_BossHit											; play "boss hit" sound
-		bset	#6,status(a0)											; set "boss hit" flag
+		sfx	sfx_BossHit							; play "boss hit" sound
+		bset	#6,status(a0)							; set "boss hit" flag
 
 .flash
-		moveq	#0,d0											; load normal palette
+		moveq	#0,d0								; load normal palette
 		btst	#0,boss_invulnerable_time(a0)
 		bne.s	.skip
-		addq.w	#3*2,d0											; load flashing palette
+		addq.w	#3*2,d0								; load flashing palette
 
 .skip
 		jsr	(BossFlash2).w
-		subq.b	#1,boss_invulnerable_time(a0)						; decrease boss invincibility timer
+		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)											; clear "boss hit" flag
+		bclr	#6,status(a0)							; clear "boss hit" flag
 		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
@@ -209,7 +211,7 @@ BossSpikeBall_Defeated:
 		move.l	#Wait_FadeToLevelMusic,address(a0)
 		move.l	#.explosion,obBSB_Jump(a0)
 		clr.l	x_vel(a0)
-		move.b	#$F,mapping_frame(a0)							; set the broken frame
+		move.b	#$F,mapping_frame(a0)						; set the broken frame
 
 		; create explosion
 		lea	(Child6_CreateBossExplosion).l,a2
@@ -240,7 +242,7 @@ BossSpikeBall_Defeated:
 		move.l	#End_SLZ3Boss,(Level_data_addr_RAM.Resize).w
 
 		; restore pylon
-		moveq	#1,d1											; current slot priority
+		moveq	#1,d1								; current slot priority
 		move.l	#Render_Pylon,d0
 		jsr	(AddSlot_ExtraRender).w
 
@@ -267,13 +269,13 @@ BossSpikeBall_Defeated:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .delete
-		bset	#5,objoff_38(a0)										; remove Robotnik head and fire
+		bset	#5,objoff_38(a0)						; remove Robotnik head and fire
 		clr.b	(Boss_flag).w
 
 		; delete
@@ -325,10 +327,10 @@ Obj_BossSpikeBall_ShipTubePieces:
 		jsr	(Change_FlipXUseParent).w
 		move.l	#Obj_FlickerMove,address(a0)
 		move.b	subtype(a0),d0
-		lsr.b	d0													; division by 2
+		lsr.b	d0								; division by 2
 		addq.b	#1,d0
 		move.b	d0,mapping_frame(a0)
-		moveq	#2<<2,d0										; set index velocity
+		moveq	#2<<2,d0							; set index velocity
 		jsr	(Set_IndexedVelocity).w
 		jmp	(Draw_Sprite).w
 
@@ -341,8 +343,8 @@ Obj_BossSpikeBall_ShipTubePieces:
 Obj_BossSpikeBall_SpikeBall:
 
 		; disable
-		movea.w	parent2(a0),a1									; load seesaw address buffer
-		bclr	#7,(a1)												; disable seesaw address
+		movea.w	parent2(a0),a1							; load seesaw address buffer
+		bclr	#7,(a1)								; disable seesaw address
 
 		; init
 		lea	ObjDat_See_SpikeBall(pc),a1
@@ -383,8 +385,8 @@ Obj_BossSpikeBall_SpikeBall:
 		moveq	#0,d1
 
 .notflipx
-		move.w	#$F0,objoff_2E(a0)								; timer
-		move.b	#10,anim_frame(a0)								; set frame duration to 10 frames
+		move.w	#$F0,objoff_2E(a0)						; timer
+		move.b	#10,anim_frame(a0)						; set frame duration to 10 frames
 		move.b	anim_frame(a0),anim_frame_timer(a0)
 		bra.w	.spring
 ; ---------------------------------------------------------------------------
@@ -399,12 +401,12 @@ Obj_BossSpikeBall_SpikeBall:
 		neg.b	d0
 
 .loc_18DDA
-		move.l	#words_to_long(-$114,-$818),d1						; x_vel + y_vel
+		move.l	#words_to_long(-$114,-$818),d1					; x_vel + y_vel
 		cmpi.b	#1,d0
 		beq.s	.loc_18E00
-		move.l	#words_to_long(-$F4,-$960),d1						; x_vel + y_vel
+		move.l	#words_to_long(-$F4,-$960),d1					; x_vel + y_vel
 		cmpi.w	#$9C0,see_speed(a1)
-		blt.s		.loc_18E00
+		blt.s	.loc_18E00
 		move.l	#words_to_long(-$80,-$A20),d1					; x_vel + y_vel
 
 .loc_18E00
@@ -416,7 +418,7 @@ Obj_BossSpikeBall_SpikeBall:
 
 .leftside1
 		move.b	#1,mapping_frame(a0)
-		move.w	#$20,objoff_2E(a0)								; timer
+		move.w	#$20,objoff_2E(a0)						; timer
 		move.l	#.loc_18EAA,address(a0)
 		bra.w	.loc_18EAA
 ; ---------------------------------------------------------------------------
@@ -443,7 +445,7 @@ Obj_BossSpikeBall_SpikeBall:
 		clr.w	x_pos+2(a0)
 		subq.w	#1,objoff_2E(a0)
 		bne.s	.loc_18E7A
-		move.w	#$20,objoff_2E(a0)								; timer
+		move.w	#$20,objoff_2E(a0)						; timer
 		move.l	#BossSpikeBall_SpikeBall_Explode,address(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -452,18 +454,18 @@ Obj_BossSpikeBall_SpikeBall:
 		pea	.draw(pc)
 		cmpi.w	#2*60,objoff_2E(a0)
 		bne.s	.loc_18E88
-		move.b	#5,anim_frame(a0)								; set frame duration to 5 frames
+		move.b	#5,anim_frame(a0)						; set frame duration to 5 frames
 
 .loc_18E88
 		cmpi.w	#1*60,objoff_2E(a0)
 		bne.s	.loc_18E96
-		move.b	#2,anim_frame(a0)								; set frame duration to 2 frames
+		move.b	#2,anim_frame(a0)						; set frame duration to 2 frames
 
 .loc_18E96
-		subq.b	#1,anim_frame_timer(a0)							; decrement timer
-		bpl.s	.locret_18EA8									; if time remains, branch
+		subq.b	#1,anim_frame_timer(a0)						; decrement timer
+		bpl.s	.locret_18EA8							; if time remains, branch
 		move.b	anim_frame(a0),anim_frame_timer(a0)				; reset timer
-		bchg	#0,mapping_frame(a0)							; change frame
+		bchg	#0,mapping_frame(a0)						; change frame
 
 .locret_18EA8
 		rts
@@ -475,17 +477,17 @@ Obj_BossSpikeBall_SpikeBall:
 ; ---------------------------------------------------------------------------
 
 .loc_18EAA
-		movea.w	parent4(a0),a1									; load boss address
-		moveq	#signextendB($40+$80),d0						; check 6 and 7 bit
-		and.b	status(a1),d0										; boss get hit or defeated?
-		bne.s	.loc_18F38										; if yes, branch
+		movea.w	parent4(a0),a1							; load boss address
+		moveq	#signextendB($40+$80),d0					; check 6 and 7 bit
+		and.b	status(a1),d0							; boss get hit or defeated?
+		bne.s	.loc_18F38							; if yes, branch
 
 		; check
 		lea	.xydata(pc),a2
 		jsr	(Check_InTheirRange).w
 		beq.s	.loc_18F38
 		move.l	#BossSpikeBall_SpikeBall_Explode,address(a0)
-		clr.w	objoff_2E(a0)									; timer
+		clr.w	objoff_2E(a0)							; timer
 		move.b	collision_flags(a1),boss_backup_collision(a1)
 		clr.b	collision_flags(a1)
 		subq.b	#1,collision_property(a1)
@@ -494,8 +496,8 @@ Obj_BossSpikeBall_SpikeBall:
 		clr.l	x_vel(a0)
 
 .loc_18F38
-		tst.w	y_vel(a0)										; is spikeball falling down?
-		bpl.s	.loc_18F5C										; if yes, branch
+		tst.w	y_vel(a0)							; is spikeball falling down?
+		bpl.s	.loc_18F5C							; if yes, branch
 		jsr	(MoveSprite).w
 		moveq	#-47,d0
 		add.w	see_origY(a0),d0
@@ -509,7 +511,7 @@ Obj_BossSpikeBall_SpikeBall:
 
 .loc_18F5C
 		jsr	(MoveSprite).w
-		movea.w	parent3(a0),a1									; a1=parent object (seesaw)
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		lea	See_Speeds(pc),a2
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
@@ -520,18 +522,18 @@ Obj_BossSpikeBall_SpikeBall:
 
 .loc_18F7E
 		add.w	d0,d0
-		move.w	see_origY(a0),d1									; d1 = bottom of seesaw y position
-		add.w	(a2,d0.w),d1										; + offset for current angle
-		cmp.w	y_pos(a0),d1										; return if y position < d1
+		move.w	see_origY(a0),d1						; d1 = bottom of seesaw y position
+		add.w	(a2,d0.w),d1							; + offset for current angle
+		cmp.w	y_pos(a0),d1							; return if y position < d1
 		bgt.s	.loc_18F58
-		movea.w	parent3(a0),a1									; a1=parent object (seesaw)
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		moveq	#2,d1
 		tst.w	x_vel(a0)
 		bmi.s	.loc_18F9C
 		moveq	#0,d1
 
 .loc_18F9C
-		clr.w	objoff_2E(a0)									; timer
+		clr.w	objoff_2E(a0)							; timer
 
 .spring
 		move.b	d1,see_frame(a1)
@@ -540,7 +542,7 @@ Obj_BossSpikeBall_SpikeBall:
 		beq.s	.clear
 
 		; launch main character if stood on seesaw
-		lea	(Player_1).w,a2										; a2=character
+		lea	(Player_1).w,a2							; a2=character
 		bclr	#p1_standing_bit,status(a1)
 		beq.s	.notplayer1
 		bsr.s	BossSpikeBall_SpikeBall_LaunchCharacter
@@ -548,13 +550,13 @@ Obj_BossSpikeBall_SpikeBall:
 .notplayer1
 
 		; launch sidekick if stood on seesaw
-		lea	(Player_2).w,a2										; a2=character
+		lea	(Player_2).w,a2							; a2=character
 		bclr	#p2_standing_bit,status(a1)
 		beq.s	.clear
 		bsr.s	BossSpikeBall_SpikeBall_LaunchCharacter
 
 .clear
-		clr.l	x_vel(a0)											; clear ball velocity
+		clr.l	x_vel(a0)							; clear ball velocity
 
 		; load routine
 		move.l	#.loc_18DC6,d0
@@ -568,46 +570,46 @@ Obj_BossSpikeBall_SpikeBall:
 ; ---------------------------------------------------------------------------
 
 .draw
-		moveq	#-$80,d0										; round down to nearest $80
-		and.w	see_origX(a0),d0									; get object position
+		moveq	#-$80,d0							; round down to nearest $80
+		and.w	see_origX(a0),d0						; get object position
 		jmp	(Sprite_CheckDeleteTouch3.skipxpos).w
 
 ; =============== S U B R O U T I N E =======================================
 
 BossSpikeBall_SpikeBall_LaunchCharacter:
-		move.w	y_vel(a0),y_vel(a2)								; set character y velocity to inverse of sol
-		neg.w	y_vel(a2)											; y velocity
+		move.w	y_vel(a0),y_vel(a2)						; set character y velocity to inverse of sol
+		neg.w	y_vel(a2)							; y velocity
 		cmpi.b	#1,mapping_frame(a1)
 		bne.s	.loc_18FDC
 		asr.w	y_vel(a2)
 
 .loc_18FDC
-		bset	#Status_InAir,status(a2)								; set character airborne flag
-		bclr	#Status_OnObj,status(a2)								; clear character on object flag
-		clr.b	jumping(a2)											; clear character jumping flag
-		clr.b	spin_dash_flag(a2)									; clear spin dash flag
+		bset	#Status_InAir,status(a2)					; set character airborne flag
+		bclr	#Status_OnObj,status(a2)					; clear character on object flag
+		clr.b	jumping(a2)							; clear character jumping flag
+		clr.b	spin_dash_flag(a2)						; clear spin dash flag
 
 		; set
 		move.w	a0,-(sp)
 		movea.w	a2,a0
-		lea	(SonicKnux_ChkRoll).l,a3								; Sonic/Knux
-		cmpi.b	#PlayerID_Tails,character_id(a0)					; is player Tails?
-		bne.s	.proll											; if not, branch
-		lea	(Tails_ChkRoll).l,a3									; Tails
+		lea	(SonicKnux_ChkRoll).l,a3					; Sonic/Knux
+		cmpi.b	#PlayerID_Tails,character_id(a0)				; is player Tails?
+		bne.s	.proll								; if not, branch
+		lea	(Tails_ChkRoll-SonicKnux_ChkRoll)(a3),a3			; Tails
 
 .proll
 		jsr	(a3)
 		movea.w	(sp)+,a0
-		move.b	#PlayerID_Control,routine(a2)						; set character to airborne state
-		sfx	sfx_Spring,1											; play spring sound
+		move.b	#PlayerID_Control,routine(a2)					; set character to airborne state
+		sfx	sfx_Spring,1							; play spring sound
 
 ; =============== S U B R O U T I N E =======================================
 
 BossSpikeBall_SpikeBall_Explode:
 
 		; enable
-		movea.w	parent2(a0),a1									; load seesaw address buffer
-		bset	#7,(a1)												; enable seesaw address
+		movea.w	parent2(a0),a1							; load seesaw address buffer
+		bset	#7,(a1)								; enable seesaw address
 
 		; remove
 		jsr	(Go_Delete_Sprite).w
@@ -617,7 +619,7 @@ BossSpikeBall_SpikeBall_Explode:
 		jsr	(CreateChild6_Simple).w
 
 		; check
-		cmpi.w	#32,objoff_2E(a0)									; timer
+		cmpi.w	#32,objoff_2E(a0)						; timer
 		beq.s	.makefrag
 		rts
 ; ---------------------------------------------------------------------------
@@ -633,10 +635,10 @@ BossSpikeBall_SpikeBall_Explode:
 ; Object 7B - shrapnel from spikeball (SLZ)
 ; ---------------------------------------------------------------------------
 
-BossSpikeBall_FragSpeed:	; xyvel
-		dc.w -$100, -$340		; 0
-		dc.w -$A0, -$240		; 4
-		dc.w $100, -$340		; 8
+BossSpikeBall_FragSpeed:		; xyvel
+		dc.w -$100, -$340	; 0
+		dc.w -$A0, -$240	; 4
+		dc.w $100, -$340	; 8
 		dc.w $A0, -$240		; C
 
 ; =============== S U B R O U T I N E =======================================
@@ -652,16 +654,16 @@ Obj_BossSpikeBall_SpikeBall_Shrapnel:
 		; init
 		lea	ObjDat_RobotnikShip_SpikeBall_Shrapnel(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#3,shield_reaction(a0)									; bounce off all shields
+		bset	#3,shield_reaction(a0)						; bounce off all shields
 		move.l	#.action,address(a0)
 		bset	#rbOnscreen,render_flags(a0)
 
 .action
-		MoveSprite a0, $18										; make obj fall
+		MoveSprite a0, $18							; make obj fall
 
 		; animate
 		moveq	#$A,d0
-		btst	#2,(V_int_run_count+3).w								; 0 or 4
+		btst	#2,(V_int_run_count+3).w					; 0 or 4
 		beq.s	.setframe
 		addq.b	#1,d0
 
@@ -672,9 +674,9 @@ Obj_BossSpikeBall_SpikeBall_Shrapnel:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BossSpikeBall_Ship:				subObjData Map_RobotnikShip, $3B0, 1, 0, 64, 64, 4, $C, $F
+ObjDat_BossSpikeBall_Ship:			subObjData Map_RobotnikShip, $3B0, 1, 0, 64, 64, 4, $C, $F
 ObjDat_BossSpikeBall_ShipTube:			subObjData Map_BossSpikeBall_Tube, $440, 1, 0, 8, 32, 3, 0, 0
-ObjDat_RobotnikShip_SpikeBall_Shrapnel:	subObjData Map_Bomb, $4C1, 0, 1, 8, 8, 2, $A, $18|$80
+ObjDat_RobotnikShip_SpikeBall_Shrapnel:		subObjData Map_Bomb, $4C1, 0, 1, 8, 8, 2, $A, $18|$80
 
 Child1_BossSpikeBall_ShipTube:
 		dc.w 1-1

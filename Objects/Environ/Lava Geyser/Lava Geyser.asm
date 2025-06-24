@@ -14,13 +14,13 @@ Obj_GeyserMaker:
 		lea	ObjDat_GeyserMaker(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		clr.b	routine(a0)
-		move.w	#2*60,gmake_time(a0)					; set time delay to 2 seconds
+		move.w	#2*60,gmake_time(a0)						; set time delay to 2 seconds
 		move.l	#.wait,address(a0)
 
 .wait
 		subq.w	#1,gmake_timer(a0)						; decrement timer
-		bpl.s	.cancel									; if time remains, branch
-		move.w	gmake_time(a0),gmake_timer(a0)			; reset timer
+		bpl.s	.cancel								; if time remains, branch
+		move.w	gmake_time(a0),gmake_timer(a0)					; reset timer
 
 		; find Sonic
 		move.w	(Player_1+y_pos).w,d0
@@ -29,7 +29,7 @@ Obj_GeyserMaker:
 		bhs.s	.cancel
 		subi.w	#$170,d1
 		cmp.w	d1,d0
-		blo.s		.cancel
+		blo.s	.cancel
 		move.l	#.chktype,address(a0)						; if Sonic is within range, goto GMake_ChkType
 
 .cancel
@@ -38,8 +38,8 @@ Obj_GeyserMaker:
 
 .chktype
 		move.l	#.checkanim,address(a0)
-		tst.b	subtype(a0)									; is object type 00 (geyser) ?
-		beq.s	.draw									; if yes, branch
+		tst.b	subtype(a0)							; is object type 00 (geyser) ?
+		beq.s	.draw								; if yes, branch
 		move.l	#.makelava,address(a0)
 		bra.s	.range
 ; ---------------------------------------------------------------------------
@@ -57,16 +57,16 @@ Obj_GeyserMaker:
 		move.b	subtype(a0),subtype(a1)
 
 .fail
-		move.b	#1,anim(a0)								; bubble2 anim
-		tst.b	subtype(a0)									; is object type 0 (geyser) ?
-		beq.s	.isgeyser									; if yes, branch
-		move.b	#4,anim(a0)								; null frame
+		move.b	#1,anim(a0)							; bubble2 anim
+		tst.b	subtype(a0)							; is object type 0 (geyser) ?
+		beq.s	.isgeyser							; if yes, branch
+		move.b	#4,anim(a0)							; null frame
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
 .isgeyser
 		movea.w	parent3(a0),a1							; get parent object address (pushable blocks)
-		bset	#1,status(a1)									; set geyser flag
+		bset	#1,status(a1)							; set geyser flag
 		move.w	#-$580,y_vel(a1)
 
 .checkdelete
@@ -86,7 +86,7 @@ Obj_GeyserMaker:
 ; ---------------------------------------------------------------------------
 
 .delete
-		clr.b	anim(a0)									; bubble1 anim
+		clr.b	anim(a0)							; bubble1 anim
 		move.l	#.wait,address(a0)
 		tst.b	subtype(a0)
 		bne.s	.range
@@ -115,14 +115,14 @@ Obj_LavaGeyser:
 		; init
 		lea	ObjDat_LavaGeyser(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-;		sfx	sfx_Burning									; play flame sound
+;		sfx	sfx_Burning							; play flame sound
 		move.l	#.action,address(a0)
 
 		move.w	y_pos(a0),lgeyser_ypos(a0)
-		move.b	#5,anim(a0)								; bubble4 anim
+		move.b	#5,anim(a0)							; bubble4 anim
 		tst.b	subtype(a0)
 		beq.s	.isgeyser
-		move.b	#2,anim(a0)								; end anim
+		move.b	#2,anim(a0)							; end anim
 		subi.w	#$250,y_pos(a0)
 
 .isgeyser
@@ -133,10 +133,10 @@ Obj_LavaGeyser:
 		addi.w	#$60,y_pos(a1)
 		move.w	lgeyser_ypos(a0),lgeyser_ypos(a1)
 		addi.w	#$60,lgeyser_ypos(a1)
-		move.b	#5,anim(a1)								; bubble4 anim
+		move.b	#5,anim(a1)							; bubble4 anim
 		tst.b	subtype(a0)
 		beq.s	.fail
-		move.b	#2,anim(a1)								; end anim
+		move.b	#2,anim(a1)							; end anim
 
 .fail
 		tst.b	subtype(a0)
@@ -145,20 +145,20 @@ Obj_LavaGeyser:
 		jsr	(CreateChild6_Simple).w
 		bne.s	.fail2
 		move.b	subtype(a0),subtype(a1)
-		bset	#flip_bit_y,art_tile(a1)							; flipy
+		bset	#flip_bit_y,art_tile(a1)					; flipy
 		addi.w	#$100,y_pos(a1)
 		move.w	lgeyser_ypos(a0),lgeyser_ypos(a1)
 		move.w	parent3(a0),parent3(a1)
-		move.b	#5,anim(a1)								; bubble4 anim
+		move.b	#5,anim(a1)							; bubble4 anim
 		tst.b	subtype(a0)
 		beq.s	.fail2
-		move.b	#2,anim(a1)								; end anim
+		move.b	#2,anim(a1)							; end anim
 
 .fail2
 		clr.b	subtype(a0)
 
 .action
-		moveq	#7,d0									; read only the 1st digit
+		moveq	#7,d0								; read only the 1st digit
 		and.b	subtype(a0),d0							; get object type
 		add.w	d0,d0
 		jsr	.index(pc,d0.w)
@@ -170,7 +170,7 @@ Obj_LavaGeyser:
 ; =============== S U B R O U T I N E =======================================
 
 .index
-		bra.s	.type00									; 0
+		bra.s	.type00								; 0
 ; ---------------------------------------------------------------------------
 
 		; type01											; 1
@@ -179,7 +179,7 @@ Obj_LavaGeyser:
 		cmp.w	y_pos(a0),d0
 		bhs.s	.return
 		movea.w	parent3(a0),a1
-		move.b	#1,anim(a1)								; bubble2 anim
+		move.b	#1,anim(a1)							; bubble2 anim
 		jmp	(Go_Delete_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ Obj_LavaGeyser:
 		cmp.w	y_pos(a0),d0
 		bhs.s	.return
 		movea.w	parent3(a0),a1
-		move.b	#3,anim(a1)								; bubble3 anim
+		move.b	#3,anim(a1)							; bubble3 anim
 		jmp	(Go_Delete_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -238,20 +238,20 @@ Obj_LavaGeyser_Extra:
 
 .loc_F026
 		cmpi.w	#$80,d0
-		ble.s		.loc_F02E
+		ble.s	.loc_F02E
 		moveq	#$E,d1
 
 .loc_F02E
 
 		; wait
-		subq.b	#1,anim_frame_timer(a0)					; decrement timer
-		bpl.s	.loc_F04C								; if time remains, branch
-		addq.b	#7+1,anim_frame_timer(a0)				; reset timer to 7 frames
+		subq.b	#1,anim_frame_timer(a0)						; decrement timer
+		bpl.s	.loc_F04C							; if time remains, branch
+		addq.b	#7+1,anim_frame_timer(a0)					; reset timer to 7 frames
 
 		; next
 		bchg	#0,anim_frame(a0)						; chg 0 or 1
-		tst.b	render_flags(a0)								; object visible on the screen?
-		bpl.s	.loc_F04C								; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.loc_F04C							; if not, branch
 		sfx	sfx_LavaFall
 
 .loc_F04C

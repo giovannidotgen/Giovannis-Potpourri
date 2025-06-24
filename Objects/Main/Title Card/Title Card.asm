@@ -5,10 +5,10 @@
 ; =============== S U B R O U T I N E =======================================
 
 TitleCardAct_Index:
-		dc.l ArtKosPM_TitleCardNum1		; 0
-		dc.l ArtKosPM_TitleCardNum2		; 1
-		dc.l ArtKosPM_TitleCardNum3		; 2
-		dc.l ArtKosPM_TitleCardNum4		; 3
+		dc.l ArtKosPM_TitleCardNum1	; 0
+		dc.l ArtKosPM_TitleCardNum2	; 1
+		dc.l ArtKosPM_TitleCardNum3	; 2
+		dc.l ArtKosPM_TitleCardNum4	; 3
 ; ---------------------------------------------------------------------------
 
 Obj_TitleCard:
@@ -19,11 +19,11 @@ Obj_TitleCard:
 		; load act number art
 		moveq	#0,d0
 		move.b	(Current_act).w,d0
-		add.w	d0,d0													; multiply by 4
+		add.w	d0,d0								; multiply by 4
 		add.w	d0,d0
 		movea.l	TitleCardAct_Index(pc,d0.w),a1
 		cmpi.w	#bytes_to_word(LevelID_LZ,3),(Current_zone_and_act).w		; is level Labyrinth Zone 4?
-		bne.s	.notSBZ03												; if not, branch
+		bne.s	.notSBZ03							; if not, branch
 		lea	(ArtKosPM_TitleCardNum3).l,a1
 
 .notSBZ03
@@ -32,12 +32,12 @@ Obj_TitleCard:
 
 		; load zone name art
 		moveq	#0,d0
-		move.b	(Current_zone).w,d0										; otherwise, just use current zone
-		add.w	d0,d0													; multiply by 4
+		move.b	(Current_zone).w,d0						; otherwise, just use current zone
+		add.w	d0,d0								; multiply by 4
 		add.w	d0,d0
 		movea.l	.levelgfx(pc,d0.w),a1
 		cmpi.w	#bytes_to_word(LevelID_LZ,3),(Current_zone_and_act).w		; is level Labyrinth Zone 4?
-		bne.s	.notSBZ3													; if not, branch
+		bne.s	.notSBZ3							; if not, branch
 		lea	(ArtKosPM_SBZTitleCard).l,a1
 
 .notSBZ3
@@ -50,7 +50,7 @@ Obj_TitleCard:
 		jsr	(Queue_KosPlus_Module).w
 
 		; next
-		move.w	#1*60+30,objoff_2E(a0)									; set wait value
+		move.w	#1*60+30,objoff_2E(a0)						; set wait value
 		clr.w	objoff_32(a0)
 		st	objoff_48(a0)
 		move.l	#.create,address(a0)
@@ -65,7 +65,7 @@ Obj_TitleCard:
 		dc.l ArtKosPM_GHZTitleCard	; GHZ
 		dc.l ArtKosPM_MZTitleCard	; MZ
 		dc.l ArtKosPM_SYZTitleCard	; SYZ
-		dc.l ArtKosPM_LZTitleCard		; LZ
+		dc.l ArtKosPM_LZTitleCard	; LZ
 		dc.l ArtKosPM_SLZTitleCard	; SLZ
 		dc.l ArtKosPM_SBZTitleCard	; SBZ
 
@@ -74,11 +74,11 @@ Obj_TitleCard:
 
 .create
 		tst.w	(KosPlus_modules_left).w
-		bne.s	.return													; don't load the objects until the art has been loaded
+		bne.s	.return								; don't load the objects until the art has been loaded
 		jsr	(Create_New_Sprite3).w
 		bne.s	.return
 		lea	ObjArray_TtlCard(pc),a2
-		move.w	(a2)+,d1													; make objects
+		move.w	(a2)+,d1							; make objects
 
 .loop
 		addq.w	#1,objoff_30(a0)
@@ -116,15 +116,15 @@ Obj_TitleCard:
 		beq.s	.skiplevel
 
 		; reset level flags
-		clr.l	(Timer).w													; if using in-level title card
-		clr.w	(Ring_count).w											; reset HUD rings and timer
-		clr.b	(Extra_life_flags).w											; reset extra life ring flag
+		clr.l	(Timer).w							; if using in-level title card
+		clr.w	(Ring_count).w							; reset HUD rings and timer
+		clr.b	(Extra_life_flags).w						; reset extra life ring flag
 		st	(Update_HUD_timer).w
-		st	(Update_HUD_ring_count).w									; start updating timer and rings again
+		st	(Update_HUD_ring_count).w					; start updating timer and rings again
 		moveq	#30,d0
-		move.b	d0,(Player_1+air_left).w									; reset air
-		move.b	d0,(Player_2+air_left).w									; reset air
-		jsr	(Restore_LevelMusic).w										; play music
+		move.b	d0,(Player_1+air_left).w					; reset air
+		move.b	d0,(Player_2+air_left).w					; reset air
+		jsr	(Restore_LevelMusic).w						; play music
 
 .skiplevel
 		clr.w	objoff_48(a0)
@@ -151,7 +151,7 @@ Obj_TitleCard:
 		bne.s	.delete
 		tst.w	objoff_3E(a0)
 		beq.s	.skiplevel2
-		st	(End_of_level_flag).w											; if in-level, set end of title card flag
+		st	(End_of_level_flag).w						; if in-level, set end of title card flag
 		bra.s	.skiplevel3
 ; ---------------------------------------------------------------------------
 
@@ -160,21 +160,21 @@ Obj_TitleCard:
 		; load second main plc
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notknux
-		lea	(PLC2_Knuckles).l,a5
+		blo.s	.notknux
+		lea	(PLC2_Knuckles-PLC2_Sonic)(a5),a5
 
 .notknux
 		jsr	(LoadPLC_Raw_KosPlusM).w
 		movea.l	(Level_data_addr_RAM.PLC2).w,a5
-		jsr	(LoadPLC_Raw_KosPlusM).w									; load main art
+		jsr	(LoadPLC_Raw_KosPlusM).w					; load main art
 
 .skiplevel3
 		movea.l	(Level_data_addr_RAM.PLCAnimals).w,a5
-		jsr	(LoadPLC_Raw_KosPlusM).w									; load animals art
+		jsr	(LoadPLC_Raw_KosPlusM).w					; load animals art
 		moveq	#1,d0
-		move.b	d0,(HUD_RAM.status).w									; load HUD
-		move.b	d0,(Update_HUD_timer).w									; update time counter
-		clr.w	(Ctrl_1_locked).w											; unlock control 1 and control 2
+		move.b	d0,(HUD_RAM.status).w						; load HUD
+		move.b	d0,(Update_HUD_timer).w						; update time counter
+		clr.w	(Ctrl_1_locked).w						; unlock control 1 and control 2
 
 .delete
 		jmp	(Delete_Current_Sprite).w
@@ -185,15 +185,15 @@ Obj_TitleCardRedBanner:
 		movea.w	parent2(a0),a1
 		move.w	objoff_32(a1),d0
 		beq.s	.loc_2D90A
-		tst.b	render_flags(a0)												; is the object visible on the screen?
-		bmi.s	.loc_2D8FC												; if yes, branch
+		tst.b	render_flags(a0)						; is the object visible on the screen?
+		bmi.s	.loc_2D8FC							; if yes, branch
 		subq.w	#1,objoff_30(a1)
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .loc_2D8FC
 		cmp.b	objoff_28(a0),d0
-		blo.s		.loc_2D920
+		blo.s	.loc_2D920
 		subi.w	#32,y_pos(a0)
 		bra.s	.loc_2D920
 ; ---------------------------------------------------------------------------
@@ -215,13 +215,13 @@ Obj_TitleCardRedBanner:
 Obj_TitleCardName:
 		move.b	(Current_zone).w,d0
 		cmpi.w	#bytes_to_word(LevelID_LZ,3),(Current_zone_and_act).w		; is level Labyrinth Zone 4?
-		bne.s	.notSBZ3													; if not, branch
-		addq.b	#2,d0													; set "SBZ"
+		bne.s	.notSBZ3							; if not, branch
+		addq.b	#2,d0								; set "SBZ"
 
 .notSBZ3
 		cmpi.w	#bytes_to_word(LevelID_SBZ,2),(Current_zone_and_act).w		; is level Scrap Brain Zone 3?
-		bne.s	.notFZ													; if not, branch
-		addq.b	#1,d0													; set "Final"
+		bne.s	.notFZ								; if not, branch
+		addq.b	#1,d0								; set "Final"
 
 .notFZ
 		add.b	d0,mapping_frame(a0)
@@ -233,15 +233,15 @@ Obj_TitleCardElement:
 		movea.w	parent2(a0),a1
 		move.w	objoff_32(a1),d0
 		beq.s	.loc_2D984
-		tst.b	render_flags(a0)												; is the object visible on the screen?
-		bmi.s	.loc_2D976												; if yes, branch
+		tst.b	render_flags(a0)						; is the object visible on the screen?
+		bmi.s	.loc_2D976							; if yes, branch
 		subq.w	#1,objoff_30(a1)
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .loc_2D976
 		cmp.b	objoff_28(a0),d0
-		blo.s		.loc_2D99A
+		blo.s	.loc_2D99A
 		addi.w	#32,x_pos(a0)
 		bra.s	.loc_2D99A
 ; ---------------------------------------------------------------------------
@@ -262,24 +262,24 @@ Obj_TitleCardElement:
 Obj_TitleCardAct:
 		move.l	#Obj_TitleCardElement,address(a0)
 		cmpi.w	#bytes_to_word(LevelID_SBZ,2),(Current_zone_and_act).w		; is level Final Zone?
-		bne.s	Obj_TitleCardElement										; if not, branch
+		bne.s	Obj_TitleCardElement						; if not, branch
 
 		; delete
-		movea.w	parent2(a0),a1											; remove a number of the act, if not needed
+		movea.w	parent2(a0),a1							; remove a number of the act, if not needed
 		subq.w	#1,objoff_30(a1)
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------
 
 ObjArray_TtlCard: titlecardresultsheader
-	titlecardresultsobjdata	Obj_TitleCardName, 160, 480, 96, 4, 256, 3			; 1
-	titlecardresultsobjdata	Obj_TitleCardElement, 252, 636, 128, 3, 72, 5			; 2
-	titlecardresultsobjdata	Obj_TitleCardAct, 260, 708, 160, 2, 56, 7				; 3
+	titlecardresultsobjdata	Obj_TitleCardName, 160, 480, 96, 4, 256, 3		; 1
+	titlecardresultsobjdata	Obj_TitleCardElement, 252, 636, 128, 3, 72, 5		; 2
+	titlecardresultsobjdata	Obj_TitleCardAct, 260, 708, 160, 2, 56, 7		; 3
 	titlecardresultsobjdata	Obj_TitleCardRedBanner, 64, 96, 16-128, 1, 0, 1		; 4
 ObjArray_TtlCard_end
 
 ObjArray_TtlCardBonus: titlecardresultsheader
 	titlecardresultsobjdata	Obj_TitleCardElement, 72, 264, 104, $13, 256, 1		; 1
-	titlecardresultsobjdata	Obj_TitleCardElement, 168, 360, 104, $14, 256, 1		; 2
+	titlecardresultsobjdata	Obj_TitleCardElement, 168, 360, 104, $14, 256, 1	; 2
 ObjArray_TtlCardBonus_end
 ; ---------------------------------------------------------------------------
 

@@ -34,17 +34,17 @@ Tele_Type03: objTeleportSize
 Tele_Type03_end
 
 Tele_Type04: objTeleportSize
-		dc.w $1394, $470			; start xypos => end xypos
-		dc.w $1384, $498			; start xypos => end xypos
-		dc.w $1358, $4AC			; start xypos => end xypos
-		dc.w $11D0, $4AC			; start xypos => end xypos
-		dc.w $11A4, $4C0			; start xypos => end xypos
-		dc.w $1194, $4E8			; start xypos => end xypos
-		dc.w $1194, $590			; start xypos => end xypos
+		dc.w $1394, $470		; start xypos => end xypos
+		dc.w $1384, $498		; start xypos => end xypos
+		dc.w $1358, $4AC		; start xypos => end xypos
+		dc.w $11D0, $4AC		; start xypos => end xypos
+		dc.w $11A4, $4C0		; start xypos => end xypos
+		dc.w $1194, $4E8		; start xypos => end xypos
+		dc.w $1194, $590		; start xypos => end xypos
 Tele_Type04_end
 
 Tele_Type05: objTeleportSize
-		dc.w $1494, $490			; start xypos => end xypos
+		dc.w $1494, $490		; start xypos => end xypos
 Tele_Type05_end
 
 Tele_Type06: objTeleportSize

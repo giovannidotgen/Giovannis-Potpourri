@@ -3,24 +3,24 @@
 ; ---------------------------------------------------------------------------
 
 Sega_VDP:
-		dc.w $8004													; disable HInt, HV counter, 8-colour mode
-		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)					; set foreground nametable address
-		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)					; set window nametable address
-		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)					; set background nametable address
-		dc.w $8700+(0<<4)											; set background colour (line 3; colour 0)
-		dc.w $8B00													; full-screen horizontal and vertical scrolling
-		dc.w $8C81													; set 40cell screen size, no interlacing, no s/h
-		dc.w $9001													; 64x32 cell nametable area
-		dc.w $9100													; set window H position at default
-		dc.w $9200													; set window V position at default
-		dc.w 0														; end marker
+		dc.w $8004										; disable HInt, HV counter, 8-colour mode
+		dc.w $8200+(VRAM_Plane_A_Name_Table>>10)						; set foreground nametable address
+		dc.w $8300+(VRAM_Plane_B_Name_Table>>10)						; set window nametable address
+		dc.w $8400+(VRAM_Plane_B_Name_Table>>13)						; set background nametable address
+		dc.w $8700+(0<<4)									; set background colour (line 3; colour 0)
+		dc.w $8B00										; full-screen horizontal and vertical scrolling
+		dc.w $8C81										; set 40cell screen size, no interlacing, no s/h
+		dc.w $9001										; 64x32 cell nametable area
+		dc.w $9100										; set window H position at default
+		dc.w $9200										; set window V position at default
+		dc.w 0											; end marker
 
 ; =============== S U B R O U T I N E =======================================
 
 SegaScreen:
-		music	mus_Stop											; stop music
+		music	mus_Stop									; stop music
 		jsr	(Clear_KosPlus_Module_Queue).w							; clear KosPlusM PLCs
-		ResetDMAQueue												; clear DMA queue
+		ResetDMAQueue										; clear DMA queue
 		disableInts
 		move.l	#VInt,(V_int_addr).w
 		move.l	#HInt,(H_int_addr).w
@@ -29,10 +29,10 @@ SegaScreen:
 		lea	Sega_VDP(pc),a1
 		jsr	(Load_VDP).w
 		jsr	(Clear_Palette).w
-		clearRAM Object_RAM, Object_RAM_end						; clear the object RAM
-		clearRAM Lag_frame_count, Lag_frame_count_end				; clear variables
-		clearRAM Camera_RAM, Camera_RAM_end						; clear the camera RAM
-		clearRAM Oscillating_variables, Oscillating_variables_end			; clear variables
+		clearRAM Object_RAM, Object_RAM_end							; clear the object RAM
+		clearRAM Lag_frame_count, Lag_frame_count_end						; clear variables
+		clearRAM Camera_RAM, Camera_RAM_end							; clear the camera RAM
+		clearRAM Oscillating_variables, Oscillating_variables_end				; clear variables
 
 		; clear
 		move.b	d0,(Water_full_screen_flag).w
@@ -49,12 +49,12 @@ SegaScreen:
 		QueueKosPlusModule	ArtKosPM_SegaProto, 1
 
 		; load mapping
-		EniDecomp	MapEni_SegaProto, RAM_start, 0, 0, 0				; decompress Enigma mappings
+		EniDecomp	MapEni_SegaProto, RAM_start, 0, 0, 0					; decompress Enigma mappings
 
 		; check console region
 		tst.b	(Graphics_flags).w
 		bpl.s	.skipTM
-		move.l	#$300031,$14(a1)										; set 'TM' tiles
+		move.l	#$300031,$14(a1)								; set 'TM' tiles
 
 .skipTM
 		copyTilemap	(VRAM_Plane_A_Name_Table+$61A), 96, 32
@@ -70,7 +70,7 @@ SegaScreen:
 		jsr	(Wait_VSync).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
-		bne.s	.waitplc												; wait for KosPlusM queue to clear
+		bne.s	.waitplc									; wait for KosPlusM queue to clear
 
 		; next
 		move.b	#VintID_Main,(V_int_routine).w
@@ -86,20 +86,20 @@ SegaScreen:
 
 		; check exit
 		tst.b	(Ctrl_1_pressed).w
-		bmi.s	.exit													; if start was pressed, skip ahead
+		bmi.s	.exit										; if start was pressed, skip ahead
 		tst.w	(Demo_timer).w
 		bne.s	.loop
 
 .exit
 
 		; credits cheat
-		moveq	#btnDir+btnABC,d0									; don't check Start
+		moveq	#btnDir+btnABC,d0								; don't check Start
 		and.b	(Ctrl_1_held).w,d0
-		cmpi.b	#btnAC,d0											; is button A and C held?
-		seq	(Japan_credits_flag).w										; if yes, set flag
+		cmpi.b	#btnAC,d0									; is button A and C held?
+		seq	(Japan_credits_flag).w								; if yes, set flag
 
 		; exit
-		move.b	#GameModeID_TitleScreen,(Game_mode).w				; set screen mode to Title Screen
+		move.b	#GameModeID_TitleScreen,(Game_mode).w						; set screen mode to Title Screen
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -112,9 +112,9 @@ AnPal_SegaProto:
 		lea	(Palette_cycle_counters).w,a0
 
 		; wait
-		subq.w	#1,(a0)												; decrement timer
+		subq.w	#1,(a0)										; decrement timer
 		bpl.s	.return
-		addq.w	#3+1,(a0)											; reset timer to 3 frames
+		addq.w	#3+1,(a0)									; reset timer to 3 frames
 
 		; cycle
 		move.w	2(a0),d0

@@ -19,7 +19,7 @@ Obj_Updraft:
 
 .check
 		cmpi.b	#PlayerID_Hurt,routine(a1)					; is the character hurt, dying, etc. ?
-		bhs.w	.return									; if yes, branch
+		bhs.w	.return								; if yes, branch
 
 		; check control flag
 		tst.b	object_control(a1)
@@ -38,11 +38,11 @@ Obj_Updraft:
 		add.w	y_pos(a1),d1
 		addi.w	#64,d1
 		sub.w	y_pos(a0),d1
-		blo.s		.return
+		blo.s	.return
 		cmpi.w	#80,d1
 		bhs.s	.return
 		subi.w	#64,d1
-		blo.s		.skip
+		blo.s	.skip
 		not.w	d1
 		add.w	d1,d1
 

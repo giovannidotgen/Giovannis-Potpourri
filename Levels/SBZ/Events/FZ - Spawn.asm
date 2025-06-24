@@ -5,11 +5,11 @@
 ; =============== S U B R O U T I N E =======================================
 
 Obj_Spawn_FinalZone:
-		move.w	#30-1,objoff_2E(a0)					; set time
+		move.w	#30-1,objoff_2E(a0)						; set time
 		move.l	#.wait,address(a0)
 
 		; set
-		move.w	#-1,(Ctrl_1_locked).w					; lock control 1 and control 2
+		move.w	#-1,(Ctrl_1_locked).w						; lock control 1 and control 2
 
 		; clear
 		moveq	#0,d0
@@ -35,7 +35,7 @@ Obj_Spawn_FinalZone:
 .wait
 
 		; set
-		move.w	#-1,(Ctrl_1_locked).w					; lock control 1 and control 2
+		move.w	#-1,(Ctrl_1_locked).w						; lock control 1 and control 2
 
 		; clear
 		moveq	#0,d0
@@ -59,7 +59,7 @@ Obj_Spawn_FinalZone:
 		bset	#Status_InAir,status(a1)
 		clr.b	jumping(a1)
 		move.b	#AniIDSonAni_Spring,anim(a1)
-		move.b	#1,object_control(a1)					; lock controls
+		move.b	#1,object_control(a1)						; lock controls
 
 .return2
 		rts
@@ -68,7 +68,7 @@ Obj_Spawn_FinalZone:
 .fall
 
 		; set
-		move.w	#-1,(Ctrl_1_locked).w					; lock control 1 and control 2
+		move.w	#-1,(Ctrl_1_locked).w						; lock control 1 and control 2
 
 		; clear
 		moveq	#0,d0
@@ -92,8 +92,15 @@ Obj_Spawn_FinalZone:
 
 		; save xypos (not load spawn jump again)
 		move.b	#1,(Last_star_post_hit).w
-		lea	(Level_data_addr_RAM.Location).w,a1		; load Sonic's start location
-		move.l	(a1),(Saved_X_pos).w					; save Sonic's position on x-axis and y-axis
+
+		; check
+		lea	(Level_data_addr_RAM.SonLoc).w,a1				; load Sonic's start location
+		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
+		blo.s	.notknux
+		addq.w	#2*2,a1								; load Knuckles's start location
+
+.notknux
+		move.l	(a1),(Saved_X_pos).w						; save Sonic's position on x-axis and y-axis
 		jsr	(Save_Level_Data).l
 		clr.l	(Saved_timer).w
 
@@ -104,8 +111,8 @@ Obj_Spawn_FinalZone:
 .checkfalling
 		bsr.s	.falling
 		lea	(Player_2).w,a2							; a2=character
-		tst.l	address(a2)								; is player RAM empty?
-		beq.s	.return3								; if yes, branch
+		tst.l	address(a2)							; is player RAM empty?
+		beq.s	.return3							; if yes, branch
 
 .falling
 		MoveSprite a2

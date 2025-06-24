@@ -28,16 +28,16 @@ SYZ3_Resize:
 
 		; set fade
 		music	mus_FadeOut
-		move.w	#2*60,(Events_fg+2).w									; fade time
+		move.w	#2*60,(Events_fg+2).w						; fade time
 		move.l	#.fade,(Level_data_addr_RAM.Resize).w
-		clr.l	(Level_data_addr_RAM.AnimateTiles).w							; disable animate tiles
+		clr.l	(Level_data_addr_RAM.AnimateTiles).w				; disable animate tiles
 
 .fade
 		subq.w	#1,(Events_fg+2).w
 		bne.s	.return
 
 		; load boss
-		clr.l	(Level_data_addr_RAM.Resize).w								; set return for resize
+		clr.l	(Level_data_addr_RAM.Resize).w					; set return for resize
 		move.l	#SYZ3_ScreenEvent,(Level_data_addr_RAM.ScreenEvent).w
 
 		; load art
@@ -51,7 +51,7 @@ SYZ3_Resize:
 
 		; create boss
 		music	mus_ZoneBoss
-		move.b	d0,(Current_music+1).w									; save music
+		move.b	d0,(Current_music+1).w						; save music
 		jsr	(Create_New_Sprite).w
 		bne.s	.return
 		move.l	#Obj_BossBlock,address(a1)

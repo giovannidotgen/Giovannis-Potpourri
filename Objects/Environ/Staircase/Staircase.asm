@@ -13,11 +13,11 @@ stair_origY			= objoff_46 ; original y-axis position (2 bytes)
 Obj_Staircase:
 
 		; init
-		ori.b	#rfCoord+rfStatic,render_flags(a0)					; set static mapping and screen coordinates flag
+		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
 		moveq	#7,d0
 		and.b	subtype(a0),d0
 		cmpi.w	#4,d0
-		blo.s		.skip
+		blo.s	.skip
 		bchg	#0,render_flags(a0)
 
 .skip
@@ -34,9 +34,9 @@ Obj_Staircase:
 		moveq	#-2,d4
 
 .notflipx
-		moveq	#4-1,d1											; create 4 staircase object
+		moveq	#4-1,d1								; create 4 staircase object
 		move.w	x_pos(a0),d2
-		movea.w	a0,a1											; load current object to a1
+		movea.w	a0,a1								; load current object to a1
 
 		; get RAM slot
 		getobjectRAMslot a2
@@ -48,11 +48,11 @@ Obj_Staircase:
 		; create staircase object
 
 .find
-		lea	next_object(a1),a1										; goto next object RAM slot
-		tst.l	address(a1)											; is object RAM slot empty?
-		dbeq	d0,.find											; if not, branch
-		bne.s	.notfree											; branch, if object RAM slot is not empty
-		subq.w	#1,d0											; subtract from sprite table
+		lea	next_object(a1),a1						; goto next object RAM slot
+		tst.l	address(a1)							; is object RAM slot empty?
+		dbeq	d0,.find							; if not, branch
+		bne.s	.notfree							; branch, if object RAM slot is not empty
+		subq.w	#1,d0								; subtract from sprite table
 
 		; load object
 		move.l	#.solid,address(a1)
@@ -69,10 +69,10 @@ Obj_Staircase:
 		move.w	y_pos(a1),objoff_46(a1)
 		addi.w	#32,d2
 		move.b	d3,objoff_33(a1)
-		move.w	a0,objoff_3E(a1)									; parent
+		move.w	a0,objoff_3E(a1)						; parent
 		add.b	d4,d3
-		tst.w	d0												; object RAM slots ended?
-		dbmi	d1,.create										; if not, loop
+		tst.w	d0								; object RAM slots ended?
+		dbmi	d1,.create							; if not, loop
 
 .notfree
 		move.l	#.move,address(a0)
@@ -85,7 +85,7 @@ Obj_Staircase:
 		jsr	Stair_TypeIndex(pc,d0.w)
 
 .solid
-		movea.w	objoff_3E(a0),a2									; a2=object
+		movea.w	objoff_3E(a0),a2						; a2=object
 		moveq	#0,d0
 		move.b	objoff_33(a0),d0
 		move.w	(a2,d0.w),d0
@@ -102,23 +102,23 @@ Obj_Staircase:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 		swap	d6
-		or.b	d6,objoff_32(a2)										; save status
+		or.b	d6,objoff_32(a2)						; save status
 
 		; draw
-		moveq	#-$80,d0										; round down to nearest $80
-		and.w	objoff_44(a0),d0									; get object position
+		moveq	#-$80,d0							; round down to nearest $80
+		and.w	objoff_44(a0),d0						; get object position
 		jmp	(Sprite_OnScreen_Test2).w
 ; ---------------------------------------------------------------------------
 
 Stair_TypeIndex: offsetTable
-		offsetTableEntry.w Stair_Type00	; 0
+		offsetTableEntry.w Stair_Type00		; 0
 		offsetTableEntry.w Stair_Type01		; 1
-		offsetTableEntry.w Stair_Type02	; 2
+		offsetTableEntry.w Stair_Type02		; 2
 		offsetTableEntry.w Stair_Type01		; 3
-		offsetTableEntry.w Stair_Type00	; 4
-		offsetTableEntry.w Stair_Type03	; 5
-		offsetTableEntry.w Stair_Type02	; 6
-		offsetTableEntry.w Stair_Type03	; 7
+		offsetTableEntry.w Stair_Type00		; 4
+		offsetTableEntry.w Stair_Type03		; 5
+		offsetTableEntry.w Stair_Type02		; 6
+		offsetTableEntry.w Stair_Type03		; 7
 ; ---------------------------------------------------------------------------
 
 Stair_Type00:
@@ -160,7 +160,7 @@ loc_4778C:
 ; ---------------------------------------------------------------------------
 
 loc_4779E:
-		lea	objoff_34(a0),a1										; a1=object
+		lea	objoff_34(a0),a1						; a1=object
 		move.w	objoff_30(a0),d0
 		lsr.b	#2,d0
 		andi.b	#1,d0
@@ -175,7 +175,7 @@ loc_4779E:
 ; ---------------------------------------------------------------------------
 
 Stair_Type01:
-		lea	objoff_34(a0),a1										; a1=object
+		lea	objoff_34(a0),a1						; a1=object
 		cmpi.w	#$80,(a1)
 		beq.s	.return
 		addq.w	#1,(a1)
@@ -199,7 +199,7 @@ Stair_Type01:
 ; ---------------------------------------------------------------------------
 
 Stair_Type03:
-		lea	objoff_34(a0),a1										; a1=object
+		lea	objoff_34(a0),a1						; a1=object
 		cmpi.w	#-$80,(a1)
 		beq.s	.return
 		subq.w	#1,(a1)

@@ -3,8 +3,8 @@
 ; ===========================================================================
 
 Obj_Index:
-		dc.l Obj_Ring							; $00
-		dc.l Obj_Monitor						; $01
+		dc.l Obj_Ring						; $00
+		dc.l Obj_Monitor					; $01
 		dc.l Obj_PathSwap					; $02
 		dc.l Delete_Current_Sprite				; $03
 		dc.l Delete_Current_Sprite				; $04
@@ -14,26 +14,26 @@ Obj_Index:
 		dc.l Obj_Spikes						; $08
 		dc.l Delete_Current_Sprite				; $09
 		dc.l Delete_Current_Sprite				; $0A
-		dc.l Obj_Pole							; $0B
-		dc.l Obj_FlapDoor						; $0C
-		dc.l Obj_EndSign						; $0D
+		dc.l Obj_Pole						; $0B
+		dc.l Obj_FlapDoor					; $0C
+		dc.l Obj_EndSign					; $0D
 		dc.l Obj_TwistedRamp					; $0E
 		dc.l Obj_SinkingMud					; $0F
 		dc.l Delete_Current_Sprite				; $10
-		dc.l Obj_TensionBridge				; $11
+		dc.l Obj_TensionBridge					; $11
 		dc.l Delete_Current_Sprite				; $12
 		dc.l Obj_LavaMaker					; $13
-		dc.l Obj_Updraft						; $14
+		dc.l Obj_Updraft					; $14
 		dc.l Obj_SwingingPlatform				; $15
-		dc.l Obj_Harpoon						; $16
+		dc.l Obj_Harpoon					; $16
 		dc.l Obj_SpikePole					; $17
 		dc.l Obj_FloatingPlatform				; $18
 		dc.l Obj_CorkFloor					; $19
-		dc.l Obj_CollapsingPlatform			; $1A
+		dc.l Obj_CollapsingPlatform				; $1A
 		dc.l Delete_Current_Sprite				; $1B
 		dc.l Obj_StillSprite					; $1C
-		dc.l Obj_AnimatedStillSprite			; $1D
-		dc.l Obj_BallHog						; $1E
+		dc.l Obj_AnimatedStillSprite				; $1D
+		dc.l Obj_BallHog					; $1E
 		dc.l Obj_Crabmeat					; $1F
 		dc.l Delete_Current_Sprite				; $20
 		dc.l Delete_Current_Sprite				; $21
@@ -41,35 +41,35 @@ Obj_Index:
 		dc.l Delete_Current_Sprite				; $23
 		dc.l Delete_Current_Sprite				; $24
 		dc.l Delete_Current_Sprite				; $25
-		dc.l Obj_AutoSpin						; $26
+		dc.l Obj_AutoSpin					; $26
 		dc.l Delete_Current_Sprite				; $27
-		dc.l Obj_Invisible_SolidBlock			; $28
+		dc.l Obj_Invisible_SolidBlock				; $28
 		dc.l Delete_Current_Sprite				; $29
 		dc.l Obj_AutoDoor					; $2A
-		dc.l Obj_Chopper						; $2B
+		dc.l Obj_Chopper					; $2B
 		dc.l Obj_Jaws						; $2C
-		dc.l Obj_Burrobot						; $2D
+		dc.l Obj_Burrobot					; $2D
 		dc.l Delete_Current_Sprite				; $2E
 		dc.l Obj_LargeGrass					; $2F
 		dc.l Obj_GlassBlock					; $30
 		dc.l Obj_ChainStomp					; $31
 		dc.l Obj_Button						; $32
-		dc.l Obj_PushableBlock				; $33
-		dc.l Obj_StarPost						; $34
+		dc.l Obj_PushableBlock					; $33
+		dc.l Obj_StarPost					; $34
 		dc.l Obj_ForegroundPlant				; $35
 		dc.l Delete_Current_Sprite				; $36
 		dc.l Obj_SpikeBall2					; $37
-		dc.l Obj_Animal_Ending				; $38
+		dc.l Obj_Animal_Ending					; $38
 		dc.l Delete_Current_Sprite				; $39
 		dc.l Delete_Current_Sprite				; $3A
 		dc.l Obj_PurpleRock					; $3B
-		dc.l Obj_BreakableWall				; $3C
+		dc.l Obj_BreakableWall					; $3C
 		dc.l Obj_RetractingSpring				; $3D
 		dc.l Delete_Current_Sprite				; $3E
 		dc.l Delete_Current_Sprite				; $3F
-		dc.l Obj_MotoBug						; $40
+		dc.l Obj_MotoBug					; $40
 		dc.l Delete_Current_Sprite				; $41
-		dc.l Obj_Newtron						; $42
+		dc.l Obj_Newtron					; $42
 		dc.l Obj_Roller						; $43
 		dc.l Obj_EdgeWalls					; $44
 		dc.l Obj_SideStomp					; $45
@@ -78,48 +78,48 @@ Obj_Index:
 		dc.l Delete_Current_Sprite				; $48
 		dc.l Obj_WaterSound					; $49
 		dc.l Delete_Current_Sprite				; $4A
-		dc.l Obj_BigRing						; $4B
+		dc.l Obj_BigRing					; $4B
 		dc.l Obj_GeyserMaker					; $4C
 		dc.l Delete_Current_Sprite				; $4D
-		dc.l Obj_LavaWall						; $4E
+		dc.l Obj_LavaWall					; $4E
 		dc.l Obj_Splats						; $4F
 		dc.l Obj_Yadrin						; $50
 		dc.l Obj_SmashBlock					; $51
 		dc.l Obj_MovingBlock					; $52
 		dc.l Obj_CollapseFloor					; $53
-		dc.l Obj_Bubbler						; $54
-		dc.l Obj_Basaran						; $55
+		dc.l Obj_Bubbler					; $54
+		dc.l Obj_Basaran					; $55
 		dc.l Obj_FloatingBlock					; $56
-		dc.l Obj_SpikeBall						; $57
+		dc.l Obj_SpikeBall					; $57
 		dc.l Obj_BigSpikeBall					; $58
-		dc.l Obj_Elevator						; $59
+		dc.l Obj_Elevator					; $59
 		dc.l Obj_CirclingPlatform				; $5A
-		dc.l Obj_Staircase						; $5B
+		dc.l Obj_Staircase					; $5B
 		dc.l Delete_Current_Sprite				; $5C
-		dc.l Obj_Fan							; $5D
+		dc.l Obj_Fan						; $5D
 		dc.l Obj_Seesaw						; $5E
 		dc.l Obj_BombBadnik					; $5F
-		dc.l Obj_Orbinaut						; $60
-		dc.l Obj_LabyrinthBlock				; $61
-		dc.l Obj_Gargoyle						; $62
+		dc.l Obj_Orbinaut					; $60
+		dc.l Obj_LabyrinthBlock					; $61
+		dc.l Obj_Gargoyle					; $62
 		dc.l Obj_LabyrinthConvey				; $63
 		dc.l Obj_ScrapStomp					; $64
-		dc.l Obj_Waterfall						; $65
-		dc.l Obj_Junction						; $66
+		dc.l Obj_Waterfall					; $65
+		dc.l Obj_Junction					; $66
 		dc.l Obj_RunningDisc					; $67
-		dc.l Obj_Conveyor						; $68
+		dc.l Obj_Conveyor					; $68
 		dc.l Obj_SpinPlatform					; $69
-		dc.l Obj_Invisible_HurtBlock			; $6A
+		dc.l Obj_Invisible_HurtBlock				; $6A
 		dc.l Obj_Invisible_KillBlock				; $6B
-		dc.l Obj_VanishPlatform				; $6C
-		dc.l Obj_Invisible_ShockBlock			; $6D
-		dc.l Obj_Invisible_LavaBlock			; $6E
+		dc.l Obj_VanishPlatform					; $6C
+		dc.l Obj_Invisible_ShockBlock				; $6D
+		dc.l Obj_Invisible_LavaBlock				; $6E
 		dc.l Obj_SpinConvey					; $6F
 		dc.l Obj_Girder						; $70
 		dc.l Delete_Current_Sprite				; $71
-		dc.l Obj_Teleport						; $72
+		dc.l Obj_Teleport					; $72
 		dc.l Obj_Flamethrower					; $73
-		dc.l Obj_Electro						; $74
+		dc.l Obj_Electro					; $74
 		dc.l Obj_Saws						; $75
 		dc.l Delete_Current_Sprite				; $76
 		dc.l Delete_Current_Sprite				; $77
@@ -131,7 +131,7 @@ Obj_Index:
 		dc.l Obj_HiddenBonus					; $7D
 		dc.l Delete_Current_Sprite				; $7E
 		dc.l Delete_Current_Sprite				; $7F
-		dc.l Obj_HiddenMonitor				; $80
+		dc.l Obj_HiddenMonitor					; $80
 		dc.l Obj_EggCapsule					; $81
 		dc.l Delete_Current_Sprite				; $82
 		dc.l Delete_Current_Sprite				; $83
@@ -182,7 +182,7 @@ Obj_Index:
 		dc.l Delete_Current_Sprite				; $B0
 		dc.l Delete_Current_Sprite				; $B1
 		dc.l Delete_Current_Sprite				; $B2
-		dc.l Obj_StartNewLevel				; $B3
+		dc.l Obj_StartNewLevel					; $B3
 		dc.l Delete_Current_Sprite				; $B4
 		dc.l Delete_Current_Sprite				; $B5
 		dc.l Delete_Current_Sprite				; $B6

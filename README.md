@@ -30,11 +30,24 @@ Original sprites sourced from Sonic 3 - Angel Island Revisited
 
 ![Title](https://i.imgur.com/VbQoOjT.png)
 
+![GitHub Release](https://img.shields.io/github/v/release/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub Repo stars](https://img.shields.io/github/stars/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub watchers](https://img.shields.io/github/watchers/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/total?style=flat-square)
+
+# Download
+
+- [Current version](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/archive/refs/heads/flamedriver.zip)
+- [Releases](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/releases)
+
 ## Disclaimer
 
 This is a port of Sonic The Hedgehog (1991) to Sonic Clean Engine (S.C.E.), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
 
-Free use. You use it at your own risk. All code is provided “as is”. This source code uses software from other authors. Check their licenses before using it. You assume any and all responsibility for using this content responsibly. I claims no responsibility or warranty.
+Free use. You use it at your own risk. All code is provided “as is”. This source code uses software from other authors. Check their licenses before using it. You assume any and all responsibility for using this content responsibly. I claims no responsibility or warranty. Commercial usage is expressly prohibited.
 
 You can use this source code as a base for your projects, or just as an example for optimizations of your source code.
 
@@ -109,7 +122,7 @@ You can use this source code as a base for your projects, or just as an example 
 
 ## How to build the ROM
 
-To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S3CE.gen'. Use build_debug for debug things. The built ROM will be called 'S3CE.Debug.gen'.
+To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S1S3.gen'. Use build_debug for debug things. The built ROM will be called 'S1S3.Debug.gen'.
 
 ## Quick start
 
@@ -123,6 +136,10 @@ To build this, use build.bat if you're a Windows user, or build.sh if you're a L
 
 1. S.C.E. uses [Kosinski Plus algorithm](https://github.com/flamewing/mdcomp/blob/master/src/asm/KosinskiPlus.asm), but **Flex2** program does not support **Kosinski Plus Module**. Therefore, **Flex2.json** project file is partially useless. **SonMapEd** program does not support **Kosinski Plus** at all. You can only open uncompressed graphics.
 
+### Solution: Fork the program from Nichloya:
+
+- [Flex2](https://github.com/Nichloya/Flex2/releases)
+
 #### Alternative programs:
 - [mdcomp](https://github.com/flamewing/mdcomp/releases)
 - [ClownMapEd](https://github.com/Clownacy/ClownMapEd/releases)
@@ -130,12 +147,22 @@ To build this, use build.bat if you're a Windows user, or build.sh if you're a L
 
 ## FAQ
 
+#### How do I add levels from previous Sonic games?
+
 - If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Utilities/Layout).
+
+#### How do I make different text for Title Card?
 
 - If you want to make a different text for Title Card, you need to create a file of letters from [List.unc](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Objects/Main/Title%20Card/KosinskiPM%20Art/Levels). This will be loaded before the level starts.
 You don't have to add the letters **'ENOZ' (ZONE)** because those letters are already in VRAM. Then you have to create a mapping of your zone name in [Map - Title Card.asm](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Objects/Main/Title%20Card/Object%20Data).
 
+#### Where can I find other SMPS music?
+
 - If you want to use other SMPS music you can use [Valley Bell's SMPS Research](https://forums.sonicretro.org/index.php?threads/valley-bells-smps-research.32473) or [vgm2smps](https://github.com/Ivan-YO/vgm2smps/releases).
+
+#### Why don't mappings use MapMacros?
+
+- Unfortunately, not all programs support MapMacros, so I wanted to maintain compatibility with older programs. I don't want to just throw away **SonMapEd**. But there is support for MapMacros here, and you can use it if you want.
 
 ## The Macro Assembler AS issues
 
@@ -149,28 +176,42 @@ Example of problematic code:
 
 ```
 		beq	sub_1234	; and any other branch instructions
+		bsr	sub_1234
+		bra	sub_1234
 		jsr	sub_1234
 		jmp	sub_1234
 		lea	sub_1234,a1
+		pea	sub_1234
 ```
 
 Example of correct code:
 
 ```
 		beq.s	sub_1234	; and any other branch instructions
+		bsr.s	sub_1234
+		bra.s	sub_1234
 		jsr	(sub_1234).l
 		jmp	(sub_1234).l
 		lea	(sub_1234).l,a1
+		pea	(sub_1234).l
 ```
 
 #### Pay close attention to your code to avoid such issues.
+
+### Here you can find more information about Macro Assembler AS and errors:
+
+- [Flamewing's Enhanced AS](https://html-preview.github.io/?url=https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/blob/flamedriver/Tools/AS/asl.html)
+- [Sonic Retro](https://forums.sonicretro.org/index.php?threads/guide-to-common-as-assembler-errors.43731/)
+- [SSRG](https://sonicresearch.org/community/index.php?threads/guide-to-common-as-assembler-errors.7201/)
+
+### <code style="color : RED">For God's sake, always specify the jump sizes for instructions. Don't try to play around with Macro Assembler AS. Sometimes you may see random and meaningless errors just because you didn't specify the code size. You will try to fix something that wasn't actually broken, but these errors were caused only because you didn't specify the jump size in instruction.</code>
 
 ## Credits
 
 ### Red Miso Studios Staff
 
 - TheBlad768 -- Project lead, sole programmer, S.C.E. Game Engine
-- iamchloya -- Level art and level design edits, sprite art and other things
+- Nichloya -- Level art and level design edits, sprite art and other things
 - pixelcat -- Sprite art, UI art and other things
 - FoxConED -- S.C.E. Level Select font art
 - Dolphman -- Robotnik head art
@@ -190,9 +231,11 @@ Example of correct code:
 - Clownacy for work on the disassemblies
 - SSRG and Sonic Retro
 
-## Discord
+## Links
 
-- [redmisostudios](https://discords.com/servers/redmisostudios)
+- [YouTube channel](https://www.youtube.com/@TheBlad768)
+- [Telegram channel](http://t.me/theblad768channel)
+- [Red Miso Studios Discord](https://discords.com/servers/redmisostudios)
 
 ## These projects are based on this source code
 

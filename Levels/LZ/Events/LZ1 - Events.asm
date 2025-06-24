@@ -7,14 +7,16 @@
 LZ3_ScreenInit:
 
 		; restore wave splash object
-		tst.b	(Last_star_post_hit).w								; have any starpost been hit?
-		beq.s	.first										; if not, branch
-		move.l	#Obj_WaveSplash,(Wave_Splash+address).w		; create wave splash object
+		tst.b	(Last_star_post_hit).w						; have any starpost been hit?
+		beq.s	.first								; if not, branch
+		move.l	#Obj_WaveSplash,(Wave_Splash+address).w				; create wave splash object
 
 .first
+
+		; set
 		move.w	#$7FF,(Screen_Y_wrap_value).w
 		move.w	#$7F0,(Camera_Y_pos_mask).w
-		move.w	#$3C,(Layout_row_index_mask).w				; set level y size: $7FF
+		move.w	#$3C,(Layout_row_index_mask).w					; set level y size: $7FF
 
 LZ1_ScreenInit:
 
@@ -38,7 +40,7 @@ LZ1_BackgroundInit:
 
 		; update BG
 		jsr	(Reset_TileOffsetPositionEff).w
-		moveq	#0,d1										; Camera_X_pos_BG_copy
+		moveq	#0,d1								; Camera_X_pos_BG_copy
 		jsr	(Refresh_PlaneFull).w
 
 		; deform
@@ -54,7 +56,7 @@ LZ1_BackgroundEvent:
 		; update BG
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
-		moveq	#0,d1										; Camera_X_pos_BG_copy
+		moveq	#0,d1								; Camera_X_pos_BG_copy
 		moveq	#512/16,d6
 		jsr	(Draw_TileRow).w
 		bsr.s	LZ1_ApplyDeformWater
@@ -74,15 +76,15 @@ LZ1_Deform:
 		move.w	(Screen_shaking_offset).w,d1					; shake data to d1
 		sub.w	d1,d0
 		and.w	(Screen_Y_wrap_value).w,d0					; camera limit 50% ($800)
-		asr.w	d0											; get 25% ($400)
+		asr.w	d0								; get 25% ($400)
 		add.w	d1,d0
-		andi.w	#$3FF,d0									; size limit 25% (BG = $400 pixels)
-		move.w	d0,(Camera_Y_pos_BG_copy).w				; save 25%
+		andi.w	#$3FF,d0							; size limit 25% (BG = $400 pixels)
+		move.w	d0,(Camera_Y_pos_BG_copy).w					; save 25%
 
 		; xscroll
 		move.w	(Camera_X_pos_copy).w,d0					; 100% to d0 ($1000)
-		asr.w	d0											; get 50% ($800)
-		move.w	d0,(Camera_X_pos_BG_copy).w				; save 50.0%
+		asr.w	d0								; get 50% ($800)
+		move.w	d0,(Camera_X_pos_BG_copy).w					; save 50.0%
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -91,12 +93,12 @@ LZ1_ApplyDeformWater:
 
 		; water scroll
 		move.w	(Camera_Y_pos_copy).w,d0
-		bmi.s	.normal										; vertical wrapping fix
+		bmi.s	.normal								; vertical wrapping fix
 		move.w	(Water_level).w,d1
 		sub.w	d0,d1
-		bls.s		.waterfull									; if completely underwater, only do water deformation
+		bls.s	.waterfull							; if completely underwater, only do water deformation
 		cmpi.w	#224,d1
-		blt.s		.water
+		blt.s	.water
 
 .normal
 
@@ -109,12 +111,12 @@ LZ1_ApplyDeformWater:
 		; write normal scroll before meeting water position
 		lea	LZ1_DeformArray(pc),a4
 		lea	(Camera_X_pos_BG_copy).w,a5
-		subq.w	#1,d1										; 223-1
+		subq.w	#1,d1								; 223-1
 		jsr	(ApplyDeformation3).w
-		pea	(a1)												; save H_scroll_buffer+normal position
+		pea	(a1)								; save H_scroll_buffer+normal position
 
 		; foreground deformation
-		lea	(H_scroll_table).w,a1								; load water buffer
+		lea	(H_scroll_table).w,a1						; load water buffer
 		lea	LZ1_FGDeformDelta(pc),a6
 		move.w	(Water_level).w,d0
 		subi.w	#224-2,d1
@@ -127,10 +129,10 @@ LZ1_ApplyDeformWater:
 		move.w	(Camera_X_pos_copy).w,d6
 		neg.w	d6
 		jsr	(MakeFGDeformArray).w
-		movea.l	(sp)+,a1										; load H_scroll_buffer+normal position
+		movea.l	(sp)+,a1							; load H_scroll_buffer+normal position
 
 		; background deformation
-		lea	(H_scroll_table).w,a2								; load water buffer
+		lea	(H_scroll_table).w,a2						; load water buffer
 		lea	LZ1_DeformArray(pc),a4
 		lea	(Camera_X_pos_BG_copy).w,a5
 		lea	LZ1_BGDeformDelta(pc),a6
@@ -148,9 +150,9 @@ LZ1_ApplyDeformWater:
 .waterfull
 
 		; foreground deformation
-		lea	(H_scroll_table).w,a1								; load water buffer
+		lea	(H_scroll_table).w,a1						; load water buffer
 		lea	LZ1_FGDeformDelta(pc),a6
-		move.w	#224-1,d1									; set screen size
+		move.w	#224-1,d1							; set screen size
 		move.w	(Level_frame_counter).w,d2
 		add.w	d0,d2
 		add.w	d0,d2
@@ -161,7 +163,7 @@ LZ1_ApplyDeformWater:
 		jsr	(MakeFGDeformArray).w
 
 		; background deformation
-		lea	(H_scroll_table).w,a2								; load water buffer
+		lea	(H_scroll_table).w,a2						; load water buffer
 		lea	LZ1_DeformArray(pc),a4
 		lea	(Camera_X_pos_BG_copy).w,a5
 		lea	LZ1_BGDeformDelta(pc),a6

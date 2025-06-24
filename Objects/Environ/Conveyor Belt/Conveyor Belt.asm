@@ -12,12 +12,12 @@ Obj_Conveyor:
 
 		; init
 		move.l	#.action,address(a0)
-		move.b	#128,conv_width(a0)					; set width to 128 pixels
-		move.b	subtype(a0),d0						; get object type
+		move.b	#128,conv_width(a0)						; set width to 128 pixels
+		move.b	subtype(a0),d0							; get object type
 		move.b	d0,d1								; save object type
 		andi.b	#$F,d0								; read only the 2nd digit
-		beq.s	.typeis0								; if zero, branch
-		move.b	#56,conv_width(a0)					; set width to 56 pixels
+		beq.s	.typeis0							; if zero, branch
+		move.b	#56,conv_width(a0)						; set width to 56 pixels
 
 .typeis0
 		andi.b	#$F0,d1								; read only the 1st digit
@@ -26,7 +26,7 @@ Obj_Conveyor:
 		move.w	d1,conv_speed(a0)						; set belt speed
 
 .action
-		tst.w	(Debug_placement_mode).w			; is debug mode on?
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
 		bne.s	.draw								; if yes, branch
 
 		; player 1
@@ -38,7 +38,7 @@ Obj_Conveyor:
 
 		; player 2
 		lea	(Player_2).w,a1							; a1=character
-		tst.l	address(a1)								; is player RAM empty?
+		tst.l	address(a1)							; is player RAM empty?
 		beq.s	.return								; if yes, branch
 
 ; =============== S U B R O U T I N E =======================================

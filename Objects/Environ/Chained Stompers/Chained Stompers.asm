@@ -3,24 +3,24 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-CStom_ypos					= objoff_30	; .w	; copy ypos
-CStom_32					= objoff_32	; .w
-CStom_34					= objoff_34	; .w
+CStom_ypos				= objoff_30	; .w ; copy ypos
+CStom_32				= objoff_32	; .w
+CStom_34				= objoff_34	; .w
 CStom_timedelay				= objoff_36	; .b
-CStom_spike_flag				= objoff_37	; .b
+CStom_spike_flag			= objoff_37	; .b
 CStom_fall_flag				= objoff_38	; .b
-CStom_switch				= objoff_3A	; .b	; switch number for the current stomper
+CStom_switch				= objoff_3A	; .b ; switch number for the current stomper
 CStom_childy1				= objoff_3C	; .w
 CStom_childy2				= objoff_3E	; .w
 CStom_childy3				= objoff_40	; .w
-CStom_y_vel					= objoff_42	; .w
+CStom_y_vel				= objoff_42	; .w
 
 ; =============== S U B R O U T I N E =======================================
 
 CStom_Length:	dc.b $70, $A0, $50, $78, $38, $58, $B8, $70	; length
 	even
 CStom_Var2:
-		dc.b 112/2, 1										; width, frame number
+		dc.b 112/2, 1								; width, frame number
 		dc.b 96/2, $A
 		dc.b 32/2, $B
 ; ---------------------------------------------------------------------------
@@ -40,7 +40,7 @@ Obj_ChainStomp:
 		clr.b	subtype(a0)
 		andi.w	#$7F,d0
 		beq.s	.plus
-		addq.b	#1,CStom_switch(a0)					; set 1
+		addq.b	#1,CStom_switch(a0)						; set 1
 
 .plus
 		andi.w	#$F,d0
@@ -55,7 +55,7 @@ Obj_ChainStomp:
 ;		clr.b	objoff_35(a0)
 
 		; init
-		movem.l	ObjDat_ChainStomp(pc),d0-d3			; copy data to d0-d3
+		movem.l	ObjDat_ChainStomp(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 
 		; set
@@ -81,18 +81,18 @@ Obj_ChainStomp:
 		move.w	d1,objoff_3E(a0)
 
 		; set sub objects
-		move.w	#2,mainspr_childsprites(a0)			; chain and cap
+		move.w	#2,mainspr_childsprites(a0)					; chain and cap
 
 		; sub object 1
 		lea	sub2_x_pos(a0),a1						; $16-$29 bytes reserved
-		move.w	x_pos(a0),(a1)+						; xpos
-		move.w	objoff_3C(a0),(a1)+					; ypos
-		move.w	#3,(a1)+								; frame (cap)
+		move.w	x_pos(a0),(a1)+							; xpos
+		move.w	objoff_3C(a0),(a1)+						; ypos
+		move.w	#3,(a1)+							; frame (cap)
 
 		; sub object 2
-		move.w	x_pos(a0),(a1)+						; xpos
-		move.w	objoff_3E(a0),(a1)+					; ypos
-		move.b	#4,1(a1)								; frame (chain) ; skip $22 byte (mapping_frame)
+		move.w	x_pos(a0),(a1)+							; xpos
+		move.w	objoff_3E(a0),(a1)+						; ypos
+		move.b	#4,1(a1)							; frame (chain) ; skip $22 byte (mapping_frame)
 
 		; check
 		tst.b	objoff_37(a0)
@@ -129,8 +129,8 @@ Obj_ChainStomp:
 		move.w	y_pos(a0),(Chain_stomp_addr).w
 		moveq	#$B,d1								; width
 		add.b	width_pixels(a0),d1
-		moveq	#$C,d2								; height
-		moveq	#$D,d3								; height+1
+		moveq	#24/2,d2							; height
+		moveq	#(24/2)+1,d3							; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 
@@ -140,22 +140,22 @@ Obj_ChainStomp:
 ; =============== S U B R O U T I N E =======================================
 
 CStom_TypeIndex: offsetTable
-		offsetTableEntry.w CStom_Type00	; 0
-		offsetTableEntry.w CStom_Type01	; 1
-		offsetTableEntry.w CStom_Type01	; 2
-		offsetTableEntry.w CStom_Type03	; 3
-		offsetTableEntry.w CStom_Type01	; 4
-		offsetTableEntry.w CStom_Type03	; 5
-		offsetTableEntry.w CStom_Type01	; 6
-		offsetTableEntry.w CStom_Type03	; 7
-		offsetTableEntry.w CStom_Type01	; 8
+		offsetTableEntry.w CStom_Type00						; 0
+		offsetTableEntry.w CStom_Type01						; 1
+		offsetTableEntry.w CStom_Type01						; 2
+		offsetTableEntry.w CStom_Type03						; 3
+		offsetTableEntry.w CStom_Type01						; 4
+		offsetTableEntry.w CStom_Type03						; 5
+		offsetTableEntry.w CStom_Type01						; 6
+		offsetTableEntry.w CStom_Type03						; 7
+		offsetTableEntry.w CStom_Type01						; 8
 ; ---------------------------------------------------------------------------
 
 CStom_Type00:
 		moveq	#0,d0
-		move.b	CStom_switch(a0),d0					; move number 0 or 1 to d0
+		move.b	CStom_switch(a0),d0						; move number 0 or 1 to d0
 		lea	(Level_trigger_array).w,a2					; load switch statuses
-		tst.b	(a2,d0.w)								; has switch (d0) been pressed?
+		tst.b	(a2,d0.w)							; has switch (d0) been pressed?
 		beq.s	loc_B8A8							; if not, branch
 		tst.w	(Chain_stomp_addr).w
 		bpl.s	loc_B872
@@ -174,7 +174,7 @@ loc_B872:
 		bhs.s	loc_B892							; if not, branch
 
 		; check visible
-		tst.b	render_flags(a0)							; object visible on the screen?
+		tst.b	render_flags(a0)						; object visible on the screen?
 		bpl.s	loc_B892							; if not, branch
 
 		; play continuous sfx
@@ -195,14 +195,14 @@ loc_B8A8:
 		cmp.w	objoff_32(a0),d1
 		beq.s	CStom_Restart
 		move.w	objoff_42(a0),d0
-		addi.w	#$70,objoff_42(a0)					; make object fall
+		addi.w	#$70,objoff_42(a0)						; make object fall
 		add.w	d0,objoff_32(a0)
 		cmp.w	objoff_32(a0),d1
 		bhi.s	CStom_Restart
 		move.w	d1,objoff_32(a0)
 		clr.w	objoff_42(a0)							; stop object falling
-		tst.b	render_flags(a0)							; object visible on the screen?
-		bpl.s	CStom_Restart						; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	CStom_Restart							; if not, branch
 		sfx	sfx_ChainStomp							; play stomping sound
 
 CStom_Restart:
@@ -227,13 +227,13 @@ loc_B902:
 		; check Sonic
 		jsr	(Find_SonicObject).w
 		cmpi.w	#192,d2								; is Object within $C0 pixels of Sonic?
-		bhs.s	loc_B91C								; if not, branch
+		bhs.s	loc_B91C							; if not, branch
 		cmpi.w	#256,d3								; is Object within $100 pixels of Sonic?
-		bhs.s	loc_B91C								; if not, branch
+		bhs.s	loc_B91C							; if not, branch
 
 		; check visible
-		tst.b	render_flags(a0)							; object visible on the screen?
-		bpl.s	loc_B91C								; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	loc_B91C							; if not, branch
 
 		; play continuous sfx
 		sfxcont	sfx_ChainRise,$F						; play rising chain sound every 16th frame
@@ -252,7 +252,7 @@ loc_B938:
 		cmp.w	objoff_32(a0),d1
 		beq.s	loc_B97C
 		move.w	objoff_42(a0),d0
-		addi.w	#$70,objoff_42(a0)					; make object fall
+		addi.w	#$70,objoff_42(a0)						; make object fall
 		add.w	d0,objoff_32(a0)
 		cmp.w	objoff_32(a0),d1
 		bhi.s	loc_B97C
@@ -260,7 +260,7 @@ loc_B938:
 		clr.w	objoff_42(a0)							; stop object falling
 		st	objoff_36(a0)
 		move.b	#1*60,objoff_38(a0)
-		tst.b	render_flags(a0)							; object visible on the screen?
+		tst.b	render_flags(a0)						; object visible on the screen?
 		bpl.s	loc_B97C							; if not, branch
 		sfx	sfx_ChainStomp							; play stomping sound
 
@@ -312,16 +312,16 @@ Obj_ChainStomp_Spikes:
 
 		; check players
 		swap	d6
-		andi.w	#touch_bottom_mask,d6				; is Sonic or Tails touch bottom?
+		andi.w	#touch_bottom_mask,d6						; is Sonic or Tails touch bottom?
 		beq.s	.draw								; if not, branch
 		move.b	d6,d0
-		andi.b	#p1_touch_bottom,d0					; Sonic/Knux touch bottom?
+		andi.b	#p1_touch_bottom,d0						; Sonic/Knux touch bottom?
 		beq.s	.notp1								; if not, branch
 		lea	(Player_1).w,a1							; a1=character
 		jsr	(Touch_ChkHurt3).l						; hurt character
 
 .notp1
-		andi.b	#p2_touch_bottom,d6					; Tails touch bottom?
+		andi.b	#p2_touch_bottom,d6						; Tails touch bottom?
 		beq.s	.draw								; if not, branch
 		lea	(Player_2).w,a1							; a1=character
 		jsr	(Touch_ChkHurt3).l						; hurt character
@@ -332,7 +332,7 @@ Obj_ChainStomp_Spikes:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_ChainStomp:			subObjMainData2 Obj_ChainStomp.action, rfCoord+rfMulti, 0, 424, 112, 4, $328, 0, 0, Map_CStom
+ObjDat_ChainStomp:		subObjMainData2 Obj_ChainStomp.action, rfCoord+rfMulti, 0, 424, 112, 4, $328, 0, 0, Map_CStom
 ObjDat_ChainStomp_Spikes:	subObjData3 32, 96, 5, 2, 0
 
 Child6_ChainStomp_Spikes:

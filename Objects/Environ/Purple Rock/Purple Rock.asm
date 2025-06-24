@@ -7,14 +7,14 @@
 Obj_PurpleRock:
 
 		; init
-		movem.l	ObjDat_PurpleRock(pc),d0-d3		; copy data to d0-d3
-		movem.l	d0-d3,address(a0)					; set data from d0-d3 to current object
+		movem.l	ObjDat_PurpleRock(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 
 .solid
-		moveq	#(32/2)+$B,d1					; width
-		moveq	#32/2,d2						; height
+		moveq	#(32/2)+$B,d1							; width
+		moveq	#32/2,d2							; height
 		move.w	d2,d3
-		addq.w	#1,d3							; height+1
+		addq.w	#1,d3								; height+1
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).w
 
@@ -24,7 +24,7 @@ Obj_PurpleRock:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_PurpleRock:		subObjMainData2 Obj_PurpleRock.solid, rfCoord, 0, 40, 48, 4, $380, 3, 0, Map_PRock
+ObjDat_PurpleRock:	subObjMainData2 Obj_PurpleRock.solid, rfCoord, 0, 40, 48, 4, $380, 3, 0, Map_PRock
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Purple Rock/Object Data/Map - Purple Rock.asm"

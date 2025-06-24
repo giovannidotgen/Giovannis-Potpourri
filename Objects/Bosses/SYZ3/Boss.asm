@@ -7,17 +7,17 @@
 BossBlock_Hits				= 8
 
 ; Dynamic object variables
-obBB_Timer					= objoff_2E	; .w
+obBB_Timer				= objoff_2E	; .w
 obBB_SaveYpos				= objoff_32	; .w
-obBB_Jump					= objoff_34	; .l
-obBB_Status					= objoff_38	; .b
+obBB_Jump				= objoff_34	; .l
+obBB_Status				= objoff_38	; .b
 obBB_CamXpos				= objoff_39	; .b
 obBB_Counter				= objoff_3A	; .b
 obBB_Timer2				= objoff_3E	; .w
 
 ; Functions (objoff_38 Status)
-sBossBlock_SpikeEnable		= 2
-sBossBlock_SpikeTouch		= 3
+sBossBlock_SpikeEnable			= 2
+sBossBlock_SpikeTouch			= 3
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -32,9 +32,11 @@ Obj_BossBlock:
 		lea	ObjDat_RobotnikShip2(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		st	(Boss_flag).w
-		move.b	#BossBlock_Hits,collision_property(a0)			; set hits
-		move.w	#-$100,x_vel(a0)								; set move left
+		move.b	#BossBlock_Hits,collision_property(a0)				; set hits
+		move.w	#-$100,x_vel(a0)						; set move left
 		move.l	#BossBlock_MoveLeftRight,obBB_Jump(a0)
+
+		; create
 		lea	Child1_MakeRoboShipFlame(pc),a2
 		jsr	(CreateChild1_Normal).w
 		lea	Child1_MakeRoboHead4(pc),a2
@@ -91,6 +93,8 @@ BossBlock_MoveLeftRight:
 ; ---------------------------------------------------------------------------
 
 BossBlock_MoveDown:
+
+		; check
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$AC,d0
 		cmp.w	y_pos(a0),d0
@@ -98,11 +102,13 @@ BossBlock_MoveDown:
 		move.w	d0,y_pos(a0)
 		clr.w	y_vel(a0)
 		move.w	y_pos(a0),obBB_SaveYpos(a0)
+
+		; check block
 		move.l	#BossBlock_FloorShaking.exit,d1
 		move.w	parent3(a0),d0
 		beq.s	.set
 		movea.w	d0,a1
-		bset	#5,objoff_38(a1)									; grab block
+		bset	#5,objoff_38(a1)						; grab block
 		sfx	sfx_BossHitFloor
 		move.w	#50-30,obBB_Timer(a0)
 		move.w	#30,obBB_Timer2(a0)
@@ -150,7 +156,7 @@ BossBlock_MoveUp:
 		move.w	(Camera_max_Y_pos).w,d0
 		add.w	d1,d0
 		cmp.w	y_pos(a0),d0
-		blo.s		.moveupfix
+		blo.s	.moveupfix
 		move.w	d0,y_pos(a0)
 		clr.w	y_vel(a0)
 		move.l	#BossBlock_AirShaking,obBB_Jump(a0)
@@ -208,12 +214,12 @@ BossBlock_AirShaking:
 		bpl.s	BossBlock_MoveUp.return
 		move.w	#30,obBB_Timer(a0)
 		move.l	#BossBlock_MoveRestart,obBB_Jump(a0)
-		bclr	#sBossBlock_SpikeEnable,obBB_Status(a0)			; hide spike
+		bclr	#sBossBlock_SpikeEnable,obBB_Status(a0)				; hide spike
 		clr.b	obBB_Counter(a0)
 		move.w	parent3(a0),d0
 		beq.s	.return
 		movea.w	d0,a1
-		bset	#6,objoff_38(a1)									; break block
+		bset	#6,objoff_38(a1)						; break block
 
 .return
 		rts
@@ -229,7 +235,7 @@ BossBlock_MoveRestart:
 		jsr	(Change_VelocityWithFlipX).w
 		tst.w	parent3(a0)
 		beq.s	.notblock
-		bclr	#sBossBlock_SpikeTouch,obBB_Status(a0)			; set spike touch
+		bclr	#sBossBlock_SpikeTouch,obBB_Status(a0)				; set spike touch
 
 .notblock
 		jmp	(Swing_Setup1).w
@@ -241,8 +247,9 @@ BossBlock_Restart:
 		bne.s	.right
 		addq.w	#8,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.return
+		blt.s	.return
 		bra.s	.restart
+; ---------------------------------------------------------------------------
 
 .right
 		addi.w	#320-8,d0
@@ -268,10 +275,11 @@ BossBlock_Setup4:
 		bne.s	.right
 		addq.w	#8,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		BossBlock_Setup3
+		blt.s	BossBlock_Setup3
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 		bra.s	BossBlock_Setup3
+; ---------------------------------------------------------------------------
 
 .right
 		addi.w	#320-8,d0
@@ -311,29 +319,29 @@ BossBlock_MainProcess:
 
 ; =============== S U B R O U T I N E =======================================
 
-BossBlock_CheckTouch:
-		tst.b	collision_flags(a0)									; are boss's collisions enabled?
-		bne.s	.return										; if yes, branch
-		tst.b	collision_property(a0)								; has boss run out of hits?
-		beq.s	BossBlock_Defeated							; if yes, branch
-		tst.b	boss_invulnerable_time(a0)						; is boss invulnerable?
-		bne.s	.flash										; if yes, branch
-		move.b	#$30,boss_invulnerable_time(a0)				; make boss invulnerable
-		sfx	sfx_BossHit										; play "boss hit" sound
-		bset	#6,status(a0)										; set "boss hit" flag
+		; check touch
+		tst.b	collision_flags(a0)						; are boss's collisions enabled?
+		bne.s	.return								; if yes, branch
+		tst.b	collision_property(a0)						; has boss run out of hits?
+		beq.s	BossBlock_Defeated						; if yes, branch
+		tst.b	boss_invulnerable_time(a0)					; is boss invulnerable?
+		bne.s	.flash								; if yes, branch
+		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
+		sfx	sfx_BossHit							; play "boss hit" sound
+		bset	#6,status(a0)							; set "boss hit" flag
 
 .flash
-		moveq	#0,d0										; load normal palette
+		moveq	#0,d0								; load normal palette
 		btst	#0,boss_invulnerable_time(a0)
 		bne.s	.skip
-		addq.w	#3*2,d0										; load flashing palette
+		addq.w	#3*2,d0								; load flashing palette
 
 .skip
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)										; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)		; if invincibility ended, allow collision again
+		bclr	#6,status(a0)							; clear "boss hit" flag
+		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -347,14 +355,16 @@ BossBlock_CheckTouch:
 BossBlock_Defeated:
 		move.l	#Wait_FadeToLevelMusic,address(a0)
 		move.l	#.explosion,obBB_Jump(a0)
-		bclr	#sBossBlock_SpikeEnable,obBB_Status(a0)			; hide spike
+		bclr	#sBossBlock_SpikeEnable,obBB_Status(a0)				; hide spike
 		clr.l	x_vel(a0)
 
 		; use the first line of the palette
 		andi.w	#$87FF,art_tile(a0)
 
+.artsize	:= (ArtUnc_RobotnikShip1_end-ArtUnc_RobotnikShip1)&$FFFF
+
 		; load alternative ship art
-		QueueStaticDMA ArtUnc_RobotnikShip1,tiles_to_bytes($41),tiles_to_bytes($3B6)
+		QueueStaticDMA ArtUnc_RobotnikShip1,.artsize,tiles_to_bytes($3B6)
 
 		; restore the level palette
 		lea	(Pal_SYZ).l,a1
@@ -413,14 +423,14 @@ BossBlock_Defeated:
 		move.w	(Camera_max_X_pos).w,d0
 		addi.w	#$1A0,d0
 		cmp.w	x_pos(a0),d0
-		blt.s		.delete
+		blt.s	.delete
 		jsr	(MoveSprite2).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
 .delete
-		bset	#4,objoff_38(a0)									; remove Robotnik spike
-		bset	#5,objoff_38(a0)									; remove Robotnik head and fire
+		bset	#4,objoff_38(a0)						; remove Robotnik spike
+		bset	#5,objoff_38(a0)						; remove Robotnik head and fire
 		clr.b	(Boss_flag).w
 
 		; delete
@@ -437,7 +447,7 @@ Obj_BossBlock_Spike:
 		; init
 		lea	ObjDat_BossBlock_Spike(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#rbStatic,render_flags(a0)							; set static mapping flag
+		bset	#rbStatic,render_flags(a0)					; set static mapping flag
 		move.l	#.main,address(a0)
 
 .main
@@ -455,7 +465,7 @@ Obj_BossBlock_Spike:
 
 .suby
 		tst.w	d0
-		ble.s		.ypos
+		ble.s	.ypos
 		subq.w	#5,d0
 
 .ypos
@@ -464,12 +474,12 @@ Obj_BossBlock_Spike:
 		add.w	d0,y_pos(a0)
 
 		; check touch
-		tst.w	objoff_3C(a0)									; spike hidden?
-		bmi.s	.draw										; if yes, branch
-		btst	#6,status(a1)										; boss flashing?
-		bne.s	.draw										; if yes, branch
-		btst	#sBossBlock_SpikeTouch,obBB_Status(a1)			; flag set?
-		bne.s	.draw										; if yes, branch
+		tst.w	objoff_3C(a0)							; spike hidden?
+		bmi.s	.draw								; if yes, branch
+		btst	#6,status(a1)							; boss flashing?
+		bne.s	.draw								; if yes, branch
+		btst	#sBossBlock_SpikeTouch,obBB_Status(a1)				; flag set?
+		bne.s	.draw								; if yes, branch
 
 .touch
 		jmp	(Child_DrawTouch_Sprite2).w
@@ -492,14 +502,14 @@ Obj_SYZBlock:
 		jsr	(SetUp_ObjAttributes).w
 		move.w	#bytes_to_word(0,36),child_dx(a0)				; set dxy
 		move.w	y_pos(a0),objoff_30(a0)
-		bset	#7,status(a0)										; disable player's balance animation
+		bset	#7,status(a0)							; disable player's balance animation
 		move.l	#.check,address(a0)
 
 .check
 		btst	#5,objoff_38(a0)
 		beq.s	.solid
 		move.l	#.position,address(a0)
-		jsr	(Displace_PlayerOffObject).w						; release Sonic from object
+		jsr	(Displace_PlayerOffObject).w					; release Sonic from object
 
 .position
 		jsr	(Refresh_ChildPosition).w
@@ -541,10 +551,10 @@ Obj_BossSYZBlock_FlickerMove:
 		jsr	(SetUp_ObjAttributes).w
 		move.l	#Obj_FlickerMove,address(a0)
 		move.b	subtype(a0),d0
-		lsr.b	d0												; division by 2
+		lsr.b	d0								; division by 2
 		addq.b	#1,d0
 		move.b	d0,mapping_frame(a0)
-		moveq	#2<<2,d0									; set index velocity
+		moveq	#2<<2,d0							; set index velocity
 		jsr	(Set_IndexedVelocity).w
 		jmp	(Draw_Sprite).w
 
@@ -559,7 +569,7 @@ BossBlock_BreakChunkBlock:
 		; set boss block xypos
 		move.w	(Camera_Y_pos_copy).w,d2
 		addi.w	#224-32,d2
-		moveq	#-32,d3										; set align (32 pixels)
+		moveq	#-32,d3								; set align (32 pixels)
 		and.w	x_pos(a0),d3
 
 		; calc chunk pos
@@ -571,13 +581,13 @@ BossBlock_BreakChunkBlock:
 		lsr.w	#3,d1
 		move.w	d1,d4
 		lsr.w	#4,d1
-		add.w	d1,d1										; chunk ID to word
+		add.w	d1,d1								; chunk ID to word
 		add.w	8(a1,d0.w),d1
 		adda.w	d1,a1
 		moveq	#0,d1
-		move.w	(a1),d1										; move 128*128 chunk ID to d1
-		move.w	d1,d5										; save chunk id
-		lsl.w	#7,d1											; multiply by $80
+		move.w	(a1),d1								; move 128*128 chunk ID to d1
+		move.w	d1,d5								; save chunk id
+		lsl.w	#7,d1								; multiply by $80
 		move.w	d2,d0
 		andi.w	#$70,d0
 		add.w	d0,d1
@@ -587,24 +597,24 @@ BossBlock_BreakChunkBlock:
 		adda.l	d1,a1
 
 		; check block
-		tst.l	(a1)												; is empty block?
-		beq.s	.return										; if yes, branch
-		clr.l	(a1)												; clear top of block (32x16)
-		clr.l	$110(a1)											; clear bottom of block (32x16)
+		tst.l	(a1)								; is empty block?
+		beq.s	.return								; if yes, branch
+		clr.l	(a1)								; clear top of block (32x16)
+		clr.l	$110(a1)							; clear bottom of block (32x16)
 
 		; check chunk
-		cmpi.w	#$CF,d5										; is it $CF chunk?
-		bne.s	.redraw										; if not, branch
+		cmpi.w	#$CF,d5								; is it $CF chunk?
+		bne.s	.redraw								; if not, branch
 
 		; replace block (32x16)
-		move.l	-(($CF*$80-$B*$80)+$70)(a1),$110(a1)			; copy data from $B chunk to $CF
+		move.l	-(($CF*$80-$B*$80)+$70)(a1),$110(a1)				; copy data from $B chunk to $CF
 
 .redraw
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#224-16,d0
 		move.w	d0,(Draw_delayed_position).w					; set up redraw memory
-		move.w	#(32/16)-1,(Draw_delayed_rowcount).w			; redraw only 4 tiles 8x8
-		st	(Screen_event_flag).w								; set redraw flag
+		move.w	#(32/16)-1,(Draw_delayed_rowcount).w				; redraw only 4 tiles 8x8
+		st	(Screen_event_flag).w						; set redraw flag
 
 		; create sprite boss block
 		jsr	(Create_New_Sprite3).w
@@ -615,8 +625,8 @@ BossBlock_BreakChunkBlock:
 		add.w	d1,d3
 		move.w	d2,y_pos(a1)
 		move.w	d3,x_pos(a1)
-		move.w	a0,parent3(a1)								; save boss address for block
-		move.w	a1,parent3(a0)								; save block address for boss
+		move.w	a0,parent3(a1)							; save boss address for block
+		move.w	a1,parent3(a0)							; save block address for boss
 
 .return
 		rts

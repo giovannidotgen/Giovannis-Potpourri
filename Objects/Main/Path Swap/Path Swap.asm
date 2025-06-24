@@ -9,7 +9,7 @@ Obj_PathSwap:
 		; init
 		move.l	#Map_PathSwap,mappings(a0)
 		move.w	#make_art_tile(ArtTile_Ring,1,0),art_tile(a0)
-		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(128/2,128/2,priority_5),height_pixels(a0)	; set height, width and priority
 
 		; check
@@ -22,13 +22,13 @@ Obj_PathSwap:
 		add.w	d0,d0
 		move.w	word_1CD34(pc,d0.w),objoff_32(a0)
 		move.w	y_pos(a0),d1
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		cmp.w	y_pos(a1),d1
 		bhs.s	loc_1CD06
 		move.b	#1,objoff_34(a0)
 
 loc_1CD06:
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		cmp.w	y_pos(a1),d1
 		bhs.s	loc_1CD16
 		move.b	#1,objoff_35(a0)
@@ -42,9 +42,9 @@ loc_1CD16:
 ; ---------------------------------------------------------------------------
 
 word_1CD34:
-		dc.w $20		; 0
-		dc.w $40		; 1
-		dc.w $80		; 2
+		dc.w $20	; 0
+		dc.w $40	; 1
+		dc.w $80	; 2
 		dc.w $100	; 3
 ; ---------------------------------------------------------------------------
 
@@ -54,13 +54,13 @@ loc_1CD3C:
 		add.w	d0,d0
 		move.w	word_1CD34(pc,d0.w),objoff_32(a0)
 		move.w	x_pos(a0),d1
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		cmp.w	x_pos(a1),d1
 		bhs.s	loc_1CD60
 		move.b	#1,objoff_34(a0)
 
 loc_1CD60:
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		cmp.w	x_pos(a1),d1
 		bhs.s	loc_1CD70
 		move.b	#1,objoff_35(a0)
@@ -72,12 +72,12 @@ loc_1CD70:
 
 loc_1CD8A:
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
-		bne.s	loc_1CDAC									; if yes, branch
+		bne.s	loc_1CDAC							; if yes, branch
 		move.w	x_pos(a0),d1
 		lea	objoff_34(a0),a2
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bsr.s	sub_1CDDA
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		bsr.s	sub_1CDDA
 		jmp	(Delete_Sprite_If_Not_In_Range).w
 ; ---------------------------------------------------------------------------
@@ -100,13 +100,13 @@ sub_1CDDA:
 		add.w	d4,d3
 		move.w	y_pos(a1),d4
 		cmp.w	d2,d4
-		blt.s		locret_1CE6A
+		blt.s	locret_1CE6A
 		cmp.w	d3,d4
 		bge.s	locret_1CE6A
 		move.b	subtype(a0),d0
 		bpl.s	loc_1CE1C
-		btst	#Status_InAir,status(a1)							; is the player in the air?
-		bne.s	locret_1CE6A									; if yes, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	locret_1CE6A							; if yes, branch
 
 loc_1CE1C:
 		move.w	x_pos(a1),d2
@@ -137,7 +137,7 @@ locret_1CE6A:
 
 loc_1CE6C:
 		cmp.w	x_pos(a1),d1
-		bls.s		locret_1CEF0
+		bls.s	locret_1CEF0
 		clr.b	-1(a2)
 		move.w	y_pos(a0),d2
 		move.w	d2,d3
@@ -146,13 +146,13 @@ loc_1CE6C:
 		add.w	d4,d3
 		move.w	y_pos(a1),d4
 		cmp.w	d2,d4
-		blt.s		locret_1CEF0
+		blt.s	locret_1CEF0
 		cmp.w	d3,d4
 		bge.s	locret_1CEF0
 		move.b	subtype(a0),d0
 		bpl.s	loc_1CEA8
-		btst	#Status_InAir,status(a1)							; is the player in the air?
-		bne.s	locret_1CEF0									; if yes, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	locret_1CEF0							; if yes, branch
 
 loc_1CEA8:
 		move.w	x_pos(a1),d2
@@ -183,12 +183,12 @@ locret_1CEF0:
 
 sub_1CEF2:
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
-		bne.s	loc_1CF14									; if yes, branch
+		bne.s	loc_1CF14							; if yes, branch
 		move.w	y_pos(a0),d1
 		lea	objoff_34(a0),a2
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bsr.s	sub_1CF42
-		lea	(Player_2).w,a1									; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		bsr.s	sub_1CF42
 		jmp	(Delete_Sprite_If_Not_In_Range).w
 ; ---------------------------------------------------------------------------
@@ -211,13 +211,13 @@ sub_1CF42:
 		add.w	d4,d3
 		move.w	x_pos(a1),d4
 		cmp.w	d2,d4
-		blt.s		locret_1CFD2
+		blt.s	locret_1CFD2
 		cmp.w	d3,d4
 		bge.s	locret_1CFD2
 		move.b	subtype(a0),d0
 		bpl.s	loc_1CF84
-		btst	#Status_InAir,status(a1)							; is the player in the air?
-		bne.s	locret_1CFD2									; if yes, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	locret_1CFD2							; if yes, branch
 
 loc_1CF84:
 		move.w	y_pos(a1),d2
@@ -248,7 +248,7 @@ locret_1CFD2:
 
 loc_1CFD4:
 		cmp.w	y_pos(a1),d1
-		bls.s		locret_1D058
+		bls.s	locret_1D058
 		clr.b	-1(a2)
 		move.w	x_pos(a0),d2
 		move.w	d2,d3
@@ -257,13 +257,13 @@ loc_1CFD4:
 		add.w	d4,d3
 		move.w	x_pos(a1),d4
 		cmp.w	d2,d4
-		blt.s		locret_1D058
+		blt.s	locret_1D058
 		cmp.w	d3,d4
 		bge.s	locret_1D058
 		move.b	subtype(a0),d0
 		bpl.s	loc_1D010
-		btst	#Status_InAir,status(a1)							; is the player in the air?
-		bne.s	locret_1D058									; if yes, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	locret_1D058							; if yes, branch
 
 loc_1D010:
 		move.w	y_pos(a1),d2

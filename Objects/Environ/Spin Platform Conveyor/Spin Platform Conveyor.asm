@@ -3,15 +3,15 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-scon_subtype				= objoff_2F ; .b ; save subtype
-scon_origX				= objoff_30 ; .w ; original x-axis position
+scon_subtype			= objoff_2F	; save subtype (1 byte)
+scon_origX			= objoff_30	; original x-axis position (2 bytes)
 
-scon_saveX				= objoff_34 ; .w
-scon_saveY				= objoff_36 ; .w
-scon_origY				= objoff_38 ; .w ; original y-axis position
-scon_flag				= objoff_3E ; .b
-scon_flag2				= objoff_3F ; .b
-scon_pointer				= objoff_40 ; .l ; save address
+scon_saveX			= objoff_34	; (2 bytes)
+scon_saveY			= objoff_36	; (2 bytes)
+scon_origY			= objoff_38	; original y-axis position (2 bytes)
+scon_flag			= objoff_3E	; (2 bytes)
+scon_flag2			= objoff_3F	; (2 bytes)
+scon_pointer			= objoff_40	; save address (4 bytes)
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -26,7 +26,7 @@ Obj_SpinConvey:
 		; init
 		move.l	#Map_Spin,mappings(a0)
 		move.w	#make_art_tile($3C8,0,0),art_tile(a0)
-		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(14/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.l	#sub_163D8,address(a0)
 
@@ -53,7 +53,7 @@ Obj_SpinConvey:
 		move.b	scon_origY(a0),d1
 		add.b	scon_flag(a0),d1
 		cmp.b	scon_origY+1(a0),d1
-		blo.s		loc_16352
+		blo.s	loc_16352
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
@@ -94,7 +94,7 @@ sub_16380:
 		lea	ObjPosSBZPlatform_Index(pc),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d1
-		movea.w	a0,a1										; load current object to a1
+		movea.w	a0,a1								; load current object to a1
 
 		; get RAM slot
 		getobjectRAMslot a3
@@ -106,11 +106,11 @@ sub_16380:
 		; create SBZ platform object
 
 .find
-		lea	next_object(a1),a1									; goto next object RAM slot
-		tst.l	address(a1)										; is object RAM slot empty?
-		dbeq	d0,.find										; if not, branch
-		bne.s	.return										; branch, if object RAM slot is not empty
-		subq.w	#1,d0										; subtract from sprite table
+		lea	next_object(a1),a1						; goto next object RAM slot
+		tst.l	address(a1)							; is object RAM slot empty?
+		dbeq	d0,.find							; if not, branch
+		bne.s	.return								; branch, if object RAM slot is not empty
+		subq.w	#1,d0								; subtract from sprite table
 
 .load
 		move.l	#Obj_SpinConvey.platform,address(a1)
@@ -118,8 +118,8 @@ sub_16380:
 		move.w	(a2)+,y_pos(a1)
 		move.w	(a2)+,d2
 		move.b	d2,subtype(a1)
-		tst.w	d0											; object RAM slots ended?
-		dbmi	d1,.create									; if not, loop
+		tst.w	d0								; object RAM slots ended?
+		dbmi	d1,.create							; if not, loop
 
 .return
 		rts
@@ -129,8 +129,8 @@ sub_16380:
 sub_163D8:
 		lea	Ani_SpinConvey(pc),a1
 		jsr	(Animate_Sprite).w
-		tst.b	anim(a0)										; is spin anim?
-		beq.s	SpinC_NotSolid								; if yes, branch
+		tst.b	anim(a0)							; is spin anim?
+		beq.s	SpinC_NotSolid							; if yes, branch
 
 		; move
 		move.w	x_pos(a0),-(sp)
@@ -138,8 +138,8 @@ sub_163D8:
 		move.w	(sp)+,d4
 
 		; check
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	SpinC_CheckDelete							; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	SpinC_CheckDelete						; if not, branch
 
 		; solid
 		moveq	#$B,d1
@@ -160,8 +160,8 @@ SpinC_CheckDelete:
 ; ---------------------------------------------------------------------------
 
 .loc_1629A
-		cmpi.b	#2,(Current_act).w							; check if act is 3
-		bne.s	.act1or2										; if not, branch
+		cmpi.b	#2,(Current_act).w						; check if act is 3
+		bne.s	.act1or2							; if not, branch
 		cmpi.w	#-$80,d0
 		bhs.s	.draw
 
@@ -173,9 +173,9 @@ SpinC_CheckDelete:
 		bclr	#0,(a2,d0.w)
 
 .offscreen
-		move.w	respawn_addr(a0),d0
-		beq.s	.delete
-		movea.w	d0,a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.delete								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#7,(a2)
 
 .delete
@@ -184,7 +184,7 @@ SpinC_CheckDelete:
 ; =============== S U B R O U T I N E =======================================
 
 SpinC_NotSolid:
-		jsr	(Displace_PlayerOffObject).w						; release Sonic from object
+		jsr	(Displace_PlayerOffObject).w					; release Sonic from object
 		bsr.s	sub_16424
 		bra.s	SpinC_CheckDelete
 
@@ -201,7 +201,7 @@ sub_16424:
 		move.b	scon_origY(a0),d1
 		add.b	scon_flag(a0),d1
 		cmp.b	scon_origY+1(a0),d1
-		blo.s		loc_16456
+		blo.s	loc_16456
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
