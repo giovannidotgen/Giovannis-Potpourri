@@ -3,7 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-hog_launchflag		= objoff_32	; 0 to launch a cannonball
+hog_launchflag			= objoff_32	; 0 to launch a cannonball
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -20,7 +20,7 @@ Obj_BallHog:
 
 .checkfall
 		MoveSpriteYOnly a0
-		jsr	(ObjCheckFloorDist).w								; find floor
+		jsr	(ObjCheckFloorDist).w						; find floor
 		tst.w	d1
 		bpl.s	.floornotfound
 		add.w	d1,y_pos(a0)
@@ -32,15 +32,15 @@ Obj_BallHog:
 		jsr	(Animate_RawNoSST).w
 
 		; action
-		cmpi.b	#1,mapping_frame(a0)							; is final frame (01) displayed?
-		bne.s	.setlaunchflag									; if not, branch
-		tst.b	hog_launchflag(a0)								; is it set to launch cannonball?
-		beq.s	.makeball									; if yes, branch
+		cmpi.b	#1,mapping_frame(a0)						; is final frame (01) displayed?
+		bne.s	.setlaunchflag							; if not, branch
+		tst.b	hog_launchflag(a0)						; is it set to launch cannonball?
+		beq.s	.makeball							; if yes, branch
 		bra.s	.remember
 ; ---------------------------------------------------------------------------
 
 .setlaunchflag
-		clr.b	hog_launchflag(a0)								; set to launch	cannonball
+		clr.b	hog_launchflag(a0)						; set to launch	cannonball
 
 .remember
 		jmp	(Sprite_CheckDeleteTouch).w
@@ -59,10 +59,10 @@ Obj_BallHog:
 		bne.s	.fail
 		move.l	#words_to_long(-$100,0),x_vel(a1)				; cannonball bounces to the left
 		moveq	#-4,d0
-		btst	#0,render_flags(a0)								; is Ball Hog facing right?
-		beq.s	.noflip										; if not, branch
+		btst	#0,render_flags(a0)						; is Ball Hog facing right?
+		beq.s	.noflip								; if not, branch
 		neg.w	d0
-		neg.w	x_vel(a1)										; cannonball bounces to the right
+		neg.w	x_vel(a1)							; cannonball bounces to the right
 
 .noflip
 		add.w	d0,x_pos(a1)
@@ -85,13 +85,13 @@ Obj_BallHog_Cannonball:
 
 		; set
 		moveq	#0,d0
-		move.b	subtype(a0),d0								; move subtype to d0
-		add.w	d0,d0										; multiply by 60 frames (1 second)
+		move.b	subtype(a0),d0							; move subtype to d0
+		add.w	d0,d0								; multiply by 60 frames (1 second)
 		add.w	d0,d0
 		move.w	d0,d1
 		lsl.w	#4,d0
 		sub.w	d1,d0
-		move.w	d0,cbal_time(a0)								; set explosion time
+		move.w	d0,cbal_time(a0)						; set explosion time
 
 		; init
 		lea	ObjDat3_BallHog_Cannonball(pc),a1
@@ -103,12 +103,12 @@ Obj_BallHog_Cannonball:
 		jsr	(MoveSprite).w
 		tst.w	y_vel(a0)
 		bmi.s	.chkexplode
-		jsr	(ObjCheckFloorDist).w								; find floor
-		tst.w	d1											; has ball hit the floor?
-		bpl.s	.chkexplode									; if not, branch
+		jsr	(ObjCheckFloorDist).w						; find floor
+		tst.w	d1								; has ball hit the floor?
+		bpl.s	.chkexplode							; if not, branch
 		add.w	d1,y_pos(a0)
-		move.w	#-$300,y_vel(a0)								; bounce
-		tst.b	d3												; Primary_Angle
+		move.w	#-$300,y_vel(a0)						; bounce
+		tst.b	d3								; Primary_Angle
 		beq.s	.chkexplode
 		bmi.s	.loc_8CA4
 		tst.w	x_vel(a0)
@@ -123,12 +123,12 @@ Obj_BallHog_Cannonball:
 		neg.w	x_vel(a0)
 
 .chkexplode
-		subq.w	#1,cbal_time(a0)								; subtract 1 from explosion time
-		bpl.s	.animate										; if time is > 0, branch
+		subq.w	#1,cbal_time(a0)						; subtract 1 from explosion time
+		bpl.s	.animate							; if time is > 0, branch
 
 		; remove
 		bset	#7,status(a0)
-		move.l	#Obj_Explosion.skipanimal,address(a0)			; change object to explosion
+		move.l	#Obj_Explosion.skipanimal,address(a0)				; change object to explosion
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -144,7 +144,7 @@ Obj_BallHog_Cannonball:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BallHog:				subObjData Map_Hog, $2EC, 1, 0, 38, 16, 4, 0, 5
+ObjDat_BallHog:			subObjData Map_Hog, $2EC, 1, 0, 38, 16, 4, 0, 5
 ObjDat3_BallHog_Cannonball:	subObjData3 16, 16, 3, 4, 7|$80
 
 Child6_BallHog_Cannonball:

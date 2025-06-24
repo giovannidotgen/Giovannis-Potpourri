@@ -2,102 +2,101 @@
 ; =============== S U B R O U T I N E =======================================
 
 SetUp_ObjAttributes:
-		move.l	(a1)+,mappings(a0)			; mapping offset
+		move.l	(a1)+,mappings(a0)						; mapping offset
 
 SetUp_ObjAttributes2:
-		move.w	(a1)+,art_tile(a0)				; VRAM offset
+		move.w	(a1)+,art_tile(a0)						; VRAM offset
 
 SetUp_ObjAttributes3:
-		move.l	(a1)+,height_pixels(a0)		; height, width and priority
-		move.b	(a1)+,mapping_frame(a0)		; frame number
-		move.b	(a1)+,collision_flags(a0)		; collision number
-		bset	#rbCoord,render_flags(a0)			; use screen coordinates
-		addq.b	#2,routine(a0)				; next routine
+		move.l	(a1)+,height_pixels(a0)						; height, width and priority
+		move.b	(a1)+,mapping_frame(a0)						; frame number
+		move.b	(a1)+,collision_flags(a0)					; collision number
+		bset	#rbCoord,render_flags(a0)					; use screen coordinates
+		addq.b	#2,routine(a0)							; next routine
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 SetUp_ObjAttributesSlotted:
 		moveq	#0,d0
-		move.w	(a1)+,d1						; maximum number of objects that can be made in this array
-		move.w	d1,d2
-		move.w	(a1)+,d3						; base VRAM offset of object
-		move.w	(a1)+,d4						; amount to add to base VRAM offset for each slot
-		moveq	#0,d5
-		move.w	(a1)+,d5						; index of slot array to use (RAM shift)
+		movem.w	(a1)+,d1/d3-d5							; copy data to d1,d3-d5
+
+		; check
 		lea	(Slotted_object_bits).w,a2
-		adda.w	d5,a2						; get the address of the array to use
+		adda.w	d5,a2								; get the address of the array to use
 		move.b	(a2),d5
-		beq.s	.create						; if array is clear, just make the object
+		beq.s	.create								; if array is clear, just make the object
 
 .find
 		lsr.b	d5								; check slot (each bit)
-		bhs.s	.create						; if clear, make object
-		addq.w	#1,d0						; increment bit number
-		add.w	d4,d3						; add VRAM offset
+		bhs.s	.create								; if clear, make object
+		addq.w	#1,d0								; increment bit number
+		add.w	d4,d3								; add VRAM offset
 		dbf	d1,.find							; repeat max times
 
-		; delete
+		; delete object
 		moveq	#0,d0
 		move.l	d0,address(a0)
 		move.l	d0,x_pos(a0)
 		move.l	d0,y_pos(a0)
 		move.b	d0,render_flags(a0)
-		move.w	d0,status(a0)					; if no open slots, then destroy this object period
+		move.w	d0,status(a0)							; if no open slots, then destroy this object period
 		move.b	d0,subtype(a0)
-		addq.w	#4*2,sp						; exit from current object
+		addq.w	#4*2,sp								; exit from current object
 		rts
 ; ---------------------------------------------------------------------------
 
 .create
-		bset	d0,(a2)							; turn this slot on
+		bset	d0,(a2)								; turn this slot on
 		move.b	d0,ros_bit(a0)
-		move.w	a2,ros_addr(a0)				; keep track of slot address and bit number
-		move.w	d3,art_tile(a0)				; use correct VRAM offset
-		move.l	(a1)+,mappings(a0)			; mapping address
-		move.l	(a1)+,height_pixels(a0)		; height, width and priority
-		move.b	(a1)+,mapping_frame(a0)		; frame number
-		move.b	(a1)+,collision_flags(a0)		; collision number
-		st	objoff_3A(a0)					; reset DPLC frame
+		move.w	a2,ros_addr(a0)							; keep track of slot address and bit number
+		move.w	d3,art_tile(a0)							; use correct VRAM offset
+		move.l	(a1)+,mappings(a0)						; mapping address
+		move.l	(a1)+,height_pixels(a0)						; height, width and priority
+		move.b	(a1)+,mapping_frame(a0)						; frame number
+		move.b	(a1)+,collision_flags(a0)					; collision number
+		st	objoff_3A(a0)							; reset DPLC frame (used by Perform_DPLC)
 
 		; set
 		moveq	#2,d0
-		add.b	d0,routine(a0)				; next routine
-		bset	d0,render_flags(a0)				; use screen coordinates
-		bset	d0,status(a0)						; turn object slotting on
+		add.b	d0,routine(a0)							; next routine
+		bset	d0,render_flags(a0)						; use screen coordinates
+		bset	d0,status(a0)							; turn object slotting on
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 Perform_DPLC:
 		moveq	#0,d0
-		move.b	mapping_frame(a0),d0		; get the frame number
-		cmp.b	objoff_3A(a0),d0				; if frame number remains the same as before, don't do anything
+		move.b	mapping_frame(a0),d0						; get the frame number
+		cmp.b	objoff_3A(a0),d0						; if frame number remains the same as before, don't do anything
 		beq.s	.return
 		move.b	d0,objoff_3A(a0)
-		movea.l	(a2)+,a3						; source address of art
-		move.w	art_tile(a0),d4
-		andi.w	#$7FF,d4					; isolate tile location offset
-		lsl.w	#5,d4							; convert to VRAM address
-		movea.l	(a2)+,a2						; address of DPLC script
+
+		; load
 		add.w	d0,d0
-		adda.w	(a2,d0.w),a2					; apply offset to script
-		move.w	(a2)+,d5						; get number of DMA transactions
-		bmi.s	.return						; skip if zero queues
+		movea.l	(a2)+,a3							; source address of art
+		movea.l	(a2)+,a2							; address of DPLC script
+		adda.w	(a2,d0.w),a2							; apply offset to script
+		move.w	(a2)+,d5							; get number of DMA transactions
+		bmi.s	.return								; skip if zero queues
+		move.w	art_tile(a0),d4
+		andi.w	#$7FF,d4							; isolate tile location offset
+		lsl.w	#5,d4								; convert to VRAM address
 		moveq	#0,d3
 
 .loop
-		move.w	(a2)+,d3						; art source offset
+		move.w	(a2)+,d3							; art source offset
 		move.l	d3,d1
-		andi.w	#$FFF0,d1					; isolate all but lower 4 bits
-		add.l	a3,d1						; get final source address of art
-		move.w	d4,d2						; destination VRAM address
+		andi.w	#$FFF0,d1							; isolate all but lower 4 bits
+		add.l	a3,d1								; get final source address of art
+		move.w	d4,d2								; destination VRAM address
 		andi.w	#$F,d3
 		addq.w	#1,d3
-		lsl.w	#4,d3							; d3 is the total number of words to transfer (maximum 16 tiles per transaction)
+		lsl.w	#4,d3								; d3 is the total number of words to transfer (maximum 16 tiles per transaction)
 		add.w	d3,d4
 		add.w	d3,d4
-		bsr.w	Add_To_DMA_Queue			; add to queue
+		bsr.w	Add_To_DMA_Queue						; add to queue
 		dbf	d5,.loop							; keep going
 
 .return
@@ -108,7 +107,7 @@ Perform_DPLC:
 Set_IndexedVelocity:
 		moveq	#0,d1
 		move.b	subtype(a0),d1
-		add.w	d1,d1						; multiply by 2
+		add.w	d1,d1								; multiply by 2
 		add.w	d1,d0
 		move.l	Obj_VelocityIndex(pc,d0.w),x_vel(a0)
 		btst	#0,render_flags(a0)
@@ -120,44 +119,44 @@ Set_IndexedVelocity:
 ; ---------------------------------------------------------------------------
 
 Obj_VelocityIndex:
-		dc.w -$100, -$100		; 0
-		dc.w $100, -$100		; 4
+		dc.w -$100, -$100	; 0
+		dc.w $100, -$100	; 4
 		dc.w -$200, -$200	; 8
-		dc.w $200, -$200		; C
+		dc.w $200, -$200	; C
 		dc.w -$300, -$200	; 10
-		dc.w $300, -$200		; 14
+		dc.w $300, -$200	; 14
 		dc.w -$200, -$200	; 18
 		dc.w 0, -$200		; 1C
 		dc.w -$400, -$300	; 20
-		dc.w $400, -$300		; 24
-		dc.w $300, -$300		; 28
+		dc.w $400, -$300	; 24
+		dc.w $300, -$300	; 28
 		dc.w -$400, -$300	; 2C
-		dc.w $400, -$300		; 30
+		dc.w $400, -$300	; 30
 		dc.w -$200, -$200	; 34
-		dc.w $200, -$200		; 38
-		dc.w 0, -$100			; 3C
-		dc.w -$40, -$700		; 40
-		dc.w -$80, -$700		; 44
-		dc.w -$180, -$700		; 48
-		dc.w -$100, -$700		; 4C
+		dc.w $200, -$200	; 38
+		dc.w 0, -$100		; 3C
+		dc.w -$40, -$700	; 40
+		dc.w -$80, -$700	; 44
+		dc.w -$180, -$700	; 48
+		dc.w -$100, -$700	; 4C
 		dc.w -$200, -$700	; 50
 		dc.w -$280, -$700	; 54
 		dc.w -$300, -$700	; 58
-		dc.w 0, -$100			; 5C
-		dc.w -$100, -$100		; 60
-		dc.w $100, -$100		; 64
-		dc.w -$200, -$100		; 68
-		dc.w $200, -$100		; 6C
+		dc.w 0, -$100		; 5C
+		dc.w -$100, -$100	; 60
+		dc.w $100, -$100	; 64
+		dc.w -$200, -$100	; 68
+		dc.w $200, -$100	; 6C
 		dc.w -$200, -$200	; 70
-		dc.w $200, -$200		; 74
+		dc.w $200, -$200	; 74
 		dc.w -$300, -$200	; 78
-		dc.w $300, -$200		; 7C
+		dc.w $300, -$200	; 7C
 		dc.w -$300, -$300	; 80
-		dc.w $300, -$300		; 84
+		dc.w $300, -$300	; 84
 		dc.w -$400, -$300	; 88
-		dc.w $400, -$300		; 8C
+		dc.w $400, -$300	; 8C
 		dc.w -$200, -$300	; 90
-		dc.w $200, -$300		; 94
+		dc.w $200, -$300	; 94
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -165,18 +164,18 @@ Release_PlayerFromObject:
 
 		; clear push
 		moveq	#pushing_mask,d0
-		and.b	status(a0),d0										; is Sonic or Tails pushing the object?
-		beq.s	.return											; if not, branch
+		and.b	status(a0),d0							; is Sonic or Tails pushing the object?
+		beq.s	.return								; if not, branch
 		bclr	#p1_pushing_bit,status(a0)
 		beq.s	.notp1
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bclr	#Status_Push,status(a1)
 		move.w	#bytes_to_word(AniIDSonAni_Walk,AniIDSonAni_Run),anim(a1)	; reset player anim
 
 .notp1
 		bclr	#p2_pushing_bit,status(a0)
 		beq.s	.return
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		bclr	#Status_Push,status(a1)
 		move.w	#bytes_to_word(AniIDSonAni_Walk,AniIDSonAni_Run),anim(a1)	; reset player anim
 
@@ -189,18 +188,18 @@ Displace_PlayerOffObject:
 
 		; clear standing
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0										; is Sonic or Tails standing on the object?
-		beq.s	.return											; if not, branch
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		beq.s	.return								; if not, branch
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	.notp1											; branch, if Sonic wasn't standing on the object
-		lea	(Player_1).w,a1										; a1=character
+		beq.s	.notp1								; branch, if Sonic wasn't standing on the object
+		lea	(Player_1).w,a1							; a1=character
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 
 .notp1
 		bclr	#p2_standing_bit,status(a0)
-		beq.s	.return											; branch, if Tails wasn't standing on the object
-		lea	(Player_2).w,a1										; a1=character
+		beq.s	.return								; branch, if Tails wasn't standing on the object
+		lea	(Player_2).w,a1							; a1=character
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 
@@ -211,14 +210,14 @@ Displace_PlayerOffObject:
 
 Go_CheckPlayerRelease:
 		movem.l	d7-a0/a2-a3,-(sp)
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		btst	#Status_OnObj,status(a1)
 		beq.s	.notp1
 		movea.w	interact(a1),a0
 		bsr.w	CheckPlayerReleaseFromObj
 
 .notp1
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		btst	#Status_OnObj,status(a1)
 		beq.s	.notp2
 		movea.w	interact(a1),a0
@@ -231,41 +230,41 @@ Go_CheckPlayerRelease:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_Song_Fade_Transition:
-		music	mus_FadeOut									; fade out music
-		move.l	#Song_Fade_Transition_Wait,address(a0)
+		music	mus_FadeOut							; fade out music
+		move.l	#.wait,address(a0)
 
-Song_Fade_Transition_Return:
+.return
 		rts
 ; ---------------------------------------------------------------------------
 
-Song_Fade_Transition_Wait:
+.wait
 		tst.b	(Clone_Driver_RAM+SMPS_RAM.variables.v_fadeout_counter).w
-		bne.s	Song_Fade_Transition_Return
+		bne.s	.return
 		move.b	subtype(a0),d0
 		move.b	d0,(Current_music+1).w
-		bsr.w	Play_Music										; play music
+		bsr.w	Play_Music							; play music
 		bra.w	Delete_Current_Sprite
 
 ; =============== S U B R O U T I N E =======================================
 
 Obj_Song_Fade_ToLevelMusic:
-		music	mus_FadeOut									; fade out music
-		move.l	#Song_Fade_ToLevelMusic_Wait,address(a0)
+		music	mus_FadeOut							; fade out music
+		move.l	#.wait,address(a0)
 
-Song_Fade_ToLevelMusic_Return:
+.return
 		rts
 ; ---------------------------------------------------------------------------
 
-Song_Fade_ToLevelMusic_Wait:
+.wait
 		tst.b	(Clone_Driver_RAM+SMPS_RAM.variables.v_fadeout_counter).w
-		bne.s	Song_Fade_ToLevelMusic_Return
+		bne.s	.return
 		bsr.s	Restore_LevelMusic
 		bra.w	Delete_Current_Sprite
 
 ; =============== S U B R O U T I N E =======================================
 
 Restore_LevelMusic:
-		lea	(Level_data_addr_RAM.Music).w,a2						; load music
+		lea	(Level_data_addr_RAM.Music).w,a2				; load music
 		moveq	#0,d0
 		move.b	(a2),d0
 		move.w	d0,(Current_music).w
@@ -274,23 +273,23 @@ Restore_LevelMusic:
 		moveq	#signextendB(mus_Invincible),d0					; if invincible, play invincibility music
 
 .play
-		bra.w	Play_Music										; play music
+		bra.w	Play_Music							; play music
 
 ; =============== S U B R O U T I N E =======================================
 
 HurtCharacter_Directly2:
 		tst.b	object_control(a1)
 		bmi.s	HurtCharacter_Directly.return
-		btst	#Status_Invincible,status_secondary(a1)					; is character invincible?
-		bne.s	HurtCharacter_Directly.return						; if yes, branch
-		tst.b	invulnerability_timer(a1)								; is character invulnerable?
-		bne.s	HurtCharacter_Directly.return						; if yes, branch
-		cmpi.b	#PlayerID_Hurt,routine(a1)							; is the character hurt, dying, etc. ?
-		bhs.s	HurtCharacter_Directly.return						; if yes, branch
+		btst	#Status_Invincible,status_secondary(a1)				; is character invincible?
+		bne.s	HurtCharacter_Directly.return					; if yes, branch
+		tst.b	invulnerability_timer(a1)					; is character invulnerable?
+		bne.s	HurtCharacter_Directly.return					; if yes, branch
+		cmpi.b	#PlayerID_Hurt,routine(a1)					; is the character hurt, dying, etc. ?
+		bhs.s	HurtCharacter_Directly.return					; if yes, branch
 
 HurtCharacter_Directly:
-		tst.w	(Debug_placement_mode).w						; is debug mode on?
-		bne.s	.return											; if yes, branch
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
+		bne.s	.return								; if yes, branch
 
 		; hurt character
 		movea.w	a0,a2
@@ -316,12 +315,12 @@ EnemyDefeated:
 ; ---------------------------------------------------------------------------
 
 .bouncedown
-		addi.w	#$100,y_vel(a1)									; bounce down
+		addi.w	#$100,y_vel(a1)							; bounce down
 		rts
 ; ---------------------------------------------------------------------------
 
 .bounceup
-		subi.w	#$100,y_vel(a1)									; bounce up
+		subi.w	#$100,y_vel(a1)							; bounce up
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -333,56 +332,56 @@ EnemyDefeat_Score:
 		move.w	(Chain_bonus_counter).w,d0
 		addq.w	#2,(Chain_bonus_counter).w
 		cmpi.w	#6,d0
-		blo.s		.notreachedlimit
+		blo.s	.notreachedlimit
 		moveq	#6,d0
 
 .notreachedlimit
 		move.w	d0,objoff_3E(a0)
 		lea	Enemy_Points(pc),a2
 		move.w	(a2,d0.w),d0
-		cmpi.w	#16*2,(Chain_bonus_counter).w						; have 16 enemies been destroyed?
-		blo.s		.notreachedlimit2									; if not, branch
-		move.w	#1000,d0										; fix bonus to 10000
+		cmpi.w	#16*2,(Chain_bonus_counter).w					; have 16 enemies been destroyed?
+		blo.s	.notreachedlimit2						; if not, branch
+		move.w	#1000,d0							; fix bonus to 10000
 		move.w	#10,objoff_3E(a0)
 
 .notreachedlimit2
-		move.l	#Obj_Explosion,address(a0)						; change object to explosion
+		move.l	#Obj_Explosion,address(a0)					; change object to explosion
 		bra.w	HUD_AddToScore
 
 ; =============== S U B R O U T I N E =======================================
 
 HurtCharacter_WithoutDamage:
-		lea	(Player_1).w,a1										; a1=character
-		move.b	#PlayerID_Hurt,routine(a1)							; hit animation
+		lea	(Player_1).w,a1							; a1=character
+		move.b	#PlayerID_Hurt,routine(a1)					; hit animation
 		bclr	#Status_OnObj,status(a1)
-		bclr	#Status_Push,status(a1)								; player is not standing on/pushing an object
+		bclr	#Status_Push,status(a1)						; player is not standing on/pushing an object
 		bset	#Status_InAir,status(a1)
 		move.l	#words_to_long(-$200,-$300),x_vel(a1)				; set speed of player
-		clr.w	ground_vel(a1)									; zero out inertia
-		move.b	#AniIDSonAni_Hurt,anim(a1)						; set falling animation
-		sfx	sfx_Death,1											; play death sound
+		clr.w	ground_vel(a1)							; zero out inertia
+		move.b	#AniIDSonAni_Hurt,anim(a1)					; set falling animation
+		sfx	sfx_Death,1							; play death sound
 
 ; =============== S U B R O U T I N E =======================================
 
 LaunchCharacter:
-		move.w	d0,y_vel(a1)										; set y velocity
-		bset	#Status_InAir,status(a1)								; set character airborne flag
-		bclr	#Status_OnObj,status(a1)								; clear character on object flag
-		clr.b	jumping(a1)											; clear character jumping flag
-		clr.b	spin_dash_flag(a1)									; clear spin dash flag
-		move.b	#AniIDSonAni_Spring,anim(a1)						; change Sonic's animation to "spring" ($10)
-		move.b	#PlayerID_Control,routine(a1)						; set character to airborne state
-		sfx	sfx_Spring,1											; play spring sound
+		move.w	d0,y_vel(a1)							; set y velocity
+		bset	#Status_InAir,status(a1)					; set character airborne flag
+		bclr	#Status_OnObj,status(a1)					; clear character on object flag
+		clr.b	jumping(a1)							; clear character jumping flag
+		clr.b	spin_dash_flag(a1)						; clear spin dash flag
+		move.b	#AniIDSonAni_Spring,anim(a1)					; change Sonic's animation to "spring" ($10)
+		move.b	#PlayerID_Control,routine(a1)					; set character to airborne state
+		sfx	sfx_Spring,1							; play spring sound
 
 ; =============== S U B R O U T I N E =======================================
 
 Check_PlayerAttack:
-		btst	#Status_Invincible,status_secondary(a1)					; is character invincible?
-		bne.s	.hit												; if so, branch
+		btst	#Status_Invincible,status_secondary(a1)				; is character invincible?
+		bne.s	.hit								; if so, branch
 		cmpi.b	#AniIDSonAni_SpinDash,anim(a1)					; is player in their spin dash animation?
-		beq.s	.hit												; if so, branch
-		cmpi.b	#AniIDSonAni_Roll,anim(a1)						; is player in their rolling animation?
-		beq.s	.hit												; if so, branch
+		beq.s	.hit								; if so, branch
+		cmpi.b	#AniIDSonAni_Roll,anim(a1)					; is player in their rolling animation?
+		beq.s	.hit								; if so, branch
 
 		; check player
 		moveq	#0,d0
@@ -392,37 +391,37 @@ Check_PlayerAttack:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.fail												; 0 - Sonic
-		bra.s	.tailsattack										; 1 - Tails
+		bra.s	.fail								; 0 - Sonic
+		bra.s	.tailsattack							; 1 - Tails
 ; ---------------------------------------------------------------------------
 
-.knuxattack														; 2 - Knuckles
+.knuxattack										; 2 - Knuckles
 		cmpi.b	#1,double_jump_flag(a1)
 		beq.s	.hit
 		cmpi.b	#3,double_jump_flag(a1)
-		beq.s	.hit												; if Knux is gliding or sliding, then he's attacking
+		beq.s	.hit								; if Knux is gliding or sliding, then he's attacking
 
 .fail
-		moveq	#0,d0											; player doesn't attack
+		moveq	#0,d0								; player doesn't attack
 		rts
 ; ---------------------------------------------------------------------------
 
 .tailsattack
 		tst.b	double_jump_flag(a1)
-		beq.s	.fail												; if Tails is not flying, branch
+		beq.s	.fail								; if Tails is not flying, branch
 		btst	#Status_Underwater,status(a1)
-		bne.s	.fail												; if Tails is underwater, branch
+		bne.s	.fail								; if Tails is underwater, branch
 		move.w	x_pos(a1),d1
 		move.w	y_pos(a1),d2
 		sub.w	x_pos(a0),d1
 		sub.w	y_pos(a0),d2
-		bsr.w	GetArcTan										; get angle between Tails and object
+		bsr.w	GetArcTan							; get angle between Tails and object
 		subi.b	#$20,d0
 		cmpi.b	#$40,d0
-		bhs.s	.fail												; if Tails is between 20-60 degrees off object (directly below), then he is attacking
+		bhs.s	.fail								; if Tails is between 20-60 degrees off object (directly below), then he is attacking
 
 .hit
-		moveq	#1,d0											; player attack
+		moveq	#1,d0								; player attack
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -435,7 +434,7 @@ Check_PlayerCollision:
 		add.w	d0,d0
 		movea.w	.players(pc,d0.w),a1
 		move.w	a1,objoff_44(a0)
-		moveq	#1,d1											; set touch
+		moveq	#1,d1								; set touch
 
 .return
 		rts
@@ -446,13 +445,13 @@ Check_PlayerCollision:
 ; =============== S U B R O U T I N E =======================================
 
 Load_LevelResults:
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		btst	#7,status(a1)
 		bne.s	.return
-		btst	#Status_InAir,status(a1)								; is the player in the air?
-		bne.s	.return											; if yes, branch
-		cmpi.b	#PlayerID_Death,routine(a1)						; is player dead?
-		bhs.s	.return											; if yes, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	.return								; if yes, branch
+		cmpi.b	#PlayerID_Death,routine(a1)					; is player dead?
+		bhs.s	.return								; if yes, branch
 		bsr.s	Set_PlayerEndingPose
 		clr.b	(End_of_level_flag).w
 		bsr.w	Create_New_Sprite
@@ -474,11 +473,11 @@ Set_PlayerEndingPose:
 		bclr	#p2_pushing_bit,status(a0)
 		bclr	#Status_Push,status(a1)
 		bclr	#Status_Roll,status(a1)
-		beq.s	.return											; if the player doesn't roll, branch
+		beq.s	.return								; if the player doesn't roll, branch
 
 		; fix player ypos
 		move.b	y_radius(a1),d0
-		move.w	default_y_radius(a1),y_radius(a1)					; set y_radius and x_radius
+		move.w	default_y_radius(a1),y_radius(a1)				; set y_radius and x_radius
 		sub.b	default_y_radius(a1),d0
 		ext.w	d0
 		tst.b	(Reverse_gravity_flag).w
@@ -501,7 +500,7 @@ Stop_Object:
 ; =============== S U B R O U T I N E =======================================
 
 Restore_PlayerControl:
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 
 Restore_PlayerControl2:
 		clr.b	object_control(a1)
@@ -515,7 +514,7 @@ Restore_PlayerControl2:
 
 Player_Load_PLC:
 		move.w	a0,-(sp)
-		lea	(Player_1).w,a0										; a0=character
+		lea	(Player_1).w,a0							; a0=character
 		moveq	#0,d0
 		move.b	character_id(a0),d0
 		add.w	d0,d0
@@ -527,8 +526,8 @@ Player_Load_PLC:
 ; ---------------------------------------------------------------------------
 
 .index
-		dc.l Sonic_Load_PLC			; 0
-		dc.l Tails_Load_PLC			; 1
+		dc.l Sonic_Load_PLC		; 0
+		dc.l Tails_Load_PLC		; 1
 		dc.l Knuckles_Load_PLC		; 2
 
 ; =============== S U B R O U T I N E =======================================
@@ -536,8 +535,8 @@ Player_Load_PLC:
 Player_Load_PLC2:
 		move.w	a0,-(sp)
 		movea.w	a1,a0
-		tst.l	address(a0)											; is player RAM empty?
-		beq.s	.exit												; if yes, branch
+		tst.l	address(a0)							; is player RAM empty?
+		beq.s	.exit								; if yes, branch
 		moveq	#0,d0
 		move.b	character_id(a0),d0
 		add.w	d0,d0
@@ -566,7 +565,7 @@ StartNewLevel:
 Play_SFX_Continuous:
 		and.b	(V_int_run_count+3).w,d1
 		bne.s	StartNewLevel.return
-		bra.w	Play_SFX										; play sfx
+		bra.w	Play_SFX							; play continuous sfx
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -604,17 +603,17 @@ Wait_FadeToLevelMusic:
 ; =============== S U B R O U T I N E =======================================
 
 Player_IntroRightMove:
-		move.w	#bytes_to_word(btnR,btnR),d0						; set right move
+		move.w	#bytes_to_word(btnR,btnR),d0					; set right move
 		tst.w	objoff_2E(a0)
 		beq.s	.notjump
 		subq.w	#1,objoff_2E(a0)
 		move.w	#bytes_to_word(btnA+btnR,btnR),d0				; keep jumping
 
 .notjump
-		btst	#Status_Push,status(a1)								; player hitting a solid?
-		beq.s	.notpush											; if not, branch
+		btst	#Status_Push,status(a1)						; player hitting a solid?
+		beq.s	.notpush							; if not, branch
 		move.w	#$1F,objoff_2E(a0)
-		move.w	#bytes_to_word(btnA+btnR,btnA+btnR),d0			; set player jump
+		move.w	#bytes_to_word(btnA+btnR,btnA+btnR),d0				; set player jump
 
 .notpush
 		move.w	d0,(Ctrl_1_logical).w
@@ -631,7 +630,7 @@ BossDefeated:
 BossDefeated_NoTime:
 		bclr	#7,render_flags(a0)
 		moveq	#100,d0
-		bra.w	HUD_AddToScore									; add 1000 to score
+		bra.w	HUD_AddToScore							; add 1000 to score
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -699,238 +698,6 @@ CopyWordData_1:
 
 ; =============== S U B R O U T I N E =======================================
 
-Check_CameraXBoundary:
-		move.w	(Camera_X_pos).w,d0
-
-.skipcam
-		tst.w	x_vel(a0)
-		beq.s	.return
-		bmi.s	.left
-		addi.w	#320-16,d0
-		cmp.w	x_pos(a0),d0
-		bhi.s	.return
-		clr.w	x_vel(a0)
-
-.return
-		rts
-; ---------------------------------------------------------------------------
-
-.left
-		addi.w	#16,d0
-		cmp.w	x_pos(a0),d0
-		blo.s		.return2
-		clr.w	x_vel(a0)
-
-.return2
-		rts
-
-; =============== S U B R O U T I N E =======================================
-
-Check_CameraXBoundary2:
-		move.w	(Camera_X_pos).w,d0
-
-.skipcam
-		tst.w	x_vel(a0)
-		bmi.s	.left
-		add.w	d2,d0
-		cmp.w	x_pos(a0),d0
-		bls.s		.setflipx
-		rts
-; ---------------------------------------------------------------------------
-
-.left
-		add.w	d1,d0
-		cmp.w	x_pos(a0),d0
-		blo.s		.return
-
-.setflipx
-		bchg	#0,render_flags(a0)
-		neg.w	x_vel(a0)
-
-.return
-		rts
-
-; =============== S U B R O U T I N E =======================================
-
-Resize_MaxYFromX:
-		move.w	(Camera_X_pos).w,d0
-
-.find
-		move.l	(a1)+,d1
-		cmp.w	d1,d0
-		bhi.s	.find
-		swap	d1
-		tst.w	d1
-		bpl.s	.skip
-		andi.w	#$7FFF,d1
-		move.w	d1,(Camera_max_Y_pos).w
-
-.skip
-		move.w	d1,(Camera_target_max_Y_pos).w
-		rts
-
-; =============== S U B R O U T I N E =======================================
-
-WaterResize_MaxYFromX:
-		move.w	(Camera_X_pos).w,d0
-
-.find
-		move.l	(a1)+,d1
-		cmp.w	d1,d0
-		bhi.s	.find
-		swap	d1
-		tst.w	d1
-		bpl.s	.skip
-		andi.w	#$7FFF,d1
-		move.w	d1,(Mean_water_level).w
-
-.skip
-		move.w	d1,(Target_water_level).w
-		rts
-
-; =============== S U B R O U T I N E =======================================
-
-Change_ActSizes:
-		lea	(Level_data_addr_RAM.xstart).w,a1
-		move.l	(a1)+,d0
-		move.l	d0,(Camera_min_X_pos).w
-		move.l	d0,(Camera_target_min_X_pos).w
-		move.l	(a1)+,d0
-		move.l	d0,(Camera_min_Y_pos).w
-		move.l	d0,(Camera_target_min_Y_pos).w
-		rts
-
-; =============== S U B R O U T I N E =======================================
-
-Change_ActSizes2:
-		lea	(Level_data_addr_RAM.xstart).w,a1
-		move.w	(a1)+,(Camera_stored_min_X_pos).w
-		move.w	(a1)+,(Camera_stored_max_X_pos).w
-		move.w	(a1)+,(Camera_stored_min_Y_pos).w
-		move.w	(a1)+,d1
-		move.w	d1,(Camera_stored_max_Y_pos).w
-		move.w	d1,(Camera_target_max_Y_pos).w
-
-		; create change level size object
-		lea	Child7_ChangeLevSize(pc),a2
-		bra.w	CreateChild7_Normal2
-
-; =============== S U B R O U T I N E =======================================
-
-Obj_IncLevEndXGradual:
-		move.w	(Camera_max_X_pos).w,d0
-		move.l	objoff_30(a0),d1
-		addi.l	#$4000,d1
-		move.l	d1,objoff_30(a0)
-		swap	d1
-		add.w	d1,d0
-		cmp.w	(Camera_stored_max_X_pos).w,d0
-		bhs.s	.end
-		move.w	d0,(Camera_max_X_pos).w
-		rts
-; ---------------------------------------------------------------------------
-
-.end
-		move.w	(Camera_stored_max_X_pos).w,(Camera_max_X_pos).w
-		bra.w	Delete_Current_Sprite
-
-; =============== S U B R O U T I N E =======================================
-
-Obj_DecLevStartXGradual:
-		move.w	(Camera_min_X_pos).w,d0
-		move.l	objoff_30(a0),d1
-		addi.l	#$4000,d1
-		move.l	d1,objoff_30(a0)
-		swap	d1
-		sub.w	d1,d0
-		cmp.w	(Camera_stored_min_X_pos).w,d0
-		ble.s		.end
-		move.w	d0,(Camera_min_X_pos).w
-		rts
-; ---------------------------------------------------------------------------
-
-.end
-		move.w	(Camera_stored_min_X_pos).w,(Camera_min_X_pos).w
-		bra.w	Delete_Current_Sprite
-
-; =============== S U B R O U T I N E =======================================
-
-Obj_IncLevEndYGradual:
-		move.w	(Camera_max_Y_pos).w,d0
-		move.l	objoff_30(a0),d1
-		addi.l	#$8000,d1
-		move.l	d1,objoff_30(a0)
-		swap	d1
-		add.w	d1,d0
-		cmp.w	(Camera_stored_max_Y_pos).w,d0
-		bgt.s	.end
-		move.w	d0,(Camera_max_Y_pos).w
-		rts
-; ---------------------------------------------------------------------------
-
-.end
-		move.w	(Camera_stored_max_Y_pos).w,(Camera_max_Y_pos).w
-		bra.w	Delete_Current_Sprite
-
-; =============== S U B R O U T I N E =======================================
-
-Obj_DecLevStartYGradual:
-		move.w	(Camera_min_Y_pos).w,d0
-		move.l	objoff_30(a0),d1
-		addi.l	#$4000,d1
-		move.l	d1,objoff_30(a0)
-		swap	d1
-		sub.w	d1,d0
-		cmp.w	(Camera_stored_min_Y_pos).w,d0
-		ble.s		.end
-		move.w	d0,(Camera_min_Y_pos).w
-		rts
-; ---------------------------------------------------------------------------
-
-.end
-		move.w	(Camera_stored_min_Y_pos).w,(Camera_min_Y_pos).w
-		bra.w	Delete_Current_Sprite
-; ---------------------------------------------------------------------------
-
-Child6_IncLevX:
-		dc.w 1-1
-		dc.l Obj_IncLevEndXGradual
-Child6_DecLevX:
-		dc.w 1-1
-		dc.l Obj_DecLevStartXGradual
-Child6_IncLevY:
-		dc.w 1-1
-		dc.l Obj_IncLevEndYGradual
-Child6_DecLevY:
-		dc.w 1-1
-		dc.l Obj_DecLevStartYGradual
-Child6_DecIncLevX:
-		dc.w 2-1
-		dc.l Obj_DecLevStartXGradual
-		dc.b 0, 0
-		dc.l Obj_IncLevEndXGradual
-		dc.b 0, 0
-Child1_ActLevelSize:
-		dc.w 3-1
-		dc.l Obj_IncLevEndXGradual
-		dc.b 0, 0
-		dc.l Obj_DecLevStartYGradual
-		dc.b 0, 0
-		dc.l Obj_IncLevEndYGradual
-		dc.b 0, 0
-Child7_ChangeLevSize:
-		dc.w 4-1
-		dc.l Obj_DecLevStartYGradual
-		dc.b 0, 0
-		dc.l Obj_IncLevEndYGradual
-		dc.b 0, 0
-		dc.l Obj_DecLevStartXGradual
-		dc.b 0, 0
-		dc.l Obj_IncLevEndXGradual
-		dc.b 0, 0
-
-; =============== S U B R O U T I N E =======================================
-
 Reset_ObjectsPosition3:
 		bsr.s	Reset_ObjectsPosition2
 		move.w	(Camera_X_pos).w,(Camera_min_X_pos).w
@@ -980,27 +747,27 @@ Offset_ObjectsDuringTransition:
 		moveq	#bytesToXcnt(Dynamic_object_RAM_end-Dynamic_object_RAM,object_size),d2
 
 .check
-		tst.l	address(a1)											; is this object slot occupied?
-		beq.s	.nextobj											; if not, branch
-		btst	#2,render_flags(a1)									; is this object using screen coordinates?
-		beq.s	.nextobj											; if not, branch
+		tst.l	address(a1)							; is this object slot occupied?
+		beq.s	.nextobj							; if not, branch
+		btst	#2,render_flags(a1)						; is this object using screen coordinates?
+		beq.s	.nextobj							; if not, branch
 		sub.w	d0,x_pos(a1)
 		sub.w	d1,y_pos(a1)
 
 .nextobj
-		lea	next_object(a1),a1										; next slot
+		lea	next_object(a1),a1						; next slot
 		dbf	d2,.check
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 Offset_SomeObjectsDuringTransition:
-		tst.b	(Super_Tails_flag).w									; is Tails Super?
-		bne.s	.super											; if so, branch
+		tst.b	(Super_Tails_flag).w						; is Tails Super?
+		bne.s	.super								; if so, branch
 		rts
 ; ---------------------------------------------------------------------------
 
 .super
-		lea	(Invincibility_stars).w,a1								; load Super Flickies object
+		lea	(Invincibility_stars).w,a1					; load Super Flickies object
 		moveq	#bytesToXcnt(Invincibility_stars_end-Invincibility_stars,object_size),d2
 		bra.s	Offset_ObjectsDuringTransition.check

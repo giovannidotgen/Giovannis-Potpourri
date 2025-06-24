@@ -1,7 +1,7 @@
 	padding off		; we don't want AS padding out dc.b instructions
-	listing purecode	; Want listing file, but only the final code in expanded macros
+	listing purecode	; want listing file, but only the final code in expanded macros
 	supmode on		; we don't need warnings about privileged instructions
-	page	0		; Don't want form feeds
+	page	0		; don't want form feeds
 
 notZ80 function cpu,(cpu<>128)&&(cpu<>32988)
 
@@ -134,9 +134,9 @@ insn2op macro oper,x,y
 	  else
 		if chkop("y","d")
 		  if (chkop("y","0(") && chkop("y","objoff_00(") && chkop("y","obid(") && chkop("y","id(") && chkop("y","address(") && chkop("y","smps_queue.v_playsnd1("))
-.start:
+.start
 			!oper	1+x,y
-.end:
+.end
 			!org	.start+3
 			!dc.b	0
 			!org	.end

@@ -4,8 +4,8 @@
 
 ; Dynamic object variables
 cplat_timepointer			= objoff_30	; .l
-cplat_timedelay			= objoff_38	; .b
-cplat_collapse_flag		= objoff_3A	; .b
+cplat_timedelay				= objoff_38	; .b
+cplat_collapse_flag			= objoff_3A	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16,7 +16,7 @@ Obj_CollapsingPlatform:
 		move.w	#make_art_tile(0,2,0),art_tile(a0)
 		move.l	#CFlo_Data1,objoff_30(a0)
 		move.l	#CPlat_Data,objoff_3C(a0)
-		ori.b	#rfCoord,render_flags(a0)							; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.l	#bytes_word_to_long(112/2,200/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cplat_timedelay(a0)
 		move.b	subtype(a0),mapping_frame(a0)
@@ -24,21 +24,21 @@ Obj_CollapsingPlatform:
 		move.l	#.check,address(a0)
 
 .check
-		tst.b	cplat_collapse_flag(a0)								; has Sonic touched the	object?
-		beq.s	.stand											; if not, branch
-		tst.b	cplat_timedelay(a0)									; has time delay reached zero?
+		tst.b	cplat_collapse_flag(a0)						; has Sonic touched the	object?
+		beq.s	.stand								; if not, branch
+		tst.b	cplat_timedelay(a0)						; has time delay reached zero?
 		beq.w	ObjPlatformCollapse_CreateFragments				; if yes, branch
-		subq.b	#1,cplat_timedelay(a0)	 							; subtract 1 from time
+		subq.b	#1,cplat_timedelay(a0)						; subtract 1 from time
 
 .stand
 		moveq	#standing_mask,d0
-		and.b	status(a0),d0										; is Sonic or Tails standing on the object?
-		beq.s	.solid											; if not, branch
-		st	cplat_collapse_flag(a0)								; set object as	"touched"
+		and.b	status(a0),d0							; is Sonic or Tails standing on the object?
+		beq.s	.solid								; if not, branch
+		st	cplat_collapse_flag(a0)						; set object as	"touched"
 
 .solid
 		moveq	#96/2,d1
-		movea.l	objoff_3C(a0),a2									; CPlat_Data
+		movea.l	objoff_3C(a0),a2						; CPlat_Data
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTopSloped2).w
 		jmp	(Sprite_OnScreen_Test).w
@@ -56,10 +56,10 @@ CollapsingPlatform_PlayerRelease:
 
 		; start fall
 		move.l	#Obj_PlatformCollapseFall,address(a0)
-		lea	(Player_1).w,a1										; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		moveq	#p1_standing_bit,d6
 		bsr.s	.check
-		lea	(Player_2).w,a1										; a1=character
+		lea	(Player_2).w,a1							; a1=character
 		addq.b	#1,d6
 
 .check
@@ -71,14 +71,14 @@ CollapsingPlatform_PlayerRelease:
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
 		bset	#Status_InAir,status(a1)
-		bne.s	.return											; if the player is already in the air, branch
+		bne.s	.return								; if the player is already in the air, branch
 
 		; set anim
 		tst.b	spin_dash_flag(a1)
 		bne.s	.return
-		cmpi.b	#AniIDSonAni_Roll,anim(a1)						; is player in his rolling animation?
-		beq.s	.return											; if so, branch
-		move.b	#AniIDSonAni_Hurt,anim(a1)						; set falling animation
+		cmpi.b	#AniIDSonAni_Roll,anim(a1)					; is player in his rolling animation?
+		beq.s	.return								; if so, branch
+		move.b	#AniIDSonAni_Hurt,anim(a1)					; set falling animation
 
 .return
 		rts
@@ -101,9 +101,9 @@ ObjPlatformCollapse_SmashObject:
 		adda.w	(a3,d0.w),a3
 		move.w	(a3)+,d1
 		subq.w	#1,d1
-		bset	#rbStatic,render_flags(a0)								; set flag to "static mappings flag"
-		move.b	render_flags(a0),d5								; get render type
-		movea.w	a0,a1											; load current object to a1
+		bset	#rbStatic,render_flags(a0)					; set flag to "static mappings flag"
+		move.b	render_flags(a0),d5						; get render type
+		movea.w	a0,a1								; load current object to a1
 
 		; get RAM slot
 		getobjectRAMslot a2
@@ -115,12 +115,12 @@ ObjPlatformCollapse_SmashObject:
 		; create break pieces object
 
 .find
-		lea	next_object(a1),a1										; goto next object RAM slot
-		tst.l	address(a1)											; is object RAM slot empty?
-		dbeq	d0,.find											; if not, branch
-		bne.s	.notfree											; branch, if object RAM slot is not empty
-		subq.w	#1,d0											; dbeq didn't subtract sprite table so we'll do it ourselves
-		addq.w	#6,a3											; add to mappings
+		lea	next_object(a1),a1						; goto next object RAM slot
+		tst.l	address(a1)							; is object RAM slot empty?
+		dbeq	d0,.find							; if not, branch
+		bne.s	.notfree							; branch, if object RAM slot is not empty
+		subq.w	#1,d0								; dbeq didn't subtract sprite table so we'll do it ourselves
+		addq.w	#6,a3								; add to mappings
 
 		; load object
 		move.l	d4,address(a1)
@@ -129,19 +129,21 @@ ObjPlatformCollapse_SmashObject:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.w	priority(a0),priority(a1)
-		move.w	height_pixels(a0),height_pixels(a1)					; set height and width
+		move.w	height_pixels(a0),height_pixels(a1)				; set height and width
 
 .load
 		move.l	a3,mappings(a1)
 		move.b	(a4)+,cplat_timedelay(a1)
-		tst.w	d0												; object RAM slots ended?
-		dbmi	d1,.create										; if not, loop
+		tst.w	d0								; object RAM slots ended?
+		dbmi	d1,.create							; if not, loop
 
 .notfree
 		pea	(Draw_Sprite).w
-		move.w	respawn_addr(a0),d0
-		beq.s	.playsfx											; function when object isnt spawned by layout (plays sound anyway)
-		movea.w	d0,a1
+
+		; function when object isnt spawned by layout (plays sound anyway)
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.playsfx							; if it's zero, it isn't remembered
+		movea.w	d0,a1								; load address into a1
 		bclr	#7,(a1)
 		clr.w	respawn_addr(a0)
 
@@ -161,10 +163,10 @@ Obj_PlatformCollapseWait:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_PlatformCollapseFall:
-		tst.b	render_flags(a0)										; object visible on the screen?
-		bpl.s	.delete											; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.delete								; if not, branch
 
-		MoveSpriteYOnly a0										; make obj fall
+		MoveSpriteYOnly a0							; make obj fall
 
 		; draw
 		jmp	(Draw_Sprite).w

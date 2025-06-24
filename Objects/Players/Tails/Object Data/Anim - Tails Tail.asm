@@ -12,19 +12,19 @@
 ; ---------------------------------------------------------------------------
 
 AniTails_Tail: offsetTable
-		ptrTableEntry.w AniTails_Tail00			; 0
-		ptrTableEntry.w AniTails_Tail01			; 1
-		ptrTableEntry.w AniTails_Tail02			; 2
-		ptrTableEntry.w AniTails_Tail03			; 3
-		ptrTableEntry.w AniTails_Tail04			; 4
-		ptrTableEntry.w AniTails_Tail05			; 5
-		ptrTableEntry.w AniTails_Tail06			; 6
-		ptrTableEntry.w AniTails_Tail07			; 7
-		ptrTableEntry.w AniTails_Tail08			; 8
-		ptrTableEntry.w AniTails_Tail09			; 9
-		ptrTableEntry.w AniTails_Tail0A			; A
-		ptrTableEntry.w AniTails_Tail0B			; B
-		ptrTableEntry.w AniTails_Tail0C			; C
+		ptrTableEntry.w AniTails_Tail00		; 0
+		ptrTableEntry.w AniTails_Tail01		; 1
+		ptrTableEntry.w AniTails_Tail02		; 2
+		ptrTableEntry.w AniTails_Tail03		; 3
+		ptrTableEntry.w AniTails_Tail04		; 4
+		ptrTableEntry.w AniTails_Tail05		; 5
+		ptrTableEntry.w AniTails_Tail06		; 6
+		ptrTableEntry.w AniTails_Tail07		; 7
+		ptrTableEntry.w AniTails_Tail08		; 8
+		ptrTableEntry.w AniTails_Tail09		; 9
+		ptrTableEntry.w AniTails_Tail0A		; A
+		ptrTableEntry.w AniTails_Tail0B		; B
+		ptrTableEntry.w AniTails_Tail0C		; C
 
 AniTails_Tail00:	dc.b 0, $20, 0, $FF
 AniTails_Tail01:	dc.b 0, 7, $22, $23, $24, $25, $26, $FF

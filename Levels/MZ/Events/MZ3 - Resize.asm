@@ -58,7 +58,7 @@ MZ3_Resize:
 ; ---------------------------------------------------------------------------
 
 Load_MZ3Boss_Skip:
-		move.w	#2*60,(Events_fg+2).w					; fade time
+		move.w	#2*60,(Events_fg+2).w						; fade time
 		move.l	#Load_MZ3Boss_Wait,(Level_data_addr_RAM.Resize).w
 
 Load_MZ3Boss_Wait:
@@ -68,7 +68,7 @@ Load_MZ3Boss_Wait:
 Load_MZ3Boss:
 
 		; set
-		clr.l	(Level_data_addr_RAM.Resize).w				; set return for resize
+		clr.l	(Level_data_addr_RAM.Resize).w					; set return for resize
 
 		; set intro flag
 		st	(Intro_flag).w
@@ -84,7 +84,7 @@ Load_MZ3Boss:
 
 		; create boss
 		music	mus_ZoneBoss
-		move.b	d0,(Current_music+1).w					; save music
+		move.b	d0,(Current_music+1).w						; save music
 		jsr	(Create_New_Sprite).w
 		bne.s	.return
 		move.l	#Obj_BossFire,address(a1)
@@ -114,6 +114,6 @@ End_MZ3Boss:
 		jmp	(StartNewLevel).w
 ; ---------------------------------------------------------------------------
 
-MZ3_ResizeDat:		; y-boundary, xcamera
+MZ3_ResizeDat:	; y-boundary, xcamera
 		dc.w $720, $1760
 		dc.w $200, -1

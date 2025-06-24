@@ -3,8 +3,8 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-gfire_origX		= objoff_2E
-gfire_origY		= objoff_30
+gfire_origX			= objoff_2E
+gfire_origY			= objoff_30
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -20,7 +20,7 @@ Obj_GrassFire:
 
 .main
 		movea.w	parent3(a0),a2
-		movea.l	objoff_3C(a0),a1					; LGrass data pointer
+		movea.l	objoff_3C(a0),a1						; LGrass data pointer
 		move.w	x_pos(a0),d1
 		sub.w	gfire_origX(a0),d1
 		addi.w	#12,d1
@@ -73,9 +73,9 @@ Obj_GrassFire_Fire:
 .anim
 
 		; wait
-		subq.b	#1,anim_frame_timer(a0)			; decrement timer
-		bpl.s	.draw							; if time remains, branch
-		addq.b	#7+1,anim_frame_timer(a0)		; reset timer to 7 frames
+		subq.b	#1,anim_frame_timer(a0)						; decrement timer
+		bpl.s	.draw								; if time remains, branch
+		addq.b	#7+1,anim_frame_timer(a0)					; reset timer to 7 frames
 
 		; next frame
 		addq.b	#1,mapping_frame(a0)
@@ -90,7 +90,7 @@ Obj_GrassFire_Fire:
 
 ; mapping
 ObjDat_GrassFire:		subObjData Map_Fire, $298, 0, 0, 16, 16, 1, 0, $B|$80
-ObjDat3_GrassFire_Fire:	subObjData3 16, 16, 1, 0, $B|$80
+ObjDat3_GrassFire_Fire:		subObjData3 16, 16, 1, 0, $B|$80
 
 Child6_GrassFire_Fire:
 		dc.w 1-1

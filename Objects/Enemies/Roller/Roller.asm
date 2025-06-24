@@ -21,7 +21,7 @@ Obj_Roller:
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1
 		bpl.s	.floornotfound
-		add.w	d1,y_pos(a0)									; match roller's position with the floor
+		add.w	d1,y_pos(a0)							; match roller's position with the floor
 		clr.w	y_vel(a0)
 		move.l	#.rollchk,objoff_34(a0)
 		move.l	#.action,address(a0)
@@ -42,16 +42,16 @@ Obj_Roller:
 .rollchk
 		move.w	(Player_1+x_pos).w,d0
 		subi.w	#512/2,d0
-		blo.s		.skip
-		sub.w	x_pos(a0),d0									; check distance between Roller and Sonic
-		blo.s		.skip
+		blo.s	.skip
+		sub.w	x_pos(a0),d0							; check distance between Roller and Sonic
+		blo.s	.skip
 		move.l	#.chkjump,objoff_34(a0)
 		move.b	#2,anim(a0)
-		move.w	#$700,x_vel(a0)								; move Roller horizontally
+		move.w	#$700,x_vel(a0)							; move Roller horizontally
 		move.b	#$E|$80,collision_flags(a0)					; make Roller invincible
 
 .skip
-		addq.w	#4,sp										; exit from current object
+		addq.w	#4,sp								; exit from current object
 		jmp	(Delete_Sprite_If_Not_In_Range).w
 ; ---------------------------------------------------------------------------
 
@@ -78,7 +78,7 @@ Obj_Roller:
 		jsr	(MoveSprite2).w
 		jsr	(ObjCheckFloorDist).w
 		cmpi.w	#-8,d1
-		blt.s		.jump
+		blt.s	.jump
 		cmpi.w	#12,d1
 		bge.s	.jump
 		add.w	d1,y_pos(a0)
@@ -89,7 +89,7 @@ Obj_Roller:
 		move.l	#.matchfloor,objoff_34(a0)
 		bset	#0,roller_flag(a0)
 		beq.s	.return2
-		move.w	#-$600,y_vel(a0)								; move Roller vertically
+		move.w	#-$600,y_vel(a0)						; move Roller vertically
 
 .return2
 		rts
@@ -102,7 +102,7 @@ Obj_Roller:
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1
 		bpl.s	.return3
-		add.w	d1,y_pos(a0)									; match Roller's position with the floor
+		add.w	d1,y_pos(a0)							; match Roller's position with the floor
 		clr.w	y_vel(a0)
 		move.l	#.chkjump,objoff_34(a0)
 
@@ -121,7 +121,7 @@ Roll_Stop:
 		clr.b	anim(a0)
 		move.b	#$E,collision_flags(a0)
 		clr.w	x_vel(a0)
-		move.w	#2*60,roller_timedelay(a0)						; set waiting time to 2 seconds
+		move.w	#2*60,roller_timedelay(a0)					; set waiting time to 2 seconds
 		bset	#7,roller_flag(a0)
 		move.l	#Obj_Roller.rollnochk,objoff_34(a0)
 

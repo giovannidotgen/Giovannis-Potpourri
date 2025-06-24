@@ -11,6 +11,6 @@ SBZ3_WaterResize:
 		jmp	(WaterResize_MaxYFromX).w
 ; ---------------------------------------------------------------------------
 
-SBZ3_WaterResizeDat:		; water pos, xcamera
+SBZ3_WaterResizeDat:	; water pos, xcamera
 		dc.w $228, $F00
 		dc.w $4C8, -1

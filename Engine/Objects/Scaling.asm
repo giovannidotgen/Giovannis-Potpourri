@@ -11,7 +11,7 @@ vScaling_buffer_end		= RAM_start+$4000	; $40 to $7F level chunks will be destroy
 Perform_Art_Scaling:
 		pea	(a0)								; save a0
 		bsr.s	Init_ArtScaling
-		movea.l	(sp)+,a0						; restore a0
+		movea.l	(sp)+,a0							; restore a0
 		pea	(a0)
 		move.w	art_tile(a0),d0
 		bsr.w	Process_ArtScaling
@@ -19,7 +19,7 @@ Perform_Art_Scaling:
 		move.w	(Scalar_factor).w,d3
 		lsl.w	#4,d3
 		move.l	#dmaSource(vScaling_buffer),d1
-		move.w	objoff_3A(a0),d2				; VRAM
+		move.w	objoff_3A(a0),d2						; VRAM
 		jmp	(Add_To_DMA_Queue).w
 
 ; =============== S U B R O U T I N E =======================================
@@ -37,11 +37,11 @@ Init_ArtScaling:
 
 .clr
 
-	rept 10									; clear $100 bytes
-		movem.l	a0-a5,-(a6)					; clear $18 bytes
+	rept 10										; clear $100 bytes
+		movem.l	a0-a5,-(a6)							; clear $18 bytes
 	endr
 
-		movem.l	a0-a3,-(a6)					; clear $10 bytes
+		movem.l	a0-a3,-(a6)							; clear $10 bytes
 		dbf	d1,.clr
 		rts
 ; ---------------------------------------------------------------------------
@@ -61,16 +61,16 @@ Process_ArtScaling:
 		moveq	#0,d1
 		move.b	objoff_40(a0),d1
 		cmpi.b	#28,d1
-		blo.s		loc_2469A
-		moveq	#28,d1						; maximum 28 different "scales"
+		blo.s	loc_2469A
+		moveq	#28,d1								; maximum 28 different "scales"
 
 loc_2469A:
-		move.b	d1,mapping_frame(a0)			; scale level correlates with mapping frame
+		move.b	d1,mapping_frame(a0)						; scale level correlates with mapping frame
 		add.w	d1,d1
 		move.w	word_2464A(pc,d1.w),d1
 		move.w	(Scalar_factor).w,d2
 		add.w	d1,d2
-		cmpi.w	#128*2,d2					; image size (128x128 pixels)
+		cmpi.w	#128*2,d2							; image size (128x128 pixels)
 		bhi.s	loc_246D2
 		sub.w	d1,d2
 		movem.l	d1/d5-a0/a2/a4,-(sp)
@@ -93,11 +93,11 @@ loc_246D2:
 
 sub_246DA:
 		moveq	#0,d0
-		move.b	objoff_40(a0),d0				; scale factor
+		move.b	objoff_40(a0),d0						; scale factor
 		moveq	#0,d1
-		move.b	objoff_20(a0),d1				; next frame (address shift)
-		movea.l	objoff_42(a0),a1				; scaled art address
-		ror.w	#4,d1						; 1 to $1000 (max 16 frames?)
+		move.b	objoff_20(a0),d1						; next frame (address shift)
+		movea.l	objoff_42(a0),a1						; scaled art address
+		ror.w	#4,d1								; 1 to $1000 (max 16 frames?)
 		adda.l	d1,a1
 		lea	(a1),a0
 		lea	$1000(a0),a0
@@ -112,25 +112,25 @@ sub_246DA:
 		move.w	#$F,d7
 		swap	d7
 		tst.w	d4
-		beq.w	sub_249BA					; if modified scale factor smaller than 8, branch
+		beq.w	sub_249BA							; if modified scale factor smaller than 8, branch
 		cmpi.w	#1,d4
-		bne.s	loc_2472A					; if modified scale factor is not between 8-$10, branch
+		bne.s	loc_2472A							; if modified scale factor is not between 8-$10, branch
 		tst.w	d5
-		beq.w	sub_2493E					; if modified scale factor is 8, branch
+		beq.w	sub_2493E							; if modified scale factor is 8, branch
 		cmpi.w	#$2000,d5
-		beq.w	sub_248B8					; if modified scale factor is 9, branch
+		beq.w	sub_248B8							; if modified scale factor is 9, branch
 
 loc_2472A:
-		move.w	d4,d2						; all other instances. Scale factor/8 to d2
+		move.w	d4,d2								; all other instances. Scale factor/8 to d2
 		swap	d2
 		move.w	d5,d2
-		lsr.l	#8,d2							; combine with other scale factor to create final result: Scale factor << 5
+		lsr.l	#8,d2								; combine with other scale factor to create final result: Scale factor << 5
 		move.l	#$400000,d0
 		divu.w	d2,d0
 		lsr.w	#8,d0
 		lsr.w	#3,d0
-		subq.w	#1,d0						; divide 400000 by modified scale factor << 5, subtract 1
-		movea.w	d0,a5						; note the result in a5
+		subq.w	#1,d0								; divide 400000 by modified scale factor << 5, subtract 1
+		movea.w	d0,a5								; note the result in a5
 		moveq	#0,d2
 		moveq	#0,d3
 		lea	sub_2479C(pc),a6
@@ -211,7 +211,7 @@ sub_24802:
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s		loc_24814
+		blo.s	loc_24814
 		moveq	#0,d0
 
 loc_24814:
@@ -219,7 +219,7 @@ loc_24814:
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s		loc_24826
+		blo.s	loc_24826
 		moveq	#0,d1
 
 loc_24826:

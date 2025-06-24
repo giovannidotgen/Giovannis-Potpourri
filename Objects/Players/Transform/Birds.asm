@@ -3,17 +3,19 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-superTailsBirds_target_found	= $30
-superTailsBirds_search_delay	= $32
+superTailsBirds_target_found		= $30
+superTailsBirds_search_delay		= $32
 superTailsBirds_angle			= $34
-superTailsBirds_target_address	= $42
+superTailsBirds_target_address		= $42
 
 ; =============== S U B R O U T I N E =======================================
 
 Obj_SuperTailsBirds:
 
+.artsize	:= (ArtUnc_SuperTailsBirds_end-ArtUnc_SuperTailsBirds)&$FFFF
+
 		; load birds art
-		QueueStaticDMA ArtUnc_SuperTailsBirds,tiles_to_bytes(14),tiles_to_bytes(ArtTile_Player_1)
+		QueueStaticDMA ArtUnc_SuperTailsBirds,.artsize,tiles_to_bytes(ArtTile_Player_1)
 
 		; load
 		lea	(a0),a1
@@ -23,7 +25,7 @@ Obj_SuperTailsBirds:
 .loop:
 		move.l	#Obj_SuperTailsBirds_Init,address(a1)
 		move.b	d0,superTailsBirds_angle(a1)
-		addi.b	#256/4,d0										; 90 degrees
+		addi.b	#256/4,d0							; 90 degrees
 		lea	next_object(a1),a1
 		dbf	d1,.loop
 
@@ -40,7 +42,7 @@ Obj_SuperTailsBirds_Init:
 		; init
 		move.l	#Map_SuperTails_Birds,mappings(a0)
 		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Player_1,0,1)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,16/2,16/2),render_flags(a0)	; set screen coordinates flag and height and width
+		move.l	#bytes_to_long(rfCoord,0,16/2,16/2),render_flags(a0)		; set screen coordinates flag and height and width
 		move.w	(Player_1+x_pos).w,x_pos(a0)
 		move.w	(Player_1+y_pos).w,y_pos(a0)
 		subi.w	#$C0,x_pos(a0)
@@ -64,7 +66,7 @@ Obj_SuperTailsBirds_Main:
 		tst.b	superTailsBirds_target_found(a0)
 		beq.s	.no_target
 		movea.w	superTailsBirds_target_address(a0),a1
-		move.b	d0,objoff_2D(a1)									; seems to be for indicating whether an object has been 'locked-onto' or not
+		move.b	d0,objoff_2D(a1)						; seems to be for indicating whether an object has been 'locked-onto' or not
 
 .no_target
 		move.b	d0,superTailsBirds_target_found(a0)
@@ -121,7 +123,7 @@ Obj_SuperTailsBirds_FlyAway:
 		subi.w	#192,d3
 
 		; check
-		tst.b	render_flags(a0)										; object visible on the screen?
+		tst.b	render_flags(a0)						; object visible on the screen?
 		bmi.s	Obj_SuperTailsBirds_Main.move					; if yes, branch
 
 		; if sprite is off-screen, delete it
@@ -165,8 +167,8 @@ Obj_SuperTailsBirds_GetDestination:
 		movea.w	superTailsBirds_target_address(a0),a1
 		move.w	x_pos(a1),d2
 		move.w	y_pos(a1),d3
-		tst.b	render_flags(a1)										; object visible on the screen?
-		bpl.s	.enemy_off_screen								; if not, branch
+		tst.b	render_flags(a1)						; object visible on the screen?
+		bpl.s	.enemy_off_screen						; if not, branch
 		move.w	x_pos(a0),d0
 		sub.w	d2,d0
 		addi.w	#12,d0
@@ -192,7 +194,7 @@ Obj_SuperTailsBirds_GetDestination:
 
 .hit_enemy
 		move.b	collision_flags(a1),d0
-		beq.s	.no_collision										; if object has no collision, give up
+		beq.s	.no_collision							; if object has no collision, give up
 		andi.b	#$C0,d0
 		beq.s	.enemy
 		cmpi.b	#$C0,d0
@@ -208,7 +210,7 @@ Obj_SuperTailsBirds_GetDestination:
 		tst.b	collision_property(a1)
 		beq.s	.destroy_enemy
 		move.b	collision_flags(a1),boss_backup_collision(a1)			; save current collision
-		move.b	#Player_2&$FF,objoff_1C(a1)						; save value of RAM address of which player hit the boss
+		move.b	#Player_2&$FF,objoff_1C(a1)					; save value of RAM address of which player hit the boss
 		clr.b	collision_flags(a1)
 
 	if BossDebug
@@ -272,11 +274,11 @@ Obj_SuperTailsBirds_Move:
 		sub.w	y_pos(a0),d3
 		bhs.s	loc_1A3CA
 		cmpi.w	#-$500,d3
-		ble.s		loc_1A3D0
+		ble.s	loc_1A3D0
 
 loc_1A3B4:
 		cmpi.w	#-$1000,y_vel(a0)
-		ble.s		loc_1A3D8
+		ble.s	loc_1A3D8
 
 loc_1A3BC:
 		neg.w	d1
@@ -348,8 +350,8 @@ Obj_SuperTailsBirds_FindTarget:
 ; =============== S U B R O U T I N E =======================================
 
 .check_if_object_valid
-		tst.b	render_flags(a1)										; object visible on the screen?
-		bpl.s	.invalid											; if not, branch
+		tst.b	render_flags(a1)						; object visible on the screen?
+		bpl.s	.invalid							; if not, branch
 		tst.b	objoff_2D(a1)
 		bne.s	.invalid
 		andi.b	#$C0,d0

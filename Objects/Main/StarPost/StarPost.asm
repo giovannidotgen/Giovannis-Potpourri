@@ -9,25 +9,25 @@
 Obj_StarPost:
 
 		; init
-		movem.l	ObjDat_StarPost(pc),d0-d3								; copy data to d0-d3
-		movem.l	d0-d3,address(a0)										; set data from d0-d3 to current object
+		movem.l	ObjDat_StarPost(pc),d0-d3					; copy data to d0-d3
+		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
 		move.w	#2,mainspr_childsprites(a0)
 
 		; create circle
-		lea	sub2_x_pos(a0),a1										; $16-$23 bytes reserved
-		move.w	x_pos(a0),(a1)+										; xpos
+		lea	sub2_x_pos(a0),a1						; $16-$23 bytes reserved
+		move.w	x_pos(a0),(a1)+							; xpos
 		moveq	#-32,d0
 		add.w	y_pos(a0),d0
-		move.w	d0,(a1)+												; ypos
-		move.w	#1,(a1)+												; frame (circle)
-		move.w	x_pos(a0),(a1)+										; xpos
-		move.w	y_pos(a0),(a1)+										; ypos
-;		move.w	#0,(a1)+												; frame (pillar)
+		move.w	d0,(a1)+							; ypos
+		move.w	#1,(a1)+							; frame (circle)
+		move.w	x_pos(a0),(a1)+							; xpos
+		move.w	y_pos(a0),(a1)+							; ypos
+;		move.w	#0,(a1)+							; frame (pillar)
 
 		; check
-		move.w	respawn_addr(a0),d0									; get address in respawn table
-		beq.s	.main												; if it's zero, it isn't remembered
-		movea.w	d0,a2												; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.main								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		btst	#0,(a2)
 		bne.s	.main
 		moveq	#$7F,d1
@@ -35,9 +35,9 @@ Obj_StarPost:
 		moveq	#$7F,d2
 		and.b	subtype(a0),d2
 		cmp.b	d2,d1
-		blo.s		.main
+		blo.s	.main
 		bset	#0,(a2)
-		move.l	#.canim,address(a0)									; set as "taken"
+		move.l	#.canim,address(a0)						; set as "taken"
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
@@ -58,8 +58,8 @@ Obj_StarPost:
 		and.b	subtype(a0),d2
 		cmp.b	d2,d1
 		bhs.s	.taken
-		tst.w	(Debug_placement_mode).w							; is debug mode on?
-		bne.s	.return												; if yes, branch
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
+		bne.s	.return								; if yes, branch
 
 		; check xpos
 		move.w	(Player_1+x_pos).w,d0
@@ -79,23 +79,23 @@ Obj_StarPost:
 		sfx	sfx_StarPost
 
 		; move circle
-		move.w	#34,objoff_36(a0)										; rotation time
+		move.w	#34,objoff_36(a0)						; rotation time
 
 		; check bonus
 		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
-		beq.s	.notbonus											; if yes, branch
-		cmpi.w	#50,(Ring_count).w									; does Sonic have at least 50 rings?
-		blo.s		.notbonus											; if not, branch
-		bsr.w	Load_StarPost_Stars									; load stars
+		beq.s	.notbonus							; if yes, branch
+		cmpi.w	#50,(Ring_count).w						; does Sonic have at least 50 rings?
+		blo.s	.notbonus							; if not, branch
+		bsr.w	Load_StarPost_Stars						; load stars
 
 .notbonus
 		bsr.s	Save_StarPost_Settings
 		move.l	#.circular,address(a0)
 
 		; check
-		move.w	respawn_addr(a0),d0									; get address in respawn table
-		beq.s	.return												; if it's zero, it isn't remembered
-		movea.w	d0,a2												; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.return								; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bset	#0,(a2)
 
 .return
@@ -103,7 +103,7 @@ Obj_StarPost:
 ; ---------------------------------------------------------------------------
 
 .taken
-		move.l	#.canim,address(a0)									; set as "taken"
+		move.l	#.canim,address(a0)						; set as "taken"
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -289,11 +289,11 @@ Load_StarPost_Stars:
 		move.l	#Obj_StarPost_Stars,address(a1)
 		move.l	#Map_StarPostStars,mappings(a1)
 		move.w	#make_art_tile(ArtTile_StarPost+8,0,0),art_tile(a1)
-		move.b	#rfCoord,render_flags(a1)								; use screen coordinates
+		move.b	#rfCoord,render_flags(a1)					; use screen coordinates
 		move.w	priority(a0),priority(a1)
-		move.w	#bytes_to_word(16/2,16/2),height_pixels(a1)				; set height and width
+		move.w	#bytes_to_word(16/2,16/2),height_pixels(a1)			; set height and width
 		move.b	#1,mapping_frame(a1)
-		move.w	a0,parent3(a1)										; save parent (StarPost)
+		move.w	a0,parent3(a1)							; save parent (StarPost)
 		move.w	x_pos(a0),d3
 		move.w	d3,x_pos(a1)
 		move.w	d3,objoff_30(a1)
@@ -304,7 +304,7 @@ Load_StarPost_Stars:
 		move.l	#words_to_long(-$400,0),x_vel(a1)
 		move.w	d2,objoff_34(a1)
 		addi.w	#256/4,d2
-		jsr	(Create_New_Sprite4).w									; find next free object slot
+		jsr	(Create_New_Sprite4).w						; find next free object slot
 		dbne	d1,.create
 
 .return
@@ -325,45 +325,45 @@ Obj_StarPost_Stars:
 		; takes 50 rings from the player
 		moveq	#50,d0
 		move.w	(Ring_count).w,d1
-		sub.w	d0,d1												; subtract 50 rings
-		bhs.s	.setrings												; if the player has rings left, branch
-		moveq	#0,d1												; set 0 rings
+		sub.w	d0,d1								; subtract 50 rings
+		bhs.s	.setrings							; if the player has rings left, branch
+		moveq	#0,d1								; set 0 rings
 
 .setrings
 		move.w	d1,(Saved_ring_count).w
 
 		; calc rings bonus
-		add.w	d0,d0												; multiply by 10
+		add.w	d0,d0								; multiply by 10
 		move.w	d0,d1
 		add.w	d0,d0
 		add.w	d0,d0
-		add.w	d1,d0												; set 5000 rings score
+		add.w	d1,d0								; set 5000 rings score
 
 		; add to the score
-		move.l	(Score).w,d1											; get current score
-		add.l	d0,d1												; add d0*10 to the score
-		move.l	#999999,d0											; 9999990 maximum points
-		cmp.l	d1,d0												; is score below 999999?
-		bhi.s	.sset													; if yes, branch
-		move.l	d0,d1												; reset score to 999999
+		move.l	(Score).w,d1							; get current score
+		add.l	d0,d1								; add d0*10 to the score
+		move.l	#999999,d0							; 9999990 maximum points
+		cmp.l	d1,d0								; is score below 999999?
+		bhi.s	.sset								; if yes, branch
+		move.l	d0,d1								; reset score to 999999
 
 .sset
-		move.l	d1,(Score).w											; save score
+		move.l	d1,(Score).w							; save score
 
 		; check bonus
-		cmp.l	(Next_extra_life_score).w,d1							; if score is greater than next 50000 point increment
-		blo.s		.fset
-		addi.l	#5000,(Next_extra_life_score).w						; set next 50000
-		addq.b	#1,(Life_count).w										; give an additional extra life
+		cmp.l	(Next_extra_life_score).w,d1					; if score is greater than next 50000 point increment
+		blo.s	.fset
+		addi.l	#5000,(Next_extra_life_score).w					; set next 50000
+		addq.b	#1,(Life_count).w						; give an additional extra life
 
 .fset
 		move.b	(Extra_life_flags).w,(Saved_extra_life_flags).w
 		clr.b	(Last_star_post_hit).w
 
 		; load special stage
-		addq.w	#4*2,sp												; exit from object and current screen
-		move.b	#GameModeID_SpecialStageScreen,(Game_mode).w		; set screen mode to Special Stage
-		move.b	#1,(Special_bonus_entry_flag).w						; set special stage flag
+		addq.w	#4*2,sp								; exit from object and current screen
+		move.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; set screen mode to Special Stage
+		move.b	#1,(Special_bonus_entry_flag).w					; set special stage flag
 		moveq	#$71,d0
 		and.b	(Player_1+status_secondary).w,d0
 		move.b	d0,(Saved2_status_secondary).w
@@ -386,13 +386,13 @@ loc_2D50A:
 		moveq	#2,d5
 		moveq	#0,d4
 		cmpi.w	#16,d2
-		ble.s		loc_2D53A
+		ble.s	loc_2D53A
 		neg.w	d1
 
 loc_2D53A:
 		andi.w	#$F,d2
 		cmpi.w	#8,d2
-		ble.s		loc_2D54A
+		ble.s	loc_2D54A
 		neg.w	d2
 		andi.w	#7,d2
 
@@ -421,11 +421,11 @@ loc_2D56A:
 ; ---------------------------------------------------------------------------
 
 loc_2D574:
-		move.b	#$18|$C0,collision_flags(a0)							; set collision size 8x8
+		move.b	#$18|$C0,collision_flags(a0)					; set collision size 8x8
 
 loc_2D57A:
 		cmpi.w	#$180,d1
-		ble.s		loc_2D58C
+		ble.s	loc_2D58C
 		neg.w	d1
 		addi.w	#$200,d1
 		bmi.s	loc_2D5C0
@@ -458,7 +458,7 @@ loc_2D5C0:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_StarPost:		subObjMainData2 Obj_StarPost.main, rfCoord+rfMulti, 0, 80, 16, 5, ArtTile_StarPost+8, 0, 0, Map_StarPost
+ObjDat_StarPost:	subObjMainData2 Obj_StarPost.main, rfCoord+rfMulti, 0, 80, 16, 5, ArtTile_StarPost+8, 0, 0, Map_StarPost
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Main/StarPost/Object Data/Map - StarPost.asm"

@@ -5,12 +5,12 @@
 ; =============== S U B R O U T I N E =======================================
 
 Handle_Onscreen_Water_Height:
-		tst.b	(Water_flag).w												; does level have water?
-		beq.s	.slide													; if not, branch
+		tst.b	(Water_flag).w								; does level have water?
+		beq.s	.slide									; if not, branch
 		tst.b	(Deform_lock).w
 		bne.s	.skip
-		cmpi.b	#PlayerID_Death,(Player_1+routine).w						; is player dead?
-		bhs.s	.skip													; if yes, branch
+		cmpi.b	#PlayerID_Death,(Player_1+routine).w					; is player dead?
+		bhs.s	.skip									; if yes, branch
 		bsr.w	Water_WindTunnels
 		bsr.s	DynamicWaterHeight
 
@@ -31,14 +31,14 @@ Handle_Onscreen_Water_Height:
 
 .set
 		st	(Water_full_screen_flag).w
-		st	(H_int_counter).w											; set 256-1
+		st	(H_int_counter).w							; set 256-1
 		rts
 ; ---------------------------------------------------------------------------
 
 .check
 		cmpi.w	#224-1,d0
-		blo.s		.counter
-		moveq	#-1,d0													; set 256-1
+		blo.s	.counter
+		moveq	#-1,d0									; set 256-1
 
 .counter
 		move.b	d0,(H_int_counter).w
@@ -56,7 +56,7 @@ DynamicWaterHeight:
 
 		; check
 		move.l	(Level_data_addr_RAM.WaterResize).w,d0
-		beq.s	.wrskip													; if zero, branch
+		beq.s	.wrskip									; if zero, branch
 		movea.l	d0,a0
 		jsr	(a0)
 
@@ -82,15 +82,15 @@ DynamicWaterHeight:
 ; =============== S U B R O U T I N E =======================================
 
 CheckLevelForWater:
-		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
-		beq.s	.getwater													; if so, branch
+		cmpi.b	#LevelID_LZ,(Current_zone).w						; check if level is LZ
+		beq.s	.getwater								; if so, branch
 
 		; reset water
 		move.w	#$1000,d0
 		move.w	d0,(Water_level).w
 		move.w	d0,(Mean_water_level).w
 		move.w	d0,(Target_water_level).w
-		clr.b	(Water_flag).w												; disable water
+		clr.b	(Water_flag).w								; disable water
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -101,22 +101,22 @@ CheckLevelForWater:
 		move.w	d0,(Water_level).w
 		move.w	d0,(Mean_water_level).w
 		move.w	d0,(Target_water_level).w
-		st	(Water_flag).w												; enable water
+		st	(Water_flag).w								; enable water
 		clr.b	(Water_entered_counter).w
 		clr.b	(Water_full_screen_flag).w
 		move.b	#1,(Water_speed).w
 
 		; load player water palette
-		lea	(Level_data_addr_RAM.WaterSpal).w,a1							; load Sonic palette
+		lea	(Level_data_addr_RAM.WaterSPal).w,a1					; load Sonic's palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s		.notwaterknux
-		addq.w	#1,a1													; load Knuckles palette
+		blo.s	.notwaterknux
+		addq.w	#1,a1									; load Knuckles's palette
 
 .notwaterknux
 		moveq	#0,d0
-		move.b	(a1),d0													; player water palette
+		move.b	(a1),d0									; player water palette
 		move.w	d0,d1
-		jsr	(LoadPalette2).w												; load player's water palette
+		jsr	(LoadPalette2).w							; load player's water palette
 		move.w	d1,d0
 		jsr	(LoadPalette2_Immediate).w
 
@@ -125,11 +125,11 @@ LoadWaterPalette:
 		beq.s	.return
 
 		; load level water palette
-		lea	(Level_data_addr_RAM.WaterPalette).w,a1						; water palette
+		lea	(Level_data_addr_RAM.WaterPalette).w,a1					; water palette
 		moveq	#0,d0
 		move.b	(a1),d0
 		move.w	d0,d1
-		jsr	(LoadPalette2).w												; load water palette
+		jsr	(LoadPalette2).w							; load water palette
 		move.w	d1,d0
 		jsr	(LoadPalette2_Immediate).w
 
@@ -144,30 +144,30 @@ LoadWaterPalette:
 ; =============== S U B R O U T I N E =======================================
 
 Water_WindTunnels:
-		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
-		bne.s	LoadWaterPalette.return									; if not, branch
-		tst.w	(Debug_placement_mode).w								; is debug mode on?
-		bne.s	LoadWaterPalette.return									; if yes, branch
-		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
-		beq.s	loc_6F82												; if yes, branch
+		cmpi.b	#LevelID_LZ,(Current_zone).w						; check if level is LZ
+		bne.s	LoadWaterPalette.return							; if not, branch
+		tst.w	(Debug_placement_mode).w						; is debug mode on?
+		bne.s	LoadWaterPalette.return							; if yes, branch
+		cmpi.w	#PlayerModeID_Tails,(Player_mode).w					; is Tails?
+		beq.s	loc_6F82								; if yes, branch
 
 		; check
-		lea	(Player_1).w,a1												; a1=character
+		lea	(Player_1).w,a1								; a1=character
 		lea	(WindTunnel_flag).w,a3
 		move.b	(Ctrl_1_logical).w,d6
 		moveq	#0,d5
 		bsr.s	LZ_WaterTunnels
 		addq.w	#1,a3
-		lea	(Player_2).w,a1												; a1=character
-		tst.l	address(a1)													; is player RAM empty?
-		beq.s	LoadWaterPalette.return									; if yes, branch
+		lea	(Player_2).w,a1								; a1=character
+		tst.l	address(a1)								; is player RAM empty?
+		beq.s	LoadWaterPalette.return							; if yes, branch
 		move.b	(Ctrl_2_logical).w,d6
 		moveq	#1,d5
 		bra.s	LZ_WaterTunnels
 ; ---------------------------------------------------------------------------
 
 loc_6F82:
-		lea	(Player_1).w,a1												; a1=character
+		lea	(Player_1).w,a1								; a1=character
 		lea	(WindTunnel_flag_P2).w,a3
 		move.b	(Ctrl_1_logical).w,d6
 		moveq	#0,d5
@@ -190,34 +190,32 @@ LZ_WaterTunnels:
 		bhs.w	.chknext
 		move.w	y_pos(a1),d1
 		cmp.w	2(a2),d1
-		blo.s		.chknext
+		blo.s	.chknext
 		cmp.w	6(a2),d1
 		bhs.s	.chknext
 
-		; play sfx
-		moveq	#signextendB(sfx_Waterfall),d0
-		moveq	#$3F,d1													; play water sound
-		jsr	(Play_SFX_Continuous).w
+		; play continuous sfx
+		sfxcont	sfx_Waterfall,$3F							; play water sound every 64th frame
 
 		; check
-		cmpi.b	#PlayerID_Hurt,routine(a1)									; is Sonic falling back from getting hurt?
-		bhs.s	.clr														; if yes, branch
+		cmpi.b	#PlayerID_Hurt,routine(a1)						; is Sonic falling back from getting hurt?
+		bhs.s	.clr									; if yes, branch
 		btst	d5,(WindTunnel_holding_flag).w
 		bne.s	.return
 		tst.b	object_control(a1)
 		bne.s	.clr
 		move.b	#1,(a3)
 		moveq	#-128,d0
-		add.w	x_pos(a1),d0												; get sonic xpos again
+		add.w	x_pos(a1),d0								; get sonic xpos again
 		cmp.w	(a2),d0
 		bhs.s	.movesonic
 		moveq	#2,d0
-		cmpi.b	#1,(Current_act).w										; check if level is LZ2
-		bne.s	.notact2													; if not, branch
+		cmpi.b	#1,(Current_act).w							; check if level is LZ2
+		bne.s	.notact2								; if not, branch
 		neg.w	d0
 
 .notact2
-		add.w	d0,y_pos(a1)												; adjust Sonic's y-axis for curve of tunnel
+		add.w	d0,y_pos(a1)								; adjust Sonic's y-axis for curve of tunnel
 
 .movesonic
 		addq.w	#4,x_pos(a1)
@@ -232,13 +230,13 @@ LZ_WaterTunnels:
 		move.b	d0,double_jump_flag(a1)
 
 		; check buttons
-		btst	#button_up,d6												; is up being held?
-		beq.s	.down													; if not, branch
+		btst	#button_up,d6								; is up being held?
+		beq.s	.down									; if not, branch
 		subq.w	#1,y_pos(a1)
 
 .down
-		btst	#button_down,d6												; is down being held?
-		beq.s	.return													; if not, branch
+		btst	#button_down,d6								; is down being held?
+		beq.s	.return									; if not, branch
 		addq.w	#1,y_pos(a1)
 
 .return
@@ -257,55 +255,27 @@ LZ_WaterTunnels:
 
 .return2
 		rts
-; ---------------------------------------------------------------------------
-
-LZ_WaterTunLocs_Index: offsetTable
-		offsetTableEntry.w LZ1_WaterTunLocs
-		offsetTableEntry.w LZ2_WaterTunLocs
-		offsetTableEntry.w LZ3_WaterTunLocs
-		offsetTableEntry.w SBZ3_WaterTunLocs
-
-LZ1_WaterTunLocs:														; min x, min y, max x, max y, x velo, y velo, player can influence which axis flag (set = x, clear = y)
-		dc.w 2-1
-		dc.w $A80+512, $300, $C10+512, $380
-		dc.w $F80+512, $100, $1410+512, $180
-LZ1_WaterTunLocs_end
-
-LZ2_WaterTunLocs:														; min x, min y, max x, max y, x velo, y velo, player can influence which axis flag (set = x, clear = y)
-		dc.w 1-1
-		dc.w $460+512, $400, $710+512, $480
-LZ2_WaterTunLocs_end
-
-LZ3_WaterTunLocs:														; min x, min y, max x, max y, x velo, y velo, player can influence which axis flag (set = x, clear = y)
-		dc.w 1-1
-		dc.w $A20+512, $600, $1610+512, $6E0
-LZ3_WaterTunLocs_end
-
-SBZ3_WaterTunLocs:														; min x, min y, max x, max y, x velo, y velo, player can influence which axis flag (set = x, clear = y)
-		dc.w 1-1
-		dc.w $C80, $600, $13D0, $680
-SBZ3_WaterTunLocs_end
 
 ; =============== S U B R O U T I N E =======================================
 
 Water_WaterSlides:
-		cmpi.b	#LevelID_LZ,(Current_zone).w								; check if level is LZ
-		bne.s	locret_3F7A												; if not, branch
-		cmpi.b	#3,(Current_act).w										; check if level is SBZ3
-		beq.s	locret_3F7A												; if yes, branch
+		cmpi.b	#LevelID_LZ,(Current_zone).w						; check if level is LZ
+		bne.s	locret_3F7A								; if not, branch
+		cmpi.b	#3,(Current_act).w							; check if level is SBZ3
+		beq.s	locret_3F7A								; if yes, branch
 
 		; check
-		lea	(Player_1).w,a1												; a1=character
+		lea	(Player_1).w,a1								; a1=character
 		move.b	(Ctrl_1_logical).w,d2
 		bsr.s	sub_71E4
-		lea	(Player_2).w,a1												; a1=character
-		tst.l	address(a1)													; is player RAM empty?
-		beq.s	locret_3F7A												; if yes, branch
+		lea	(Player_2).w,a1								; a1=character
+		tst.l	address(a1)								; is player RAM empty?
+		beq.s	locret_3F7A								; if yes, branch
 		move.b	(Ctrl_2_logical).w,d2
 
 sub_71E4:
-		btst	#Status_InAir,status(a1)										; is the player in the air?
-		bne.s	loc_3F6A												; if yes, branch
+		btst	#Status_InAir,status(a1)						; is the player in the air?
+		bne.s	loc_3F6A								; if yes, branch
 		btst	#Status_OnObj,status(a1)
 		bne.s	loc_3F6A
 
@@ -316,10 +286,10 @@ sub_71E4:
 		and.w	(Layout_row_index_mask).w,d0
 		move.w	x_pos(a1),d1
 		lsr.w	#7,d1
-		add.w	d1,d1													; chunk ID to word
+		add.w	d1,d1									; chunk ID to word
 		add.w	8(a2,d0.w),d1
 		adda.w	d1,a2
-		move.w	(a2),d0													; get chunk id
+		move.w	(a2),d0									; get chunk id
 
 		; check chunks
 		moveq	#0,d1
@@ -356,7 +326,7 @@ LZSlide_Move:
 		tst.b	d0
 		bpl.s	loc_7254
 		cmp.b	d0,d1
-		ble.s		loc_725E
+		ble.s	loc_725E
 		subi.w	#$40,ground_vel(a1)
 		bra.s	loc_725E
 ; ---------------------------------------------------------------------------
@@ -373,11 +343,11 @@ loc_725E:
 		bset	#Status_Facing,status(a1)
 
 loc_3F9A:
-		move.b	#AniIDSonAni_Slide,anim(a1)								; use Sonic's "sliding" animation
-		ori.b	#$80,status_secondary(a1)									; set water slide flag
-		moveq	#signextendB(sfx_Waterfall),d0
-		moveq	#$1F,d1													; play water sound
-		jmp	(Play_SFX_Continuous).w
+		move.b	#AniIDSonAni_Slide,anim(a1)						; use Sonic's "sliding" animation
+		ori.b	#$80,status_secondary(a1)						; set water slide flag
+
+		; play continuous sfx
+		sfxcont	sfx_Waterfall,$1F,1							; play water sound every 32th frame
 ; ---------------------------------------------------------------------------
 
 loc_728A:
@@ -426,45 +396,4 @@ loc_72EE:
 		rts
 ; ---------------------------------------------------------------------------
 
-Slide_Speeds_Index: offsetTable
-		offsetTableEntry.w Slide_Speeds1									; act 1
-		offsetTableEntry.w Slide_Speeds2									; act 2
-		offsetTableEntry.w Slide_Speeds3									; act 3
-		offsetTableEntry.w Slide_Speeds1									; act 4
-
-Slide_Speeds1:
-		dc.b $A, $A														; right
-Slide_Speeds2:
-		dc.b $A, $A, $A, $A, $A, $A										; right
-		dc.b -$A, -$A, -$A, -$A												; left
-Slide_Speeds3:
-		dc.b $A, $A, $A, $A, $A, $A, $B, $B, $B, $B, $B						; right
-		dc.b -$C, -$C, -$C, -$C, -$B, -$B, -$B, -$B, -$B, -$B, -$B				; left
-	even
-; ---------------------------------------------------------------------------
-
-Slide_Chunks_Index: offsetTable
-		offsetTableEntry.w Slide_Chunks1_start								; act 1
-		offsetTableEntry.w Slide_Chunks2_start								; act 2
-		offsetTableEntry.w Slide_Chunks3_start								; act 3
-		offsetTableEntry.w Slide_Chunks1_start								; act 4
-
-Slide_Chunks1:
-		dc.w $51, $52														; right
-Slide_Chunks1_end
-		dc.w ((Slide_Chunks1_end-Slide_Chunks1)/2)-1
-Slide_Chunks1_start
-
-Slide_Chunks2:
-		dc.w $25, $26, $2C, $2D, $2E, $2F									; right
-		dc.w $30, $31, $32, $33											; left
-Slide_Chunks2_end
-		dc.w ((Slide_Chunks2_end-Slide_Chunks2)/2)-1
-Slide_Chunks2_start
-
-Slide_Chunks3:
-		dc.w $D, $E, $11, $12, $13, $14, $1B, $1D, $1E, $1F, $20					; right
-		dc.w $24, $25, $26, $27, $2F, $30, $31, $32, $BE, $BF, $C0				; left
-Slide_Chunks3_end
-		dc.w ((Slide_Chunks3_end-Slide_Chunks3)/2)-1
-Slide_Chunks3_start
+		include "Levels/LZ/Misc/Data - Water Effects.asm"

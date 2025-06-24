@@ -3,10 +3,10 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-lwall_x_vel				= objoff_30	; .w
+lwall_x_vel			= objoff_30	; .w
 lwall_child_dx			= objoff_32	; .w
 
-lwall_flag				= objoff_39	; .b ; flag to start wall moving
+lwall_flag			= objoff_39	; .b ; flag to start wall moving
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -17,18 +17,18 @@ Obj_LavaWall:
 		jsr	(SetUp_ObjAttributes).w
 		bset	#Status_FireShield,shield_reaction(a0)
 		bset	#6,render_flags(a0)						; set multi-draw flag
-		move.w	#1,mainspr_childsprites(a0)			; set sub objects
+		move.w	#1,mainspr_childsprites(a0)					; set sub objects
 
 		; set sub object xpos
-		moveq	#signextendB(128),d1					; subtract 128 pixels
+		moveq	#signextendB(128),d1						; subtract 128 pixels
 		move.w	d1,lwall_child_dx(a0)
 
 		; sub object
 		lea	sub2_x_pos(a0),a1						; $16-$1D bytes reserved
 		move.w	x_pos(a0),d0
 		add.w	d1,d0								; subtract 128 pixels
-		move.w	d0,(a1)+								; xpos
-		move.w	y_pos(a0),(a1)+						; ypos
+		move.w	d0,(a1)+							; xpos
+		move.w	y_pos(a0),(a1)+							; ypos
 		move.w	#5,(a1)								; frame
 
 .restart
@@ -47,20 +47,20 @@ Obj_LavaWall:
 .movewall
 		jsr	(Find_SonicObject).w
 		cmpi.w	#96,d3								; is Sonic within $60 pixels (y-axis)?
-		bhs.s	.restart								; if not, branch
+		bhs.s	.restart							; if not, branch
 		cmpi.w	#192,d2								; is Sonic within $C0 pixels (x-axis)?
-		blo.s		.solid								; if not, branch
+		blo.s	.solid								; if not, branch
 
 		; set move flag
 		st	lwall_flag(a0)
 
 		; play sound
 		sfx	sfx_BossMagma
-		move.w	#$180,lwall_x_vel(a0)					; set object speed
+		move.w	#$180,lwall_x_vel(a0)						; set object speed
 		move.l	#.checkmove,address(a0)
 
 .checkmove
-		cmpi.w	#$8A0,x_pos(a0)						; has object reached $6A0 on the x-axis?
+		cmpi.w	#$8A0,x_pos(a0)							; has object reached $6A0 on the x-axis?
 		bne.s	.solid								; if not, branch
 		move.l	#.solid,address(a0)
 
@@ -71,7 +71,7 @@ Obj_LavaWall:
 		clr.b	lwall_flag(a0)
 
 .solid
-		moveq	#(64/2)+$B,d1						; width
+		moveq	#(64/2)+$B,d1							; width
 		moveq	#48/2,d2							; height
 		move.w	d2,d3
 		addq.w	#1,d3								; height+1
@@ -81,9 +81,9 @@ Obj_LavaWall:
 .anim
 
 		; wait
-		subq.b	#1,anim_frame_timer(a0)				; decrement timer
+		subq.b	#1,anim_frame_timer(a0)						; decrement timer
 		bpl.s	.check								; if time remains, branch
-		move.b	#9,anim_frame_timer(a0)				; reset timer to 9 frames
+		move.b	#9,anim_frame_timer(a0)						; reset timer to 9 frames
 
 		; next frame
 		addq.b	#1,mapping_frame(a0)
@@ -92,7 +92,7 @@ Obj_LavaWall:
 		move.b	#1,mapping_frame(a0)
 
 .check
-		cmpi.b	#PlayerID_Hurt,(Player_1+routine).w	; is Sonic falling back from getting hurt?
+		cmpi.b	#PlayerID_Hurt,(Player_1+routine).w				; is Sonic falling back from getting hurt?
 		bhs.s	.sonichurt							; if yes, branch
 
 		; move lava
@@ -107,7 +107,7 @@ Obj_LavaWall:
 		move.w	d0,sub2_x_pos(a0)
 
 .sonichurt
-		tst.b	lwall_flag(a0)								; is object set to move?
+		tst.b	lwall_flag(a0)							; is object set to move?
 		bne.s	.draw								; if yes, branch
 		jmp	(Sprite_CheckDeleteTouch3).w
 ; ---------------------------------------------------------------------------
@@ -118,7 +118,7 @@ Obj_LavaWall:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_LavaWall:			subObjData Map_LWall, $36D, 3, 0, 64, 180, 1, 1, $14|$80
+ObjDat_LavaWall:	subObjData Map_LWall, $36D, 3, 0, 64, 180, 1, 1, $14|$80
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Lava Wall/Object Data/Map - Lava Wall.asm"

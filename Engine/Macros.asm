@@ -78,18 +78,18 @@ dmaFillVRAM macro byte,addr,length
 	move.l	#vdpComm(addr,VRAM,DMA),VDP_control_port-VDP_control_port(a5)	; start at ...
 	move.w	#bytes_to_word(byte,byte),(VDP_data_port).l	; fill with byte
 
-.loop:
+.loop
 	moveq	#2,d1
 	and.w	VDP_control_port-VDP_control_port(a5),d1
 	bne.s	.loop	; busy loop until the VDP is finished filling...
 	move.w	#$8F02,VDP_control_port-VDP_control_port(a5)	; VRAM pointer increment: $0002
     endm
 
-; -------------------------------------------------------------
+; ---------------------------------------------------------------------------
 ; Macro to check button presses
 ; Arguments:
 ; 1 - buttons to check
-; -------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 tpress macro press,player
 	if player=2
@@ -100,11 +100,11 @@ tpress macro press,player
 	andi.b	#(press),d0
     endm
 
-; -------------------------------------------------------------
+; ---------------------------------------------------------------------------
 ; Macro to check if buttons are held
 ; Arguments:
 ; 1 - buttons to check
-; -------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
 theld macro press,player
 	if player=2
@@ -234,7 +234,7 @@ subObjMainData3 macro render,routine,height,width,prio,vram,pal,pri,mappings
 
 ; macro to level select icons
 setRSDKIcons macro pal, icon
-		dc.w (pal)*palette_line_size, (icon)*tiles_to_bytes(dmaLength(12))
+	dc.w (pal)*palette_line_size, (icon)*tiles_to_bytes(dmaLength(12))
     endm
 ; ---------------------------------------------------------------------------
 
@@ -272,10 +272,10 @@ __LABEL__ label *
     endm
 
 titlecardresultsobjdata macro address,xdest,xpos,ypos,frame,width,exit
-	dc.l address							; object address
+	dc.l address					; object address
 	dc.w 128+xdest,128+xpos,128+ypos		; x destination, xpos, ypos
-	dc.b frame,(width/2)					; mapping frame, width
-	dc.w exit								; place in exit queue
+	dc.b frame,(width/2)				; mapping frame, width
+	dc.w exit					; place in exit queue
     endm
 ; ---------------------------------------------------------------------------
 
@@ -306,9 +306,9 @@ __LABEL__ label *
     endm
 
 specialresultsobjdata macro address,xdest,xpos,ypos,frame,width
-	dc.l address							; object address
+	dc.l address					; object address
 	dc.w 128+xdest,128+xpos,128+ypos		; x destination, xpos, ypos
-	dc.b frame,(width/2)					; mapping frame, width
+	dc.b frame,(width/2)				; mapping frame, width
     endm
 ; ---------------------------------------------------------------------------
 
@@ -599,8 +599,8 @@ out_of_xrange macro exit, xpos
     endm
 
 out_of_xrange2 macro exit
-	sub.w	(Camera_X_pos_coarse_back).w,d0		; get screen position
-	cmpi.w	#$80+320+$40+$80,d0				; this gives an object $80 pixels of room offscreen before being unloaded (the $40 is there to round up 320 to a multiple of $80)
+	sub.w	(Camera_X_pos_coarse_back).w,d0					; get screen position
+	cmpi.w	#$80+320+$40+$80,d0						; this gives an object $80 pixels of room offscreen before being unloaded (the $40 is there to round up 320 to a multiple of $80)
 	bhi.ATTRIBUTE	exit
     endm
 
@@ -630,7 +630,7 @@ out_of_yrange2 macro exit
 ; ---------------------------------------------------------------------------
 
 respawn_delete macro terminate
-	move.w	respawn_addr(a0),d0					; get address in respawn table
+	move.w	respawn_addr(a0),d0						; get address in respawn table
 	beq.s	.delete								; if it's zero, it isn't remembered
 	movea.w	d0,a2								; load address into a2
 	bclr	#7,(a2)
@@ -651,24 +651,24 @@ getobjectRAMslot macro address
       endif
 	move.w	#Dynamic_object_RAM_end,d0
 	sub.w	a0,d0
-	lsr.w	#6,d0												; divide by $40... even though SSTs are $4A bytes long in this game
-	lea	(Create_New_Sprite3.find_first_sprite_table).w,address
-	move.b	(address,d0.w),d0										; use a look-up table to get the right loop counter
+	lsr.w	#6,d0								; divide by $40... even though SSTs are $4A bytes long in this game
+	lea	(Create_New_Sprite3.table).w,address
+	move.b	(address,d0.w),d0						; use a look-up table to get the right loop counter
     endm
 
 MoveSprite macro address, gravity, terminate
       if ("address"=="")
 	fatal "Error! Empty value!"
       endif
-	movem.w	x_vel(address),d0/d2		; load xy speed
-	asl.l	#8,d0							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	asl.l	#8,d2							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	add.l	d0,x_pos(address)				; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
-	add.l	d2,y_pos(address)				; add to y-axis position ; note this affects the subpixel position y_sub(address) = 2+y_pos(address)
+	movem.w	x_vel(address),d0/d2						; load xy speed
+	asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	asl.l	#8,d2								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	add.l	d0,x_pos(address)						; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
+	add.l	d2,y_pos(address)						; add to y-axis position ; note this affects the subpixel position y_sub(address) = 2+y_pos(address)
       if ("gravity"<>"")
-	addi.w	#gravity,y_vel(address)			; increase vertical speed (apply gravity)
+	addi.w	#gravity,y_vel(address)						; increase vertical speed (apply gravity)
 	else
-	addi.w	#$38,y_vel(address)			; increase vertical speed (apply gravity)
+	addi.w	#$38,y_vel(address)						; increase vertical speed (apply gravity)
       endif
       if ("terminate"<>"")
 	rts
@@ -679,11 +679,11 @@ MoveSprite2 macro address, terminate
       if ("address"=="")
 	fatal "Error! Empty value!"
       endif
-	movem.w	x_vel(address),d0/d2		; load xy speed
-	asl.l	#8,d0							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	asl.l	#8,d2							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	add.l	d0,x_pos(address)				; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
-	add.l	d2,y_pos(address)				; add to y-axis position ; note this affects the subpixel position y_sub(address) = 2+y_pos(address)
+	movem.w	x_vel(address),d0/d2						; load xy speed
+	asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	asl.l	#8,d2								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	add.l	d0,x_pos(address)						; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
+	add.l	d2,y_pos(address)						; add to y-axis position ; note this affects the subpixel position y_sub(address) = 2+y_pos(address)
       if ("terminate"<>"")
 	rts
       endif
@@ -693,10 +693,10 @@ MoveSpriteXOnly macro address, terminate
       if ("address"=="")
 	fatal "Error! Empty value!"
       endif
-	move.w	x_vel(address),d0				; load x speed
+	move.w	x_vel(address),d0						; load x speed
 	ext.l	d0
-	asl.l	#8,d0							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	add.l	d0,x_pos(address)				; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
+	asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	add.l	d0,x_pos(address)						; add to x-axis position ; note this affects the subpixel position x_sub(address) = 2+x_pos(address)
       if ("terminate"<>"")
 	rts
       endif
@@ -706,14 +706,14 @@ MoveSpriteYOnly macro address, gravity, terminate
       if ("address"=="")
 	fatal "Error! Empty value!"
       endif
-	move.w	y_vel(address),d0				; load y speed
+	move.w	y_vel(address),d0						; load y speed
 	ext.l	d0
-	asl.l	#8,d0							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	add.l	d0,y_pos(address)				; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
+	asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	add.l	d0,y_pos(address)						; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
       if ("gravity"<>"")
-	addi.w	#gravity,y_vel(address)			; increase vertical speed (apply gravity)
+	addi.w	#gravity,y_vel(address)						; increase vertical speed (apply gravity)
 	else
-	addi.w	#$38,y_vel(address)			; increase vertical speed (apply gravity)
+	addi.w	#$38,y_vel(address)						; increase vertical speed (apply gravity)
       endif
       if ("terminate"<>"")
 	rts
@@ -724,10 +724,10 @@ MoveSprite2YOnly macro address, terminate
       if ("address"=="")
 	fatal "Error! Empty value!"
       endif
-	move.w	y_vel(address),d0				; load y speed
+	move.w	y_vel(address),d0						; load y speed
 	ext.l	d0
-	asl.l	#8,d0							; shift velocity to line up with the middle 16 bits of the 32-bit position
-	add.l	d0,y_pos(address)				; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
+	asl.l	#8,d0								; shift velocity to line up with the middle 16 bits of the 32-bit position
+	add.l	d0,y_pos(address)						; add to y-axis position ; note this affects the subpixel position y_sub(a0) = 2+y_pos(a0)
       if ("terminate"<>"")
 	rts
       endif
@@ -738,11 +738,11 @@ Add_SpriteToCollisionResponseList macro address, terminate
 	fatal "Error! Empty value!"
       endif
 	lea	(Collision_response_list).w,address
-	move.w	(address),d0					; get list to d0
-	addq.b	#2,d0						; is list full? ($80)
-	bmi.s	.full							; if so, return
-	move.w	d0,(address)					; save list  ($7E)
-	move.w	a0,(address,d0.w)				; store RAM address in list
+	move.w	(address),d0							; get list to d0
+	addq.b	#2,d0								; is list full? ($80)
+	bmi.s	.full								; if so, return
+	move.w	d0,(address)							; save list ($7E)
+	move.w	a0,(address,d0.w)						; store RAM address in list
 
 .full
       if ("terminate"<>"")
@@ -751,9 +751,9 @@ Add_SpriteToCollisionResponseList macro address, terminate
     endm
 
 CreateNewSprite macro obj, terminate
-		jsr	(Create_New_Sprite).w
-		bne.s	.skip
-		move.l	#obj,address(a1)
+	jsr	(Create_New_Sprite).w
+	bne.s	.skip
+	move.l	#obj,address(a1)
 
 .skip
       if ("terminate"<>"")
@@ -762,9 +762,9 @@ CreateNewSprite macro obj, terminate
     endm
 
 CreateNewSprite3 macro obj, terminate
-		jsr	(Create_New_Sprite3).w
-		bne.s	.skip
-		move.l	#obj,address(a1)
+	jsr	(Create_New_Sprite3).w
+	bne.s	.skip
+	move.l	#obj,address(a1)
 
 .skip
       if ("terminate"<>"")
@@ -840,18 +840,21 @@ rom_ptr_z80 macro addr
 ; ---------------------------------------------------------------------------
 
 clearZ80RAM macro
-	lea	(Z80_RAM).l,a0
-	move.w	#$1FFF,d0
+	moveq	#0,d1
+	lea	(Z80_RAM).l,a1
+	move.w	#bytesToXcnt(Z80_RAM_end-Z80_RAM,8),d0
 
-.clear:
-	clr.b (a0)+
+.clear
+	movep.l	d1,0(a1)
+	movep.l	d1,1(a1)
+	addq.w	#4*2,a1								; next bytes
 	dbf	d0,.clear
     endm
 
 paddingZ80RAM macro
 	moveq	#0,d0
 
-.clear:
+.clear
 	move.b	d0,(a1)+
 	cmpa.l	#(Z80_RAM_end),a1
 	bne.s	.clear
@@ -865,11 +868,11 @@ paddingZ80RAM macro
 stopZ80 macro
 
 	if OptimiseStopZ80=0
-	move.w	#$100,(Z80_bus_request).l		; stop the Z80
+		move.w	#$100,(Z80_bus_request).l				; stop the Z80
 
-.wait:
-	btst	#0,(Z80_bus_request).l
-	bne.s	.wait 						; loop until it says it's stopped
+.wait
+		btst	#0,(Z80_bus_request).l
+		bne.s	.wait							; loop until it says it's stopped
 	endif
 
     endm
@@ -878,7 +881,7 @@ stopZ80 macro
 stopZ80a macro
 
 	if OptimiseStopZ80=0
-	move.w	#$100,(Z80_bus_request).l		; stop the Z80
+		move.w	#$100,(Z80_bus_request).l				; stop the Z80
 	endif
 
     endm
@@ -891,9 +894,9 @@ stopZ80a macro
 waitZ80 macro
 
 	if OptimiseStopZ80=0
-.wait:
-	btst	#0,(Z80_bus_request).l
-	bne.s	.wait 						; loop until
+.wait
+		btst	#0,(Z80_bus_request).l
+		bne.s	.wait							; loop until
 	endif
 
     endm
@@ -928,7 +931,7 @@ resetZ80a macro
 startZ80 macro
 
 	if OptimiseStopZ80=0
-		move.w	#0,(Z80_bus_request).l	; start the Z80
+		move.w	#0,(Z80_bus_request).l					; start the Z80
 	endif
 
     endm
@@ -941,11 +944,11 @@ startZ80 macro
 stopZ802 macro
 
 	if OptimiseStopZ80=2
-		move.w	#$100,(Z80_bus_request).l		; stop the Z80
+		move.w	#$100,(Z80_bus_request).l				; stop the Z80
 
-.wait:
+.wait
 		btst	#0,(Z80_bus_request).l
-		bne.s	.wait 						; loop until it says it's stopped
+		bne.s	.wait							; loop until it says it's stopped
 	endif
 
     endm
@@ -958,7 +961,7 @@ stopZ802 macro
 startZ802 macro
 
 	if OptimiseStopZ80=2
-		move.w	#0,(Z80_bus_request).l		; start the Z80
+		move.w	#0,(Z80_bus_request).l					; start the Z80
 	endif
 
     endm
@@ -970,7 +973,7 @@ startZ802 macro
 waitZ80time macro time
 	move.w	#(time),d0
 
-.wait:
+.wait
 	nop
 	nop
 	nop
@@ -999,8 +1002,8 @@ enableInts macro
 ; ---------------------------------------------------------------------------
 
 disableIntsSave macro
-	move.w	sr,-(sp)		; save current interrupt mask
-	disableInts			; mask off interrupts
+	move.w	sr,-(sp)							; save current interrupt mask
+	disableInts								; mask off interrupts
     endm
 
 ; ---------------------------------------------------------------------------
@@ -1008,7 +1011,7 @@ disableIntsSave macro
 ; ---------------------------------------------------------------------------
 
 enableIntsSave macro
-	move.w	(sp)+,sr		; restore interrupts to previous state
+	move.w	(sp)+,sr							; restore interrupts to previous state
     endm
 
 ; ---------------------------------------------------------------------------
@@ -1036,89 +1039,103 @@ enableScreen macro
 ; ---------------------------------------------------------------------------
 
 jhi macro loc
-		bls.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bls.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jcc macro loc
-		bcs.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	blo.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jhs macro loc
-		jcc	loc
-	    endm
+	jcc	loc
+    endm
 
 jls macro loc
-		bhi.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bhi.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jcs macro loc
-		bcc.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bhs.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jlo macro loc
-		jcs	loc
-	    endm
+	jcs	loc
+    endm
 
 jeq macro loc
-		bne.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bne.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jne macro loc
-		beq.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	beq.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jgt macro loc
-		ble.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	ble.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jge macro loc
-		blt.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	blt.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jle macro loc
-		bgt.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bgt.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jlt macro loc
-		bge.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bge.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jpl macro loc
-		bmi.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bmi.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 
 jmi macro loc
-		bpl.s	.nojump
-		jmp	loc
-.nojump:
-	    endm
+	bpl.s	.nojump
+	jmp	(loc).l
+
+.nojump
+    endm
 ; ---------------------------------------------------------------------------
 
 ; macros to convert from tile index to art tiles, block mapping or VRAM address
 sprite_priority function x,((x&7)<<7)
 make_art_tile function addr,pal,pri,((pri&1)<<15)|((pal&3)<<13)|(addr&tile_mask)
+make_block_tile function addr,flx,fly,pal,pri,((pri&1)<<15)|((pal&3)<<13)|((fly&1)<<12)|((flx&1)<<11)|(addr&tile_mask)
+make_block_tile_pair function addr,flx,fly,pal,pri,((make_block_tile(addr,flx,fly,pal,pri)<<16)|make_block_tile(addr,flx,fly,pal,pri))
 tiles_to_bytes function addr,((addr&$7FF)<<5)
 
 ; function to calculate the location of a tile in plane mappings
@@ -1141,10 +1158,11 @@ _KosPlus_LoopUnroll := 3
 
 _KosPlus_ReadBit macro
 	dbf	d2,.skip
-	moveq	#7,d2						; We have 8 new bits, but will use one up below.
-	move.b	(a0)+,d0						; Get desc field low-byte.
-.skip:
-	add.b	d0,d0						; Get a bit from the bitstream.
+	moveq	#7,d2								; We have 8 new bits, but will use one up below.
+	move.b	(a0)+,d0							; Get desc field low-byte.
+
+.skip
+	add.b	d0,d0								; Get a bit from the bitstream.
     endm
 ; ---------------------------------------------------------------------------
 
@@ -1153,7 +1171,7 @@ zoneanimstart macro {INTLABEL}
 __LABEL__ label *
 zoneanimcount := 0
 zoneanimcur := "__LABEL__"
-	dc.w zoneanimcount___LABEL__	; Number of scripts for a zone (-1)
+	dc.w zoneanimcount___LABEL__						; Number of scripts for a zone (-1)
     endm
 
 watertransheader macro {INTLABEL}
@@ -1272,16 +1290,17 @@ sfx macro track, terminate, byte
       endif
     endm
 
-sample macro id, terminate, byte
+sfxcont macro track, wait, terminate, byte
     if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(id),d0
+	moveq	#signextendB(track),d0
     else
-	move.w	#(id),d0
+	move.w	#(track),d0
     endif
+	moveq	#signextendB(wait),d1
       if ("terminate"="0") || ("terminate"="")
-	jsr	(SMPS_PlayDACSample).w
+	jsr	(Play_SFX_Continuous).w
       else
-	jmp	(SMPS_PlayDACSample).w
+	jmp	(Play_SFX_Continuous).w
       endif
     endm
 
@@ -1302,6 +1321,19 @@ esfx macro track, terminate
 	jsr	(SMPS_QueueSound2_Extended).w
       else
 	jmp	(SMPS_QueueSound2_Extended).w
+      endif
+    endm
+
+sample macro id, terminate, byte
+    if ("byte"="0") || ("byte"="")
+	moveq	#signextendB(id),d0
+    else
+	move.w	#(id),d0
+    endif
+      if ("terminate"="0") || ("terminate"="")
+	jsr	(SMPS_PlayDACSample).w
+      else
+	jmp	(SMPS_PlayDACSample).w
       endif
     endm
 
@@ -1441,7 +1473,11 @@ copyTilemap2 macro loc,address,width,height,terminate
 	locVRAM	loc,d0
 	moveq	#(width/8-1),d1
 	moveq	#(height/8-1),d2
+      if ((address)<=$7F)
+	moveq	#(address),d3
+      else
 	move.w	#(address),d3
+      endif
       if ("terminate"="0") || ("terminate"="")
 	jsr	(Plane_Map_To_Add_VRAM).w
       else
@@ -1509,9 +1545,11 @@ LoadArtUnc macro offset,size,vram
 	moveq	#(size>>5)-1,d0
 
 .load
+
 	rept 8
 		move.l	(a0)+,VDP_data_port-VDP_data_port(a6)
 	endr
+
 	dbf	d0,.load
     endm
 ; ---------------------------------------------------------------------------
@@ -1522,12 +1560,14 @@ LoadMapUnc macro offset,size,arg,loc,width,height
 	move.w	#((size)>>4),d1
 
 .load
+
 	rept 4
 		move.l	(a0)+,(a1)
 		add.w	d0,(a1)+
 		add.w	d0,(a1)+
 	endr
-		dbf	d1,.load
+
+	dbf	d1,.load
 	locVRAM	loc,d0
 	moveq	#(width/8-1),d1
 	moveq	#(height/8-1),d2
@@ -1570,29 +1610,17 @@ abs macro destination
 	tst.ATTRIBUTE	destination
 	bpl.s	.skip
 	neg.ATTRIBUTE	destination
-.skip:
-    endm
 
-    if 0|AllOptimizations
-absw macro destination	; use a short branch instead
-	abs.ATTRIBUTE	destination
+.skip
     endm
-    else
-; macro to replace the destination with its absolute value using a word-sized branch
-absw macro destination
-	tst.ATTRIBUTE	destination
-	bpl.w	.skip
-	neg.ATTRIBUTE	destination
-.skip:
-    endm
-    endif
 
 ; macro to move the absolute value of the source in the destination
 mvabs macro source,destination
 	move.ATTRIBUTE	source,destination
 	bpl.s	.skip
 	neg.ATTRIBUTE	destination
-.skip:
+
+.skip
     endm
 ; ---------------------------------------------------------------------------
 
@@ -1648,7 +1676,7 @@ dScroll_Data macro pixel,size,velocity,plane
 ; macro for generating standard strings
 standardstr macro str
 	save
-	codepage	STANDARD
+	codepage STANDARD
 	dc.b strlen(str)-1, str
 	restore
     endm
@@ -1656,7 +1684,7 @@ standardstr macro str
 ; macro for generating level select strings
 levselstr macro str
 	save
-	codepage	LEVELSCREEN
+	codepage LEVELSCREEN
 	dc.b strlen(str)-1, str
 	restore
     endm
@@ -1664,14 +1692,14 @@ levselstr macro str
 ; macro for generating options strings
 optstr macro str
 	save
-	codepage	OPTIONSCREEN
+	codepage OPTIONSCREEN
 	dc.b strlen(str)-1, str
 	restore
     endm
 
 	; codepage for level select
 	save
-	codepage	LEVELSCREEN
+	codepage LEVELSCREEN
 	CHARSET ' ', 43
 	CHARSET '0','9', 1
 	CHARSET 'A','Z', 17
@@ -1693,9 +1721,9 @@ creditstr macro plane, str
     endif
 	save
     if plane&$8000
-	codepage	CREDITSCREEN
+	codepage CREDITSCREEN
     else
-	codepage	CREDITSCREEN2
+	codepage CREDITSCREEN2
     endif
 	dc.b str
 	restore
@@ -1705,7 +1733,7 @@ creditstr macro plane, str
 
 ; macro for a credits text list header
 creditstr_end macro
-	dc.w 0
+	dc.w 0	; end marker
     endm
 
 	; codepage for options

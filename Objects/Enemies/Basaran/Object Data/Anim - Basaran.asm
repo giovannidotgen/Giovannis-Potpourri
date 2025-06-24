@@ -4,7 +4,7 @@
 
 Ani_Bas: offsetTable
 		offsetTableEntry.w .still	; 0
-		offsetTableEntry.w .fall		; 1
+		offsetTableEntry.w .fall	; 1
 		offsetTableEntry.w .fly		; 2
 
 .still		dc.b $7F, 0, afEnd

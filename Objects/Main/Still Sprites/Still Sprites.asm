@@ -14,12 +14,12 @@ Obj_StillSprite:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.b	d0,mapping_frame(a0)
-		add.w	d0,d0									; multiply by 6
+		add.w	d0,d0								; multiply by 6
 		move.w	d0,d1
 		add.w	d0,d0
 		add.w	d1,d0
 		lea	.index(pc,d0.w),a1
-		move.l	(a1)+,priority(a0)							; set priority and VRAM
+		move.l	(a1)+,priority(a0)						; set priority and VRAM
 		move.w	(a1),height_pixels(a0)						; set height and width
 
 		; draw
@@ -30,19 +30,19 @@ Obj_StillSprite:
 
 .index
 
-		; GHZ (Bridge)									; 0
+		; GHZ (Bridge)								; 0
 		StillSpritesEntry	1, $342, 2, 0, 32, 16
 
-		; MZ (Brick)										; 1
+		; MZ (Brick)								; 1
 		StillSpritesEntry	1, 1, 2, 0, 32, 32
 
-		; SYZ (Siren)										; 2
+		; SYZ (Siren)								; 2
 		StillSpritesEntry	6, $11, 0, 0, 16, 32
 
-		; LZ (Wheel)										; 3
+		; LZ (Wheel)								; 3
 		StillSpritesEntry	1, $3F6, 0, 0, 32, 32
 
-		; SLZ (Cannon)									; 4
+		; SLZ (Cannon)								; 4
 		StillSpritesEntry	2, $42C, 2, 0, 32, 16
 ; ---------------------------------------------------------------------------
 

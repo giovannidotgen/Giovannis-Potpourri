@@ -3,17 +3,19 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-sto_origX		= objoff_34 ; original x-axis position
-sto_origY		= objoff_30 ; original y-axis position
-sto_time			= objoff_36 ; time
-sto_active		= objoff_38 ; flag set when a switch is pressed
-;				= objoff_3A
-;				= objoff_3C
-;				= objoff_3E
+sto_origX			= objoff_34	; original x-axis position (2 bytes)
+sto_origY			= objoff_30	; original y-axis position (2 bytes)
+sto_time			= objoff_36	; time (2 bytes)
+sto_active			= objoff_38	; flag set when a switch is pressed (1 byte)
+;				= objoff_3A	; (2 bytes)
+;				= objoff_3C	; (2 bytes)
+;				= objoff_3E	; (1 byte)
 
 ; =============== S U B R O U T I N E =======================================
 
-Sto_Var:							; height, width, ????, type number
+Sto_Var:
+
+		; height, width, ????, type number
 		dc.b 24/2, 128/2, $80, 1
 		dc.b 64/2, 56/2, $38, 3
 		dc.b 64/2, 56/2, $40, 4
@@ -29,7 +31,7 @@ Obj_ScrapStomp:
 		andi.w	#$1C,d0
 		lea	Sto_Var(pc,d0.w),a3
 		move.w	(a3)+,height_pixels(a0)
-		lsr.w	#2,d0										; division by 4
+		lsr.w	#2,d0								; division by 4
 		move.b	d0,mapping_frame(a0)
 		move.l	#.action,address(a0)
 		move.l	#Map_Stomp,mappings(a0)
@@ -37,23 +39,23 @@ Obj_ScrapStomp:
 
 		; check level
 		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ/SBZ3
-		bne.s	.isSBZ12										; if not, branch
-		bset	#0,(Scrap_stomp_flag).w							; is flag already set?
-		beq.s	.isSBZ3										; if not, branch
+		bne.s	.isSBZ12							; if not, branch
+		bset	#0,(Scrap_stomp_flag).w						; is flag already set?
+		beq.s	.isSBZ3								; if not, branch
 
 		; delete
 		jmp	(Sprite_CheckDeleteTouch3.offscreen).w
 ; ---------------------------------------------------------------------------
 
 .isSBZ3
-		move.w	#make_art_tile($41F0,2,0),art_tile(a0)			; LZ4
+		move.w	#make_art_tile($41F0,2,0),art_tile(a0)				; LZ4
 		cmpi.w	#$A80,x_pos(a0)
 		bne.s	.isSBZ12
 
 		; check delete
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.isSBZ12										; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.isSBZ12							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		btst	#0,(a2)
 		beq.s	.isSBZ12
 		clr.b	(Scrap_stomp_flag).w
@@ -64,7 +66,7 @@ Obj_ScrapStomp:
 ; ---------------------------------------------------------------------------
 
 .isSBZ12
-		ori.b	#rfCoord,render_flags(a0)						; use screen coordinates
+		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.w	#priority_4,priority(a0)
 		move.w	x_pos(a0),sto_origX(a0)
 		move.w	y_pos(a0),sto_origY(a0)
@@ -83,15 +85,15 @@ Obj_ScrapStomp:
 		move.w	x_pos(a0),-(sp)
 		moveq	#$F,d0
 		and.b	subtype(a0),d0
-		beq.s	.skipt										; if zero, branch
+		beq.s	.skipt								; if zero, branch
 		add.w	d0,d0
 		move.w	ScrapStomp_TypeIndex-2(pc,d0.w),d0
 		jsr	ScrapStomp_TypeIndex(pc,d0.w)
 
 .skipt
 		move.w	(sp)+,d4
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	.chkdel2										; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.chkdel2							; if not, branch
 
 		; solid
 		moveq	#$B,d1
@@ -111,14 +113,14 @@ Obj_ScrapStomp:
 
 		; check level
 		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ
-		bne.s	.offscreen2									; if not, branch
+		bne.s	.offscreen2							; if not, branch
 		clr.b	(Scrap_stomp_flag).w
 		clr.b	(Screen_shaking_flag).w
 
 .offscreen2
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.delete2										; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.delete2							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#7,(a2)
 
 .delete2
@@ -127,11 +129,11 @@ Obj_ScrapStomp:
 ; =============== S U B R O U T I N E =======================================
 
 ScrapStomp_TypeIndex: offsetTable
-		offsetTableEntry.w .type01		; 1
-		offsetTableEntry.w .type02		; 2
-		offsetTableEntry.w .type03		; 3
-		offsetTableEntry.w .type04		; 4
-		offsetTableEntry.w .type05		; 5
+		offsetTableEntry.w .type01	; 1
+		offsetTableEntry.w .type02	; 2
+		offsetTableEntry.w .type03	; 3
+		offsetTableEntry.w .type04	; 4
+		offsetTableEntry.w .type05	; 5
 ; ---------------------------------------------------------------------------
 
 .type01
@@ -168,9 +170,9 @@ ScrapStomp_TypeIndex: offsetTable
 		addq.b	#1,subtype(a0)
 		move.w	#3*60,objoff_36(a0)
 		clr.b	sto_active(a0)
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.loc_15DC2									; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_15DC2							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bset	#0,(a2)
 		bra.s	.loc_15DC2
 ; ---------------------------------------------------------------------------
@@ -204,9 +206,9 @@ ScrapStomp_TypeIndex: offsetTable
 .loc_15E3C
 		subq.b	#1,subtype(a0)
 		clr.b	sto_active(a0)
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.loc_15E1E									; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_15E1E							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bclr	#0,(a2)
 		bra.s	.loc_15E1E
 ; ---------------------------------------------------------------------------
@@ -300,16 +302,16 @@ ScrapStomp_TypeIndex: offsetTable
 		beq.s	.locret_15F5C
 		st	sto_active(a0)
 		st	(Screen_shaking_flag).w
-		move.w	respawn_addr(a0),d0							; get address in respawn table
-		beq.s	.loc_15F3E									; if it's zero, it isn't remembered
-		movea.w	d0,a2										; load address into a2
+		move.w	respawn_addr(a0),d0						; get address in respawn table
+		beq.s	.loc_15F3E							; if it's zero, it isn't remembered
+		movea.w	d0,a2								; load address into a2
 		bset	#0,(a2)
 
 .loc_15F3E
 		subq.w	#1,x_pos(a0)
 		addi.l	#$8000,y_pos(a0)
 		move.w	x_pos(a0),sto_origX(a0)
-		cmpi.w	#$980,x_pos(a0)								; LZ4
+		cmpi.w	#$980,x_pos(a0)							; LZ4
 		beq.s	.loc_15F5E
 
 		; play sfx

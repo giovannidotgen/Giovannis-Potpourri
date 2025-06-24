@@ -41,15 +41,15 @@ Obj_Newtron:
 		bclr	#0,status(a0)
 
 .sonicisright
-		cmpi.w	#128,d2										; is Sonic within $80 pixels of the newtron?
-		bhs.s	.outofrange									; if not, branch
+		cmpi.w	#128,d2								; is Sonic within $80 pixels of the newtron?
+		bhs.s	.outofrange							; if not, branch
 		move.l	#.type00,objoff_34(a0)						; goto .type00 next
 		move.b	#1,anim(a0)
-		tst.b	subtype(a0)										; check object type
-		beq.s	.istype00										; if type is 00, branch
+		tst.b	subtype(a0)							; check object type
+		beq.s	.istype00							; if type is 00, branch
 		ori.w	#palette_line_1,art_tile(a0)
-		move.l	#.type01,objoff_34(a0)							; goto .type01 next
-		move.b	#4,anim(a0)									; use different	animation
+		move.l	#.type01,objoff_34(a0)						; goto .type01 next
+		move.b	#4,anim(a0)							; use different	animation
 
 .outofrange
 .istype00
@@ -58,7 +58,7 @@ Obj_Newtron:
 
 .type00
 		cmpi.b	#4,mapping_frame(a0)						; has "appearing" animation finished?
-		bhs.s	.fall											; is yes, branch
+		bhs.s	.fall								; is yes, branch
 		jsr	(Find_SonicTails).w
 		bset	#0,status(a0)
 		tst.w	d0
@@ -77,19 +77,19 @@ Obj_Newtron:
 .loc_DE42
 		jsr	(MoveSprite).w
 		jsr	(ObjCheckFloorDist).w
-		tst.w	d1											; has newtron hit the floor?
-		bpl.s	.keepfalling									; if not, branch
+		tst.w	d1								; has newtron hit the floor?
+		bpl.s	.keepfalling							; if not, branch
 		add.w	d1,y_pos(a0)
-		clr.w	y_vel(a0)									; stop newtron falling
+		clr.w	y_vel(a0)							; stop newtron falling
 		move.l	#.matchfloor,objoff_34(a0)
 		move.b	#2,anim(a0)
-		btst	#5,art_tile(a0)									; palette_line_1
+		btst	#5,art_tile(a0)							; palette_line_1
 		beq.s	.pppppppp
 		addq.b	#1,anim(a0)
 
 .pppppppp
 		move.b	#$D,collision_flags(a0)
-		move.w	#$200,x_vel(a0)								; move newtron horizontally
+		move.w	#$200,x_vel(a0)							; move newtron horizontally
 		btst	#0,status(a0)
 		bne.s	.keepfalling
 		neg.w	x_vel(a0)
@@ -102,15 +102,15 @@ Obj_Newtron:
 		jsr	(MoveSprite2).w
 		jsr	(ObjCheckFloorDist).w
 		cmpi.w	#-8,d1
-		blt.s		.nextroutine
+		blt.s	.nextroutine
 		cmpi.w	#12,d1
 		bge.s	.nextroutine
-		add.w	d1,y_pos(a0)									; match newtron's position with floor
+		add.w	d1,y_pos(a0)							; match newtron's position with floor
 		rts
 ; ---------------------------------------------------------------------------
 
 .nextroutine
-		move.l	#.action2,address(a0)							; goto .speed next
+		move.l	#.action2,address(a0)						; goto .speed next
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -133,7 +133,7 @@ Obj_Newtron:
 		; create missile
 		jsr	(Create_New_Sprite3).w
 		bne.s	.fail
-		move.l	#Obj_Missile,address(a1)						; load missile object
+		move.l	#Obj_Missile,address(a1)					; load missile object
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		subq.w	#8,y_pos(a1)

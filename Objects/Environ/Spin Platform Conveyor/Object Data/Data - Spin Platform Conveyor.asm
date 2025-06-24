@@ -24,6 +24,8 @@ word_16502:
 word_16516:
 		dc.w $10, $1C80+setSBZPlatformPos, $1C14+setSBZPlatformPos, $5E0, $1CEF+setSBZPlatformPos, $572, $1CEF+setSBZPlatformPos, $5B0, $1C14+setSBZPlatformPos, $61E
 
+; =============== S U B R O U T I N E =======================================
+
 ObjPosSBZPlatform_Index: offsetTable
 		offsetTableEntry.w ObjPos_SBZ1pf1
 		offsetTableEntry.w ObjPos_SBZ1pf2

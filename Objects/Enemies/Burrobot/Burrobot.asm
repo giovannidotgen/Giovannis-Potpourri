@@ -3,8 +3,8 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-burro_flag				= objoff_39 ; chg
-burro_timedelay			= objoff_3C ; time between direction changes
+burro_flag			= objoff_39	; chg
+burro_timedelay			= objoff_3C	; time between direction changes
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16,16 +16,16 @@ Obj_Burrobot:
 		; init
 		lea	ObjDat_Burrobot(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.w	#bytes_to_word(38/2,16/2),y_radius(a0)		; set y_radius and x_radius
+		move.w	#bytes_to_word(38/2,16/2),y_radius(a0)				; set y_radius and x_radius
 		move.b	#2,anim(a0)
 		move.l	#.Burro_ChkSonic,objoff_34(a0)
 		move.l	#.action,address(a0)
 
 .action
-		cmpi.w	#-$100,(Camera_min_Y_pos).w				; is vertical wrapping enabled?
-		bne.s	.notwrapping								; if not, branch
+		cmpi.w	#-$100,(Camera_min_Y_pos).w					; is vertical wrapping enabled?
+		bne.s	.notwrapping							; if not, branch
 		move.w	(Screen_Y_wrap_value).w,d0
-		and.w	d0,y_pos(a0)								; perform wrapping of Burrobot's y position
+		and.w	d0,y_pos(a0)							; perform wrapping of Burrobot's y position
 
 .notwrapping
 		movea.l	objoff_34(a0),a1
@@ -43,9 +43,9 @@ Obj_Burrobot:
 		move.w	#256-1,burro_timedelay(a0)
 		move.w	#$80,x_vel(a0)
 		move.b	#1,anim(a0)
-		bchg	#0,status(a0)								; change direction the Burrobot is facing
+		bchg	#0,status(a0)							; change direction the Burrobot is facing
 		beq.s	.nochg
-		neg.w	x_vel(a0)								; change direction the Burrobot is moving
+		neg.w	x_vel(a0)							; change direction the Burrobot is moving
 
 .nochg
 		rts
@@ -95,7 +95,7 @@ Obj_Burrobot:
 ; ---------------------------------------------------------------------------
 
 .Burro_Jump
-		MoveSprite a0, $18								; make obj fall
+		MoveSprite a0, $18							; make obj fall
 
 		; check jump
 		tst.w	y_vel(a0)
@@ -123,12 +123,12 @@ Obj_Burrobot:
 		move.b	render_flags(a0),status(a0)
 		cmpi.w	#96,d2
 		bhs.s	.return
-		tst.w	d1										; is Sonic below?
-		bne.s	.return									; if yes, branch
+		tst.w	d1								; is Sonic below?
+		bne.s	.return								; if yes, branch
 		cmpi.w	#128,d3
 		bhs.s	.return
-		tst.w	(Debug_placement_mode).w				; is debug mode on?
-		bne.s	.return									; if yes, branch
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
+		bne.s	.return								; if yes, branch
 		move.l	#.Burro_Jump,objoff_34(a0)
 		move.w	#-$400,y_vel(a0)
 		moveq	#-$80,d0
@@ -137,7 +137,7 @@ Obj_Burrobot:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Burrobot:		subObjData Map_Burro, $510, 0, 0, 38, 16, 4, 0, 5
+ObjDat_Burrobot:	subObjData Map_Burro, $510, 0, 0, 38, 16, 4, 0, 5
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Enemies/Burrobot/Object Data/Anim - Burrobot.asm"

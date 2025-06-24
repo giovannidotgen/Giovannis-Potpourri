@@ -3,8 +3,8 @@
 ; ---------------------------------------------------------------------------
 
 ; Dynamic object variables
-buzz_timedelay		= objoff_32
-buzz_buzzstatus		= objoff_38
+buzz_timedelay			= objoff_32	; .w
+buzz_buzzstatus			= objoff_38	; .b
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -29,17 +29,17 @@ Obj_BuzzBomber:
 ; =============== S U B R O U T I N E =======================================
 
 .move
-		subq.w	#1,buzz_timedelay(a0)							; subtract 1 from time delay
-		bpl.s	.noflip										; if time remains, branch
-		btst	#1,buzz_buzzstatus(a0)							; is Buzz Bomber near Sonic?
-		bne.s	.fire											; if yes, branch
+		subq.w	#1,buzz_timedelay(a0)						; subtract 1 from time delay
+		bpl.s	.noflip								; if time remains, branch
+		btst	#1,buzz_buzzstatus(a0)						; is Buzz Bomber near Sonic?
+		bne.s	.fire								; if yes, branch
 		move.l	#.chknearsonic,objoff_34(a0)
-		move.w	#128-1,buzz_timedelay(a0)						; set time delay to just over 2 seconds
-		move.w	#$400,x_vel(a0)								; move Buzz Bomber to the right
-		move.b	#1,anim(a0)									; use "flying" animation
-		btst	#0,status(a0)										; is Buzz Bomber facing	left?
-		bne.s	.noflip										; if not, branch
-		neg.w	x_vel(a0)									; move Buzz Bomber to the left
+		move.w	#128-1,buzz_timedelay(a0)					; set time delay to just over 2 seconds
+		move.w	#$400,x_vel(a0)							; move Buzz Bomber to the right
+		move.b	#1,anim(a0)							; use "flying" animation
+		btst	#0,status(a0)							; is Buzz Bomber facing	left?
+		bne.s	.noflip								; if not, branch
+		neg.w	x_vel(a0)							; move Buzz Bomber to the left
 
 .noflip
 		rts
@@ -48,16 +48,16 @@ Obj_BuzzBomber:
 .fire
 		jsr	(Create_New_Sprite3).w
 		bne.s	.fail
-		move.l	#Obj_Missile,address(a1)						; load missile object
+		move.l	#Obj_Missile,address(a1)					; load missile object
 		moveq	#28,d0
 		add.w	y_pos(a0),d0
 		move.w	d0,y_pos(a1)
-		move.l	#words_to_long($200,$200),x_vel(a1)			; move missile to the right, downwards
+		move.l	#words_to_long($200,$200),x_vel(a1)				; move missile to the right, downwards
 		moveq	#20,d0
-		btst	#0,status(a0)										; is Buzz Bomber facing	left?
-		bne.s	.noflip2										; if not, branch
+		btst	#0,status(a0)							; is Buzz Bomber facing	left?
+		bne.s	.noflip2							; if not, branch
 		neg.w	d0
-		neg.w	x_vel(a1)										; move missile to the left
+		neg.w	x_vel(a1)							; move missile to the left
 
 .noflip2
 		add.w	x_pos(a0),d0
@@ -67,37 +67,37 @@ Obj_BuzzBomber:
 		move.w	a0,parent3(a1)
 		move.b	#1,buzz_buzzstatus(a0)						; set to "already fired" to prevent refiring
 		move.w	#60-1,buzz_timedelay(a0)
-		move.b	#2,anim(a0)									; use "firing" animation
+		move.b	#2,anim(a0)							; use "firing" animation
 
 .fail
 		rts
 ; ---------------------------------------------------------------------------
 
 .chknearsonic
-		subq.w	#1,buzz_timedelay(a0)							; subtract 1 from time delay
+		subq.w	#1,buzz_timedelay(a0)						; subtract 1 from time delay
 		bmi.s	.chgdirection
 		jsr	(MoveSprite2).w
 		tst.b	buzz_buzzstatus(a0)
 		bne.s	.keepgoing
 		jsr	(Find_SonicTails).w
-		cmpi.w	#96,d2										; is Buzz Bomber within $60 pixels of Sonic?
-		bhs.s	.keepgoing									; if not, branch
-		tst.b	render_flags(a0)									; object visible on the screen?
-		bpl.s	.keepgoing									; if not, branch
+		cmpi.w	#96,d2								; is Buzz Bomber within $60 pixels of Sonic?
+		bhs.s	.keepgoing							; if not, branch
+		tst.b	render_flags(a0)						; object visible on the screen?
+		bpl.s	.keepgoing							; if not, branch
 		move.b	#2,buzz_buzzstatus(a0)						; set Buzz Bomber to "near Sonic"
-		move.w	#30-1,buzz_timedelay(a0)						; set time delay to half a second
+		move.w	#30-1,buzz_timedelay(a0)					; set time delay to half a second
 		bra.s	.stop
 ; ---------------------------------------------------------------------------
 
 .chgdirection
-		clr.b	buzz_buzzstatus(a0)								; set Buzz Bomber to "normal"
-		bchg	#0,status(a0)									; change direction
+		clr.b	buzz_buzzstatus(a0)						; set Buzz Bomber to "normal"
+		bchg	#0,status(a0)							; change direction
 		move.w	#60-1,buzz_timedelay(a0)
 
 .stop
 		move.l	#.move,objoff_34(a0)
-		clr.w	x_vel(a0)									; stop Buzz Bomber moving
-		clr.b	anim(a0)										; use "hovering" animation
+		clr.w	x_vel(a0)							; stop Buzz Bomber moving
+		clr.b	anim(a0)							; use "hovering" animation
 
 .keepgoing
 		rts
@@ -114,17 +114,17 @@ Obj_Missile:
 		lea	ObjDat_BuzzBomber_Missile(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		clr.b	routine(a0)
-		bset	#3,shield_reaction(a0)								; bounce off all shields
+		bset	#3,shield_reaction(a0)						; bounce off all shields
 		andi.b	#3,status(a0)
 		move.l	#.wait,address(a0)
 
 .wait
-		subq.w	#1,buzz_timedelay(a0)							; subtract 1 from time delay
+		subq.w	#1,buzz_timedelay(a0)						; subtract 1 from time delay
 		bpl.s	.notdraw
 		move.b	#7|$80,collision_flags(a0)
 		move.l	#.frombuzz,address(a0)
-		tst.b	subtype(a0)										; was object created by	a Newtron?
-		beq.s	.animatebuzz									; if not, branch
+		tst.b	subtype(a0)							; was object created by	a Newtron?
+		beq.s	.animatebuzz							; if not, branch
 		sfx	sfx_Projectile
 		move.b	#1,anim(a0)
 		move.l	#.move,address(a0)
@@ -162,8 +162,8 @@ Obj_Missile:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BuzzBomber:				subObjData Map_Buzz, $440, 0, 0, 48, 48, 3, 0, 8
-ObjDat_BuzzBomber_Missile:		subObjData Map_Missile, $440, 1, 0, 16, 16, 3, 0, 0
+ObjDat_BuzzBomber:		subObjData Map_Buzz, $440, 0, 0, 48, 48, 3, 0, 8
+ObjDat_BuzzBomber_Missile:	subObjData Map_Missile, $440, 1, 0, 16, 16, 3, 0, 0
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Enemies/Buzz Bomber/Object Data/Anim - Buzz Bomber.asm"

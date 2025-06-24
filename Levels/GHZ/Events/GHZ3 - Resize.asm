@@ -7,12 +7,12 @@
 GHZ3_Resize:
 		move.w	#$300,(Camera_target_max_Y_pos).w
 		cmpi.w	#$580,(Camera_X_pos).w
-		blo.s		.return
+		blo.s	.return
 		move.w	#$310,(Camera_target_max_Y_pos).w
 		cmpi.w	#$B60,(Camera_X_pos).w
-		blo.s		.return
+		blo.s	.return
 		cmpi.w	#$280,(Camera_Y_pos).w
-		blo.s		.loc_6E98
+		blo.s	.loc_6E98
 		move.w	#$400,(Camera_target_max_Y_pos).w
 		cmpi.w	#$1580,(Camera_X_pos).w
 		bhs.s	.check
@@ -57,12 +57,12 @@ Check_GHZ3boss:
 
 		; load intro
 		music	mus_FadeOut
-		move.w	#2*60,(Events_fg+2).w							; fade time
+		move.w	#2*60,(Events_fg+2).w						; fade time
 
 		; set
 		moveq	#0,d0
 		move.l	d0,(Level_data_addr_RAM.Resize).w
-		move.l	d0,(Level_data_addr_RAM.AnimateTiles).w			; disable animate tiles
+		move.l	d0,(Level_data_addr_RAM.AnimateTiles).w				; disable animate tiles
 
 		; check intro flag
 
@@ -113,7 +113,7 @@ Load_GHZ3Boss:
 
 		; create boss
 		music	mus_ZoneBoss
-		move.b	d0,(Current_music+1).w							; save music
+		move.b	d0,(Current_music+1).w						; save music
 		jsr	(Create_New_Sprite).w
 		bne.s	.return
 		move.l	#Obj_BossBall,address(a1)

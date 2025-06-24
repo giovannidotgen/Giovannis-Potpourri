@@ -40,5 +40,8 @@ ${AS_DIR}/convsym Main.lst "Engine/_RAM.asm" -in as_lst -out asm -range FF0000 F
 # Fix the ROM header
 ${AS_DIR}/fixheader S1S3.gen
 
-test -f S1S3.gen || exit 0
+if test -f S1S3.gen
+then
+  exit 0
+fi
 exit 1

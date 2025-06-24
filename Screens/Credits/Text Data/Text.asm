@@ -57,7 +57,7 @@ CreditsText_Index: offsetTable
 		offsetTableEntry.w Credits_S3Text27		; 10
 
 		; END
-		dc.w 0								; end marker
+		dc.w 0						; end marker
 ; ---------------------------------------------------------------------------
 
 Credits_S3Text1:

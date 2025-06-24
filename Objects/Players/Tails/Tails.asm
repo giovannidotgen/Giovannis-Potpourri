@@ -17,25 +17,25 @@ Obj_Tails:
 	if GameDebug
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w
 		bne.s	Tails_Normal
-		tst.w	(Debug_placement_mode).w							; is debug mode on?
-		beq.s	Tails_Normal											; if not, branch
+		tst.w	(Debug_placement_mode).w					; is debug mode on?
+		beq.s	Tails_Normal							; if not, branch
 
 		; debug only code
-		cmpi.b	#1,(Debug_placement_type).w							; are Tails in debug object placement mode?
-		beq.s	loc_136A8											; if so, skip to debug mode routine
+		cmpi.b	#1,(Debug_placement_type).w					; are Tails in debug object placement mode?
+		beq.s	loc_136A8							; if so, skip to debug mode routine
 
 		; by this point, we're assuming you're in frame cycling mode
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	loc_1368C
-		clr.w	(Debug_placement_mode).w							; leave debug mode
+		beq.s	.next
+		clr.w	(Debug_placement_mode).w					; leave debug mode
 
-loc_1368C:
-		addq.b	#1,mapping_frame(a0)									; next frame
-		cmpi.b	#((Map_Tails_end-Map_Tails)/2)-1,mapping_frame(a0)	; have we reached the end of Tails's frames?
-		blo.s		loc_1369E
-		clr.b	mapping_frame(a0)										; if so, reset to Tails's first frame
+.next
+		addq.b	#1,mapping_frame(a0)						; next frame
+		cmpi.b	#((Map_Tails_end-Map_Tails)/2)-1,mapping_frame(a0)		; have we reached the end of Tails's frames?
+		blo.s	.draw
+		clr.b	mapping_frame(a0)						; if so, reset to Tails's first frame
 
-loc_1369E:
+.draw
 		bsr.w	Tails_Load_PLC
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -54,22 +54,22 @@ Tails_Normal:
 ; ---------------------------------------------------------------------------
 
 Tails_Index: offsetTable
-		ptrTableEntry.w Tails_Init			; 0
-		ptrTableEntry.w Tails_Control		; 2
-		ptrTableEntry.w Tails_Hurt			; 4
-		ptrTableEntry.w Tails_Death		; 6
-		ptrTableEntry.w Tails_Restart		; 8
-		ptrTableEntry.w loc_157F4			; A
-		ptrTableEntry.w Tails_Drown		; C
+		ptrTableEntry.w Tails_Init						; 0
+		ptrTableEntry.w Tails_Control						; 2
+		ptrTableEntry.w Tails_Hurt						; 4
+		ptrTableEntry.w Tails_Death						; 6
+		ptrTableEntry.w Tails_Restart						; 8
+		ptrTableEntry.w loc_157F4						; A
+		ptrTableEntry.w Tails_Drown						; C
 ; ---------------------------------------------------------------------------
 
-Tails_Init:													; Routine 0
-		addq.b	#2,routine(a0)								; => Tails_Control
-		move.w	#bytes_to_word(30/2,18/2),y_radius(a0)			; set y_radius and x_radius	; this sets Tails's collision height (2*pixels)
+Tails_Init:										; Routine 0
+		addq.b	#2,routine(a0)							; => Tails_Control
+		move.w	#bytes_to_word(30/2,18/2),y_radius(a0)				; set y_radius and x_radius ; this sets Tails's collision height (2*pixels)
 		move.w	y_radius(a0),default_y_radius(a0)				; set default_y_radius and default_x_radius
 		move.l	#Map_Tails,mappings(a0)
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
-		move.b	#rfCoord+rfOnscreen,render_flags(a0)			; use screen coordinates
+		move.b	#rfCoord+rfOnscreen,render_flags(a0)				; use screen coordinates
 		move.b	#PlayerID_Tails,character_id(a0)
 		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)
@@ -135,11 +135,11 @@ loc_137E0:
 		btst	#button_B,(Ctrl_1_pressed).w
 		beq.s	loc_13808
 		move.w	#1,(Debug_placement_mode).w
-		clr.b	(Ctrl_1_locked).w								; unlock control
+		clr.b	(Ctrl_1_locked).w						; unlock control
 		btst	#button_C,(Ctrl_1_held).w
 		beq.s	locret_13806
 		move.w	#2,(Debug_placement_mode).w
-		clr.b	anim(a0)									; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 
 locret_13806:
 		rts
@@ -179,7 +179,7 @@ loc_1384A:
 		clr.b	double_jump_flag(a0)
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_1388C
-		lea	(Player_1).w,a1						; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -193,14 +193,14 @@ loc_13872:
 		moveq	#6,d0
 		and.b	status(a0),d0
 		move.w	Tails_Modes(pc,d0.w),d0
-		jsr	Tails_Modes(pc,d0.w)					; run Tails's movement control code
+		jsr	Tails_Modes(pc,d0.w)						; run Tails's movement control code
 		movem.l	(sp)+,a4-a6
 
 loc_1388C:
-		cmpi.w	#-$100,(Camera_min_Y_pos).w		; is vertical wrapping enabled?
+		cmpi.w	#-$100,(Camera_min_Y_pos).w					; is vertical wrapping enabled?
 		bne.s	.display							; if not, branch
 		move.w	(Screen_Y_wrap_value).w,d0
-		and.w	d0,y_pos(a0)						; perform wrapping of Tails's y position
+		and.w	d0,y_pos(a0)							; perform wrapping of Tails's y position
 
 .display
 		bsr.w	Tails_Display
@@ -242,10 +242,10 @@ loc_1388C:
 ; ---------------------------------------------------------------------------
 
 Tails_Modes: offsetTable
-		offsetTableEntry.w Tails_MdNormal			; 0
-		offsetTableEntry.w Tails_MdAir				; 2
-		offsetTableEntry.w Tails_MdRoll				; 4
-		offsetTableEntry.w Tails_MdJump			; 6
+		offsetTableEntry.w Tails_MdNormal					; 0
+		offsetTableEntry.w Tails_MdAir						; 2
+		offsetTableEntry.w Tails_MdRoll						; 4
+		offsetTableEntry.w Tails_MdJump						; 6
 ; ---------------------------------------------------------------------------
 
 ; ---------------------------------------------------------------------------
@@ -274,47 +274,47 @@ Tails_Display:
 		move.b	invulnerability_timer(a0),d0
 		beq.s	.draw
 		subq.b	#1,invulnerability_timer(a0)
-		lsr.b	#3,d0											; division by 8
+		lsr.b	#3,d0								; division by 8
 		bhs.s	Tails_ChkInvin
 
 .draw
 		jsr	(Draw_Sprite).w
 
-Tails_ChkInvin:												; checks if invincibility has expired and disables it if it has.
+Tails_ChkInvin:										; checks if invincibility has expired and disables it if it has.
 		btst	#Status_Invincible,status_secondary(a0)
 		beq.s	Tails_ChkShoes
 		tst.b	invincibility_timer(a0)
-		beq.s	Tails_ChkShoes								; if there wasn't any time left, that means we're in Super/Hyper mode
+		beq.s	Tails_ChkShoes							; if there wasn't any time left, that means we're in Super/Hyper mode
 		moveq	#7,d0
 		and.b	(Level_frame_counter+1).w,d0
 		bne.s	Tails_ChkShoes
-		subq.b	#1,invincibility_timer(a0)						; reduce invincibility_timer only on every 8th frame
-		bne.s	Tails_ChkShoes								; if time is still left, branch
-		tst.b	(Music_results_flag).w								; don't change music if level is end
+		subq.b	#1,invincibility_timer(a0)					; reduce invincibility_timer only on every 8th frame
+		bne.s	Tails_ChkShoes							; if time is still left, branch
+		tst.b	(Music_results_flag).w						; don't change music if level is end
 		bne.s	Tails_RmvInvin
-		tst.b	(Boss_flag).w										; don't change music if in a boss fight
+		tst.b	(Boss_flag).w							; don't change music if in a boss fight
 		bne.s	Tails_RmvInvin
-		cmpi.b	#12,air_left(a0)								; don't change music if drowning
-		blo.s		Tails_RmvInvin
+		cmpi.b	#12,air_left(a0)						; don't change music if drowning
+		blo.s	Tails_RmvInvin
 		move.w	(Current_music).w,d0
-		jsr	(Play_Music).w									; stop playing invincibility theme and resume normal level music
+		jsr	(Play_Music).w							; stop playing invincibility theme and resume normal level music
 
 Tails_RmvInvin:
 		bclr	#Status_Invincible,status_secondary(a0)
 
-Tails_ChkShoes:												; checks if Speed Shoes have expired and disables them if they have
-		btst	#Status_SpeedShoes,status_secondary(a0)			; does Sonic have speed shoes?
-		beq.s	Tails_ExitChk								; if so, branch
+Tails_ChkShoes:										; checks if Speed Shoes have expired and disables them if they have
+		btst	#Status_SpeedShoes,status_secondary(a0)				; does Sonic have speed shoes?
+		beq.s	Tails_ExitChk							; if so, branch
 		tst.b	speed_shoes_timer(a0)
 		beq.s	Tails_ExitChk
 		moveq	#7,d0
 		and.b	(Level_frame_counter+1).w,d0
 		bne.s	Tails_ExitChk
-		subq.b	#1,speed_shoes_timer(a0)						; reduce speed_shoes_timer only on every 8th frame
+		subq.b	#1,speed_shoes_timer(a0)					; reduce speed_shoes_timer only on every 8th frame
 		bne.s	Tails_ExitChk
-		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)		; set Max_speed
-		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)			; set Acceleration
-		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)		; set Deceleration
+		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)				; set Max_speed
+		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)				; set Acceleration
+		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)				; set Deceleration
 		tst.b	(Super_Tails_flag).w
 		beq.s	.nots
 		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
@@ -323,7 +323,7 @@ Tails_ChkShoes:												; checks if Speed Shoes have expired and disables the
 
 .nots
 		bclr	#Status_SpeedShoes,status_secondary(a0)
-		music	mus_Slowdown,1								; slow down tempo
+		music	mus_Slowdown,1							; slow down tempo
 ; ---------------------------------------------------------------------------
 
 Tails_ExitChk:
@@ -335,46 +335,46 @@ Tails_CPU_Control:
 		moveq	#btnDir+btnABC,d0
 		and.b	(Ctrl_2_logical).w,d0
 		beq.s	.skip
-		move.w	#10*60,(Tails_CPU_idle_timer).w				; set wait
+		move.w	#10*60,(Tails_CPU_idle_timer).w					; set wait
 
 .skip
-		lea	(Player_1).w,a1									; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	(Tails_CPU_routine).w,d0
 		move.w	off_139EC(pc,d0.w),d0
 		jmp	off_139EC(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
 off_139EC: offsetTable
-		offsetTableEntry.w loc_13A10					; 0
-		offsetTableEntry.w Tails_Catch_Up_Flying		; 2
-		offsetTableEntry.w Tails_FlySwim_Unknown		; 4
-		offsetTableEntry.w loc_13D4A					; 6
-		offsetTableEntry.w loc_13F40					; 8
-		offsetTableEntry.w locret_13FBE					; A
-		offsetTableEntry.w loc_13FC2					; C
-		offsetTableEntry.w loc_13FFA					; E
-		offsetTableEntry.w loc_1408A					; 10
-		offsetTableEntry.w loc_140C6					; 12
-		offsetTableEntry.w loc_140CE					; 14
-		offsetTableEntry.w loc_14106					; 16
-		offsetTableEntry.w loc_1414C					; 18
-		offsetTableEntry.w loc_141F2					; 1A
-		offsetTableEntry.w loc_1421C					; 1C
-		offsetTableEntry.w loc_14254					; 1E
-		offsetTableEntry.w loc_1425C					; 20
-		offsetTableEntry.w loc_14286					; 22
+		offsetTableEntry.w loc_13A10						; 0
+		offsetTableEntry.w Tails_Catch_Up_Flying				; 2
+		offsetTableEntry.w Tails_FlySwim_Unknown				; 4
+		offsetTableEntry.w loc_13D4A						; 6
+		offsetTableEntry.w loc_13F40						; 8
+		offsetTableEntry.w locret_13FBE						; A
+		offsetTableEntry.w loc_13FC2						; C
+		offsetTableEntry.w loc_13FFA						; E
+		offsetTableEntry.w loc_1408A						; 10
+		offsetTableEntry.w loc_140C6						; 12
+		offsetTableEntry.w loc_140CE						; 14
+		offsetTableEntry.w loc_14106						; 16
+		offsetTableEntry.w loc_1414C						; 18
+		offsetTableEntry.w loc_141F2						; 1A
+		offsetTableEntry.w loc_1421C						; 1C
+		offsetTableEntry.w loc_14254						; 1E
+		offsetTableEntry.w loc_1425C						; 20
+		offsetTableEntry.w loc_14286						; 22
 ; ---------------------------------------------------------------------------
 
 loc_13A10:
 		tst.b	(Tails_CPU_star_post_flag).w
 		bne.s	loc_13AF4
 		cmpi.w	#bytes_to_word(LevelID_LZ,3),(Current_zone_and_act).w		; is LZ4?
-		beq.s	loc_13B12												; if yes, branch
+		beq.s	loc_13B12							; if yes, branch
 		cmpi.w	#bytes_to_word(LevelID_SBZ,2),(Current_zone_and_act).w		; is FZ?
-		beq.s	loc_13B12												; if yes, branch
+		beq.s	loc_13B12							; if yes, branch
 
 loc_13AF4:
-		clr.b	anim(a0)													; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
 		clr.b	status(a0)
@@ -449,11 +449,11 @@ loc_13B78:
 ; ---------------------------------------------------------------------------
 
 Tails_FlySwim_Unknown:
-		tst.b	render_flags(a0)											; is the player visible on the screen?
-		bmi.s	loc_13C3A											; if yes, branch
+		tst.b	render_flags(a0)						; is the player visible on the screen?
+		bmi.s	loc_13C3A							; if yes, branch
 		addq.w	#1,(Tails_CPU_flight_timer).w
 		cmpi.w	#5*60,(Tails_CPU_flight_timer).w
-		blo.s		loc_13C50
+		blo.s	loc_13C50
 		clr.w	(Tails_CPU_flight_timer).w
 		move.w	#2,(Tails_CPU_routine).w
 		move.b	#$81,object_control(a0)
@@ -485,7 +485,7 @@ loc_13C50:
 		mvabs.w	d0,d2
 		lsr.w	#4,d2
 		cmpi.w	#$C,d2
-		blo.s		loc_13C88
+		blo.s	loc_13C88
 		moveq	#$C,d2
 
 loc_13C88:
@@ -500,7 +500,7 @@ loc_13C90:
 		bmi.s	loc_13CAA
 		bset	#Status_Facing,status(a0)
 		cmp.w	d0,d2
-		blo.s		loc_13CA6
+		blo.s	loc_13CA6
 		move.w	d0,d2
 		moveq	#0,d0
 
@@ -513,7 +513,7 @@ loc_13CAA:
 		bclr	#Status_Facing,status(a0)
 		neg.w	d0
 		cmp.w	d0,d2
-		blo.s		loc_13CBA
+		blo.s	loc_13CBA
 		move.b	d0,d2
 		moveq	#0,d0
 
@@ -534,15 +534,15 @@ loc_13CCE:
 loc_13CD2:
 		lea	(Stat_table).w,a2
 		moveq	#signextendB($80),d2
-		and.b	2(a2,d3.w),d2								; p1 status
+		and.b	2(a2,d3.w),d2							; p1 status
 		bne.s	loc_13D42
 		or.w	d0,d1
 		bne.s	loc_13D42
-		cmpi.b	#PlayerID_Death,(Player_1+routine).w		; has player just died?
-		bhs.s	loc_13D42								; if yes, branch
+		cmpi.b	#PlayerID_Death,(Player_1+routine).w				; has player just died?
+		bhs.s	loc_13D42							; if yes, branch
 		move.w	#6,(Tails_CPU_routine).w
 		clr.b	object_control(a0)
-		clr.b	anim(a0)									; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
 		andi.b	#setBit(Status_Underwater),status(a0)
@@ -554,7 +554,7 @@ loc_13CD2:
 		ori.w	#high_priority,art_tile(a0)
 
 loc_13D34:
-		move.w	top_solid_bit(a1),top_solid_bit(a0)			; set top_solid_bit and lrb_solid_bit
+		move.w	top_solid_bit(a1),top_solid_bit(a0)				; set top_solid_bit and lrb_solid_bit
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -565,7 +565,7 @@ loc_13D42:
 
 loc_13D4A:
 		cmpi.b	#PlayerID_Death,(Player_1+routine).w
-		blo.s		loc_13D78
+		blo.s	loc_13D78
 		move.w	#4,(Tails_CPU_routine).w
 		clr.b	spin_dash_flag(a0)
 		clr.w	spin_dash_counter(a0)
@@ -597,7 +597,7 @@ loc_13DA6:
 		addq.b	#4,d1
 		move.w	(Pos_table_index).w,d0
 		sub.b	d1,d0
-		move.w	(a2,d0.w),d2								; p1 xpos
+		move.w	(a2,d0.w),d2							; p1 xpos
 		btst	#Status_OnObj,status(a1)
 		bne.s	loc_13DD0
 		cmpi.w	#$400,ground_vel(a1)
@@ -605,15 +605,15 @@ loc_13DA6:
 		subi.w	#32,d2
 
 loc_13DD0:
-		move.w	2(a2,d0.w),d3								; p1 ypos
+		move.w	2(a2,d0.w),d3							; p1 ypos
 		lea	(Stat_table).w,a2
-		move.w	(a2,d0.w),d1								; Ctrl_1_logical
+		move.w	(a2,d0.w),d1							; Ctrl_1_logical
 		move.b	2(a2,d0.w),d4							; p1 status
 		move.w	d1,d0
 		btst	#Status_Push,status(a0)						; is Tails hitting a solid?
-		beq.s	loc_13DF2								; if not, branch
-		btst	#Status_Push,d4								; is Sonic hitting a solid?
-		beq.w	loc_13E9C								; if not, branch
+		beq.s	loc_13DF2							; if not, branch
+		btst	#Status_Push,d4							; is Sonic hitting a solid?
+		beq.w	loc_13E9C							; if not, branch
 
 loc_13DF2:
 		sub.w	x_pos(a0),d2
@@ -621,7 +621,7 @@ loc_13DF2:
 		bpl.s	loc_13E26
 		neg.w	d2
 		cmpi.w	#48,d2
-		blo.s		loc_13E0A
+		blo.s	loc_13E0A
 		andi.w	#bytes_to_word(btnUD+btnABCS,btnUD+btnABCS),d1
 		ori.w	#bytes_to_word(btnL,btnL),d1
 
@@ -638,7 +638,7 @@ loc_13E0A:
 
 loc_13E26:
 		cmpi.w	#48,d2
-		blo.s		loc_13E34
+		blo.s	loc_13E34
 		andi.w	#bytes_to_word(btnUD+btnABCS,btnUD+btnABCS),d1
 		ori.w	#bytes_to_word(btnR,btnR),d1
 
@@ -664,8 +664,8 @@ loc_13E64:
 		tst.b	(Tails_CPU_auto_jump_flag).w
 		beq.s	loc_13E7C
 		ori.w	#bytes_to_word(btnABC,0),d1
-		btst	#Status_InAir,status(a0)						; is the player in the air?
-		bne.s	loc_13EB8								; if yes, branch
+		btst	#Status_InAir,status(a0)					; is the player in the air?
+		bne.s	loc_13EB8							; if yes, branch
 		clr.b	(Tails_CPU_auto_jump_flag).w
 
 loc_13E7C:
@@ -681,7 +681,7 @@ loc_13E8C:
 		bpl.s	loc_13EB8
 		neg.w	d3
 		cmpi.w	#32,d3
-		blo.s		loc_13EB8
+		blo.s	loc_13EB8
 
 loc_13E9C:
 		moveq	#$3F,d0
@@ -713,7 +713,7 @@ sub_13ECA:
 		move.w	#2,(Tails_CPU_routine).w
 		move.b	#$81,object_control(a0)
 		move.b	#setBit(Status_InAir),status(a0)
-		move.w	#$7F00,x_pos(a0)									; move offscreen
+		move.w	#$7F00,x_pos(a0)						; move offscreen
 		clr.w	y_pos(a0)
 		clr.b	double_jump_flag(a0)
 		rts
@@ -721,8 +721,8 @@ sub_13ECA:
 ; =============== S U B R O U T I N E =======================================
 
 sub_13EFC:
-		tst.b	render_flags(a0)											; is the player visible on the screen?
-		bmi.s	loc_13F28											; if yes, branch
+		tst.b	render_flags(a0)						; is the player visible on the screen?
+		bmi.s	loc_13F28							; if yes, branch
 		btst	#Status_OnObj,status(a0)
 		beq.s	loc_13F18
 		moveq	#0,d0
@@ -734,7 +734,7 @@ sub_13EFC:
 loc_13F18:
 		addq.w	#1,(Tails_CPU_flight_timer).w
 		cmpi.w	#5*60,(Tails_CPU_flight_timer).w
-		blo.s		loc_13F2E
+		blo.s	loc_13F2E
 
 loc_13F24:
 		bra.s	sub_13ECA
@@ -766,7 +766,7 @@ loc_13F40:
 		bclr	#Status_Facing,status(a0)
 		move.w	x_pos(a0),d0
 		sub.w	x_pos(a1),d0
-		blo.s		loc_13F74
+		blo.s	loc_13F74
 		bset	#Status_Facing,status(a0)
 
 loc_13F74:
@@ -807,7 +807,7 @@ loc_13FC2:
 		move.b	#setBit(Status_InAir),status(a0)
 		move.l	#words_to_long($100,0),x_vel(a0)
 		clr.w	ground_vel(a0)
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bsr.w	sub_1459E
 		move.b	#1,(Flying_carrying_Sonic_flag).w
 		move.w	#$E,(Tails_CPU_routine).w
@@ -822,12 +822,12 @@ loc_13FFA:
 
 loc_14016:
 		lea	(Flying_carrying_Sonic_flag).w,a2
-		lea	(Player_1).w,a1											; a1=character
-		btst	#Status_InAir,status(a1)									; is the player in the air?
-		bne.s	loc_14082											; if yes, branch
+		lea	(Player_1).w,a1							; a1=character
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		bne.s	loc_14082							; if yes, branch
 		move.w	#6,(Tails_CPU_routine).w
 		clr.b	object_control(a0)
-		clr.b	anim(a0)	; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
 		move.b	#setBit(Status_InAir),status(a0)
@@ -838,7 +838,7 @@ loc_14016:
 		ori.w	#high_priority,art_tile(a0)
 
 loc_14068:
-		move.w	top_solid_bit(a1),top_solid_bit(a0)						; set top_solid_bit and lrb_solid_bit
+		move.w	top_solid_bit(a1),top_solid_bit(a0)				; set top_solid_bit and lrb_solid_bit
 		cmpi.w	#PlayerModeID_Sonic,(Player_mode).w
 		bne.s	loc_14082
 		move.w	#$10,(Tails_CPU_routine).w
@@ -858,8 +858,8 @@ loc_1408A:
 		ori.w	#bytes_to_word(btnR+btnABC,btnR+btnABC),(Ctrl_2_logical).w
 
 loc_140AC:
-		tst.b	render_flags(a0)											; is the player visible on the screen?
-		bmi.s	locret_140C4											; if yes, branch
+		tst.b	render_flags(a0)						; is the player visible on the screen?
+		bmi.s	locret_140C4							; if yes, branch
 
 		; delete
 		moveq	#0,d0
@@ -883,7 +883,7 @@ loc_140CE:
 		move.b	#setBit(Status_InAir),status(a0)
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		bsr.w	sub_1459E
 		move.b	#1,(Flying_carrying_Sonic_flag).w
 		move.w	#$16,(Tails_CPU_routine).w
@@ -901,12 +901,12 @@ loc_14128:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$90,d0
 		cmp.w	y_pos(a0),d0
-		blo.s		loc_1413C
+		blo.s	loc_1413C
 		move.w	#$18,(Tails_CPU_routine).w
 
 loc_1413C:
 		lea	(Flying_carrying_Sonic_flag).w,a2
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	(Ctrl_1).w,d0
 		bra.w	Tails_Carry_Sonic
 ; ---------------------------------------------------------------------------
@@ -929,7 +929,7 @@ loc_14164:
 		beq.s	loc_14198
 		addq.b	#1,(Tails_CPU_auto_fly_timer).w
 		cmpi.b	#192,(Tails_CPU_auto_fly_timer).w
-		blo.s		loc_141D2
+		blo.s	loc_141D2
 		clr.b	(Tails_CPU_auto_fly_timer).w
 		ori.w	#bytes_to_word(btnABC,btnABC),(Ctrl_2_logical).w
 		bra.s	loc_141D2
@@ -940,7 +940,7 @@ loc_14198:
 		beq.s	loc_141BA
 		addq.b	#1,(Tails_CPU_auto_fly_timer).w
 		cmpi.b	#32,(Tails_CPU_auto_fly_timer).w
-		blo.s		loc_141D2
+		blo.s	loc_141D2
 		clr.b	(Tails_CPU_auto_fly_timer).w
 		ori.w	#bytes_to_word(btnABC,btnABC),(Ctrl_2_logical).w
 		bra.s	loc_141D2
@@ -949,7 +949,7 @@ loc_14198:
 loc_141BA:
 		addq.b	#1,(Tails_CPU_auto_fly_timer).w
 		cmpi.b	#88,(Tails_CPU_auto_fly_timer).w
-		blo.s		loc_141D2
+		blo.s	loc_141D2
 		clr.b	(Tails_CPU_auto_fly_timer).w
 		ori.w	#bytes_to_word(btnABC,btnABC),(Ctrl_2_logical).w
 
@@ -961,7 +961,7 @@ loc_141D2:
 
 loc_141E2:
 		lea	(Flying_carrying_Sonic_flag).w,a2
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	(Ctrl_1).w,d0
 		bra.w	Tails_Carry_Sonic
 ; ---------------------------------------------------------------------------
@@ -987,7 +987,7 @@ loc_1423E:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$90,d0
 		cmp.w	y_pos(a0),d0
-		blo.s		locret_14252
+		blo.s	locret_14252
 		move.w	#$1E,(Tails_CPU_routine).w
 
 locret_14252:
@@ -1016,11 +1016,11 @@ loc_14286:
 		ori.w	#bytes_to_word(btnR,btnR),(Ctrl_2_logical).w
 
 loc_142A2:
-		btst	#Status_InAir,status(a0)									; is the player in the air?
-		bne.s	locret_142E0											; if yes, branch
+		btst	#Status_InAir,status(a0)					; is the player in the air?
+		bne.s	locret_142E0							; if yes, branch
 		move.w	#6,(Tails_CPU_routine).w
 		clr.b	object_control(a0)
-		clr.b	anim(a0)												; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		clr.l	x_vel(a0)
 		clr.w	ground_vel(a0)
 		move.b	#setBit(Status_InAir),status(a0)
@@ -1034,9 +1034,9 @@ locret_142E0:
 loc_142E2:
 		tst.b	(_unkFAAC).w
 		bne.s	loc_14362
-		lea	(Player_1).w,a1											; a1=character
-		tst.b	render_flags(a1)											; is the player visible on the screen?
-		bpl.s	loc_14330											; if not, branch
+		lea	(Player_1).w,a1							; a1=character
+		tst.b	render_flags(a1)						; is the player visible on the screen?
+		bpl.s	loc_14330							; if not, branch
 		tst.w	(Tails_CPU_idle_timer).w
 		bne.w	loc_143AA
 		cmpi.w	#$300,y_vel(a1)
@@ -1047,7 +1047,7 @@ loc_142E2:
 		bge.s	loc_14328
 		addq.b	#1,(Tails_CPU_auto_fly_timer).w
 		cmpi.b	#88,(Tails_CPU_auto_fly_timer).w
-		blo.s		loc_1432E
+		blo.s	loc_1432E
 		clr.b	(Tails_CPU_auto_fly_timer).w
 
 loc_14328:
@@ -1083,14 +1083,14 @@ loc_14358:
 
 loc_14362:
 		clr.w	(Ctrl_2_logical).w
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	x_pos(a0),d0
 		moveq	#-16,d1
 		add.w	y_pos(a0),d1
 		move.w	(Camera_stored_max_X_pos).w,d2
 		bclr	#Status_Facing,status(a0)
 		cmp.w	x_pos(a1),d0
-		blo.s		loc_14390
+		blo.s	loc_14390
 		bset	#Status_Facing,status(a0)
 		neg.w	d2
 
@@ -1100,7 +1100,7 @@ loc_14390:
 		bhs.s	loc_143AA
 		move.w	(Camera_stored_min_X_pos).w,d2
 		cmp.w	y_pos(a1),d1
-		blo.s		loc_143A6
+		blo.s	loc_143A6
 		neg.w	d2
 
 loc_143A6:
@@ -1108,7 +1108,7 @@ loc_143A6:
 
 loc_143AA:
 		lea	(Flying_carrying_Sonic_flag).w,a2
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	(Ctrl_1).w,d0
 
 ; =============== S U B R O U T I N E =======================================
@@ -1118,8 +1118,8 @@ Tails_Carry_Sonic:
 		beq.w	loc_14534
 		cmpi.b	#PlayerID_Hurt,routine(a1)
 		bhs.w	loc_14466
-		btst	#Status_InAir,status(a1)									; is the player in the air?
-		beq.w	loc_1445A											; if not, branch
+		btst	#Status_InAir,status(a1)					; is the player in the air?
+		beq.w	loc_1445A							; if not, branch
 		move.w	(_unkF744).w,d1
 		cmp.w	x_vel(a1),d1
 		bne.s	loc_1445A
@@ -1128,32 +1128,32 @@ Tails_Carry_Sonic:
 		bne.s	loc_14460
 		tst.b	object_control(a1)
 		bmi.w	loc_1446A
-		andi.b	#btnABC,d0											; are buttons A, B or C being pressed?
-		beq.w	loc_14474											; if not, branch
+		andi.b	#btnABC,d0							; are buttons A, B or C being pressed?
+		beq.w	loc_14474							; if not, branch
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
 		clr.b	(a2)
 		move.b	#18,1(a2)
-		andi.w	#bytes_to_word(btnDir,0),d0							; are buttons up, down, left or right being pressed?
-		beq.s	loc_14410											; if not, branch
+		andi.w	#bytes_to_word(btnDir,0),d0					; are buttons up, down, left or right being pressed?
+		beq.s	loc_14410							; if not, branch
 		move.b	#60,1(a2)
 
 loc_14410:
-		btst	#button_left+setBit(3),d0									; is left being held?
-		beq.s	loc_1441C											; if not, branch
+		btst	#button_left+setBit(3),d0					; is left being held?
+		beq.s	loc_1441C							; if not, branch
 		move.w	#-$200,x_vel(a1)
 
 loc_1441C:
-		btst	#button_right+setBit(3),d0									; is right being held?
-		beq.s	loc_14428											; if not, branch
+		btst	#button_right+setBit(3),d0					; is right being held?
+		beq.s	loc_14428							; if not, branch
 		move.w	#$200,x_vel(a1)
 
 loc_14428:
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
-		move.w	#bytes_to_word(28/2,14/2),y_radius(a1)					; set y_radius and x_radius
+		move.w	#bytes_to_word(28/2,14/2),y_radius(a1)				; set y_radius and x_radius
 		move.b	#AniIDSonAni_Roll,anim(a1)
 		bset	#Status_Roll,status(a1)
 		rts
@@ -1215,24 +1215,24 @@ loc_144E4:
 		move.b	d0,mapping_frame(a1)
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
-		pea	(a2)									; save a2
-		move.l	d0,-(sp)				; GIO: okay so hear me out. first, i back up the mapping frame.
-		move.w	a0,-(sp)				; GIO: then the game backs up Player 2's SST pointer.
-		movea.w	a1,a0					; GIO: then I pull Player 1's SST pointer.
-		bsr.w	UnkPlayer_SetSpriteBank			; GIO: and then I run this, which will inevitably overwrite d0
-		movea.w	(sp)+,a0				; GIO: the game restores the original SST pointer
-		move.l	(sp)+,d0				; GIO: and I restore the original mapping frame, allowing the
-								; hellspawn that is Tails' carry animation code to work.
+		pea	(a2)								; save a2
+		move.l	d0,-(sp)							; GIO: okay so hear me out. first, i back up the mapping frame.
+		move.w	a0,-(sp)							; GIO: then the game backs up Player 2's SST pointer.
+		movea.w	a1,a0								; GIO: then I pull Player 1's SST pointer.
+		bsr.w	UnkPlayer_SetSpriteBank						; GIO: and then I run this, which will inevitably overwrite d0
+		movea.w	(sp)+,a0							; GIO: the game restores the original SST pointer
+		move.l	(sp)+,d0							; GIO: and I restore the original mapping frame, allowing the
+											; hellspawn that is Tails' carry animation code to work.
 		bsr.w	Perform_Player_DPLC
 		movea.l	(sp)+,a2							; restore a2
 
 loc_144F8:
-		movem.w	x_vel(a0),d0-d1				; load xy speed
-		movem.w	d0-d1,(Player_1+x_vel).w		; save xy speed
-		move.w	d0,(_unkF744).w					; save x speed
-		move.w	d1,(_unkF74C).w					; save y speed
+		movem.w	x_vel(a0),d0-d1							; load xy speed
+		movem.w	d0-d1,(Player_1+x_vel).w					; save xy speed
+		move.w	d0,(_unkF744).w							; save x speed
+		move.w	d1,(_unkF74C).w							; save y speed
 		movem.l	d0-a6,-(sp)
-		lea	(Player_1).w,a0						; a0=character
+		lea	(Player_1).w,a0							; a0=character
 		bsr.w	SonicKnux_DoLevelCollision
 		movem.l	(sp)+,d0-a6
 		rts
@@ -1269,7 +1269,7 @@ loc_1456C:
 		cmpi.b	#PlayerID_Hurt,routine(a1)
 		bhs.s	locret_1459C
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
-		bne.s	locret_1459C									; if yes, branch
+		bne.s	locret_1459C							; if yes, branch
 		tst.b	spin_dash_flag(a1)
 		bne.s	locret_1459C
 		bsr.s	sub_1459E
@@ -1291,10 +1291,10 @@ sub_1459E:
 		move.w	d0,y_pos(a1)
 
 		; set anim
-		move.w	#bytes_to_word(AniIDSonAni_Carry,AniIDSonAni_Walk),d0	; put Sonic in his falling animation
-		cmpi.b	#PlayerID_Knuckles,character_id(a1)						; is character Knuckles?
-		bne.s	.set														; if not, branch
-		move.w	#bytes_to_word(AniIDKnuxAni_Carry,AniIDSonAni_Walk),d0	; put Knuckles in his falling animation
+		move.w	#bytes_to_word(AniIDSonAni_Carry,AniIDSonAni_Walk),d0		; put Sonic in his falling animation
+		cmpi.b	#PlayerID_Knuckles,character_id(a1)				; is character Knuckles?
+		bne.s	.set								; if not, branch
+		move.w	#bytes_to_word(AniIDKnuxAni_Carry,AniIDSonAni_Walk),d0		; put Knuckles in his falling animation
 
 .set
 		move.w	d0,anim(a1)
@@ -1327,8 +1327,8 @@ locret_14630:
 ; =============== S U B R O U T I N E =======================================
 
 Tails_Water:
-		tst.b	(Water_flag).w									; does level have water?
-		bne.s	Tails_InWater								; if yes, branch
+		tst.b	(Water_flag).w							; does level have water?
+		bne.s	Tails_InWater							; if yes, branch
 
 locret_14638:
 		rts
@@ -1348,6 +1348,8 @@ Tails_InWater:
 		move.w	#$300,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#6,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$40,Deceleration_P2-Max_speed_P2(a4)
+
+		; check
 		tst.b	(Super_Tails_flag).w
 		beq.s	loc_1468E
 		move.w	#$400,Max_speed_P2-Max_speed_P2(a4)
@@ -1365,7 +1367,7 @@ loc_1469C:
 		asr.w	y_vel(a0)
 		asr.w	y_vel(a0)
 		beq.s	locret_14638
-		move.w	#bytes_to_word(1,0),anim(a6)		; splash animation, write 1 to anim and clear prev_anim
+		move.w	#bytes_to_word(1,0),anim(a6)					; splash animation, write 1 to anim and clear prev_anim
 		sfx	sfx_Splash,1							; splash sound
 ; ---------------------------------------------------------------------------
 
@@ -1378,6 +1380,8 @@ loc_146BA:
 		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)
+
+		; check
 		tst.b	(Super_Tails_flag).w
 		beq.s	loc_146F4
 		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
@@ -1395,15 +1399,15 @@ loc_146F4:
 loc_1470A:
 		move.w	y_vel(a0),d0
 		cmpi.w	#-$400,d0
-		blt.s		loc_14718
+		blt.s	loc_14718
 		asl.w	y_vel(a0)
 
 loc_14718:
-		cmpi.b	#AniIDSonAni_Blank,anim(a0)		; is Tails in his 'blank' animation
-		beq.w	locret_14638						; if so, branch
+		cmpi.b	#AniIDSonAni_Blank,anim(a0)					; is Tails in his 'blank' animation
+		beq.w	locret_14638							; if so, branch
 		tst.w	y_vel(a0)
 		beq.w	locret_14638
-		move.w	#bytes_to_word(1,0),anim(a6)		; splash animation, write 1 to anim and clear prev_anim
+		move.w	#bytes_to_word(1,0),anim(a6)					; splash animation, write 1 to anim and clear prev_anim
 		cmpi.w	#-$1000,y_vel(a0)
 		bgt.s	loc_1473E
 		move.w	#-$1000,y_vel(a0)
@@ -1416,7 +1420,7 @@ loc_1473E:
 Tails_MdNormal:
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_14760
-		lea	(Player_1).w,a1						; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -1478,13 +1482,13 @@ Tails_MdAir:
 		bsr.w	Tails_ChgJumpDir
 		bsr.w	Player_LevelBound
 		jsr	(MoveSprite_TestGravity).w
-		btst	#Status_Underwater,status(a0)		; is Tails underwater?
-		beq.s	loc_147DE					; if not, branch
-		subi.w	#$28,y_vel(a0)				; reduce gravity by $28 ($38-$28=$10)
+		btst	#Status_Underwater,status(a0)					; is Tails underwater?
+		beq.s	loc_147DE							; if not, branch
+		subi.w	#$28,y_vel(a0)							; reduce gravity by $28 ($38-$28=$10)
 
 loc_147DE:
 		cmpi.w	#$1000,y_vel(a0)
-		ble.s		.maxy
+		ble.s	.maxy
 		move.w	#$1000,y_vel(a0)
 
 .maxy
@@ -1509,7 +1513,7 @@ Tails_FlyingSwimming:
 
 .load
 		lea	(Flying_carrying_Sonic_flag).w,a2
-		lea	(Player_1).w,a1					; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		move.w	(Ctrl_1).w,d0
 		bra.w	Tails_Carry_Sonic
 ; ---------------------------------------------------------------------------
@@ -1531,7 +1535,7 @@ loc_14836:
 		cmpi.b	#1,double_jump_flag(a0)
 		beq.s	loc_14860
 		cmpi.w	#-$100,y_vel(a0)
-		blt.s		loc_14858
+		blt.s	loc_14858
 		subi.w	#$20,y_vel(a0)
 		addq.b	#1,double_jump_flag(a0)
 		cmpi.b	#$20,double_jump_flag(a0)
@@ -1549,7 +1553,7 @@ loc_14860:
 		and.b	(Ctrl_2_pressed_logical).w,d0
 		beq.s	loc_1488C
 		cmpi.w	#-$100,y_vel(a0)
-		blt.s		loc_1488C
+		blt.s	loc_1488C
 		tst.b	double_jump_property(a0)
 		beq.s	loc_1488C
 		btst	#Status_Underwater,status(a0)
@@ -1567,7 +1571,7 @@ loc_14892:
 		moveq	#16,d0
 		add.w	(Camera_min_Y_pos).w,d0
 		cmp.w	y_pos(a0),d0
-		blt.s		Tails_Set_Flying_Animation
+		blt.s	Tails_Set_Flying_Animation
 		tst.w	y_vel(a0)
 		bpl.s	Tails_Set_Flying_Animation
 		clr.w	y_vel(a0)
@@ -1592,8 +1596,8 @@ loc_148CC:
 		bne.s	loc_148F4
 		moveq	#$24,d0
 		move.b	d0,anim(a0)
-		tst.b	render_flags(a0)											; is the player visible on the screen?
-		bpl.s	locret_148F2											; if not, branch
+		tst.b	render_flags(a0)						; is the player visible on the screen?
+		bpl.s	locret_148F2							; if not, branch
 		move.b	(Level_frame_counter+1).w,d0
 		addq.b	#8,d0
 		andi.b	#$F,d0
@@ -1607,8 +1611,8 @@ locret_148F2:
 
 loc_148F4:
 		move.b	d0,anim(a0)
-		tst.b	render_flags(a0)											; is the player visible on the screen?
-		bpl.s	locret_148F2											; if not, branch
+		tst.b	render_flags(a0)						; is the player visible on the screen?
+		bpl.s	locret_148F2							; if not, branch
 		move.b	(Level_frame_counter+1).w,d0
 		addq.b	#8,d0
 		andi.b	#$F,d0
@@ -1647,7 +1651,7 @@ loc_1492E:
 Tails_MdRoll:
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_1494C
-		lea	(Player_1).w,a1											; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -1704,7 +1708,7 @@ locret_149A0:
 Tails_MdJump:
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_149BA
-		lea	(Player_1).w,a1					; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -1716,13 +1720,13 @@ loc_149BA:
 		bsr.w	Tails_ChgJumpDir
 		bsr.w	Player_LevelBound
 		jsr	(MoveSprite_TestGravity).w
-		btst	#Status_Underwater,status(a0)		; is Tails underwater?
-		beq.s	loc_149DA					; if not, branch
-		subi.w	#$28,y_vel(a0)				; reduce gravity by $28 ($38-$28=$10)
+		btst	#Status_Underwater,status(a0)					; is Tails underwater?
+		beq.s	loc_149DA							; if not, branch
+		subi.w	#$28,y_vel(a0)							; reduce gravity by $28 ($38-$28=$10)
 
 loc_149DA:
 		cmpi.w	#$1000,y_vel(a0)
-		ble.s		.maxy
+		ble.s	.maxy
 		move.w	#$1000,y_vel(a0)
 
 .maxy
@@ -1778,7 +1782,7 @@ loc_14A16:
 		add.w	x_pos(a0),d1
 		sub.w	x_pos(a1),d1
 		cmpi.w	#4,d1
-		blt.s		loc_14A92
+		blt.s	loc_14A92
 		cmp.w	d2,d1
 		bge.s	loc_14A82
 		bra.s	loc_14AA0
@@ -1788,7 +1792,7 @@ loc_14A6C:
 		move.w	x_pos(a0),d3
 		bsr.w	ChooseChkFloorEdge
 		cmpi.w	#$C,d1
-		blt.s		loc_14AA0
+		blt.s	loc_14AA0
 		cmpi.b	#3,next_tilt(a0)
 		bne.s	loc_14A8A
 
@@ -1817,7 +1821,7 @@ loc_14AA0:
 		move.b	#AniIDSonAni_Duck,anim(a0)
 		addq.b	#1,scroll_delay_counter(a0)
 		cmpi.b	#2*60,scroll_delay_counter(a0)
-		blo.s		loc_14B1A
+		blo.s	loc_14B1A
 		move.b	#2*60,scroll_delay_counter(a0)
 		tst.b	(Reverse_gravity_flag).w
 		bne.s	loc_14AD0
@@ -1840,7 +1844,7 @@ loc_14ADA:
 		move.b	#AniIDSonAni_LookUp,anim(a0)
 		addq.b	#1,scroll_delay_counter(a0)
 		cmpi.b	#2*60,scroll_delay_counter(a0)
-		blo.s		loc_14B1A
+		blo.s	loc_14B1A
 		move.b	#2*60,scroll_delay_counter(a0)
 		tst.b	(Reverse_gravity_flag).w
 		bne.s	loc_14B0A
@@ -1994,7 +1998,7 @@ loc_14C3C:
 		bgt.s	loc_14C4E
 		add.w	d5,d0
 		cmp.w	d1,d0
-		ble.s		loc_14C4E
+		ble.s	loc_14C4E
 		move.w	d1,d0
 
 loc_14C4E:
@@ -2015,16 +2019,16 @@ loc_14C62:
 		andi.b	#$C0,d1
 		bne.s	locret_14CAA
 		cmpi.w	#$400,d0
-		blt.s		locret_14CAA
+		blt.s	locret_14CAA
 		tst.b	flip_type(a0)
 		bmi.s	locret_14CAA
 		sfx	sfx_Skid
 		move.b	#AniIDSonAni_Stop,anim(a0)
 		bclr	#Status_Facing,status(a0)
 		cmpi.b	#12,air_left(a0)						; check air remaining
-		blo.s		locret_14CAA							; if less than 12, branch
-		move.l	#DashDust_CheckSkid,address(a6)		; Dust_P2
-		move.b	#$15,mapping_frame(a6)				; Dust_P2
+		blo.s	locret_14CAA							; if less than 12, branch
+		move.l	#DashDust_CheckSkid,address(a6)					; Dust_P2
+		move.b	#$15,mapping_frame(a6)						; Dust_P2
 
 locret_14CAA:
 		rts
@@ -2042,7 +2046,7 @@ sub_14CAC:
 loc_14CC6:
 		add.w	d5,d0
 		cmp.w	d6,d0
-		blt.s		loc_14CD4
+		blt.s	loc_14CD4
 		sub.w	d5,d0
 		cmp.w	d6,d0
 		bge.s	loc_14CD4
@@ -2050,7 +2054,7 @@ loc_14CC6:
 
 loc_14CD4:
 		move.w	d0,ground_vel(a0)
-		clr.b	anim(a0)	; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -2073,9 +2077,9 @@ loc_14CE8:
 		move.b	#AniIDSonAni_Stop,anim(a0)
 		bset	#Status_Facing,status(a0)
 		cmpi.b	#12,air_left(a0)						; check air remaining
-		blo.s		locret_14D30							; if less than 12, branch
-		move.l	#DashDust_CheckSkid,address(a6)		; Dust_P2
-		move.b	#$15,mapping_frame(a6)				; Dust_P2
+		blo.s	locret_14D30							; if less than 12, branch
+		move.l	#DashDust_CheckSkid,address(a6)					; Dust_P2
+		move.b	#$15,mapping_frame(a6)						; Dust_P2
 
 locret_14D30:
 		rts
@@ -2139,8 +2143,15 @@ loc_14D9A:
 		bne.s	loc_14DDE
 		bclr	#Status_Roll,status(a0)
 		move.b	y_radius(a0),d0
-		move.w	default_y_radius(a0),y_radius(a0)			; set y_radius and x_radius
+		move.w	default_y_radius(a0),y_radius(a0)				; set y_radius and x_radius
 		move.b	#AniIDSonAni_Wait,anim(a0)
+
+		; check
+		tst.w	(Camera_H_scroll_shift).w
+		beq.s	.skip
+		move.b	#AniIDSonAni_Walk,anim(a0)
+
+.skip
 		sub.b	default_y_radius(a0),d0
 		ext.w	d0
 		tst.b	(Reverse_gravity_flag).w
@@ -2170,9 +2181,9 @@ loc_14DFA:
 loc_14DFC:
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).w
-		move.w	ground_vel(a0),d2		; devon fix
+		move.w	ground_vel(a0),d2						; devon fix
 		cmpi.w	#$1000,d2
-		ble.s		loc_14E20
+		ble.s	loc_14E20
 		move.w	#$1000,d2
 
 loc_14E20:
@@ -2242,51 +2253,58 @@ Tails_ChgJumpDir:
 		asl.w	d5
 		move.w	x_vel(a0),d0
 		btst	#button_left,(Ctrl_2_logical).w
-		beq.s	loc_14EAC								; if not holding left, branch
+		beq.s	loc_14EAC							; if not holding left, branch
 		bset	#Status_Facing,status(a0)
-		sub.w	d5,d0									; add acceleration to the left
+
+		; check
+		tst.w	(Camera_H_scroll_shift).w
+		beq.s	.skip
+		bclr	#Status_Facing,status(a0)
+
+.skip
+		sub.w	d5,d0								; add acceleration to the left
 		move.w	d6,d1
 		neg.w	d1
-		cmp.w	d1,d0									; compare new speed with top speed
-		bgt.s	loc_14EAC								; if new speed is less than the maximum, branch
-		add.w	d5,d0									; remove this frame's acceleration change
-		cmp.w	d1,d0									; compare speed with top speed
-		ble.s		loc_14EAC								; if speed was already greater than the maximum, branch
+		cmp.w	d1,d0								; compare new speed with top speed
+		bgt.s	loc_14EAC							; if new speed is less than the maximum, branch
+		add.w	d5,d0								; remove this frame's acceleration change
+		cmp.w	d1,d0								; compare speed with top speed
+		ble.s	loc_14EAC							; if speed was already greater than the maximum, branch
 		move.w	d1,d0
 
 loc_14EAC:
 		btst	#button_right,(Ctrl_2_logical).w
-		beq.s	loc_14EC8								; if not holding right, branch
+		beq.s	loc_14EC8							; if not holding right, branch
 		bclr	#Status_Facing,status(a0)
-		add.w	d5,d0									; accelerate right in the air
-		cmp.w	d6,d0									; compare new speed with top speed
-		blt.s		loc_14EC8								; if new speed is less than the maximum, branch
-		sub.w	d5,d0									; remove this frame's acceleration change
-		cmp.w	d6,d0									; compare speed with top speed
-		bge.s	loc_14EC8								; if speed was already greater than the maximum, branch
+		add.w	d5,d0								; accelerate right in the air
+		cmp.w	d6,d0								; compare new speed with top speed
+		blt.s	loc_14EC8							; if new speed is less than the maximum, branch
+		sub.w	d5,d0								; remove this frame's acceleration change
+		cmp.w	d6,d0								; compare speed with top speed
+		bge.s	loc_14EC8							; if speed was already greater than the maximum, branch
 		move.w	d6,d0
 
 loc_14EC8:
 		move.w	d0,x_vel(a0)
 
 Tails_Jump_ResetScr:
-		cmpi.w	#$60,(a5)								; is screen in its default position?
+		cmpi.w	#$60,(a5)							; is screen in its default position?
 		beq.s	Tails_JumpPeakDecelerate					; if yes, branch
-		bhs.s	loc_14ED6								; depending on the sign of the difference
-		addq.w	#2+2,(a5)								; either add 2
+		bhs.s	loc_14ED6							; depending on the sign of the difference
+		addq.w	#2+2,(a5)							; either add 2
 
 loc_14ED6:
-		subq.w	#2,(a5)									; or subtract 2
+		subq.w	#2,(a5)								; or subtract 2
 
 Tails_JumpPeakDecelerate:
-		cmpi.w	#-$400,y_vel(a0)							; is Sonic moving faster than -$400 upwards?
-		blo.s		locret_14F06								; if yes, return
+		cmpi.w	#-$400,y_vel(a0)						; is Sonic moving faster than -$400 upwards?
+		blo.s	locret_14F06							; if yes, return
 		move.w	x_vel(a0),d0
 		move.w	d0,d1
-		asr.w	#5,d1									; d1 = x_velocity / 32
-		beq.s	locret_14F06								; return if d1 is 0
-		bmi.s	Tails_JumpPeakDecelerateLeft				; branch if moving left
-		sub.w	d1,d0									; reduce x velocity by d1
+		asr.w	#5,d1								; d1 = x_velocity / 32
+		beq.s	locret_14F06							; return if d1 is 0
+		bmi.s	Tails_JumpPeakDecelerateLeft					; branch if moving left
+		sub.w	d1,d0								; reduce x velocity by d1
 		bhs.s	loc_14EF4
 		moveq	#0,d0
 
@@ -2296,8 +2314,8 @@ loc_14EF4:
 ; ---------------------------------------------------------------------------
 
 Tails_JumpPeakDecelerateLeft:
-		sub.w	d1,d0									; reduce x velocity by d1
-		blo.s		loc_14F02
+		sub.w	d1,d0								; reduce x velocity by d1
+		blo.s	loc_14F02
 		moveq	#0,d0
 
 loc_14F02:
@@ -2322,41 +2340,41 @@ Tails_Roll:
 
 		tst.w	(Camera_H_scroll_shift).w
 		bne.s	locret_14FA8
-		moveq	#btnLR,d0								; is left/right being pressed?
+		moveq	#btnLR,d0							; is left/right being pressed?
 		and.b	(Ctrl_2_logical).w,d0
 		bne.s	locret_14FA8
-		btst	#button_down,(Ctrl_2_logical).w				; is down being pressed?
+		btst	#button_down,(Ctrl_2_logical).w					; is down being pressed?
 		beq.s	Tails_ChkWalk							; if not, branch
 		mvabs.w	ground_vel(a0),d0
-		cmpi.w	#$100,d0								; is Tails moving at $100 speed or faster?
-		bhs.s	Tails_ChkRoll								; if so, branch
+		cmpi.w	#$100,d0							; is Tails moving at $100 speed or faster?
+		bhs.s	Tails_ChkRoll							; if so, branch
 
-;		btst	#Status_OnObj,status(a0)						; is Tails stand on object?
-;		bne.s	locret_14FA8								; if yes, branch
+;		btst	#Status_OnObj,status(a0)					; is Tails stand on object?
+;		bne.s	locret_14FA8							; if yes, branch
 
-		move.b	#AniIDSonAni_Duck,anim(a0)				; enter ducking animation
+		move.b	#AniIDSonAni_Duck,anim(a0)					; enter ducking animation
 
 locret_14FA8:
 		rts
 ; ---------------------------------------------------------------------------
 
 Tails_ChkWalk:
-		cmpi.b	#AniIDSonAni_Duck,anim(a0)				; is Tails ducking?
+		cmpi.b	#AniIDSonAni_Duck,anim(a0)					; is Tails ducking?
 		bne.s	locret_14FA8
-		clr.b	anim(a0)									; if so, enter walking animation
+		clr.b	anim(a0)							; if so, enter walking animation
 		rts
 ; ---------------------------------------------------------------------------
 
 Tails_ChkRoll:
 		btst	#Status_Roll,status(a0)						; is Tails already rolling?
-		beq.s	Tails_DoRoll								; if not, branch
+		beq.s	Tails_DoRoll							; if not, branch
 		rts
 ; ---------------------------------------------------------------------------
 
 Tails_DoRoll:
 		bset	#Status_Roll,status(a0)
-		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)		; set y_radius and x_radius
-		move.b	#AniIDSonAni_Roll,anim(a0)				; enter roll animation
+		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)				; set y_radius and x_radius
+		move.b	#AniIDSonAni_Roll,anim(a0)					; enter roll animation
 		addq.w	#1,y_pos(a0)
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	loc_14FEA
@@ -2397,7 +2415,7 @@ loc_15024:
 		bsr.w	CalcRoomOverHead
 		movem.l	(sp)+,a4-a6
 		cmpi.w	#6,d1
-		blt.s		locret_15000
+		blt.s	locret_15000
 		move.w	#$680,d2
 		btst	#Status_Underwater,status(a0)					; test if underwater
 		beq.s	loc_1504C
@@ -2422,8 +2440,8 @@ loc_1504C:
 		move.w	default_y_radius(a0),y_radius(a0)
 		btst	#Status_Roll,status(a0)
 		bne.s	locret_150D0
-		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)		; set y_radius and x_radius
-		move.b	#AniIDSonAni_Roll,anim(a0)				; use "jumping" animation
+		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)				; set y_radius and x_radius
+		move.b	#AniIDSonAni_Roll,anim(a0)					; use "jumping" animation
 		bset	#Status_Roll,status(a0)
 		move.b	y_radius(a0),d0
 		sub.b	default_y_radius(a0),d0
@@ -2450,7 +2468,7 @@ Tails_JumpHeight:
 
 loc_150F0:
 		cmp.w	y_vel(a0),d1
-		ble.s		Tails_Test_For_Flight
+		ble.s	Tails_Test_For_Flight
 		moveq	#btnABC,d0
 		and.b	(Ctrl_2_logical).w,d0
 		bne.s	locret_15104
@@ -2490,13 +2508,13 @@ Tails_Test_For_Flight:
 
 	if CheckChaosEmer
 		cmpi.b	#7,(Chaos_emerald_count).w
-		blo.s		loc_1515C
+		blo.s	loc_1515C
 	endif
 
 		cmpi.w	#50,(Ring_count).w
-		blo.s		loc_1515C
+		blo.s	loc_1515C
 		tst.b	(Level_results_flag).w						; is level over?
-		beq.s	Tails_Transform						; if not, branch
+		beq.s	Tails_Transform							; if not, branch
 		endif
 
 		bra.s	loc_1515C
@@ -2542,20 +2560,20 @@ loc_1518C:
 ; =============== S U B R O U T I N E =======================================
 
 Tails_Transform:
-		move.b	#1,(Super_palette_status).w				; set Super/Hyper palette status to 'fading'
+		move.b	#1,(Super_palette_status).w					; set Super/Hyper palette status to 'fading'
 		move.b	#$F,(Palette_timer).w
-		move.b	#1,(Super_Tails_flag).w					; set flag to Super Tails
+		move.b	#1,(Super_Tails_flag).w						; set flag to Super Tails
 		move.w	#60,(Super_frame_count).w
 		move.b	#$81,object_control(a0)
-		move.b	#AniIDTailsAni_Transform,anim(a0)		; enter 'transformation' animation
-		move.l	#Obj_SuperTailsBirds,(Invincibility_stars).w	; load Super Flickies object
+		move.b	#AniIDTailsAni_Transform,anim(a0)				; enter 'transformation' animation
+		move.l	#Obj_SuperTailsBirds,(Invincibility_stars).w			; load Super Flickies object
 		move.w	#$800,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#$18,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$C0,Deceleration_P2-Max_speed_P2(a4)
 		clr.b	invincibility_timer(a0)
 		bset	#Status_Invincible,status_secondary(a0)
 		sfx	sfx_SuperTransform
-		music	mus_Invincible,1							; play invincibility theme
+		music	mus_Invincible,1						; play invincibility theme
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2572,9 +2590,9 @@ Tails_Spindash:
 		addq.w	#4,sp
 		move.b	#1,spin_dash_flag(a0)
 		clr.w	spin_dash_counter(a0)
-		cmpi.b	#12,air_left(a0)							; check air remaining
-		blo.s		loc_15242								; if less than 12, branch
-		move.b	#2,anim(a6)								; Dust_P2
+		cmpi.b	#12,air_left(a0)						; check air remaining
+		blo.s	loc_15242							; if less than 12, branch
+		move.b	#2,anim(a6)							; Dust_P2
 
 loc_15242:
 		bsr.w	Player_LevelBound
@@ -2608,7 +2626,7 @@ locret_1527A:
 loc_1527C:
 		btst	#button_down,(Ctrl_2_logical).w
 		bne.w	loc_15332
-		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)		; set y_radius and x_radius
+		move.w	#bytes_to_word(28/2,14/2),y_radius(a0)				; set y_radius and x_radius
 		move.b	#AniIDSonAni_Roll,anim(a0)
 		addq.w	#1,y_pos(a0)
 		tst.b	(Reverse_gravity_flag).w
@@ -2645,7 +2663,7 @@ loc_152EA:
 
 loc_152F8:
 		bset	#Status_Roll,status(a0)
-		clr.w	anim(a6)		; Dust_P2
+		clr.w	anim(a6)							; Dust_P2
 		sfx	sfx_Dash
 		bra.s	loc_1537A
 ; ---------------------------------------------------------------------------
@@ -2689,7 +2707,7 @@ loc_1534A:
 		sfx	sfx_SpinDash
 		addi.w	#$200,spin_dash_counter(a0)
 		cmpi.w	#$800,spin_dash_counter(a0)
-		blo.s		loc_1537A
+		blo.s	loc_1537A
 		move.w	#$800,spin_dash_counter(a0)
 
 loc_1537A:
@@ -2758,7 +2776,7 @@ Tails_DoLevelCollision:
 
 loc_153D6:
 		move.b	lrb_solid_bit(a0),d5
-		movem.w	x_vel(a0),d1-d2	; load xy speed
+		movem.w	x_vel(a0),d1-d2							; load xy speed
 		jsr	(GetArcTan).w
 		subi.b	#$20,d0
 		andi.b	#$C0,d0
@@ -2791,7 +2809,7 @@ loc_1542C:
 		cmp.b	d2,d1
 		bge.s	loc_15444
 		cmp.b	d2,d0
-		blt.s		locret_154AA
+		blt.s	locret_154AA
 
 loc_15444:
 		move.b	d3,angle(a0)
@@ -2822,7 +2840,7 @@ loc_15472:
 loc_15484:
 		clr.w	x_vel(a0)
 		cmpi.w	#$FC0,y_vel(a0)
-		ble.s		loc_15498
+		ble.s	loc_15498
 		move.w	#$FC0,y_vel(a0)
 
 loc_15498:
@@ -2993,15 +3011,15 @@ loc_155F2:
 Tails_TouchFloor_Check_Spindash:
 		tst.b	spin_dash_flag(a0)
 		bne.s	loc_1565E
-		clr.b	anim(a0)									; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 
 Tails_TouchFloor:
 		move.b	y_radius(a0),d0
-		move.w	default_y_radius(a0),y_radius(a0)			; set y_radius and x_radius
+		move.w	default_y_radius(a0),y_radius(a0)				; set y_radius and x_radius
 		btst	#Status_Roll,status(a0)
 		beq.s	loc_1565E
 		bclr	#Status_Roll,status(a0)
-		clr.b	anim(a0)									; AniIDSonAni_Walk
+		clr.b	anim(a0)							; AniIDSonAni_Walk
 		sub.b	default_y_radius(a0),d0
 		ext.w	d0
 		tst.b	(Reverse_gravity_flag).w
@@ -3038,7 +3056,8 @@ loc_1565E:
 		move.b	d0,scroll_delay_counter(a0)
 		move.b	d0,double_jump_flag(a0)
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Tails_Hurt:
 
@@ -3050,7 +3069,7 @@ Tails_Hurt:
 		btst	#button_B,(Ctrl_1_pressed).w
 		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
-		clr.b	(Ctrl_1_locked).w								; unlock control
+		clr.b	(Ctrl_1_locked).w						; unlock control
 		rts
 ; ---------------------------------------------------------------------------
 .nodebug
@@ -3058,7 +3077,7 @@ Tails_Hurt:
 
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_156D6
-		lea	(Player_1).w,a1								; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -3082,6 +3101,7 @@ loc_15700:
 		bsr.s	sub_15716
 		bsr.w	Player_LevelBound
 		bsr.w	Sonic_RecordPos
+		bsr.w	Tails_Water
 		bsr.w	sub_15842
 		jmp	(Draw_Sprite).w
 
@@ -3095,14 +3115,14 @@ sub_15716:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#224,d0
 		cmp.w	y_pos(a0),d0
-		blt.s		loc_15788
+		blt.s	loc_15788
 		bra.s	loc_15742
 ; ---------------------------------------------------------------------------
 
 loc_15734:
 		move.w	(Camera_min_Y_pos).w,d0
 		cmp.w	y_pos(a0),d0
-		blt.s		loc_15742
+		blt.s	loc_15742
 		bra.s	loc_15788
 ; ---------------------------------------------------------------------------
 
@@ -3110,13 +3130,13 @@ loc_15742:
 		movem.l	a4-a6,-(sp)
 		bsr.w	Tails_DoLevelCollision
 		movem.l	(sp)+,a4-a6
-		btst	#Status_InAir,status(a0)						; is the player in the air?
-		bne.s	locret_15786								; if yes, branch
+		btst	#Status_InAir,status(a0)					; is the player in the air?
+		bne.s	locret_15786							; if yes, branch
 		moveq	#0,d0
 		move.l	d0,x_vel(a0)
 		move.w	d0,ground_vel(a0)
 		move.b	d0,object_control(a0)
-		move.b	d0,anim(a0)								; AniIDSonAni_Walk
+		move.b	d0,anim(a0)							; AniIDSonAni_Walk
 		move.b	d0,spin_dash_flag(a0)
 		move.w	#priority_2,priority(a0)
 		move.b	#PlayerID_Control,routine(a0)
@@ -3141,7 +3161,7 @@ Tails_Death:
 		btst	#button_B,(Ctrl_1_pressed).w
 		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
-		clr.b	(Ctrl_1_locked).w								; unlock control
+		clr.b	(Ctrl_1_locked).w						; unlock control
 		rts
 ; ---------------------------------------------------------------------------
 .nodebug
@@ -3149,7 +3169,7 @@ Tails_Death:
 
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_157C8
-		lea	(Player_1).w,a1								; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -3197,7 +3217,7 @@ Tails_Drown:
 		btst	#button_B,(Ctrl_1_pressed).w
 		beq.s	.nodebug
 		move.w	#1,(Debug_placement_mode).w
-		clr.b	(Ctrl_1_locked).w								; unlock control
+		clr.b	(Ctrl_1_locked).w						; unlock control
 		rts
 ; ---------------------------------------------------------------------------
 .nodebug
@@ -3205,7 +3225,7 @@ Tails_Drown:
 
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	loc_15828
-		lea	(Player_1).w,a1								; a1=character
+		lea	(Player_1).w,a1							; a1=character
 		clr.b	object_control(a1)
 		clr.b	anim_frame(a1)
 		clr.b	anim_frame_timer(a1)
@@ -3357,15 +3377,17 @@ loc_15960:
 		move.b	d0,d3
 		add.b	d3,d3
 		add.b	d3,d3
-		lea	(TailsAni_Walk).l,a1 		; use walking animation
+
+		; check
+		lea	(TailsAni_Walk).l,a1						; use walking animation
 		cmpi.w	#$600,d2
-		blo.s		loc_1598A
-		lea	(TailsAni_Run).l,a1 		; use running animation
+		blo.s	loc_1598A
+		lea	(TailsAni_Run-TailsAni_Walk)(a1),a1				; use running animation
 		move.b	d0,d3
 		add.b	d3,d3
 		cmpi.w	#$700,d2
-		blo.s		loc_1598A
-		lea	(TailsAni_Run2).l,a1 		; use running 2 animation
+		blo.s	loc_1598A
+		lea	(TailsAni_Run2-TailsAni_Run)(a1),a1				; use running 2 animation
 		move.b	d0,d3
 
 loc_1598A:
@@ -3389,7 +3411,8 @@ loc_159A4:
 		moveq	#0,d2
 
 loc_159BC:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		addq.b	#1,anim_frame(a0)
 
@@ -3408,10 +3431,12 @@ loc_159C8:
 		bpl.w	locret_158C8
 		mvabs.w	ground_vel(a0),d2
 		add.w	(Camera_H_scroll_shift).w,d2
-		lea	(TailsAni_Roll2).l,a1 		; use roll 2 animation
+
+		; check
+		lea	(TailsAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_15A00
-		lea	(TailsAni_Roll).l,a1 		; use roll animation
+		lea	(TailsAni_Roll-TailsAni_Roll2)(a1),a1				; use roll animation
 
 loc_15A00:
 		neg.w	d2
@@ -3420,7 +3445,8 @@ loc_15A00:
 		moveq	#0,d2
 
 loc_15A0A:
-		lsr.w	#8,d2
+		move.w	d2,-(sp)
+		move.b	(sp)+,d2
 		move.b	d2,anim_frame_timer(a0)
 		bra.w	sub_158B0
 ; ---------------------------------------------------------------------------
@@ -3440,14 +3466,14 @@ loc_15A24:
 loc_15A2C:
 		lsr.w	#6,d2
 		move.b	d2,anim_frame_timer(a0)
-		lea	(TailsAni_Push).l,a1		; use push animation
+		lea	(TailsAni_Push).l,a1						; use push animation
 		bra.w	sub_158B0
 ; ---------------------------------------------------------------------------
 
 loc_15A3C:
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.w	locret_158C8
-		movem.w	x_vel(a2),d1-d2	; load xy speed
+		movem.w	x_vel(a2),d1-d2							; load xy speed
 		jsr	(GetArcTan).w
 		moveq	#0,d1
 		moveq	#1,d2
@@ -3502,13 +3528,13 @@ Tails_Tail_Load_PLC:
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_2_Tail),d4			; normal
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.notspecial										; if not, branch
-		move.w	#tiles_to_bytes($7AC),d4							; Special Stage
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		bne.s	.notspecial							; if not, branch
+		move.w	#tiles_to_bytes($7AC),d4					; Special Stage
 
 .notspecial
 		move.l	#dmaSource(ArtUnc_Tails_Tail),d6
-		bra.s	Tails_Load_PLC2.loop
+		bra.s	Tails_Load_PLC2.readentry
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3525,6 +3551,8 @@ Tails_Load_PLC2:
 .doanyway:	
 		move.b	(Player_curr_bank_P2).w,(Player_prev_bank_P2).w
 		move.b	d0,(Player_prev_frame_P2).w
+
+		; load
 		add.w	d0,d0
 		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
@@ -3536,9 +3564,9 @@ Tails_Load_PLC2:
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_2),d4				; normal
-		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w	; is game mode Special Stage?
-		bne.s	.loop										; if not, branch
-		move.w	#tiles_to_bytes($79C),d4							; Special Stage
+		cmpi.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; is game mode Special Stage?
+		bne.s	.readentry							; if not, branch
+		move.w	#tiles_to_bytes($79C),d4					; Special Stage
 
 ; this will be handled by the sprite bank system
 ;.notspecial
@@ -3547,11 +3575,12 @@ Tails_Load_PLC2:
 ;		blo.s		.loop
 ;		move.l	#dmaSource(ArtUnc_Tails_Extra),d6
 
-.loop
+.readentry
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
-		lsr.w	#8,d3
+		move.w	d3,-(sp)
+		move.b	(sp)+,d3
 		andi.w	#$F0,d3
 		addi.w	#$10,d3
 		andi.w	#$FFF,d1
@@ -3561,7 +3590,7 @@ Tails_Load_PLC2:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).w
-		dbf	d5,.loop
+		dbf	d5,.readentry
 
 .return
 		rts

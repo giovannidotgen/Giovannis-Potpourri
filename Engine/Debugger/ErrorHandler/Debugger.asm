@@ -155,8 +155,7 @@ _eh_align_offset	equ	$80
 ; ---------------------------------------------------------------
 
 assert:	macro	src, cond, dest, consoleprogram
-	; Assertions only work in DEBUG builds
-	ifdef __DEBUG__
+	ifdef __DEBUG__	; Assertions only work in DEBUG builds
 		move.w	sr, -(sp)
 		_assert.ATTRIBUTE	src, cond, dest, consoleprogram
 		move.w	(sp)+, sr
@@ -165,8 +164,7 @@ assert:	macro	src, cond, dest, consoleprogram
 
 ; Same as "assert", but doesn't save/restore CCR (can be used to save a few cycles)
 _assert:	macro	src, cond, dest, consoleprogram
-	; Assertions only work in DEBUG builds
-	ifdef __DEBUG__
+	ifdef __DEBUG__	; Assertions only work in DEBUG builds
 		if "dest"<>""
 			cmp.ATTRIBUTE	dest, src
 		else
@@ -213,7 +211,7 @@ _assert:	macro	src, cond, dest, consoleprogram
 	if "dest"<>""
 		RaiseError	"Assertion failed:%<endl>%<pal2>> assert.ATTRIBUTE %<pal0>src,%<pal2>cond%<pal0>,dest%<endl>%<pal1>Got: %<.ATTRIBUTE src>", consoleprogram
 	else
-		RaiseError	"Assertion failed:%<endl>%<pal2>> assert.ATTRIBUTE %<pal0>src,%<pal2>cond%%<endl>%<pal1>Got: %<.ATTRIBUTE src>", consoleprogram
+		RaiseError	"Assertion failed:%<endl>%<pal2>> assert.ATTRIBUTE %<pal0>src,%<pal2>cond%<endl>%<pal1>Got: %<.ATTRIBUTE src>", consoleprogram
 	endif
 
 	.skip:
@@ -234,7 +232,7 @@ RaiseError:	macro	string, consoleprogram, opts
 	move.w	sr, -(sp)
 	__FSTRING_GenerateArgumentsCode string
 	jsr		(MDDBG__ErrorHandler).l
-	__FSTRING_GenerateDecodedString string
+	__FSTRING_GenerateDecodedString string, 0 ; 0 = no automatic newline
 	if ("consoleprogram"<>"")			; if console program offset is specified ...
 		.__align_flag:	set	((((*)&1)!1)*_eh_align_offset)
 		if "opts"<>""
@@ -332,7 +330,7 @@ _Console:	macro	argument1, argument2
 
 		bra.w	.__leave
 	.__data:
-		__FSTRING_GenerateDecodedString argument1
+		__FSTRING_GenerateDecodedString argument1, 0 ; 0 = no automatic newline
 		!align	2
 	.__leave:
 
@@ -344,7 +342,7 @@ _Console:	macro	argument1, argument2
 			movem.l	a0-a2/d7, -(sp)
 			lea		4*4(sp), a2
 			lea		.__data(pc), a1
-			jsr		(MDDBG__Console_WriteLine_Formatted).l
+			jsr		(MDDBG__Console_Write_Formatted).l
 			movem.l	(sp)+, a0-a2/d7
 			if (.__sp>8)
 				lea		.__sp(sp), sp
@@ -355,12 +353,12 @@ _Console:	macro	argument1, argument2
 		else
 			move.l	a0, -(sp)
 			lea		.__data(pc), a0
-			jsr		(MDDBG__Console_WriteLine).l
+			jsr		(MDDBG__Console_Write).l
 			move.l	(sp)+, a0
 		endif
 		bra.w	.__leave
 	.__data:
-		__FSTRING_GenerateDecodedString argument1
+		__FSTRING_GenerateDecodedString argument1, 1 ; 1 = automatic newline at the end
 		!align	2
 	.__leave:
 
@@ -461,7 +459,7 @@ _KDebug	macro	argument1
 
 		bra.w	.__leave
 	.__data:
-		__FSTRING_GenerateDecodedString argument1
+		__FSTRING_GenerateDecodedString argument1, 0 ; 0 = no automatic newline
 		!align	2
 	.__leave:
 
@@ -491,12 +489,12 @@ _KDebug	macro	argument1
 
 		bra.w	.__leave
 	.__data:
-		__FSTRING_GenerateDecodedString argument1
+		__FSTRING_GenerateDecodedString argument1, 0 ; 0 = no automatic newline
 		!align	2
 	.__leave:
 
 	case "breakline"
-		jsr		(MDDBG__KDebug_FlushLine).l
+		move.w	#$9E00, ($C00004).l
 
 	case "starttimer"
 		move.w	#$9FC0, ($C00004).l
@@ -518,7 +516,7 @@ _KDebug	macro	argument1
 __ErrorMessage:	macro string, opts
 		__FSTRING_GenerateArgumentsCode string
 		jsr		(MDDBG__ErrorHandler).l
-		__FSTRING_GenerateDecodedString string
+		__FSTRING_GenerateDecodedString string, 0 ; 0 = no automatic newline
 
 		if DEBUGGER__EXTENSIONS__ENABLE
 		.__align_flag: set (((*)&1)!1)*_eh_align_offset
@@ -701,7 +699,7 @@ __FSTRING_GenerateArgumentsCode: macro string
 	endm
 
 ; ---------------------------------------------------------------
-__FSTRING_GenerateDecodedString:	macro string
+__FSTRING_GenerateDecodedString:	macro string, addnewline
 
 	.__lpos:	set		0		; start position
 	.__pos:	set		strstr(string, "%<")
@@ -762,7 +760,11 @@ __FSTRING_GenerateDecodedString:	macro string
 	endm
 
 	; Write part of string before the end
-	dc.b	substr(string, .__lpos, 0), 0
+	dc.b	substr(string, .__lpos, 0)
+	if addnewline
+		dc.b	endl
+	endif
+	dc.b	0
 
 	endm
 
