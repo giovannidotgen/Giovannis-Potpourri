@@ -108,7 +108,7 @@ Obj_BigSpikeBall:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BigSpikeBall:		subObjMainData2 Obj_BigSpikeBall.move, rfCoord, 0, 48, 48, 4, $396, 0, 0, Map_BBall
+ObjDat_BigSpikeBall:		subObjMainData Obj_BigSpikeBall.move, rfCoord, 0, 48, 48, 4, $396, 0, 0, Map_BBall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Big Spiked Ball/Object Data/Map - Big Spiked Ball.asm"

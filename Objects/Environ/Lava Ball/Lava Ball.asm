@@ -202,8 +202,8 @@ LBall_Type07:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_LavaMaker:	subObjMainData2 Obj_LavaMaker.makelava, rfCoord, 0, 64, 64, 0, 0, 0, 0, Map_Offscreen
-ObjDat_LavaBall:	subObjMainData2 Obj_LavaBall.action, rfCoord, 0, 16, 16, 3, $298, 0, 0, Map_Fire
+ObjDat_LavaMaker:	subObjMainData Obj_LavaMaker.makelava, rfCoord, 0, 64, 64, 0, 0, 0, 0, Map_Offscreen
+ObjDat_LavaBall:	subObjMainData Obj_LavaBall.action, rfCoord, 0, 16, 16, 3, $298, 0, 0, Map_Fire
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Lava Ball/Object Data/Anim - Fireballs.asm"

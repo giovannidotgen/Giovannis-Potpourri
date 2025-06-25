@@ -57,4 +57,4 @@ Obj_HyperSonicKnux_Trail:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_HyperSonicKnux_Trail:		subObjMainData2 Obj_HyperSonicKnux_Trail.main, rfCoord, 0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles
+ObjDat_HyperSonicKnux_Trail:		subObjMainData Obj_HyperSonicKnux_Trail.main, rfCoord, 0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles

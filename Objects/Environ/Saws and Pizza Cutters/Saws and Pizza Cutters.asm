@@ -199,7 +199,7 @@ Saws_TypeIndex: offsetTable
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Saws:	subObjMainData2 Obj_Saws.action, rfCoord, 0, 64, 64, 4, $3A4, 2, 0, Map_Saw
+ObjDat_Saws:	subObjMainData Obj_Saws.action, rfCoord, 0, 64, 64, 4, $3A4, 2, 0, Map_Saw
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Saws and Pizza Cutters/Object Data/Map - Saws and Pizza Cutters.asm"

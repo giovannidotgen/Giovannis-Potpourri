@@ -228,7 +228,7 @@ BreakableWall_FragSpd2:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BreakableWall:	subObjMainData2 Obj_BreakableWall.main, rfCoord, 0, 64, 32, 5, $398, 2, 0, Map_BreakableWall
+ObjDat_BreakableWall:	subObjMainData Obj_BreakableWall.main, rfCoord, 0, 64, 32, 5, $398, 2, 0, Map_BreakableWall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Breakable Wall/Object Data/Map - Breakable Wall.asm"

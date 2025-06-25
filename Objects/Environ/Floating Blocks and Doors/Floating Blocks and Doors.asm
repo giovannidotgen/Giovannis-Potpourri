@@ -509,7 +509,7 @@ BlocksDoors_TypeIndex: offsetTable
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_FloatingBlock:		subObjMainData2 Obj_FloatingBlock.action, rfCoord, 0, 0, 0, 3, 0, 2, 0, Map_FBlock
+ObjDat_FloatingBlock:		subObjMainData Obj_FloatingBlock.action, rfCoord, 0, 0, 0, 3, 0, 2, 0, Map_FBlock
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm"

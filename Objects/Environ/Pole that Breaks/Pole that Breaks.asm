@@ -198,7 +198,7 @@ Obj_Pole:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Pole:		subObjMainData2 Obj_Pole.action, rfCoord, 0, 64, 16, 4, $3DE, 2, 0, Map_Pole
+ObjDat_Pole:		subObjMainData Obj_Pole.action, rfCoord, 0, 64, 16, 4, $3DE, 2, 0, Map_Pole
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Pole that Breaks/Object Data/Map - Pole that Breaks.asm"
