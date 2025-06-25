@@ -145,7 +145,7 @@ Smab_Speeds:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SmashBlock:	subObjMainData2 Obj_SmashBlock.solid, rfCoord, 0, 32, 32, 5, $562, 2, 0, Map_Smab
+ObjDat_SmashBlock:	subObjMainData Obj_SmashBlock.solid, rfCoord, 0, 32, 32, 5, $562, 2, 0, Map_Smab
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Smash Block/Object Data/Map - Smash Block.asm"

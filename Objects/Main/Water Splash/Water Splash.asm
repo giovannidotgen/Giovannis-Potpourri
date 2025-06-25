@@ -198,7 +198,7 @@ loc_38652:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_WaterSplash:	subObjMainData2 Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
+ObjDat_WaterSplash:	subObjMainData Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Main/Water Splash/Object Data/Map - Water Splash.asm"

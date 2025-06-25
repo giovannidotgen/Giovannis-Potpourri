@@ -946,12 +946,12 @@ Credits_ScreenShake:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_CreditsRobotnik:			subObjMainData2 Obj_CreditsRobotnik.defeated, rfCoord, 0, 64, 56, 3, $182, 0, 0, Map_CreditsRobotnik
-ObjDat_CreditsRobotnik_Emeralds:	subObjMainData2 Obj_CreditsRobotnik_Emeralds.main, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
-ObjDat_CreditsEggRobo:			subObjMainData2 Obj_CreditsEggRobo.animate, rfCoord, 0, 64, 56, 5, $232, 0, 0, Map_CreditsEggRobo
-ObjDat_CreditsEggRobo_Emeralds:		subObjMainData2 Obj_CreditsEggRobo_Emeralds.circular, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
-ObjDat_CreditsEggRobo_ScrapMetal:	subObjMainData2 Draw_Sprite, rfCoord, 0, 64, 112, 4, $232, 0, 0, Map_CreditsEggRobo
-ObjDat_CreditsEggRobo_Eyes:		subObjMainData2 Obj_CreditsEggRobo_Eyes.refresh, rfCoord, 0, 16, 16, 3, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsRobotnik:			subObjMainData Obj_CreditsRobotnik.defeated, rfCoord, 0, 64, 56, 3, $182, 0, 0, Map_CreditsRobotnik
+ObjDat_CreditsRobotnik_Emeralds:	subObjMainData Obj_CreditsRobotnik_Emeralds.main, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo:			subObjMainData Obj_CreditsEggRobo.animate, rfCoord, 0, 64, 56, 5, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Emeralds:		subObjMainData Obj_CreditsEggRobo_Emeralds.circular, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo_ScrapMetal:	subObjMainData Draw_Sprite, rfCoord, 0, 64, 112, 4, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Eyes:		subObjMainData Obj_CreditsEggRobo_Eyes.refresh, rfCoord, 0, 16, 16, 3, $232, 0, 0, Map_CreditsEggRobo
 
 PLC_Credits: plrlistheader
 		plreq 1, ArtKosPM_LargeTextCredits
