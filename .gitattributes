@@ -20,4 +20,4 @@
 *.snd binary
 *.bin binary
 *.gen binary
-*.html linguist-detectable=false
+Tools/AS/asl.html linguist-detectable=false
