@@ -247,7 +247,7 @@ EndingScreen:
 
 		; redraw fg screen
 		lea	(Plane_buffer).w,a0
-		movea.l	(Block_table_addr_ROM).w,a2
+		movea.l	(Level_data_addr_RAM.16x16RAM).w,a2
 		movea.l	(Level_layout_addr2_ROM).w,a3
 		move.w	#VRAM_Plane_A_Name_Table,d7							; PNT A base: $C000
 		jsr	(Refresh_PlaneScreenDirect).w

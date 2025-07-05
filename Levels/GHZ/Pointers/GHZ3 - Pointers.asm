@@ -22,7 +22,14 @@
 		dc.l AnimateTiles_DoAniPLC						; Animate tiles main code
 		dc.l AniPLC_GHZ								; Animate tiles PLC scripts
 
-		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
+		; Art 1st 8x8 data, 2nd 8x8 data
+		; Blocks pointer, 1st 16x16 data, 2nd 16x16 data
+		; Chunks pointer, 1st 128x128 data, 2nd 128x128 data
+		; Layout pointer, 1st data, 2nd data
+		; Solid pointer, 1st data, 2nd data
+		; Objects pointer, 1st data, 2nd data
+		; Rings pointer, 1st data, 2nd data
+		; Palette, Water palette, Music
 		levartptrs \
 		GHZ_8x8_KosPM, \
 		0, \
@@ -32,15 +39,21 @@
 		Chunk_table, \
 		GHZ3_128x128_KosP, \
 		0, \
+		GHZ3_Layout_Unc, \
+		0, \
+		0, \
+		GHZ_Solid_Unc, \
+		0, \
+		0, \
+		GHZ3_Objects_Unc, \
+		0, \
+		0, \
+		GHZ3_Rings_Unc, \
+		0, \
+		0, \
 		PalID_GHZ, \
 		PalID_WaterGHZ, \
 		mus_GHZ
-
-		; Level data 2
-		dc.l GHZ_Solid								; Level solid
-		dc.l GHZ3_Layout							; Level layout
-		dc.l GHZ3_Objects							; Level sprites
-		dc.l GHZ3_Rings								; Level rings
 
 		; PLC
 		dc.l PLC1_GHZ3_Before							; PLC1

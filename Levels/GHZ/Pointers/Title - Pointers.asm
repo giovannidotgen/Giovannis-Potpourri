@@ -26,7 +26,14 @@ LevelLoadPointer_Title:
 		dc.l 0									; Animate tiles main code
 		dc.l 0									; Animate tiles PLC scripts
 
-		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
+		; Art 1st 8x8 data, 2nd 8x8 data
+		; Blocks pointer, 1st 16x16 data, 2nd 16x16 data
+		; Chunks pointer, 1st 128x128 data, 2nd 128x128 data
+		; Layout pointer, 1st data, 2nd data
+		; Solid pointer, 1st data, 2nd data
+		; Objects pointer, 1st data, 2nd data
+		; Rings pointer, 1st data, 2nd data
+		; Palette, Water palette, Music
 		levartptrs \
 		GHZ_8x8_KosPM, \
 		0, \
@@ -36,15 +43,21 @@ LevelLoadPointer_Title:
 		Chunk_table, \
 		GHZ1_128x128_KosP, \
 		0, \
+		GHZ1_Layout_Unc, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
 		PalID_Title, \
 		PalID_WaterGHZ, \
 		mus_Title
-
-		; Level data 2
-		dc.l 0									; Level solid
-		dc.l GHZ1_Layout							; Level layout
-		dc.l 0									; Level sprites
-		dc.l 0									; Level rings
 
 		; PLC
 		dc.l -1									; PLC1
