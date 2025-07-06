@@ -239,7 +239,10 @@ Obj_EndSign:
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux2
-		lea	(PLC2_Knuckles-PLC2_Sonic)(a5),a5
+
+.kplc2		:= PLC2_Knuckles-PLC2_Sonic						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.kplc2)(a5),a5
 
 .notknux2
 		jsr	(LoadPLC_Raw_KosPlusM).w
