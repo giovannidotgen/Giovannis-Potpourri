@@ -511,4 +511,6 @@
 ; end of 'ROM'
 EndOfROM:
 
+		message "[Macro AS] Pass \{MOMPASS}"
+
 		END
