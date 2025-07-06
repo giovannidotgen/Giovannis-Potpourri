@@ -55,7 +55,10 @@ loc_1B06:
 		lea	(Pal_SBZCyc4).l,a1
 		tst.b	(Current_act).w							; is act number 1?
 		beq.s	loc_1B2E							; if yes, branch
-		lea	(Pal_SBZCyc10-Pal_SBZCyc4)(a1),a1
+
+.palSBZ		:= Pal_SBZCyc10-Pal_SBZCyc4						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.palSBZ)(a1),a1
 		clr.w	(a0)
 
 loc_1B2E:

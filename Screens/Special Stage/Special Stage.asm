@@ -159,7 +159,10 @@ SpecialStageScreen:
 		lea	(Pal_SSSonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux
-		lea	(Pal_SSKnuckles-Pal_SSSonic)(a1),a1						; Pal_SSKnuckles
+
+.palssk		:= Pal_SSKnuckles-Pal_SSSonic								; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.palssk)(a1),a1								; Pal_SSKnuckles
 
 .notknux
 		lea	(Target_palette_line_1).w,a2
@@ -327,7 +330,10 @@ SpecialStageScreen:
 		lea	(Pal_Sonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
 		blo.s	.notknux2
-		lea	(Pal_Knuckles-Pal_Sonic)(a1),a1							; Pal_Knuckles
+
+.palk		:= Pal_Knuckles-Pal_Sonic								; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.palk)(a1),a1									; Pal_Knuckles
 
 .notknux2
 		lea	(Target_palette_line_1).w,a2
@@ -363,7 +369,10 @@ SpecialStageScreen:
 		lea	(ArtKosPM_SSResultsHYPER).l,a1
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
 		bne.s	.nottails									; if not, branch
-		lea	(ArtKosPM_SSResultsSUPER-ArtKosPM_SSResultsHYPER)(a1),a1
+
+.artss		:= ArtKosPM_SSResultsSUPER-ArtKosPM_SSResultsHYPER					; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.artss)(a1),a1
 
 .nottails
 	else
