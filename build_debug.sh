@@ -22,6 +22,10 @@ fi
 # Convert the assembled file to binary
 ${AS_MSGPATH}/p2bin -p=FF -z=0,kosinskiplus,Size_of_Snd_driver_guess,after S1S3.debug.p S1S3.debug.gen S1S3.debug.h
 
+# Delete temporary files
+rm -f S1S3.debug.p
+rm -f S1S3.debug.h
+
 # Generate debug information
 ${AS_MSGPATH}/convsym S1S3.debug.lst S1S3.debug.gen -input as_lst -range 0 FFFFFF -exclude -filter \"z[A-Z].+\" -a
 ${AS_MSGPATH}/convsym S1S3.debug.lst "Engine/_RAM.debug.asm" -in as_lst -out asm -range FF0000 FFFFFF
