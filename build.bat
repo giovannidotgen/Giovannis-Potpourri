@@ -22,14 +22,6 @@ IF EXIST S1S3.log (
 )
 
 REM // Run the assembler
-REM // '-xx' shows the most detailed error output
-REM // '-q' shuts up AS
-REM // '-c' outputs a shared file (*.h)
-REM // '-A' gives us a small speedup
-REM // '-L' listing to file
-REM // '-U' forces case-sensitivity
-REM // '-E' output errors to a file (*.log)
-REM // '-i .' allows (b)include paths to be absolute
 set AS_MSGPATH=Tools\AS\Windows
 set USEANSI=n
 set ASCMD=@%AS_MSGPATH%\asflags
