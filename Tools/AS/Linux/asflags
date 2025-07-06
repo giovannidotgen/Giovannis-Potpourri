@@ -1,0 +1,13 @@
+-cpu 68000
+-xx
+-n
+-q
+-c
+-A
+-L
+-OLIST S1S3.lst
+-o S1S3.p
+-shareout S1S3.h
+-U
+-E S1S3.log
+-i .
