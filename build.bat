@@ -8,16 +8,16 @@ IF EXIST S1S3.gen (
     del S1S3.gen
     IF ERRORLEVEL 1 goto LABLERROR1
 )
-IF EXIST Main.p (
-    del Main.p
+IF EXIST S1S3.p (
+    del S1S3.p
     IF ERRORLEVEL 1 goto LABLERROR2
 )
-IF EXIST Main.h (
-    del Main.h
+IF EXIST S1S3.h (
+    del S1S3.h
     IF ERRORLEVEL 1 goto LABLERROR3
 )
-IF EXIST Main.log (
-    del Main.log
+IF EXIST S1S3.log (
+    del S1S3.log
     IF ERRORLEVEL 1 goto LABLERROR4
 )
 
@@ -32,56 +32,57 @@ REM // '-E' output errors to a file (*.log)
 REM // '-i .' allows (b)include paths to be absolute
 set AS_MSGPATH=Tools\AS\Windows
 set USEANSI=n
+set ASCMD=@%AS_MSGPATH%\asflags
 
 REM // Allow the user to choose to print error messages out by supplying the -pe parameter
-"%AS_MSGPATH%\asw.exe" -xx -n -q -c -A -L -U -E -i . Main.asm
+"%AS_MSGPATH%\asw.exe" Engine\Includes.asm
 IF ERRORLEVEL 1 (
     echo Assembler failed to execute.
     goto LABLERROR5
 )
-IF NOT EXIST Main.p (
-    echo Assembler did not produce Main.p.
+IF NOT EXIST S1S3.p (
+    echo Assembler did not produce S1S3.p
     goto LABLERROR5
 )
 
 REM // Convert the assembled file to binary
-"%AS_MSGPATH%\p2bin.exe" -p=FF -z=0,kosinskiplus,Size_of_Snd_driver_guess,after Main.p S1S3.gen Main.h
+"%AS_MSGPATH%\p2bin.exe" -p=FF -z=0,kosinskiplus,Size_of_Snd_driver_guess,after S1S3.p S1S3.gen S1S3.h
 IF ERRORLEVEL 1 (
-    echo Failed to convert Main.p to S1S3.gen.
+    echo Failed to convert S1S3.p to S1S3.gen
     pause & exit /b 1
 )
 
 REM // Delete temporary files with error checking
-IF EXIST Main.p (
-    del Main.p
+IF EXIST S1S3.p (
+    del S1S3.p
     IF ERRORLEVEL 1 (
-        echo Failed to delete Main.p during final cleanup.
+        echo Failed to delete S1S3.p during final cleanup.
         pause & exit /b 1
     )
 )
-IF EXIST Main.h (
-    del Main.h
+IF EXIST S1S3.h (
+    del S1S3.h
     IF ERRORLEVEL 1 (
-        echo Failed to delete Main.h during final cleanup.
+        echo Failed to delete S1S3.h during final cleanup.
         pause & exit /b 1
     )
 )
 
 REM // Check if the output file was created
 IF NOT EXIST S1S3.gen (
-    echo Failed to generate S1S3.gen.
+    echo Failed to generate S1S3.gen
     pause & exit /b 1
 )
 
 REM // Generate debug information
-"%AS_MSGPATH%\convsym.exe" Main.lst S1S3.gen -input as_lst -range 0 FFFFFF -exclude -filter \"z[A-Z].+\" -a
+"%AS_MSGPATH%\convsym.exe" S1S3.lst S1S3.gen -input as_lst -range 0 FFFFFF -exclude -filter \"z[A-Z].+\" -a
 IF ERRORLEVEL 1 (
-    echo Failed to generate debug information for S1S3.gen.
+    echo Failed to generate debug information for S1S3.gen
     pause & exit /b 1
 )
-"%AS_MSGPATH%\convsym.exe" Main.lst "Engine\_RAM.asm" -in as_lst -out asm -range FF0000 FFFFFF
+"%AS_MSGPATH%\convsym.exe" S1S3.lst "Engine\_RAM.asm" -in as_lst -out asm -range FF0000 FFFFFF
 IF ERRORLEVEL 1 (
-    echo Failed to generate debug information for _RAM.asm.
+    echo Failed to generate debug information for _RAM.asm
     pause & exit /b 1
 )
 
@@ -91,7 +92,7 @@ REM // "%AS_MSGPATH%\rompad.exe" S1S3.gen 255 0
 REM // Fix the ROM header (checksum)
 "%AS_MSGPATH%\fixheader.exe" S1S3.gen
 IF ERRORLEVEL 1 (
-    echo Failed to fix the ROM header for S1S3.gen.
+    echo Failed to fix the ROM header for S1S3.gen
     pause & exit /b 1
 )
 
@@ -103,28 +104,28 @@ echo Failed to build because write access to S1S3.gen was denied.
 pause & exit /b 1
 
 :LABLERROR2
-echo Failed to build because write access to Main.p was denied.
+echo Failed to build because write access to S1S3.p was denied.
 pause & exit /b 1
 
 :LABLERROR3
-echo Failed to build because write access to Main.h was denied.
+echo Failed to build because write access to S1S3.h was denied.
 pause & exit /b 1
 
 :LABLERROR4
-echo Failed to build because write access to Main.log was denied.
+echo Failed to build because write access to S1S3.log was denied.
 pause & exit /b 1
 
 :LABLERROR5
-IF EXIST Main.log (
-    type Main.log
+IF EXIST S1S3.log (
+    type S1S3.log
 ) ELSE (
-    echo Main.log not found, check if assembler ran correctly.
+    echo S1S3.log not found, check if assembler ran correctly.
 )
 REM // Display a noticeable message
 echo.
 echo **********************************************************************
 echo *                                                                    *
-echo *      There were build errors. See Main.log for more details.      *
+echo *      There were build errors. See S1S3.log for more details.      *
 echo *                                                                    *
 echo **********************************************************************
 echo.
