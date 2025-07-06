@@ -36,6 +36,15 @@ ${AS_MSGPATH}/convsym S1S3.lst "Engine/_RAM.asm" -in as_lst -out asm -range FF00
 # Fix the ROM header
 ${AS_MSGPATH}/fixheader S1S3.gen
 
+# Copy rom to CD folder
+if [ -f "S1S3.gen" ]; then
+    cp S1S3.gen _CD/
+    if [ $? -ne 0 ]; then
+        echo "Failed to copy S1S3.gen"
+        exit 1
+    fi
+fi
+
 if test -f S1S3.gen
 then
   exit 0
