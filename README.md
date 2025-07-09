@@ -206,11 +206,11 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 
 ### Red Miso Studios Staff
 
-- TheBlad768 -- Project lead, sole programmer, S.C.E. Game Engine
-- Nichloya -- Level art and level design edits, sprite art and other things
-- pixelcat -- Sprite art, UI art and other things
-- FoxConED -- S.C.E. Level Select font art
-- Dolphman -- Robotnik head art
+- TheBlad768 — Project lead, sole programmer, S.C.E. Game Engine
+- Nichloya — Level art and level design edits, sprite art and other things
+- pixelcat — Sprite art, UI art and other things
+- FoxConED — S.C.E. Level Select font art
+- Dolphman — Robotnik head art
 
 ### Testing and other help
 
