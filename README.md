@@ -192,13 +192,18 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 
 ![AS2](https://i.imgur.com/dR923wk.png)
 
-## Roadmap
+## To-Do List
 
-- [ ] Act transitions. Levels have been edited to allow for these, but unfortunately they couldn't be implemented in time for SHC.
-- [ ] Fix Knuckles' socks palette.
+- [ ] Act transitions. Levels have been edited to allow for these, but unfortunately they couldn't be implemented in time for SHC
+- [ ] Fix Knuckles' socks palette
 - [ ] SRAM
 - [X] Super/Hyper transformations
-- [ ] Flamedriver has some [issues](https://github.com/flamewing/flamedriver/issues/25) that need to be addressed. Music speed-up is reset after 1UP. Continuous SFX have conflicts with other SFX. Continuous flag is not reset when playing normal SFX.
+- [ ] Flamedriver has some [issues](https://github.com/flamewing/flamedriver/issues/25) that need to be addressed. Music speed-up is reset after 1UP. Continuous SFX have conflicts with other SFX. Continuous flag is not reset when playing normal SFX
+- [ ] Tails' abilities (Flight cancel, Flight assist)
+- [ ] Tails tail does not flicker during invulnerability after taking damage
+- [ ] Change the art loading priority in PLC to avoid broken graphics during level appearance
+- [ ] Knuckles' animation sometimes breaks when he climbs to the wall
+- [ ] Rotating Junction does not shoot the character down
 
 ## Credits
 
