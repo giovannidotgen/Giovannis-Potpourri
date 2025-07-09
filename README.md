@@ -197,6 +197,7 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 - [ ] Act transitions. Levels have been edited to allow for these, but unfortunately they couldn't be implemented in time for SHC
 - [ ] Fix Knuckles' socks palette
 - [ ] SRAM
+- [ ] Fix and optimize all level chunks. At the moment it is difficult to create new layout because many chunks are available only in a certain act
 - [X] Super/Hyper transformations
 - [ ] Flamedriver has some [issues](https://github.com/flamewing/flamedriver/issues/25) that need to be addressed. Music speed-up is reset after 1UP. Continuous SFX have conflicts with other SFX. Continuous flag is not reset when playing normal SFX
 - [ ] Tails' abilities (Flight cancel, Flight assist)
