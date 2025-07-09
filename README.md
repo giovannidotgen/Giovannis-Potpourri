@@ -192,6 +192,14 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 
 ![AS2](https://i.imgur.com/dR923wk.png)
 
+## Roadmap
+
+- [ ] Act transitions. Levels have been edited to allow for these, but unfortunately they couldn't be implemented in time for SHC.
+- [ ] Fix Knuckles' socks palette.
+- [ ] SRAM
+- [X] Super/Hyper transformations
+- [ ] Flamedriver has some [issues](https://github.com/flamewing/flamedriver/issues/25) that need to be addressed. Music speed-up is reset after 1UP. Continuous SFX have conflicts with other SFX. Continuous flag is not reset when playing normal SFX.
+
 ## Credits
 
 ### Red Miso Studios Staff
