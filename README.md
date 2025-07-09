@@ -198,6 +198,7 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 - [ ] Flamedriver has some [issues](https://github.com/flamewing/flamedriver/issues/25) that need to be addressed. Music speed-up is reset after 1UP. Continuous SFX have conflicts with other SFX. Continuous flag is not reset when playing normal SFX
 - [ ] Tails' abilities (Flight cancel, Flight assist)
 - [ ] Tails tail does not flicker during invulnerability after taking damage
+- [ ] Change the art loading priority in PLC to avoid broken graphics during level appearance
 
 ## Credits
 
