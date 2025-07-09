@@ -199,6 +199,8 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 - [ ] Tails' abilities (Flight cancel, Flight assist)
 - [ ] Tails tail does not flicker during invulnerability after taking damage
 - [ ] Change the art loading priority in PLC to avoid broken graphics during level appearance
+- [ ] Knuckles' animation sometimes breaks when he climbs to the wall
+- [ ] Rotating Junction does not shoot the character down
 
 ## Credits
 
