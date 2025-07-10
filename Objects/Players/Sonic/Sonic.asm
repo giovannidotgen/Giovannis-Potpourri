@@ -221,9 +221,10 @@ Sonic_SetSpriteBank:
 		moveq	#0,d1
 		movea.l	#-1,a4
 		lea	(Sonic_MapBankList).l,a3
+		lea	(Player_curr_bank).w,a4
 		
 Player_SetSpriteBank:
-		move.b	(Player_curr_bank).w,d1
+		move.b	(a4),d1
 		lsl.w	#2,d1			; multiply d4 by 4			
 		move.w	d1,d0			; store it in d0
 		lsl.w	#1,d1			; Multiply d4 by 2
