@@ -25,7 +25,6 @@ Obj09_Normal:
 loc_4B97C:
 		move.b	#2,anim(a0)
 		bsr.s	sub_4B99E
-		jsr	(UnkPlayer_SetSpriteBank).l
 		moveq	#0,d0
 		lea	(Player_1).w,a1							; a1=character
 		move.b	mapping_frame(a1),d0
@@ -45,11 +44,13 @@ sub_4B99E:
 loc_4B9AA:
 		cmpi.b	#1,d0
 		bne.s	loc_4B9B6
-		jmp	(Animate_Tails).l
+		jsr	(Animate_Tails).l
+		jmp	(Tails_SetSpriteBank).l
 ; ---------------------------------------------------------------------------
 
 loc_4B9B6:
-		jmp	(Animate_Knuckles).l
+		jsr	(Animate_Knuckles).l
+		jmp	(Knuckles_SetSpriteBank).l
 ; ---------------------------------------------------------------------------
 
 Obj09_Index: offsetTable

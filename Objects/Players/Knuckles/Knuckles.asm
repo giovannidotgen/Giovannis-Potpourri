@@ -100,6 +100,20 @@ Knuckles_Init_Continued:
 		rts
 ; ---------------------------------------------------------------------------
 
+; ---------------------------------------------------------------------------
+; Secondary states under state Knux_Control
+; 
+; GIO: had to move those here due to distance
+; ---------------------------------------------------------------------------
+
+Knux_Modes: offsetTable
+		offsetTableEntry.w Knux_MdNormal					; 0
+		offsetTableEntry.w Knux_MdAir						; 2
+		offsetTableEntry.w Knux_MdRoll						; 4
+		offsetTableEntry.w Knux_MdJump						; 6
+		
+; ---------------------------------------------------------------------------		
+
 Knuckles_Control:
 
 	if GameDebug
@@ -151,7 +165,7 @@ loc_165D8:
 		and.w	d0,y_pos(a0)							; perform wrapping of Knuckles's y position
 
 .display
-		bsr.s	Knuckles_Display
+		bsr.w	Knuckles_Display
 		bsr.w	SonicKnux_SuperHyper
 		bsr.w	Sonic_RecordPos
 		bsr.w	Knuckles_Water
@@ -167,6 +181,12 @@ loc_165D8:
 		btst	#1,object_control(a0)
 		bne.s	.touch
 		bsr.w	Animate_Knuckles
+		tst.b	double_jump_flag(a0)
+		bne.s	.skip
+		clr.b	(Player_curr_bank).w	; GIO: this is about as much accounting as i'll give you, Knuckles glide animation.
+		
+.skip:				
+		bsr.w	Knuckles_SetSpriteBank
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	.plc
 		eori.b	#2,render_flags(a0)
@@ -185,14 +205,19 @@ loc_165D8:
 		rts
 
 ; ---------------------------------------------------------------------------
-; Secondary states under state Knux_Control
-; ---------------------------------------------------------------------------
 
-Knux_Modes: offsetTable
-		offsetTableEntry.w Knux_MdNormal					; 0
-		offsetTableEntry.w Knux_MdAir						; 2
-		offsetTableEntry.w Knux_MdRoll						; 4
-		offsetTableEntry.w Knux_MdJump						; 6
+; ===========================================================================
+
+Knuckles_SetSpriteBank:
+		moveq	#0,d0
+		moveq	#0,d1
+		movea.l	#-1,a4
+		lea	(Knuckles_MapBankList).l,a3
+		lea	(Player_curr_bank).w,a4
+		bra.w	Player_SetSpriteBank
+		
+Knuckles_MapBankList:
+		dc.l	Map_Knuckles,ArtUnc_Knuckles,DPLC_Knuckles				
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2665,12 +2690,28 @@ Knuckles_Drown:
 
 sub_17D1E:
 		bsr.s	Animate_Knuckles
+		tst.b	double_jump_flag(a0)
+		bne.s	.skip
+		clr.b	(Player_curr_bank).w	; GIO: this is about as much accounting as i'll give you, Knuckles glide animation.
+		
+.skip:		
+		bsr.w	Knuckles_SetSpriteBank		
 		tst.b	(Reverse_gravity_flag).w
 		beq.s	loc_17D2C
 		eori.b	#2,render_flags(a0)
 
 loc_17D2C:
 		bra.w	Knuckles_Load_PLC
+
+; ---------------------------------------------------------------------------
+; NOTICE
+; This is a non-standard player sprite animation routine.
+; It has been slightly modified to make use of a bank-based sprite system 
+; programmed by giovanni.gen.
+; It will set Player_curr_bank based on the animation that is being played.
+; The animation format has been changed. Please check the player's animation
+; data file for more information.
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2688,7 +2729,7 @@ Animate_Knuckles:
 loc_17D58:
 		add.w	d0,d0
 		adda.w	(a1,d0.w),a1
-		move.b	(a1),d0
+		move.b	1(a1),d0
 		bmi.s	loc_17DC8
 		moveq	#1,d1
 		and.b	status(a0),d1
@@ -2701,7 +2742,8 @@ loc_17D58:
 loc_17D7E:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w			
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	loc_17D98
 
@@ -2717,24 +2759,24 @@ loc_17D98:
 		addq.b	#1,d0
 		bne.s	loc_17DA8
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 		bra.s	loc_17D8E
 ; ---------------------------------------------------------------------------
 
 loc_17DA8:
 		addq.b	#1,d0
 		bne.s	loc_17DBC
-		move.b	2(a1,d1.w),d0
+		move.b	3(a1,d1.w),d0
 		sub.b	d0,anim_frame(a0)
 		sub.b	d0,d1
-		move.b	1(a1,d1.w),d0
+		move.b	2(a1,d1.w),d0
 		bra.s	loc_17D8E
 ; ---------------------------------------------------------------------------
 
 loc_17DBC:
 		addq.b	#1,d0
 		bne.s	locret_17DC6
-		move.b	2(a1,d1.w),anim(a0)
+		move.b	3(a1,d1.w),anim(a0)
 
 locret_17DC6:
 		rts
@@ -2793,11 +2835,12 @@ loc_17E42:
 		move.b	d0,d3
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	1(a1,d1.w),d0
+		move.b	(a1),(Player_curr_bank).w			
+		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_17E60
 		clr.b	anim_frame(a0)
-		move.b	1(a1),d0
+		move.b	2(a1),d0
 
 loc_17E60:
 		move.b	d0,mapping_frame(a0)
@@ -2867,25 +2910,44 @@ loc_17EE4:
 		lea	(KnuxAni_Push).l,a1						; use push animation
 		bra.w	loc_17D7E
 
+; ---------------------------------------------------------------------------
+; NOTICE
+;
+; This is a non-standard DPLC handling subroutine.
+; This routine expects a3 to point to a list of addresses to mappings data,
+; art data, and DPLC data, in that order.
+; You MUST run Knuckles_SetSpriteBank before running this routine, or VERY
+; unstable behavior will occur, such as nasty graphical glitches, 
+; or game crashes.
+;
+; Please see Sonic_SetSpriteBank for more information.
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 Knuckles_Load_PLC:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
-
+		move.b	(Player_curr_bank).w,d4
+		
 Knuckles_Load_PLC2:
+		cmp.b	(Player_prev_bank).w,d4
+		bne.s	.doanyway
 		cmp.b	(Player_prev_frame).w,d0
 		beq.s	.return
+.doanyway:
+		move.b	(Player_curr_bank).w,(Player_prev_bank).w
 		move.b	d0,(Player_prev_frame).w
 
 		; load
 		add.w	d0,d0
-		lea	(DPLC_Knuckles).l,a2
+		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
 		subq.w	#1,d5
 		bmi.s	.return
-		move.l	#dmaSource(ArtUnc_Knuckles),d6
+		move.l	4(a3),d6
+		lsr.l	#1,d6
 
 		; check
 		move.w	#tiles_to_bytes(ArtTile_Player_1),d4				; normal
