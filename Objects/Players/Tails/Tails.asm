@@ -262,6 +262,7 @@ Tails_SetSpriteBank:
 		moveq	#0,d1
 		movea.l	#-1,a4
 		lea	(Tails_MapBankList).l,a3
+		lea	(Player_curr_bank_P2).w,a4
 		bra.w	Player_SetSpriteBank
 		
 Tails_MapBankList:
@@ -3294,7 +3295,7 @@ loc_1588A:
 sub_158B0:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	(a1),(Player_curr_bank).w			
+		move.b	(a1),(Player_curr_bank_P2).w			
 		move.b	2(a1,d1.w),d0
 		cmpi.b	#-4,d0
 		bhs.s	loc_158CA
@@ -3393,7 +3394,7 @@ loc_15960:
 loc_1598A:
 		moveq	#0,d1
 		move.b	anim_frame(a0),d1
-		move.b	(a1),(Player_curr_bank).w		
+		move.b	(a1),(Player_curr_bank_P2).w		
 		move.b	2(a1,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_159A4
