@@ -3537,6 +3537,19 @@ Tails_Tail_Load_PLC:
 		move.l	#dmaSource(ArtUnc_Tails_Tail),d6
 		bra.s	Tails_Load_PLC2.readentry
 
+; ---------------------------------------------------------------------------
+; NOTICE
+;
+; This is a non-standard DPLC handling subroutine.
+; This routine expects a3 to point to a list of addresses to mappings data,
+; art data, and DPLC data, in that order.
+; You MUST run Tails_SetSpriteBank before running this routine, or VERY
+; unstable behavior will occur, such as nasty graphical glitches, 
+; or game crashes.
+;
+; Please see Sonic_SetSpriteBank for more information.
+; ---------------------------------------------------------------------------
+
 ; =============== S U B R O U T I N E =======================================
 
 Tails_Load_PLC:
