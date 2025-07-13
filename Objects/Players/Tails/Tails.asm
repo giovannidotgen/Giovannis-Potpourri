@@ -71,6 +71,7 @@ Tails_Init:										; Routine 0
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
 		move.b	#rfCoord+rfOnscreen,render_flags(a0)				; use screen coordinates
 		move.b	#PlayerID_Tails,character_id(a0)
+		clr.b	(Player_curr_bank).w		
 		move.w	#$600,Max_speed_P2-Max_speed_P2(a4)
 		move.w	#$C,Acceleration_P2-Max_speed_P2(a4)
 		move.w	#$80,Deceleration_P2-Max_speed_P2(a4)
@@ -261,11 +262,11 @@ Tails_SetSpriteBank:
 		moveq	#0,d0
 		moveq	#0,d1
 		movea.l	#-1,a4
-		lea	(Tails_MapBankList).l,a3
+		lea	(Tails_SpriteBankList).l,a3
 		lea	(Player_curr_bank_P2).w,a4
 		bra.w	Player_SetSpriteBank
 		
-Tails_MapBankList:
+Tails_SpriteBankList:
 		dc.l	Map_Tails,ArtUnc_Tails,DPLC_Tails
 		dc.l	Map_Tails,ArtUnc_Tails_Extra,DPLC_Tails		
 		
@@ -1204,8 +1205,8 @@ loc_144BA:
 		moveq	#0,d1
 		move.b	anim_frame(a1),d1
 		addq.b	#1,anim_frame(a1)
-		clr.b	(Player_curr_bank).w			; GIO: i have to hardcode the player's current bank because of this animation.
-								; it is almost midnight and i should sleep.
+		clr.b	(Player_curr_bank).w						; GIO: i have to hardcode the player's current bank because of this animation.
+											; it is almost midnight and i should sleep.
 		move.b	AniRaw_Tails_Carry(pc,d1.w),d0
 		cmpi.b	#-1,d0
 		bne.s	loc_144E4

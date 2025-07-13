@@ -267,7 +267,7 @@ Obj_Continue_SonicWTails:
 		bset	#0,render_flags(a0)								; set flipx
 
 .draw
-		clr.b	(Player_curr_bank).w			; GIO: I LOVE HARDCODED ANIMATIONS
+		clr.b	(Player_curr_bank).w								; GIO: I LOVE HARDCODED ANIMATIONS
 		jsr	(Sonic_SetSpriteBank).l				
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).w
@@ -340,7 +340,7 @@ Obj_Continue_SonicAlone:
 		jsr	(Animate_RawNoSSTCheckResult).w		
 
 .draw
-		clr.b	(Player_curr_bank).w			; GIO: more hardcoded animations that need specific patches :D
+		clr.b	(Player_curr_bank).w								; GIO: more hardcoded animations that need specific patches :D
 		jsr	(Sonic_SetSpriteBank).l		
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).w

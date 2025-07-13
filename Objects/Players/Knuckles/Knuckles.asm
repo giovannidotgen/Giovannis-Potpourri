@@ -69,6 +69,7 @@ Knuckles_Init:										; Routine 0
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
 		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
 		move.b	#PlayerID_Knuckles,character_id(a0)
+		clr.b	(Player_curr_bank).w		
 		move.w	#$600,Max_speed-Max_speed(a4)
 		move.w	#$C,Acceleration-Max_speed(a4)
 		move.w	#$80,Deceleration-Max_speed(a4)
@@ -205,18 +206,23 @@ loc_165D8:
 		rts
 
 ; ---------------------------------------------------------------------------
-
-; ===========================================================================
+; Subroutine that adjusts a player's mappings based on which frame it is that
+; is to be rendered.
+; 
+; Programmed by giovanni.gen
+;
+; See also Sonic_SetSpriteBank.
+; ---------------------------------------------------------------------------
 
 Knuckles_SetSpriteBank:
 		moveq	#0,d0
 		moveq	#0,d1
 		movea.l	#-1,a4
-		lea	(Knuckles_MapBankList).l,a3
+		lea	(Knuckles_SpriteBankList).l,a3
 		lea	(Player_curr_bank).w,a4
 		bra.w	Player_SetSpriteBank
 		
-Knuckles_MapBankList:
+Knuckles_SpriteBankList:
 		dc.l	Map_Knuckles,ArtUnc_Knuckles,DPLC_Knuckles				
 
 ; =============== S U B R O U T I N E =======================================
