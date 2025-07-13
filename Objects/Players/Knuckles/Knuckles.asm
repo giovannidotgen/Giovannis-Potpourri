@@ -183,7 +183,7 @@ loc_165D8:
 		bne.s	.touch
 		bsr.w	Animate_Knuckles
 		tst.b	double_jump_flag(a0)
-		bne.s	.skip
+		beq.s	.skip
 		clr.b	(Player_curr_bank).w	; GIO: this is about as much accounting as i'll give you, Knuckles glide animation.
 		
 .skip:				
@@ -2697,7 +2697,7 @@ Knuckles_Drown:
 sub_17D1E:
 		bsr.s	Animate_Knuckles
 		tst.b	double_jump_flag(a0)
-		bne.s	.skip
+		beq.s	.skip
 		clr.b	(Player_curr_bank).w	; GIO: this is about as much accounting as i'll give you, Knuckles glide animation.
 		
 .skip:		
