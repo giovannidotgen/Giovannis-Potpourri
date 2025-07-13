@@ -112,7 +112,7 @@ Obj_MotoBug_Smoke:
 
 ; mapping
 ObjDat_MotoBug:			subObjData Map_Moto, $561, 0, 0, 40, 40, 4, 0, $C
-ObjDat3_MotoBug_Smoke:		subObjData3 8, 8, 4, 0, 0
+ObjDat3_MotoBug_Smoke:		subObjData FALSE, FALSE, 0, 0, 8, 8, 4, 0, 0
 
 Child6_MotoBug_Smoke:
 		dc.w 1-1

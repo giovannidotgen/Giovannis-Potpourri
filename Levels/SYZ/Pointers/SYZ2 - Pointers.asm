@@ -22,7 +22,14 @@
 		dc.l AnimateTiles_DoAniPLC						; Animate tiles main code
 		dc.l AniPLC_SYZ								; Animate tiles PLC scripts
 
-		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
+		; Art 1st 8x8 data, 2nd 8x8 data
+		; Blocks pointer, 1st 16x16 data, 2nd 16x16 data
+		; Chunks pointer, 1st 128x128 data, 2nd 128x128 data
+		; Layout pointer, 1st data, 2nd data
+		; Solid pointer, 1st data, 2nd data
+		; Objects pointer, 1st data, 2nd data
+		; Rings pointer, 1st data, 2nd data
+		; Palette, Water palette, Music
 		levartptrs \
 		SYZ_8x8_KosPM, \
 		0, \
@@ -32,15 +39,21 @@
 		Chunk_table, \
 		SYZ2_128x128_KosP, \
 		0, \
+		SYZ2_Layout_Unc, \
+		0, \
+		0, \
+		SYZ_Solid_Unc, \
+		0, \
+		0, \
+		SYZ2_Objects_Unc, \
+		0, \
+		0, \
+		SYZ2_Rings_Unc, \
+		0, \
+		0, \
 		PalID_SYZ, \
 		PalID_WaterSYZ, \
 		mus_SYZ
-
-		; Level data 2
-		dc.l SYZ_Solid								; Level solid
-		dc.l SYZ2_Layout							; Level layout
-		dc.l SYZ2_Objects							; Level sprites
-		dc.l SYZ2_Rings								; Level rings
 
 		; PLC
 		dc.l PLC1_SYZ2_Before							; PLC1

@@ -21,7 +21,10 @@ AnPal_LZ:
 		lea	(Pal_LZCyc1).l,a1
 		cmpi.b	#3,(Current_act).w						; check if level is SBZ3
 		bne.s	.notsbz3							; if not, branch
-		lea	(Pal_SBZ3Cyc-Pal_LZCyc1)(a1),a1					; load SBZ3 palette instead
+
+.palSBZ3	:= Pal_SBZ3Cyc-Pal_LZCyc1						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.palSBZ3)(a1),a1						; load SBZ3 palette instead
 
 .notsbz3
 		adda.w	d0,a1

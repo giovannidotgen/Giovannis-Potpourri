@@ -116,60 +116,60 @@ HeightMapsRot:			binclude "Data/Misc/Floor/Height Maps Rotated.bin"
 ; Level collision data
 ; ===========================================================================
 
-GHZ_Solid:			binclude "Levels/GHZ/Collision/1.bin"
+GHZ_Solid_Unc:			binclude "Levels/GHZ/Collision/1.unc"
 	even
-MZ_Solid:			binclude "Levels/MZ/Collision/1.bin"
+MZ_Solid_Unc:			binclude "Levels/MZ/Collision/1.unc"
 	even
-SYZ_Solid:			binclude "Levels/SYZ/Collision/1.bin"
+SYZ_Solid_Unc:			binclude "Levels/SYZ/Collision/1.unc"
 	even
-LZ_Solid:			binclude "Levels/LZ/Collision/1.bin"
+LZ_Solid_Unc:			binclude "Levels/LZ/Collision/1.unc"
 	even
-SLZ_Solid:			binclude "Levels/SLZ/Collision/1.bin"
+SLZ_Solid_Unc:			binclude "Levels/SLZ/Collision/1.unc"
 	even
-SBZ_Solid:			binclude "Levels/SBZ/Collision/1.bin"
+SBZ_Solid_Unc:			binclude "Levels/SBZ/Collision/1.unc"
 	even
 
 ; ===========================================================================
 ; Level layout data
 ; ===========================================================================
 
-GHZ1_Layout:			bincludeEntry "Levels/GHZ/Layout/1.bin"
+GHZ1_Layout_Unc:		bincludeEntry "Levels/GHZ/Layout/1.unc"
 	even
-GHZ2_Layout:			bincludeEntry "Levels/GHZ/Layout/2.bin"
+GHZ2_Layout_Unc:		bincludeEntry "Levels/GHZ/Layout/2.unc"
 	even
-GHZ3_Layout:			bincludeEntry "Levels/GHZ/Layout/3.bin"
+GHZ3_Layout_Unc:		bincludeEntry "Levels/GHZ/Layout/3.unc"
 	even
-MZ1_Layout:			bincludeEntry "Levels/MZ/Layout/1.bin"
+MZ1_Layout_Unc:			bincludeEntry "Levels/MZ/Layout/1.unc"
 	even
-MZ2_Layout:			bincludeEntry "Levels/MZ/Layout/2.bin"
+MZ2_Layout_Unc:			bincludeEntry "Levels/MZ/Layout/2.unc"
 	even
-MZ3_Layout:			bincludeEntry "Levels/MZ/Layout/3.bin"
+MZ3_Layout_Unc:			bincludeEntry "Levels/MZ/Layout/3.unc"
 	even
-SYZ1_Layout:			bincludeEntry "Levels/SYZ/Layout/1.bin"
+SYZ1_Layout_Unc:		bincludeEntry "Levels/SYZ/Layout/1.unc"
 	even
-SYZ2_Layout:			bincludeEntry "Levels/SYZ/Layout/2.bin"
+SYZ2_Layout_Unc:		bincludeEntry "Levels/SYZ/Layout/2.unc"
 	even
-SYZ3_Layout:			bincludeEntry "Levels/SYZ/Layout/3.bin"
+SYZ3_Layout_Unc:		bincludeEntry "Levels/SYZ/Layout/3.unc"
 	even
-LZ1_Layout:			bincludeEntry "Levels/LZ/Layout/1.bin"
+LZ1_Layout_Unc:			bincludeEntry "Levels/LZ/Layout/1.unc"
 	even
-LZ2_Layout:			bincludeEntry "Levels/LZ/Layout/2.bin"
+LZ2_Layout_Unc:			bincludeEntry "Levels/LZ/Layout/2.unc"
 	even
-LZ3_Layout:			bincludeEntry "Levels/LZ/Layout/3.bin"
+LZ3_Layout_Unc:			bincludeEntry "Levels/LZ/Layout/3.unc"
 	even
-SLZ1_Layout:			bincludeEntry "Levels/SLZ/Layout/1.bin"
+SLZ1_Layout_Unc:		bincludeEntry "Levels/SLZ/Layout/1.unc"
 	even
-SLZ2_Layout:			bincludeEntry "Levels/SLZ/Layout/2.bin"
+SLZ2_Layout_Unc:		bincludeEntry "Levels/SLZ/Layout/2.unc"
 	even
-SLZ3_Layout:			bincludeEntry "Levels/SLZ/Layout/3.bin"
+SLZ3_Layout_Unc:		bincludeEntry "Levels/SLZ/Layout/3.unc"
 	even
-SBZ1_Layout:			bincludeEntry "Levels/SBZ/Layout/1.bin"
+SBZ1_Layout_Unc:		bincludeEntry "Levels/SBZ/Layout/1.unc"
 	even
-SBZ2_Layout:			bincludeEntry "Levels/SBZ/Layout/2.bin"
+SBZ2_Layout_Unc:		bincludeEntry "Levels/SBZ/Layout/2.unc"
 	even
-SBZ3_Layout:			bincludeEntry "Levels/LZ/Layout/SBZ3.bin"
+SBZ3_Layout_Unc:		bincludeEntry "Levels/LZ/Layout/SBZ3.unc"
 	even
-Ending_Layout:			bincludeEntry "Levels/GHZ/Layout/Ending.bin"
+Ending_Layout_Unc:		bincludeEntry "Levels/GHZ/Layout/Ending.unc"
 	even
 
 ; ===========================================================================
@@ -177,64 +177,64 @@ Ending_Layout:			bincludeEntry "Levels/GHZ/Layout/Ending.bin"
 ; ===========================================================================
 
 	ObjectLayoutBoundary
-GHZ1_Objects:			binclude "Levels/GHZ/Object Pos/1.bin"
+GHZ1_Objects_Unc:		binclude "Levels/GHZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-GHZ2_Objects:			binclude "Levels/GHZ/Object Pos/2.bin"
+GHZ2_Objects_Unc:		binclude "Levels/GHZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-GHZ3_Objects:			binclude "Levels/GHZ/Object Pos/3.bin"
+GHZ3_Objects_Unc:		binclude "Levels/GHZ/Object Pos/3.unc"
 	ObjectLayoutBoundary
 	even
-MZ1_Objects:			binclude "Levels/MZ/Object Pos/1.bin"
+MZ1_Objects_Unc:		binclude "Levels/MZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-MZ2_Objects:			binclude "Levels/MZ/Object Pos/2.bin"
+MZ2_Objects_Unc:		binclude "Levels/MZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-MZ3_Objects:			binclude "Levels/MZ/Object Pos/3.bin"
+MZ3_Objects_Unc:		binclude "Levels/MZ/Object Pos/3.unc"
 	ObjectLayoutBoundary
 	even
-SYZ1_Objects:			binclude "Levels/SYZ/Object Pos/1.bin"
+SYZ1_Objects_Unc:		binclude "Levels/SYZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-SYZ2_Objects:			binclude "Levels/SYZ/Object Pos/2.bin"
+SYZ2_Objects_Unc:		binclude "Levels/SYZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-SYZ3_Objects:			binclude "Levels/SYZ/Object Pos/3.bin"
+SYZ3_Objects_Unc:		binclude "Levels/SYZ/Object Pos/3.unc"
 	ObjectLayoutBoundary
 	even
-LZ1_Objects:			binclude "Levels/LZ/Object Pos/1.bin"
+LZ1_Objects_Unc:		binclude "Levels/LZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-LZ2_Objects:			binclude "Levels/LZ/Object Pos/2.bin"
+LZ2_Objects_Unc:		binclude "Levels/LZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-LZ3_Objects:			binclude "Levels/LZ/Object Pos/3.bin"
+LZ3_Objects_Unc:		binclude "Levels/LZ/Object Pos/3.unc"
 	ObjectLayoutBoundary
 	even
-SLZ1_Objects:			binclude "Levels/SLZ/Object Pos/1.bin"
+SLZ1_Objects_Unc:		binclude "Levels/SLZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-SLZ2_Objects:			binclude "Levels/SLZ/Object Pos/2.bin"
+SLZ2_Objects_Unc:		binclude "Levels/SLZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-SLZ3_Objects:			binclude "Levels/SLZ/Object Pos/3.bin"
+SLZ3_Objects_Unc:		binclude "Levels/SLZ/Object Pos/3.unc"
 	ObjectLayoutBoundary
 	even
-SBZ1_Objects:			binclude "Levels/SBZ/Object Pos/1.bin"
+SBZ1_Objects_Unc:		binclude "Levels/SBZ/Object Pos/1.unc"
 	ObjectLayoutBoundary
 	even
-SBZ2_Objects:			binclude "Levels/SBZ/Object Pos/2.bin"
+SBZ2_Objects_Unc:		binclude "Levels/SBZ/Object Pos/2.unc"
 	ObjectLayoutBoundary
 	even
-SBZ3_Objects:			binclude "Levels/LZ/Object Pos/SBZ3.bin"
+SBZ3_Objects_Unc:		binclude "Levels/LZ/Object Pos/SBZ3.unc"
 	ObjectLayoutBoundary
 	even
-Final_Objects:			binclude "Levels/SBZ/Object Pos/Final.bin"
+Final_Objects_Unc:		binclude "Levels/SBZ/Object Pos/Final.unc"
 	ObjectLayoutBoundary
 	even
-Ending_Objects:			binclude "Levels/GHZ/Object Pos/Ending.bin"
+Ending_Objects_Unc:		binclude "Levels/GHZ/Object Pos/Ending.unc"
 	ObjectLayoutBoundary
 	even
 
@@ -243,60 +243,60 @@ Ending_Objects:			binclude "Levels/GHZ/Object Pos/Ending.bin"
 ; ===========================================================================
 
 	RingLayoutBoundary
-GHZ1_Rings:			binclude "Levels/GHZ/Ring Pos/1.bin"
+GHZ1_Rings_Unc:			binclude "Levels/GHZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-GHZ2_Rings:			binclude "Levels/GHZ/Ring Pos/2.bin"
+GHZ2_Rings_Unc:			binclude "Levels/GHZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-GHZ3_Rings:			binclude "Levels/GHZ/Ring Pos/3.bin"
+GHZ3_Rings_Unc:			binclude "Levels/GHZ/Ring Pos/3.unc"
 	RingLayoutBoundary
 	even
-MZ1_Rings:			binclude "Levels/MZ/Ring Pos/1.bin"
+MZ1_Rings_Unc:			binclude "Levels/MZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-MZ2_Rings:			binclude "Levels/MZ/Ring Pos/2.bin"
+MZ2_Rings_Unc:			binclude "Levels/MZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-MZ3_Rings:			binclude "Levels/MZ/Ring Pos/3.bin"
+MZ3_Rings_Unc:			binclude "Levels/MZ/Ring Pos/3.unc"
 	RingLayoutBoundary
 	even
-SYZ1_Rings:			binclude "Levels/SYZ/Ring Pos/1.bin"
+SYZ1_Rings_Unc:			binclude "Levels/SYZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-SYZ2_Rings:			binclude "Levels/SYZ/Ring Pos/2.bin"
+SYZ2_Rings_Unc:			binclude "Levels/SYZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-SYZ3_Rings:			binclude "Levels/SYZ/Ring Pos/3.bin"
+SYZ3_Rings_Unc:			binclude "Levels/SYZ/Ring Pos/3.unc"
 	RingLayoutBoundary
 	even
-LZ1_Rings:			binclude "Levels/LZ/Ring Pos/1.bin"
+LZ1_Rings_Unc:			binclude "Levels/LZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-LZ2_Rings:			binclude "Levels/LZ/Ring Pos/2.bin"
+LZ2_Rings_Unc:			binclude "Levels/LZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-LZ3_Rings:			binclude "Levels/LZ/Ring Pos/3.bin"
+LZ3_Rings_Unc:			binclude "Levels/LZ/Ring Pos/3.unc"
 	RingLayoutBoundary
 	even
-SLZ1_Rings:			binclude "Levels/SLZ/Ring Pos/1.bin"
+SLZ1_Rings_Unc:			binclude "Levels/SLZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-SLZ2_Rings:			binclude "Levels/SLZ/Ring Pos/2.bin"
+SLZ2_Rings_Unc:			binclude "Levels/SLZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-SLZ3_Rings:			binclude "Levels/SLZ/Ring Pos/3.bin"
+SLZ3_Rings_Unc:			binclude "Levels/SLZ/Ring Pos/3.unc"
 	RingLayoutBoundary
 	even
-SBZ1_Rings:			binclude "Levels/SBZ/Ring Pos/1.bin"
+SBZ1_Rings_Unc:			binclude "Levels/SBZ/Ring Pos/1.unc"
 	RingLayoutBoundary
 	even
-SBZ2_Rings:			binclude "Levels/SBZ/Ring Pos/2.bin"
+SBZ2_Rings_Unc:			binclude "Levels/SBZ/Ring Pos/2.unc"
 	RingLayoutBoundary
 	even
-SBZ3_Rings:			binclude "Levels/LZ/Ring Pos/SBZ3.bin"
+SBZ3_Rings_Unc:			binclude "Levels/LZ/Ring Pos/SBZ3.unc"
 	RingLayoutBoundary
 	even
-Final_Rings:
+Final_Rings_Unc:
 	RingLayoutBoundary
 	even

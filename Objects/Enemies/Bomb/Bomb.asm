@@ -188,8 +188,8 @@ Obj_BombBadnik_Shrapnel:
 
 ; mapping
 ObjDat_Bomb:			subObjData Map_Bomb, $500, 0, 0, 40, 24, 3, 0, $1A|$80
-ObjDat3_Bomb_Fuse:		subObjData3 16, 8, 3, 8, 0
-ObjDat3_Bomb_Shrapnel:		subObjData3 8, 8, 3, $A, $18|$80
+ObjDat3_Bomb_Fuse:		subObjData FALSE, FALSE, 0, 0, 16, 8, 3, 8, 0
+ObjDat3_Bomb_Shrapnel:		subObjData FALSE, FALSE, 0, 0, 8, 8, 3, $A, $18|$80
 
 Child6_BombBadnik_Fuse:
 		dc.w 1-1

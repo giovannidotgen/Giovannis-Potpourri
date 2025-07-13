@@ -206,7 +206,7 @@ Obj_Crabmeat_Missile:
 
 ; mapping
 ObjDat_Crabmeat:		subObjData Map_Crab, $3FC, 0, 0, 32, 48, 3, 0, 6
-ObjDat3_Crabmeat_Missile:	subObjData3 16, 16, 3, 0, 7|$80
+ObjDat3_Crabmeat_Missile:	subObjData FALSE, FALSE, 0, 0, 16, 16, 3, 0, 7|$80
 
 Child1_Crabmeat_Missile:
 		dc.w 2-1

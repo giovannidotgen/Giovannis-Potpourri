@@ -76,7 +76,7 @@ VInt_Lag_Main:
 		cmpi.b	#GameModeID_DemoScreen,d0								; is game on a demo?
 		beq.s	VInt_Lag_Level										; if yes, branch
 		cmpi.b	#GameModeID_LevelScreen,d0								; is game on a level?
-		bne.s	VInt_Done										; if not, return from V-int
+		bne.s	VInt_Music										; if not, return from V-int
 
 VInt_Lag_Level:
 		tst.b	(Water_flag).w

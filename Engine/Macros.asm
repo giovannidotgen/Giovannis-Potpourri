@@ -14,6 +14,9 @@ vdpCommDelta function addr,((addr&$3FFF)<<16)|((addr&$C000)>>14)
 ; makes a VDP command
 vdpComm function addr,type,rwd,(((type&rwd)&3)<<30)|((addr&$3FFF)<<16)|(((type&rwd)&$FC)<<2)|((addr&$C000)>>14)
 
+; Calc VDP address
+vdpCalc function loc,($40000000|vdpCommDelta(loc))
+
 ; sign-extends a 32-bit integer to 64-bit
 ; all RAM addresses are run through this function to allow them to work in both 16-bit and 32-bit addressing modes
 ramaddr function x,-(-x)&$FFFFFFFF
@@ -149,10 +152,14 @@ dbglistobj macro obj, mapaddr, subtype, frame, vram, pal, pri
 ; macro for declaring a "main level load block" (MLLB)
 ; ---------------------------------------------------------------------------
 
-levartptrs macro art1,art2,map16x16r,map16x161,map16x162,map128x128r,map128x1281,map128x1282,palette,wpalette,music
+levartptrs macro art1,art2,map16x16r,map16x161,map16x162,map128x128r,map128x1281,map128x1282,layoutr,layout1,layout2,solidr,solid1,solid2,objectsr,objects1,objects2,ringsr,rings1,rings2,palette,wpalette,music
 	dc.l (palette)<<24|((art1)&$FFFFFF),art2
 	dc.l (wpalette)<<24|((map16x16r)&$FFFFFF),map16x161,map16x162
 	dc.l (music)<<24|((map128x128r)&$FFFFFF),map128x1281,map128x1282
+	dc.l layoutr,layout1,layout2
+	dc.l solidr,solid1,solid2
+	dc.l objectsr,objects1,objects2
+	dc.l ringsr,rings1,rings2
     endm
 ; ---------------------------------------------------------------------------
 
@@ -176,23 +183,12 @@ mSBZp macro duration,colours,paladdress,ramaddress
 
 ; macro to declare sub-object data
 subObjData macro mappings,vram,pal,pri,height,width,prio,frame,collision
+      if upstring("mappings")<>"FALSE"
 	dc.l mappings
+      endif
+      if upstring("vram")<>"FALSE"
 	dc.w make_art_tile(vram,pal,pri)
-	dc.b (height/2),(width/2)
-	dc.w sprite_priority(prio)
-	dc.b frame,collision
-    endm
-
-; macro to declare sub-object data
-subObjData2 macro vram,pal,pri,height,width,prio,frame,collision
-	dc.w make_art_tile(vram,pal,pri)
-	dc.b (height/2),(width/2)
-	dc.w sprite_priority(prio)
-	dc.b frame,collision
-    endm
-
-; macro to declare sub-object data
-subObjData3 macro height,width,prio,frame,collision
+      endif
 	dc.b (height/2),(width/2)
 	dc.w sprite_priority(prio)
 	dc.b frame,collision
@@ -209,26 +205,18 @@ subObjSlotData macro slots,vram,pal,pri,offset,index,mappings,height,width,prio,
 
 ; macro to declare sub-object data
 subObjMainData macro address,render,routine,height,width,prio,vram,pal,pri,mappings,frame,collision
+      if upstring("address")<>"FALSE"
 	dc.l address
+      endif
 	dc.b render,routine,(height/2),(width/2)
 	dc.w sprite_priority(prio),make_art_tile(vram,pal,pri)
 	dc.l mappings
-	dc.b frame, collision
-    endm
-
-; macro to declare sub-object data
-subObjMainData2 macro address,render,routine,height,width,prio,vram,pal,pri,mappings
-	dc.l address
-	dc.b render,routine,(height/2),(width/2)
-	dc.w sprite_priority(prio),make_art_tile(vram,pal,pri)
-	dc.l mappings
-    endm
-
-; macro to declare sub-object data
-subObjMainData3 macro render,routine,height,width,prio,vram,pal,pri,mappings
-	dc.b render,routine,(height/2),(width/2)
-	dc.w sprite_priority(prio),make_art_tile(vram,pal,pri)
-	dc.l mappings
+      if ("frame"<>"")
+	dc.b frame
+      endif
+      if ("collision"<>"")
+	dc.b collision
+      endif
     endm
 ; ---------------------------------------------------------------------------
 
@@ -319,24 +307,28 @@ __LABEL__ label *
 ; ---------------------------------------------------------------------------
 
 ; calculates initial loop counter value for a dbf loop
-; that writes n bytes total at 4 bytes per iteration
-bytesTo4Lcnt function n,n>>4
+; that writes n bytes total at x bytes per iteration
+bytesToXcnt function n,x,n/x-1
 
 ; calculates initial loop counter value for a dbf loop
 ; that writes n bytes total at 4 bytes per iteration
-bytesTo2Lcnt function n,n>>2
-
-; calculates initial loop counter value for a dbf loop
-; that writes n bytes total at 4 bytes per iteration
-bytesToLcnt function n,n>>2-1
+bytesToLcnt function n,bytesToXcnt(n,4)
 
 ; calculates initial loop counter value for a dbf loop
 ; that writes n bytes total at 2 bytes per iteration
-bytesToWcnt function n,n>>1-1
+bytesToWcnt function n,bytesToXcnt(n,2)
 
-; calculates initial loop counter value for a dbf loop
+; calculates initial loop counter value for a normal loop
 ; that writes n bytes total at x bytes per iteration
-bytesToXcnt function n,x,n/x-1
+bytesTo2Xcnt function n,x,n/x
+
+; calculates initial loop counter value for a normal loop
+; that writes n bytes total at 4 bytes per iteration
+bytesTo2Lcnt function n,bytesTo2Xcnt(n,4)
+
+; calculates initial loop counter value for a normal loop
+; that writes n bytes total at 2 bytes per iteration
+bytesTo2Wcnt function n,bytesTo2Xcnt(n,2)
 ; ---------------------------------------------------------------------------
 
 ; fills a region of 68k RAM with 0
@@ -1661,15 +1653,13 @@ __LABEL__Scroll:
 
 dScroll_Data macro pixel,size,velocity,plane
 	dc.w velocity, size
-
-	switch lowstring("plane")
-	case "fg"
+	if upstring("plane")=="FG"
 		dc.w H_scroll_buffer+(pixel<<2)
-	case "bg"
+	elseif upstring("plane")=="BG"
 		dc.w (H_scroll_buffer+2)+(pixel<<2)
-	elsecase
+	else
 		fatal "Error! Non-existent plan."
-	endcase
+	endif
     endm
 ; ---------------------------------------------------------------------------
 

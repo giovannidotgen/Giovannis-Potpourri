@@ -934,18 +934,18 @@ Continue_LoadNumbers:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Continue_SonicWTails:			subObjMainData2 Obj_Continue_SonicWTails.main, 0, 0, 40, 24, 5, $8C, 0, 0, Map_ContinueSprites
-ObjDat_Continue_SonicAlone:			subObjMainData2 Obj_Continue_SonicAlone.main, 0, 0, 40, 24, 5, ArtTile_Player_1, 0, 0, Map_Sonic
-ObjDat_Continue_TailsWSonic:			subObjMainData2 Obj_Continue_TailsWSonic.waitstart, 0, 0, 40, 32, 4, $8C, 0, 0, Map_ContinueSprites
-ObjDat_Continue_Knuckles:			subObjMainData2 Obj_Continue_Knuckles.waitstart, 0, 0, 48, 32, 4, $8C, 3, 0, Map_ContinueSprites
-ObjDat_Continue_Knuckles2:			subObjMainData2 Obj_Continue_Knuckles.waitstart2, 0, 0, 96, 64, 1, ArtTile_CutsceneKnuckles, 3, 0, Map_Knuckles
+ObjDat_Continue_SonicWTails:			subObjMainData Obj_Continue_SonicWTails.main, 0, 0, 40, 24, 5, $8C, 0, 0, Map_ContinueSprites
+ObjDat_Continue_SonicAlone:			subObjMainData Obj_Continue_SonicAlone.main, 0, 0, 40, 24, 5, ArtTile_Player_1, 0, 0, Map_Sonic
+ObjDat_Continue_TailsWSonic:			subObjMainData Obj_Continue_TailsWSonic.waitstart, 0, 0, 40, 32, 4, $8C, 0, 0, Map_ContinueSprites
+ObjDat_Continue_Knuckles:			subObjMainData Obj_Continue_Knuckles.waitstart, 0, 0, 48, 32, 4, $8C, 3, 0, Map_ContinueSprites
+ObjDat_Continue_Knuckles2:			subObjMainData Obj_Continue_Knuckles.waitstart2, 0, 0, 96, 64, 1, ArtTile_CutsceneKnuckles, 3, 0, Map_Knuckles
 ObjDat_919A6:					subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
-ObjDat3_919BE:					subObjData3 32, 24, 5, 6, 0
-ObjDat3_919C4:					subObjData3 24, 32, 5, 2, 0
-ObjDat3_919CA:					subObjData3 8, 64, 5, 7, 0
-ObjDat_Continue_Stars:				subObjMainData2 Draw_Sprite, 0, 0, 16, 16, 7, $8C, 1, 0, Map_ContinueSprites
-ObjDat_Continue_Tails_tails_Icons:		subObjMainData2 Obj_Continue_Tails_tails_Icons.main, 0, 0, 16, 16, 5, $D9, 0, 0, Map_ContinueIcons
-ObjDat_Continue_Icons:				subObjMainData2 Obj_Continue_Icons.main, 0, 0, 16, 16, 7, $D9, 0, 0, Map_ContinueIcons
+ObjDat3_919BE:					subObjData FALSE, FALSE, 0, 0, 32, 24, 5, 6, 0
+ObjDat3_919C4:					subObjData FALSE, FALSE, 0, 0, 24, 32, 5, 2, 0
+ObjDat3_919CA:					subObjData FALSE, FALSE, 0, 0, 8, 64, 5, 7, 0
+ObjDat_Continue_Stars:				subObjMainData Draw_Sprite, 0, 0, 16, 16, 7, $8C, 1, 0, Map_ContinueSprites
+ObjDat_Continue_Tails_tails_Icons:		subObjMainData Obj_Continue_Tails_tails_Icons.main, 0, 0, 16, 16, 5, $D9, 0, 0, Map_ContinueIcons
+ObjDat_Continue_Icons:				subObjMainData Obj_Continue_Icons.main, 0, 0, 16, 16, 7, $D9, 0, 0, Map_ContinueIcons
 
 Child6_Continue_Tails_tails_Icons:
 		dc.w 1-1

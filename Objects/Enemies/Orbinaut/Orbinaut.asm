@@ -137,7 +137,7 @@ Obj_Orbinaut_Orb:
 
 ; mapping
 ObjDat_Orbinaut:		subObjData Map_Orb, $55B, 0, 0, 24, 24, 4, 0, $B
-ObjDat3_Orbinaut_Orb:		subObjData3 16, 16, 4, 0, $18|$80
+ObjDat3_Orbinaut_Orb:		subObjData FALSE, FALSE, 0, 0, 16, 16, 4, 0, $18|$80
 
 Child6_Orbinaut_Orb:
 		dc.w 4-1

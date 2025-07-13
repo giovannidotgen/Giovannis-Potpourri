@@ -595,7 +595,10 @@ BossSpikeBall_SpikeBall_LaunchCharacter:
 		lea	(SonicKnux_ChkRoll).l,a3					; Sonic/Knux
 		cmpi.b	#PlayerID_Tails,character_id(a0)				; is player Tails?
 		bne.s	.proll								; if not, branch
-		lea	(Tails_ChkRoll-SonicKnux_ChkRoll)(a3),a3			; Tails
+
+.troll		:= Tails_ChkRoll-SonicKnux_ChkRoll					; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.troll)(a3),a3			; Tails
 
 .proll
 		jsr	(a3)
