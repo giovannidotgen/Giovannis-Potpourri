@@ -1,4 +1,5 @@
 		include "Engine/Settings.asm"					; include assembly options
+		include "Engine/Settings (Giovanni's Potpourri).asm"		; GIO: custom settings for Giovanni's Potpourri		
 		include "Engine/MacroSetup.asm"					; include a few basic macros
 		include "Engine/Macros.asm"					; include some simplifying macros and functions
 		include "Engine/Constants.asm"					; include constants
