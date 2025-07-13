@@ -93,7 +93,7 @@ KnuxAni_Blank:		dc.b 0, $77, 0, $FF
 KnuxAni_Hurt3:		dc.b 0, $13, $D0, $D1, $FF
 KnuxAni_Float3:		dc.b 0, 3, $CF, $C8, $C9, $CA, $CB, $FE, 4
 AniKnux20:		dc.b 0, $1F, $C0, $FF
-KnuxAni_Falling:	dc.b 0, 7, $CA, $CB, $FE, 1
+KnuxAni_Falling:	dc.b 0, 7, $CA, $CB, $FE, 1	; GIO: Do not change this animation's bank from here! Search for calls to "Animate_Knuckles" instead
 AniKnux22:		dc.b 0, $F, $CD, $FD, 0
 AniKnux23:		dc.b 0, $F, $9C, $FD, 0
 AniKnux24:		dc.b 0, 7, $B1, $B3, $B3, $B3, $B3, $B3, $B3, $B2, $B3, $B4, $B3, $FE, 4

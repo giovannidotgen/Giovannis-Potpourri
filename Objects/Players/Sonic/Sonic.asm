@@ -207,7 +207,7 @@ Sonic_Modes: offsetTable
 ;
 ; How to use:
 ; Call the player's respective routine every time before loading its DPLCs.
-; This routine will overwrite address register a3.
+; This routine will overwrite address registers a3 and a4.
 ; DO NOT overwrite a3 before you've finished loading the DPLCs.
 ;
 ; For more information, you may reference routines like Animate_Sonic and
@@ -220,7 +220,7 @@ Sonic_SetSpriteBank:
 		moveq	#0,d0
 		moveq	#0,d1
 		movea.l	#-1,a4
-		lea	(Sonic_MapBankList).l,a3
+		lea	(Sonic_SpriteBankList).l,a3
 		lea	(Player_curr_bank).w,a4
 		
 Player_SetSpriteBank:
@@ -266,7 +266,7 @@ SpriteBankCode_Index:
 ; Mappings data, Art data, DPLC data.
 ; ---------------------------------------------------------------------------
 
-Sonic_MapBankList:
+Sonic_SpriteBankList:
 		dc.l	Map_Sonic,ArtUnc_Sonic,DPLC_Sonic
 		dc.l	Map_SuperSonic,ArtUnc_SuperSonic,DPLC_SuperSonic
 
