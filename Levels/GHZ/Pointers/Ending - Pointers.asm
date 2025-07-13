@@ -26,7 +26,14 @@ LevelLoadPointer_Ending:
 		dc.l AnimateTiles_DoAniPLC						; Animate tiles main code
 		dc.l AniPLC_Ending							; Animate tiles PLC scripts
 
-		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
+		; Art 1st 8x8 data, 2nd 8x8 data
+		; Blocks pointer, 1st 16x16 data, 2nd 16x16 data
+		; Chunks pointer, 1st 128x128 data, 2nd 128x128 data
+		; Layout pointer, 1st data, 2nd data
+		; Solid pointer, 1st data, 2nd data
+		; Objects pointer, 1st data, 2nd data
+		; Rings pointer, 1st data, 2nd data
+		; Palette, Water palette, Music
 		levartptrs \
 		GHZ_8x8_KosPM, \
 		0, \
@@ -36,15 +43,21 @@ LevelLoadPointer_Ending:
 		Chunk_table, \
 		Ending_128x128_KosP, \
 		0, \
+		Ending_Layout_Unc, \
+		0, \
+		0, \
+		GHZ_Solid_Unc, \
+		0, \
+		0, \
+		Ending_Objects_Unc, \
+		0, \
+		0, \
+		0, \
+		0, \
+		0, \
 		PalID_Ending, \
 		PalID_WaterGHZ, \
 		mus_Ending
-
-		; Level data 2
-		dc.l GHZ_Solid								; Level solid
-		dc.l Ending_Layout							; Level layout
-		dc.l Ending_Objects							; Level sprites
-		dc.l 0									; Level rings
 
 		; PLC
 		dc.l -1									; PLC1

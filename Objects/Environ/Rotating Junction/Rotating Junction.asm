@@ -200,7 +200,7 @@ Jun_ChkSwitch:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Junction:	subObjMainData2 Obj_Junction.action, rfCoord+rfMulti, 0, 112, 112, 4, $31B, 2, 0, Map_Jun
+ObjDat_Junction:	subObjMainData Obj_Junction.action, rfCoord+rfMulti, 0, 112, 112, 4, $31B, 2, 0, Map_Jun
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Rotating Junction/Object Data/Map - Rotating Junction.asm"

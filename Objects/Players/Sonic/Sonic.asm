@@ -3306,7 +3306,10 @@ Animate_Sonic:
 		lea	(AniSonic).l,a1			
 		tst.b	(Super_Sonic_Knux_flag).w	; GIO: i am NOT doing that (yet)
 		beq.s	.nots
-		lea	(AniSuperSonic-AniSonic)(a1),a1
+
+.ssani		:= AniSuperSonic-AniSonic						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.ssani)(a1),a1
 
 .nots
 		moveq	#0,d0
@@ -3424,7 +3427,10 @@ loc_1270A:
 		lea	(SonAni_Run).l,a1 						; use running animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12724
-		lea	(SonAni_Walk-SonAni_Run)(a1),a1					; use walking animation
+
+.sani		:= SonAni_Walk-SonAni_Run						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.sani)(a1),a1							; use walking animation
 		add.b	d0,d0
 
 loc_12724:
@@ -3465,7 +3471,10 @@ loc_12766:
 		lea	(SuperSonAni_Run).l,a1
 		cmpi.w	#$800,d2
 		bhs.s	loc_1277E
-		lea	(SuperSonAni_Walk-SuperSonAni_Run)(a1),a1
+
+.sani		:= SuperSonAni_Walk-SuperSonAni_Run					; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.sani)(a1),a1
 		add.b	d0,d0
 		add.b	d0,d0
 		bra.s	loc_12780
@@ -3719,7 +3728,10 @@ loc_12A2A:
 		lea	(SonAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_12A5E
-		lea	(SonAni_Roll-SonAni_Roll2)(a1),a1				; use roll animation
+
+.sani		:= SonAni_Roll-SonAni_Roll2						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.sani)(a1),a1							; use roll animation
 
 loc_12A5E:
 		neg.w	d2
@@ -3754,7 +3766,10 @@ loc_12A8A:
 		lea	(SonAni_Push).l,a1						; use push animation
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	loc_12AA2
-		lea	(SuperSonAni_Push-SonAni_Push)(a1),a1
+
+.sani		:= SuperSonAni_Push-SonAni_Push						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.sani)(a1),a1
 
 loc_12AA2:
 		bra.w	SAnim_Do2

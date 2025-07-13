@@ -3384,12 +3384,18 @@ loc_15960:
 		lea	(TailsAni_Walk).l,a1						; use walking animation
 		cmpi.w	#$600,d2
 		blo.s	loc_1598A
-		lea	(TailsAni_Run-TailsAni_Walk)(a1),a1				; use running animation
+
+.trani		:= TailsAni_Run-TailsAni_Walk						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.trani)(a1),a1							; use running animation
 		move.b	d0,d3
 		add.b	d3,d3
 		cmpi.w	#$700,d2
 		blo.s	loc_1598A
-		lea	(TailsAni_Run2-TailsAni_Run)(a1),a1				; use running 2 animation
+
+.tr2ani		:= TailsAni_Run2-TailsAni_Run						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.tr2ani)(a1),a1						; use running 2 animation
 		move.b	d0,d3
 
 loc_1598A:
@@ -3438,7 +3444,10 @@ loc_159C8:
 		lea	(TailsAni_Roll2).l,a1						; use roll 2 animation
 		cmpi.w	#$600,d2
 		bhs.s	loc_15A00
-		lea	(TailsAni_Roll-TailsAni_Roll2)(a1),a1				; use roll animation
+
+.trani		:= TailsAni_Roll-TailsAni_Roll2						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
+
+		lea	(.trani)(a1),a1							; use roll animation
 
 loc_15A00:
 		neg.w	d2

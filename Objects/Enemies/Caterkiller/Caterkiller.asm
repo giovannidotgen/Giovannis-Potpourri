@@ -335,7 +335,7 @@ Caterkiller_FragHead:									; head
 
 ; mapping
 ObjDat_Caterkiller:		subObjData Map_Cat, $552, 1, 0, 32, 16, 4, 0, $B
-ObjDat3_Caterkiller_BodySeg:	subObjData3 32, 16, 5, 8, $B|$C0
+ObjDat3_Caterkiller_BodySeg:	subObjData FALSE, FALSE, 0, 0, 32, 16, 5, 8, $B|$C0
 
 Child8_Caterkiller_FragBody:
 		dc.w 3-1

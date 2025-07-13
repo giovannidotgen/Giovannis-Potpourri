@@ -90,7 +90,7 @@ Obj_GrassFire_Fire:
 
 ; mapping
 ObjDat_GrassFire:		subObjData Map_Fire, $298, 0, 0, 16, 16, 1, 0, $B|$80
-ObjDat3_GrassFire_Fire:		subObjData3 16, 16, 1, 0, $B|$80
+ObjDat3_GrassFire_Fire:		subObjData FALSE, FALSE, 0, 0, 16, 16, 1, 0, $B|$80
 
 Child6_GrassFire_Fire:
 		dc.w 1-1

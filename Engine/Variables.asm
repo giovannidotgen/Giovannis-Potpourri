@@ -309,8 +309,6 @@ Water_full_screen_flag:					ds.b 1						; set if water covers the entire screen 
 Water_flag:						ds.b 1
 
 ; program pointers variables
-Block_table_addr_ROM:					ds.l 1						; block table pointer(Block (16x16) definitions, 8 bytes per definition)
-Level_chunk_addr_ROM:					ds.l 1						; chunk pointer
 Level_layout_addr_ROM:					ds.l 1						; level layout pointer
 Level_layout_addr2_ROM:					ds.l 1						; level layout pointer 2 (+8)
 Rings_manager_addr_RAM:					ds.l 1						; jump for the ring loading manager
@@ -342,10 +340,18 @@ Level_data_addr_RAM:					= *
 .128x128RAM						ds.l 1
 .128x128Data1						ds.l 1
 .128x128Data2						ds.l 1
-.Solid							ds.l 1
-.Layout							ds.l 1
-.Sprites						ds.l 1
-.Rings							ds.l 1
+.LayoutRAM						ds.l 1
+.LayoutData1						ds.l 1
+.LayoutData2						ds.l 1
+.SolidRAM						ds.l 1
+.SolidData1						ds.l 1
+.SolidData2						ds.l 1
+.ObjectsRAM						ds.l 1
+.ObjectsData1						ds.l 1
+.ObjectsData2						ds.l 1
+.RingsRAM						ds.l 1
+.RingsData1						ds.l 1
+.RingsData2						ds.l 1
 .PLC1							ds.l 1
 .PLC2							ds.l 1
 .PLCAnimals						ds.l 1

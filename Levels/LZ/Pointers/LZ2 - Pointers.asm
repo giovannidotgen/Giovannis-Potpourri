@@ -22,7 +22,14 @@
 		dc.l AnimateTiles_LZ							; Animate tiles main code
 		dc.l -1										; Animate tiles PLC scripts
 
-		; Level 1st 8x8 data, 2nd 8x8 data, Blocks pointer, 1st 16x16 data, 2nd 16x16 data, Chunks pointer, 1st 128x128 data, 2nd 128x128 data, Palette, Water palette, Music
+		; Art 1st 8x8 data, 2nd 8x8 data
+		; Blocks pointer, 1st 16x16 data, 2nd 16x16 data
+		; Chunks pointer, 1st 128x128 data, 2nd 128x128 data
+		; Layout pointer, 1st data, 2nd data
+		; Solid pointer, 1st data, 2nd data
+		; Objects pointer, 1st data, 2nd data
+		; Rings pointer, 1st data, 2nd data
+		; Palette, Water palette, Music
 		levartptrs \
 		LZ_8x8_KosPM, \
 		0, \
@@ -32,15 +39,21 @@
 		Chunk_table, \
 		LZ2_128x128_KosP, \
 		0, \
+		LZ2_Layout_Unc, \
+		0, \
+		0, \
+		LZ_Solid_Unc, \
+		0, \
+		0, \
+		LZ2_Objects_Unc, \
+		0, \
+		0, \
+		LZ2_Rings_Unc, \
+		0, \
+		0, \
 		PalID_LZ, \
 		PalID_WaterLZ, \
 		mus_LZ
-
-		; Level data 2
-		dc.l LZ_Solid									; Level solid
-		dc.l LZ2_Layout								; Level layout
-		dc.l LZ2_Objects								; Level sprites
-		dc.l LZ2_Rings								; Level rings
 
 		; PLC
 		dc.l PLC1_LZ2_Before							; PLC1

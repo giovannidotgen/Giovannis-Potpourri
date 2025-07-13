@@ -187,7 +187,7 @@ loc_B5EE:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_GlassBlock:		subObjMainData2 Obj_GlassBlock.block012, rfCoord+rfMulti, 0, 144, 64, 2, $300, 2, 1, Map_Glass
+ObjDat_GlassBlock:		subObjMainData Obj_GlassBlock.block012, rfCoord+rfMulti, 0, 144, 64, 2, $300, 2, 1, Map_Glass
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Glass Block/Object Data/Map - Glass Block.asm"
