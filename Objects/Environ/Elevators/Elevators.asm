@@ -68,8 +68,14 @@ Obj_Elevator:
 
 		; init
 		move.l	#Map_Elev,mappings(a0)
-		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
-		move.l	#words_to_long(priority_4,make_art_tile(0,2,0)),priority(a0)	; set priority and art_tile
+		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+
+		; set priority and art_tile
+		move.l	#words_to_long( \
+		priority_4, \
+			make_art_tile(0,2,0) \
+		),priority(a0)
+
 		move.w	x_pos(a0),elev_origX(a0)
 		move.w	y_pos(a0),elev_origY(a0)
 		move.l	#.main,address(a0)						; goto Elev_Platform next

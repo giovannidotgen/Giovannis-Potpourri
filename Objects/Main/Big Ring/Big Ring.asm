@@ -184,7 +184,7 @@ Obj_BigRing_Flash:
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
 		blo.s	.draw
-		bset	#0,render_flags(a1)						; set direction based on where player approached
+		bset	#render_flags.x_flip,render_flags(a1)						; set direction based on where player approached
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 

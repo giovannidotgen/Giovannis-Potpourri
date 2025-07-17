@@ -44,7 +44,7 @@ loc_23A8E:
 		moveq	#0,d0
 		move.b	objoff_36(a0),d0
 		move.w	d0,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	loc_23AA4
 		neg.w	d0
 
@@ -76,7 +76,7 @@ loc_23A5E:
 		moveq	#0,d0
 		move.b	objoff_36(a0),d0
 		move.w	d0,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		bne.s	loc_23A74
 		neg.w	d0
 

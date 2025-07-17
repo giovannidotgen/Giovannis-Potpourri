@@ -13,22 +13,22 @@ stair_origY			= objoff_46 ; original y-axis position (2 bytes)
 Obj_Staircase:
 
 		; init
-		ori.b	#rfCoord+rfStatic,render_flags(a0)				; set static mapping and screen coordinates flag
+		ori.b	#setBit(render_flags.level)|setBit(render_flags.static_mappings),render_flags(a0)				; set static mapping and screen coordinates flag
 		moveq	#7,d0
 		and.b	subtype(a0),d0
 		cmpi.w	#4,d0
 		blo.s	.skip
-		bchg	#0,render_flags(a0)
+		bchg	#render_flags.x_flip,render_flags(a0)
 
 .skip
-		btst	#1,render_flags(a0)
+		btst	#render_flags.y_flip,render_flags(a0)
 		beq.s	.notflipy
-		bchg	#0,render_flags(a0)
+		bchg	#render_flags.x_flip,render_flags(a0)
 
 .notflipy
 		moveq	#$34,d3
 		moveq	#2,d4
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.notflipx
 		moveq	#$3A,d3
 		moveq	#-2,d4

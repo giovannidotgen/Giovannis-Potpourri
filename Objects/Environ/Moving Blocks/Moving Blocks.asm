@@ -23,7 +23,7 @@ Obj_MovingBlock:
 		; init
 		move.l	#Map_MBlock,d2
 		move.w	#make_art_tile($562,2,0),d1
-		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
 		moveq	#48/2,d0							; height and y_radius
 
 		; check level
@@ -31,7 +31,7 @@ Obj_MovingBlock:
 		bne.s	.notLZ								; if not, branch
 		move.l	#Map_MBlockLZ,d2						; LZ specific code
 		move.w	#make_art_tile($3BC,2,0),d1
-		bset	#rbStatic,render_flags(a0)					; set static mapping flag
+		bset	#render_flags.static_mappings,render_flags(a0)					; set static mapping flag
 		moveq	#14/2,d0							; height and y_radius
 
 .notLZ
@@ -114,7 +114,7 @@ MBlock_TypeIndex: offsetTable
 MBlock_Type01:
 		move.b	(Oscillating_Data+$C).w,d0
 		moveq	#$60,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	loc_FF26
 		neg.w	d0
 		add.w	d1,d0
@@ -199,7 +199,7 @@ MBlock_07_ChkDel:
 MBlock_Type08:
 		move.b	(Oscillating_Data+$1C).w,d0
 		move.w	#$80,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	loc_FFE2
 		neg.w	d0
 		add.w	d1,d0
@@ -216,7 +216,7 @@ MBlock_Type0A:
 		move.b	width_pixels(a0),d3
 		add.w	d3,d3
 		moveq	#8,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	loc_10004
 		neg.w	d1
 		neg.w	d3

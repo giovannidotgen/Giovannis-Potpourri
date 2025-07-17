@@ -14,7 +14,7 @@ Obj_GrassFire:
 		lea	ObjDat_GrassFire(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		sfx	sfx_Burning
-		bset	#Status_FireShield,shield_reaction(a0)
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.w	x_pos(a0),gfire_origX(a0)
 		move.l	#.main,address(a0)
 
@@ -61,7 +61,7 @@ Obj_GrassFire_Fire:
 		; init
 		lea	ObjDat3_GrassFire_Fire(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
-		bset	#Status_FireShield,shield_reaction(a0)
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.l	#.main,address(a0)
 
 .main
