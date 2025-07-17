@@ -22,7 +22,7 @@ Obj_SuperTailsBirds:
 		moveq	#0,d0
 		moveq	#4-1,d1
 
-.loop:
+.loop
 		move.l	#Obj_SuperTailsBirds_Init,address(a1)
 		move.b	d0,superTailsBirds_angle(a1)
 		addi.b	#256/4,d0							; 90 degrees

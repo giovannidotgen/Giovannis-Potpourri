@@ -129,13 +129,13 @@ LCon_CheckDelete:
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
-.loc_1236A:
+.loc_1236A
 		cmpi.b	#2,(Current_act).w						; check if act is 3
 		bne.s	.loc_12378							; if not, branch
 		cmpi.w	#-$80,d0
 		bhs.s	.draw
 
-.loc_12378:
+.loc_12378
 		move.b	conv_subtype(a0),d0
 		bpl.s	.offscreen
 		andi.w	#$7F,d0

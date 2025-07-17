@@ -451,7 +451,7 @@ Knuckles_Glide:
 		bpl.s	.skip1
 		bset	#status.player.x_flip,status(a0)
 
-.skip1:
+.skip1
 		; divide Knuckles' X velocity by 4.
 		asr.w	x_vel(a0)
 		asr.w	x_vel(a0)

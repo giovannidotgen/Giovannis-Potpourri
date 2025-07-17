@@ -46,6 +46,7 @@ Obj_GrassFire:
 		lea	Child6_GrassFire_Fire(pc),a2
 		jsr	(CreateChild6_Simple).w
 		bne.s	Obj_GrassFire_Fire.anim
+		move.b	shield_reaction(a0),shield_reaction(a1)
 		move.w	parent3(a0),parent3(a1)
 		move.w	d3,gfire_origY(a1)
 		bra.s	Obj_GrassFire_Fire.anim
@@ -61,7 +62,6 @@ Obj_GrassFire_Fire:
 		; init
 		lea	ObjDat3_GrassFire_Fire(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
-		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.l	#.main,address(a0)
 
 .main

@@ -27,9 +27,9 @@ Obj_Elevator:
 		rts
 ; ---------------------------------------------------------------------------
 
-.Elev_Var1:
+.Elev_Var1
 		dc.b 80/2, 0		; width, frame number
-.Elev_Var2:
+.Elev_Var2
 		dc.b $10, 1	; 0	; distance to move, action type
 		dc.b $20, 1	; 1
 		dc.b $34, 1	; 2

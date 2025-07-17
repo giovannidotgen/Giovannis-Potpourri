@@ -22,7 +22,7 @@ Obj_Orbinaut:
 		beq.s	.noflip								; if not, branch
 		neg.b	d0
 
-.noflip:
+.noflip
 		move.b	d0,orb_rotation(a0)
 
 		; init
