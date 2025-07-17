@@ -81,8 +81,8 @@ Obj_Junction:
 		clr.l	x_vel(a1)
 		move.w	#$800,ground_vel(a1)
 		move.b	#1,object_control(a1)						; lock controls
-		bclr	#status.player.pushing,status(a1)						; clear character push bit
-		bset	#status.player.in_air,status(a1)					; set character in air bit
+		bclr	#status.player.pushing,status(a1)				; clear character push bit
+		bset	#status.player.in_air,status(a1)				; set character in air bit
 		clr.b	jumping(a1)							; clear character jumping flag
 		clr.b	double_jump_flag(a1)						; clear character double jumping flag
 		clr.b	spin_dash_flag(a1)						; clear spin dash flag

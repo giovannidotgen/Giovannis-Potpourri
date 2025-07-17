@@ -146,19 +146,19 @@ Obj_FloatingBlock:
 ; =============== S U B R O U T I N E =======================================
 
 BlocksDoors_TypeIndex: offsetTable
-		offsetTableEntry.w .type01	; 1
-		offsetTableEntry.w .type02	; 2
-		offsetTableEntry.w .type03	; 3
-		offsetTableEntry.w .type04	; 4
-		offsetTableEntry.w .type05	; 5
-		offsetTableEntry.w .type06	; 6
-		offsetTableEntry.w .type07	; 7
-		offsetTableEntry.w .type08	; 8
-		offsetTableEntry.w .type09	; 9
-		offsetTableEntry.w .type0A	; A
-		offsetTableEntry.w .type0B	; B
-		offsetTableEntry.w .type0C	; C
-		offsetTableEntry.w .type0D	; D
+		offsetTableEntry.w .type01						; 1
+		offsetTableEntry.w .type02						; 2
+		offsetTableEntry.w .type03						; 3
+		offsetTableEntry.w .type04						; 4
+		offsetTableEntry.w .type05						; 5
+		offsetTableEntry.w .type06						; 6
+		offsetTableEntry.w .type07						; 7
+		offsetTableEntry.w .type08						; 8
+		offsetTableEntry.w .type09						; 9
+		offsetTableEntry.w .type0A						; A
+		offsetTableEntry.w .type0B						; B
+		offsetTableEntry.w .type0C						; C
+		offsetTableEntry.w .type0D						; D
 ; ---------------------------------------------------------------------------
 
 .type01

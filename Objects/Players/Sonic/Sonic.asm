@@ -67,7 +67,7 @@ Sonic_Init:										; Routine 0
 		move.w	y_radius(a0),default_y_radius(a0)				; set default_y_radius and default_x_radius
 		move.l	#Map_Sonic,mappings(a0)
 		move.l	#bytes_word_to_long(48/2,48/2,priority_2),height_pixels(a0)	; set height, width and priority
-		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		clr.b	character_id(a0)						; PlayerID_Sonic
 		move.w	#$600,Max_speed-Max_speed(a4)
 		move.w	#$C,Acceleration-Max_speed(a4)
@@ -237,7 +237,7 @@ Sonic_RmvInvin:
 		bclr	#status_secondary.invincible,status_secondary(a0)
 
 Sonic_ChkShoes:										; checks if Speed Shoes have expired and disables them if they have.
-		btst	#status_secondary.speed_shoes,status_secondary(a0)				; does Sonic have speed shoes?
+		btst	#status_secondary.speed_shoes,status_secondary(a0)		; does Sonic have speed shoes?
 		beq.s	Sonic_ExitChk							; if so, branch
 		tst.b	speed_shoes_timer(a0)
 		beq.s	Sonic_ExitChk
@@ -331,7 +331,7 @@ Sonic_InWater:
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0							; is Sonic above the water?
 		bge.s	Sonic_OutWater							; if yes, branch
-		bset	#status.player.underwater,status(a0)					; set underwater flag
+		bset	#status.player.underwater,status(a0)				; set underwater flag
 		bne.s	locret_10E2C							; if already underwater, branch
 		addq.b	#1,(Water_entered_counter).w
 		movea.w	a0,a1
@@ -361,7 +361,7 @@ Sonic_InWater:
 ; ---------------------------------------------------------------------------
 
 Sonic_OutWater:
-		bclr	#status.player.underwater,status(a0)					; unset underwater flag
+		bclr	#status.player.underwater,status(a0)				; unset underwater flag
 		beq.s	locret_10E2C							; if already above water, branch
 		addq.b	#1,(Water_entered_counter).w
 
@@ -474,7 +474,7 @@ Sonic_MdAir:
 		bsr.w	Sonic_ChgJumpDir
 		bsr.w	Player_LevelBound
 		jsr	(MoveSprite_TestGravity).w
-		btst	#status.player.underwater,status(a0)					; is Sonic underwater?
+		btst	#status.player.underwater,status(a0)				; is Sonic underwater?
 		beq.s	loc_10FD6							; if not, branch
 		subi.w	#$28,y_vel(a0)							; reduce gravity by $28 ($38-$28=$10)
 
@@ -547,7 +547,7 @@ Sonic_MdJump:
 		bsr.w	Sonic_ChgJumpDir
 		bsr.w	Player_LevelBound
 		jsr	(MoveSprite_TestGravity).w
-		btst	#status.player.underwater,status(a0)					; is Sonic underwater?
+		btst	#status.player.underwater,status(a0)				; is Sonic underwater?
 		beq.s	loc_11056							; if not, branch
 		subi.w	#$28,y_vel(a0)							; reduce gravity by $28 ($38-$28=$10)
 
@@ -567,9 +567,9 @@ loc_11056:
 ; ---------------------------------------------------------------------------
 
 Sonic_ChgFallAnim:
-		btst	#status.player.rolling,status(a0)						; is Sonic rolling?
+		btst	#status.player.rolling,status(a0)				; is Sonic rolling?
 		bne.s	.return								; if yes, branch
-		btst	#status.player.on_object,status(a0)					; is Sonic standing on an object?
+		btst	#status.player.on_object,status(a0)				; is Sonic standing on an object?
 		bne.s	.return								; if yes, branch
 		tst.b	flip_angle(a0)							; flip angle?
 		bne.s	.return								; if yes, branch
@@ -666,7 +666,7 @@ SuperSonic_Balance:
 ; balancing checks for when you're on the right edge of an object
 
 Sonic_BalanceOnObjRight:
-		btst	#status.player.x_flip,status(a0)					; is Sonic facing right?
+		btst	#status.player.x_flip,status(a0)				; is Sonic facing right?
 		bne.s	loc_11128							; if so, branch
 		move.b	#AniIDSonAni_Balance,anim(a0)					; balance animation 1
 		addq.w	#6,d2								; extend balance range
@@ -691,7 +691,7 @@ loc_11128:
 ; ---------------------------------------------------------------------------
 
 Sonic_BalanceOnObjLeft:
-		btst	#status.player.x_flip,status(a0)					; is Sonic facing right?
+		btst	#status.player.x_flip,status(a0)				; is Sonic facing right?
 		beq.s	loc_11166
 		move.b	#AniIDSonAni_Balance,anim(a0)					; balance animation 1
 		cmpi.w	#-4,d1								; is Sonic within (two units before and) four units past the left edge?
@@ -702,7 +702,7 @@ loc_11166:	; +
 		; somewhat dummied out/redundant code from Sonic 2
 		; originally, Sonic displayed different animations for each direction faced
 		; but now, Sonic uses only the one set of animations no matter what, making the check pointless, and the code redundant
-		bset	#status.player.x_flip,status(a0)					; is Sonic facing right?
+		bset	#status.player.x_flip,status(a0)				; is Sonic facing right?
 		move.b	#AniIDSonAni_Balance,anim(a0)					; balance animation 1
 		cmpi.w	#-4,d1								; is Sonic within (two units before and) four units past the left edge?
 		bge.w	loc_112EA							; if so branch (instruction signed to match)
@@ -1420,7 +1420,7 @@ SonicKnux_Roll:
 		cmpi.w	#$100,d0							; is Sonic moving at $100 speed or faster?
 		bhs.s	SonicKnux_ChkRoll						; if so, branch
 
-;		btst	#status.player.on_object,status(a0)					; is Sonic/Knux stand on object?
+;		btst	#status.player.on_object,status(a0)				; is Sonic/Knux stand on object?
 ;		bne.s	locret_1177E							; if yes, branch
 
 		move.b	#AniIDSonAni_Duck,anim(a0)					; enter ducking animation
@@ -1437,7 +1437,7 @@ SonicKnux_ChkWalk:
 ; ---------------------------------------------------------------------------
 
 SonicKnux_ChkRoll:
-		btst	#status.player.rolling,status(a0)						; is Sonic already rolling?
+		btst	#status.player.rolling,status(a0)				; is Sonic already rolling?
 		beq.s	SonicKnux_DoRoll						; if not, branch
 		rts
 ; ---------------------------------------------------------------------------
@@ -1497,7 +1497,7 @@ loc_117FC:
 		move.w	#$800,d2							; set higher jump speed if super
 
 loc_11822:
-		btst	#status.player.underwater,status(a0)					; test if underwater
+		btst	#status.player.underwater,status(a0)				; test if underwater
 		beq.s	loc_1182E
 		move.w	#$380,d2							; set lower jump speed if under
 
@@ -1544,7 +1544,7 @@ Sonic_JumpHeight:
 
 		; check
 		move.w	#-$400,d1
-		btst	#status.player.underwater,status(a0)					; is Sonic underwater?
+		btst	#status.player.underwater,status(a0)				; is Sonic underwater?
 		beq.s	loc_118D2							; if not, branch
 		move.w	#-$200,d1							; underwater-specific
 
@@ -1585,14 +1585,14 @@ Sonic_InstaAndShieldMoves:
 ; ---------------------------------------------------------------------------
 
 Sonic_FireShield:
-		btst	#status_secondary.invincible,status_secondary(a0)				; first, does Sonic have invincibility?
+		btst	#status_secondary.invincible,status_secondary(a0)		; first, does Sonic have invincibility?
 		bne.s	locret_118FE							; if yes, branch
-		btst	#status_secondary.fire_shield,status_secondary(a0)				; does Sonic have a Fire Shield?
+		btst	#status_secondary.fire_shield,status_secondary(a0)		; does Sonic have a Fire Shield?
 		beq.s	Sonic_LightningShield						; if not, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
 		move.w	#$800,d0
-		btst	#status.player.x_flip,status(a0)					; is Sonic facing left?
+		btst	#status.player.x_flip,status(a0)				; is Sonic facing left?
 		beq.s	loc_11958							; if not, branch
 		neg.w	d0								; reverse speed value, moving Sonic left
 
@@ -1606,7 +1606,7 @@ loc_11958:
 ; ---------------------------------------------------------------------------
 
 Sonic_LightningShield:
-		btst	#status_secondary.lightning_shield,status_secondary(a0)				; does Sonic have a Lightning Shield?
+		btst	#status_secondary.lightning_shield,status_secondary(a0)		; does Sonic have a Lightning Shield?
 		beq.s	Sonic_BubbleShield						; if not, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
@@ -1616,7 +1616,7 @@ Sonic_LightningShield:
 ; ---------------------------------------------------------------------------
 
 Sonic_BubbleShield:
-		btst	#status_secondary.bubble_shield,status_secondary(a0)				; does Sonic have a Bubble Shield
+		btst	#status_secondary.bubble_shield,status_secondary(a0)		; does Sonic have a Bubble Shield
 		beq.s	Sonic_CheckTransform						; if not, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
@@ -1646,7 +1646,7 @@ Sonic_CheckTransform:
 		endif
 
 Sonic_InstaShield:
-		btst	#status_secondary.shield,status_secondary(a0)				; does Sonic have an S2 shield (The Elementals were already filtered out at this point)?
+		btst	#status_secondary.shield,status_secondary(a0)			; does Sonic have an S2 shield (The Elementals were already filtered out at this point)?
 		bne.s	locret_11A14							; if yes, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
@@ -1722,7 +1722,7 @@ Sonic_HyperDash:
 
 		; if there's no directional input, we just dash forward
 		move.w	#$800,d0							; go right...
-		btst	#status.player.x_flip,status(a0)					; ...unless Sonic is facing left...
+		btst	#status.player.x_flip,status(a0)				; ...unless Sonic is facing left...
 		beq.s	.applySpeeds
 		neg.w	d0								; ...in which case, go left
 
@@ -2519,7 +2519,7 @@ loc_121D8:
 		beq.s	locret_12230
 		tst.b	(Super_Sonic_Knux_flag).w
 		bne.s	loc_1222A
-		btst	#status_secondary.invincible,status_secondary(a0)				; don't bounce when invincible
+		btst	#status_secondary.invincible,status_secondary(a0)		; don't bounce when invincible
 		bne.s	loc_1222A
 		btst	#status_secondary.bubble_shield,status_secondary(a0)
 		beq.s	loc_1222A
@@ -2536,7 +2536,7 @@ locret_12230:
 BubbleShield_Bounce:
 		movem.l	d1-d2,-(sp)
 		move.w	#$780,d2
-		btst	#status.player.underwater,status(a0)					; is Sonic underwater?
+		btst	#status.player.underwater,status(a0)				; is Sonic underwater?
 		beq.s	.isdry								; if not, branch
 		move.w	#$400,d2
 
@@ -2631,7 +2631,7 @@ loc_12344:
 		movem.l	a4-a6,-(sp)
 		bsr.w	SonicKnux_DoLevelCollision
 		movem.l	(sp)+,a4-a6
-		btst	#status.player.in_air,status(a0)					; is the player in the air?
+		btst	#status.player.in_air,status(a0)				; is the player in the air?
 		bne.s	locret_12388							; if yes, branch
 		moveq	#0,d0
 		move.l	d0,x_vel(a0)

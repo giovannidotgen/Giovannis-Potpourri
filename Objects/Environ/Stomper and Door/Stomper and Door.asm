@@ -66,7 +66,7 @@ Obj_ScrapStomp:
 ; ---------------------------------------------------------------------------
 
 .isSBZ12
-		ori.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.w	#priority_4,priority(a0)
 		move.w	x_pos(a0),sto_origX(a0)
 		move.w	y_pos(a0),sto_origY(a0)
@@ -129,11 +129,11 @@ Obj_ScrapStomp:
 ; =============== S U B R O U T I N E =======================================
 
 ScrapStomp_TypeIndex: offsetTable
-		offsetTableEntry.w .type01	; 1
-		offsetTableEntry.w .type02	; 2
-		offsetTableEntry.w .type03	; 3
-		offsetTableEntry.w .type04	; 4
-		offsetTableEntry.w .type05	; 5
+		offsetTableEntry.w .type01						; 1
+		offsetTableEntry.w .type02						; 2
+		offsetTableEntry.w .type03						; 3
+		offsetTableEntry.w .type04						; 4
+		offsetTableEntry.w .type05						; 5
 ; ---------------------------------------------------------------------------
 
 .type01

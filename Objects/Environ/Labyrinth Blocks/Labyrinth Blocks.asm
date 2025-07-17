@@ -105,13 +105,13 @@ sub_12180:
 ; =============== S U B R O U T I N E =======================================
 
 LabyrinthBlock_TypeIndex: offsetTable
-		offsetTableEntry.w .type01	; 1
-		offsetTableEntry.w .type02	; 2
-		offsetTableEntry.w .type03	; 3
-		offsetTableEntry.w .type04	; 4
-		offsetTableEntry.w .type05	; 5
-		offsetTableEntry.w .type06	; 6
-		offsetTableEntry.w .type07	; 7
+		offsetTableEntry.w .type01						; 1
+		offsetTableEntry.w .type02						; 2
+		offsetTableEntry.w .type03						; 3
+		offsetTableEntry.w .type04						; 4
+		offsetTableEntry.w .type05						; 5
+		offsetTableEntry.w .type06						; 6
+		offsetTableEntry.w .type07						; 7
 ; ---------------------------------------------------------------------------
 
 .type01

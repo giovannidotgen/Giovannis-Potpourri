@@ -114,15 +114,15 @@ Obj_LavaBall:
 ; ---------------------------------------------------------------------------
 
 LBall_TypeIndex: offsetTable
-		offsetTableEntry.w LBall_Type00		; 0
-		offsetTableEntry.w LBall_Type00		; 1
-		offsetTableEntry.w LBall_Type00		; 2
-		offsetTableEntry.w LBall_Type00		; 3
-		offsetTableEntry.w LBall_Type04		; 4
-		offsetTableEntry.w LBall_Type05		; 5
-		offsetTableEntry.w LBall_Type06		; 6
-		offsetTableEntry.w LBall_Type07		; 7
-		offsetTableEntry.w LBall_Type08		; 8
+		offsetTableEntry.w LBall_Type00						; 0
+		offsetTableEntry.w LBall_Type00						; 1
+		offsetTableEntry.w LBall_Type00						; 2
+		offsetTableEntry.w LBall_Type00						; 3
+		offsetTableEntry.w LBall_Type04						; 4
+		offsetTableEntry.w LBall_Type05						; 5
+		offsetTableEntry.w LBall_Type06						; 6
+		offsetTableEntry.w LBall_Type07						; 7
+		offsetTableEntry.w LBall_Type08						; 8
 ; ---------------------------------------------------------------------------
 ; lavaball types 00-03 fly up and fall back down
 

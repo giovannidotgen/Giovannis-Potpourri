@@ -30,13 +30,13 @@ Obj_RetractingSpring:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	sub_23A04		; 0
-		bra.s	sub_23A20		; 2
-		bra.s	sub_23A3C		; 4
-		bra.s	sub_23A58		; 6
+		bra.s	sub_23A04							; 0
+		bra.s	sub_23A20							; 2
+		bra.s	sub_23A3C							; 4
+		bra.s	sub_23A58							; 6
 ; ---------------------------------------------------------------------------
 
-						; 8
+											; 8
 		move.l	#loc_23A8E,address(a0)
 
 loc_23A8E:

@@ -13,7 +13,7 @@ stair_origY			= objoff_46 ; original y-axis position (2 bytes)
 Obj_Staircase:
 
 		; init
-		ori.b	#setBit(render_flags.level)|setBit(render_flags.static_mappings),render_flags(a0)				; set static mapping and screen coordinates flag
+		ori.b	#setBit(render_flags.level)|setBit(render_flags.static_mappings),render_flags(a0)	; set static mapping and screen coordinates flag
 		moveq	#7,d0
 		and.b	subtype(a0),d0
 		cmpi.w	#4,d0
@@ -111,14 +111,14 @@ Obj_Staircase:
 ; ---------------------------------------------------------------------------
 
 Stair_TypeIndex: offsetTable
-		offsetTableEntry.w Stair_Type00		; 0
-		offsetTableEntry.w Stair_Type01		; 1
-		offsetTableEntry.w Stair_Type02		; 2
-		offsetTableEntry.w Stair_Type01		; 3
-		offsetTableEntry.w Stair_Type00		; 4
-		offsetTableEntry.w Stair_Type03		; 5
-		offsetTableEntry.w Stair_Type02		; 6
-		offsetTableEntry.w Stair_Type03		; 7
+		offsetTableEntry.w Stair_Type00						; 0
+		offsetTableEntry.w Stair_Type01						; 1
+		offsetTableEntry.w Stair_Type02						; 2
+		offsetTableEntry.w Stair_Type01						; 3
+		offsetTableEntry.w Stair_Type00						; 4
+		offsetTableEntry.w Stair_Type03						; 5
+		offsetTableEntry.w Stair_Type02						; 6
+		offsetTableEntry.w Stair_Type03						; 7
 ; ---------------------------------------------------------------------------
 
 Stair_Type00:

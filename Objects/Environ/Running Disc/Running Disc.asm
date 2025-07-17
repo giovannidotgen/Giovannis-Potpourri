@@ -100,7 +100,7 @@ Disc_MovePlayer:
 		add.w	d2,d1
 		cmp.w	d3,d1
 		bhs.s	.loc_3291A
-		btst	#status.player.in_air,status(a1)					; is the player in the air?
+		btst	#status.player.in_air,status(a1)				; is the player in the air?
 		beq.s	.loc_32926							; if not, branch
 		clr.b	(a2)
 		rts

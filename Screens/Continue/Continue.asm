@@ -280,7 +280,7 @@ Obj_Continue_SonicWTails:
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
-.aniraw				; frame, flipx flag
+.aniraw		; frame, flipx flag
 		dc.b $5A, 1
 		dc.b $59, 1
 		dc.b $55, 0

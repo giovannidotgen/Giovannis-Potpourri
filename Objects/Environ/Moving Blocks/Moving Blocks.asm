@@ -23,7 +23,7 @@ Obj_MovingBlock:
 		; init
 		move.l	#Map_MBlock,d2
 		move.w	#make_art_tile($562,2,0),d1
-		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		moveq	#48/2,d0							; height and y_radius
 
 		; check level
@@ -31,7 +31,7 @@ Obj_MovingBlock:
 		bne.s	.notLZ								; if not, branch
 		move.l	#Map_MBlockLZ,d2						; LZ specific code
 		move.w	#make_art_tile($3BC,2,0),d1
-		bset	#render_flags.static_mappings,render_flags(a0)					; set static mapping flag
+		bset	#render_flags.static_mappings,render_flags(a0)			; set static mapping flag
 		moveq	#14/2,d0							; height and y_radius
 
 .notLZ
@@ -92,23 +92,23 @@ Obj_MovingBlock:
 ; =============== S U B R O U T I N E =======================================
 
 MBlock_TypeIndex: offsetTable
-		offsetTableEntry.w MBlock_Type01	; 1
-		offsetTableEntry.w MBlock_Type02	; 2
-		offsetTableEntry.w MBlock_Type03	; 3
-		offsetTableEntry.w MBlock_Type02	; 4
-		offsetTableEntry.w MBlock_Type05	; 5
-		offsetTableEntry.w MBlock_Type06	; 6
-		offsetTableEntry.w MBlock_Type07	; 7
-		offsetTableEntry.w MBlock_Type08	; 8
-		offsetTableEntry.w MBlock_Type02	; 9
-		offsetTableEntry.w MBlock_Type0A	; A
+		offsetTableEntry.w MBlock_Type01					; 1
+		offsetTableEntry.w MBlock_Type02					; 2
+		offsetTableEntry.w MBlock_Type03					; 3
+		offsetTableEntry.w MBlock_Type02					; 4
+		offsetTableEntry.w MBlock_Type05					; 5
+		offsetTableEntry.w MBlock_Type06					; 6
+		offsetTableEntry.w MBlock_Type07					; 7
+		offsetTableEntry.w MBlock_Type08					; 8
+		offsetTableEntry.w MBlock_Type02					; 9
+		offsetTableEntry.w MBlock_Type0A					; A
 
 		; extra
-		offsetTableEntry.w MBlock_Type02	; B (move and sinking)
-		offsetTableEntry.w MBlock_Type05	; C
-		offsetTableEntry.w MBlock_Type0D	; D
-		offsetTableEntry.w MBlock_Type02	; E (move and sinking extra)
-		offsetTableEntry.w MBlock_Type0F	; F
+		offsetTableEntry.w MBlock_Type02					; B (move and sinking)
+		offsetTableEntry.w MBlock_Type05					; C
+		offsetTableEntry.w MBlock_Type0D					; D
+		offsetTableEntry.w MBlock_Type02					; E (move and sinking extra)
+		offsetTableEntry.w MBlock_Type0F					; F
 ; ---------------------------------------------------------------------------
 
 MBlock_Type01:

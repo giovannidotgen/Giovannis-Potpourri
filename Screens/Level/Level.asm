@@ -397,7 +397,13 @@ SpawnLevelMainSprites_SpawnPlayers:
 SpawnLevelMainSprites_SpawnPowerup:
 
 		; check status
-		moveq	#$71,d1
+		moveq	#signextendB( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),d1
+
 		move.b	(Saved_status_secondary).w,d0
 		clr.b	(Saved_status_secondary).w
 		and.b	d1,d0

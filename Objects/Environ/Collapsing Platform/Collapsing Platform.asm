@@ -16,7 +16,7 @@ Obj_CollapsingPlatform:
 		move.w	#make_art_tile(0,2,0),art_tile(a0)
 		move.l	#CFlo_Data1,objoff_30(a0)
 		move.l	#CPlat_Data,objoff_3C(a0)
-		ori.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(112/2,200/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cplat_timedelay(a0)
 		move.b	subtype(a0),mapping_frame(a0)
@@ -101,7 +101,7 @@ ObjPlatformCollapse_SmashObject:
 		adda.w	(a3,d0.w),a3
 		move.w	(a3)+,d1
 		subq.w	#1,d1
-		bset	#render_flags.static_mappings,render_flags(a0)					; set flag to "static mappings flag"
+		bset	#render_flags.static_mappings,render_flags(a0)			; set flag to "static mappings flag"
 		move.b	render_flags(a0),d5						; get render type
 		movea.w	a0,a1								; load current object to a1
 

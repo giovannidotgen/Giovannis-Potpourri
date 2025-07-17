@@ -21,7 +21,7 @@ Obj_FloatingPlatform:
 
 .notSLZ
 		move.l	d0,mappings(a0)
-		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(34/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	x_pos(a0),objoff_32(a0)
@@ -77,19 +77,19 @@ loc_25642:
 ; =============== S U B R O U T I N E =======================================
 
 FloatingPlatform_TypeIndex: offsetTable
-		offsetTableEntry.w FloatingPlatform_Nudge		; 0
-		offsetTableEntry.w FloatingPlatform_LeftRight		; 1
-		offsetTableEntry.w FloatingPlatform_UpDown		; 2
-		offsetTableEntry.w FloatingPlatform_CheckFalling	; 3
-		offsetTableEntry.w FloatingPlatform_Falling		; 4
-		offsetTableEntry.w FloatingPlatform_LeftRight		; 5
-		offsetTableEntry.w FloatingPlatform_UpDown		; 6
-		offsetTableEntry.w FloatingPlatform_Button		; 7
-		offsetTableEntry.w FloatingPlatform_Raise		; 8
-		offsetTableEntry.w FloatingPlatform_Nudge		; 9
-		offsetTableEntry.w FloatingPlatform_Large		; A
-		offsetTableEntry.w FloatingPlatform_UpDown2		; B
-		offsetTableEntry.w FloatingPlatform_UpDown2		; C
+		offsetTableEntry.w FloatingPlatform_Nudge				; 0
+		offsetTableEntry.w FloatingPlatform_LeftRight				; 1
+		offsetTableEntry.w FloatingPlatform_UpDown				; 2
+		offsetTableEntry.w FloatingPlatform_CheckFalling			; 3
+		offsetTableEntry.w FloatingPlatform_Falling				; 4
+		offsetTableEntry.w FloatingPlatform_LeftRight				; 5
+		offsetTableEntry.w FloatingPlatform_UpDown				; 6
+		offsetTableEntry.w FloatingPlatform_Button				; 7
+		offsetTableEntry.w FloatingPlatform_Raise				; 8
+		offsetTableEntry.w FloatingPlatform_Nudge				; 9
+		offsetTableEntry.w FloatingPlatform_Large				; A
+		offsetTableEntry.w FloatingPlatform_UpDown2				; B
+		offsetTableEntry.w FloatingPlatform_UpDown2				; C
 
 ; =============== S U B R O U T I N E =======================================
 

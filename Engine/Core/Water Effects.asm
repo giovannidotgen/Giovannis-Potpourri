@@ -274,7 +274,7 @@ Water_WaterSlides:
 		move.b	(Ctrl_2_logical).w,d2
 
 sub_71E4:
-		btst	#status.player.in_air,status(a1)						; is the player in the air?
+		btst	#status.player.in_air,status(a1)					; is the player in the air?
 		bne.s	loc_3F6A								; if yes, branch
 		btst	#status.player.on_object,status(a1)
 		bne.s	loc_3F6A

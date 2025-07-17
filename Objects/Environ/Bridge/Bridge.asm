@@ -65,7 +65,7 @@ sub_38756:
 		move.w	art_tile(a0),art_tile(a1)
 		move.b	render_flags(a0),render_flags(a1)
 		move.w	priority(a0),priority(a1)
-		bset	#render_flags.multi_sprite,render_flags(a1)						; set multi-draw flag
+		bset	#render_flags.multi_sprite,render_flags(a1)			; set multi-draw flag
 		move.w	#bytes_to_word(16/2,128/2),height_pixels(a1)			; set height and width
 		move.w	d1,mainspr_childsprites(a1)
 		subq.b	#1,d1

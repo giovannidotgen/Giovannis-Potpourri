@@ -103,7 +103,7 @@ Obj_BreakableWall_CreateFragments:
 
 .isleft
 		move.w	x_vel(a1),ground_vel(a1)
-		bclr	#status.player.pushing,status(a1)						; set sonic as not pushing an object
+		bclr	#status.player.pushing,status(a1)				; set sonic as not pushing an object
 
 	if _BWALL_KNUX_
 		; check Knuckles
@@ -155,7 +155,7 @@ BreakObjectToPieces2:
 		adda.w	(a3,d0.w),a3
 		move.w	(a3)+,d1
 		subq.w	#1,d1								; fix dbf
-		bset	#render_flags.static_mappings,render_flags(a0)					; set flag to "static mappings flag"
+		bset	#render_flags.static_mappings,render_flags(a0)			; set flag to "static mappings flag"
 		move.l	address(a0),d4							; get object address
 		move.b	render_flags(a0),d5						; get render type
 		movea.w	a0,a1								; load current object to a1

@@ -33,7 +33,7 @@ Obj_CollapseFloor:
 
 .notSBZ
 		move.w	d0,art_tile(a0)
-		ori.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(48/2,64/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cflo_timedelay(a0)
 		ori.b	#$80,status(a0)

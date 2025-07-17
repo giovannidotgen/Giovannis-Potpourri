@@ -55,10 +55,10 @@ Obj_GlassBlock:
 ; =============== S U B R O U T I N E =======================================
 
 Glass_TypeIndex: offsetTable
-		offsetTableEntry.w Glass_Type01		; 1
-		offsetTableEntry.w Glass_Type02		; 2
-		offsetTableEntry.w Glass_Type03		; 3
-		offsetTableEntry.w Glass_Type04		; 4
+		offsetTableEntry.w Glass_Type01						; 1
+		offsetTableEntry.w Glass_Type02						; 2
+		offsetTableEntry.w Glass_Type03						; 3
+		offsetTableEntry.w Glass_Type04						; 4
 ; ---------------------------------------------------------------------------
 
 Glass_Type01:

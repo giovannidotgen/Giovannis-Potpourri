@@ -183,7 +183,7 @@ BossSpikeBall_MainProcess:
 		bne.s	.flash								; if yes, branch
 		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
 		sfx	sfx_BossHit							; play "boss hit" sound
-		bset	#status.npc.touch,status(a0)							; set "boss hit" flag
+		bset	#status.npc.touch,status(a0)					; set "boss hit" flag
 
 .flash
 		moveq	#0,d0								; load normal palette
@@ -195,7 +195,7 @@ BossSpikeBall_MainProcess:
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#status.npc.touch,status(a0)							; clear "boss hit" flag
+		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
 		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return

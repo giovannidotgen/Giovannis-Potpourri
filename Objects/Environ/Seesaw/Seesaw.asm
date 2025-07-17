@@ -15,7 +15,7 @@ Obj_Seesaw:
 		; init
 		move.l	#Map_Seesaw,mappings(a0)
 		move.w	#make_art_tile($37A,0,0),art_tile(a0)
-		ori.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(96/2,96/2,priority_3),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),see_origX(a0)
 		move.l	#.main,address(a0)
@@ -42,7 +42,7 @@ Obj_Seesaw:
 		move.b	status(a0),status(a1)
 
 .noball
-		btst	#status.npc.x_flip,status(a0)							; is seesaw flipped?
+		btst	#status.npc.x_flip,status(a0)					; is seesaw flipped?
 		beq.s	.noflip								; if not, branch
 		move.b	#2,mapping_frame(a0)						; use different frame
 
@@ -183,7 +183,7 @@ Obj_See_Spikeball:
 		move.w	x_pos(a0),see_origX(a0)
 		addi.w	#40,x_pos(a0)
 		move.w	y_pos(a0),see_origY(a0)
-		btst	#status.npc.x_flip,status(a0)							; is seesaw flipped?
+		btst	#status.npc.x_flip,status(a0)					; is seesaw flipped?
 		beq.s	.main								; if not, branch
 		subi.w	#80,x_pos(a0)							; move spikeball to the other side
 		move.b	#2,see_frame(a0)
@@ -319,8 +319,8 @@ Obj_See_Spikeball:
 Seesaw_LaunchCharacter:
 		move.w	y_vel(a0),y_vel(a2)						; set character y velocity to inverse of sol
 		neg.w	y_vel(a2)							; y velocity
-		bset	#status.player.in_air,status(a2)					; set character airborne flag
-		bclr	#status.player.on_object,status(a2)					; clear character on object flag
+		bset	#status.player.in_air,status(a2)				; set character airborne flag
+		bclr	#status.player.on_object,status(a2)				; clear character on object flag
 		clr.b	jumping(a2)							; clear character jumping flag
 		clr.b	spin_dash_flag(a2)						; clear spin dash flag
 		move.b	#AniIDSonAni_Spring,anim(a2)					; change Sonic's animation to "spring" ($10)

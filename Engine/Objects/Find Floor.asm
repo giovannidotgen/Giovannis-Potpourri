@@ -137,8 +137,8 @@ Player_Angle:
 loc_ED5E:
 		btst	#0,d2
 		bne.s	loc_ED7A
-		cmpi.b	#LevelID_SYZ,(Current_zone).w						; is SYZ?
-		beq.s	loc_ED74								; if yes, branch
+		cmpi.b	#LevelID_SYZ,(Current_zone).w					; is SYZ?
+		beq.s	loc_ED74							; if yes, branch
 		tst.b	stick_to_convex(a0)
 		bne.s	loc_ED74
 		move.b	d2,d0

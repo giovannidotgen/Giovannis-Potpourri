@@ -306,7 +306,7 @@ Cat_FragSpeed:	dc.w -$200, -$180, $180, $200
 ; ---------------------------------------------------------------------------
 
 Caterkiller_FragBody:									; body
-		bset	#status.npc.touch,status(a1)							; set for head
+		bset	#status.npc.touch,status(a1)					; set for head
 
 Caterkiller_FragHead:									; head
 		moveq	#6,d0

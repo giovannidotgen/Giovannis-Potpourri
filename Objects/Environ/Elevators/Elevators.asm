@@ -68,7 +68,7 @@ Obj_Elevator:
 
 		; init
 		move.l	#Map_Elev,mappings(a0)
-		move.b	#setBit(render_flags.level),render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 
 		; set priority and art_tile
 		move.l	#words_to_long( \
@@ -107,17 +107,17 @@ Obj_Elevator:
 ; =============== S U B R O U T I N E =======================================
 
 .index
-		bra.s	.type01		; 1
-		bra.s	.type02		; 2
-		bra.s	.type01		; 3
-		bra.s	.type04		; 4
-		bra.s	.type01		; 5
-		bra.s	.type06		; 6
-		bra.s	.type01		; 7
-		bra.s	.type08		; 8
+		bra.s	.type01								; 1
+		bra.s	.type02								; 2
+		bra.s	.type01								; 3
+		bra.s	.type04								; 4
+		bra.s	.type01								; 5
+		bra.s	.type06								; 6
+		bra.s	.type01								; 7
+		bra.s	.type08								; 8
 ; ---------------------------------------------------------------------------
 
-		; type09		; 9
+		; type09								; 9
 		bsr.w	Elev_Move
 		move.w	objoff_34(a0),d0
 		neg.w	d0
@@ -245,7 +245,7 @@ Elev_MakeMulti:
 		move.l	#Obj_Elevator,address(a1)					; duplicate the object
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
-		move.b	#$E,subtype(a1)							; set 9 subtype
+		move.b	#$E,subtype(a1)							; set $E subtype
 
 .chkdel
 		jmp	(Delete_Sprite_If_Not_In_Range).w

@@ -60,7 +60,7 @@ Obj_Tails_Tail:
 		beq.s	.dplc
 		cmpi.b	#3,anim(a0)							; is this the Directional animation?
 		beq.s	.dplc								; if so, skip the mirroring
-		eori.b	#setBit(render_flags.y_flip),render_flags(a0)						; reverse the vertical mirror render_flag bit (On if Off beforehand and vice versa)
+		eori.b	#setBit(render_flags.y_flip),render_flags(a0)			; reverse the vertical mirror render_flag bit (On if Off beforehand and vice versa)
 
 .dplc
 		bsr.w	Tails_Tail_Load_PLC

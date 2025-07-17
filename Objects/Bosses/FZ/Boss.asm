@@ -249,7 +249,7 @@ BossFinal_MainProcess:
 		; set flash anim
 		move.b	#100,boss_invulnerable_time(a0)
 		sfx	sfx_BossHit
-		bset	#status.npc.touch,status(a0)							; set "boss hit" flag
+		bset	#status.npc.touch,status(a0)					; set "boss hit" flag
 
 		; bounce player
 		bsr.s	.bounce
@@ -258,7 +258,7 @@ BossFinal_MainProcess:
 		move.b	#2,anim(a0)							; set hurt anim
 		subq.b	#1,boss_invulnerable_time(a0)
 		bne.s	.return
-		bclr	#status.npc.touch,status(a0)							; clear "boss hit" flag
+		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
 		move.b	#1,anim(a0)							; set laugh anim
 		clr.b	collision_flags(a0)
 

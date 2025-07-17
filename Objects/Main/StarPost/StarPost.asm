@@ -364,7 +364,15 @@ Obj_StarPost_Stars:
 		addq.w	#4*2,sp								; exit from object and current screen
 		move.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; set screen mode to Special Stage
 		move.b	#1,(Special_bonus_entry_flag).w					; set special stage flag
-		moveq	#$71,d0
+
+		; set status
+		moveq	#signextendB( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),d0
+
 		and.b	(Player_1+status_secondary).w,d0
 		move.b	d0,(Saved2_status_secondary).w
 		st	(Respawn_table_keep).w
