@@ -356,7 +356,7 @@ SpawnLevelMainSprites_SpawnPlayers:
 
 .tailsalone
 		subq.w	#1,d0
-		bne.s	.knuxalone
+		bne.s	.Knuxalone
 
 		; Tails alone
 		move.l	#Obj_Tails,(Player_1+address).w
@@ -366,9 +366,9 @@ SpawnLevelMainSprites_SpawnPlayers:
 		rts
 ; ---------------------------------------------------------------------------
 
-.knuxalone
+.Knuxalone
 		subq.w	#1,d0
-		bne.s	.knuxtails
+		bne.s	.Knuxtails
 
 		; Knuckles alone
 		move.l	#Obj_Knuckles,(Player_1+address).w
@@ -376,7 +376,7 @@ SpawnLevelMainSprites_SpawnPlayers:
 		rts
 ; ---------------------------------------------------------------------------
 
-.knuxtails
+.Knuxtails
 
 		; Knuckles and Tails
 		move.l	#Obj_Knuckles,(Player_1+address).w

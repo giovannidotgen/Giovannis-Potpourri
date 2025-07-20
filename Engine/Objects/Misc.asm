@@ -397,7 +397,7 @@ Check_PlayerAttack:
 		bra.s	.tailsattack							; 1 - Tails
 ; ---------------------------------------------------------------------------
 
-.knuxattack										; 2 - Knuckles
+.Knuxattack										; 2 - Knuckles
 		cmpi.b	#1,double_jump_flag(a1)
 		beq.s	.hit
 		cmpi.b	#3,double_jump_flag(a1)
