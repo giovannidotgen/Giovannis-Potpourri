@@ -2054,6 +2054,17 @@ Sonic_NoRelease:
 	; Push stack pointer back so we don't return to the movement function
 	addq.l	#4,sp
 	
+	; Centers camera after looking up or down
+	cmpi.w	#$60,(a5)
+	beq.s	.iscentered
+	bhs.s	.toolow
+	addq.w	#4,(a5)
+
+.toolow:
+	subq.w	#2,(a5)
+	
+.iscentered:	
+	
 	; Make sure we're playing the running animation
 	move.b	#AniIDSonAni_Walk,anim(a0)
 	bclr	#Status_Push,status(a0)
