@@ -344,7 +344,7 @@ Touch_Enemy:
 		bne.s	.bossnotdefeated
 	endif
 
-		bset	#status.npc.defeated,status(a1)
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 
 .bossnotdefeated
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)				; is player Knuckles?
@@ -380,7 +380,7 @@ Touch_EnemyNormal:
 		bclr	d0,(a2)								; turn off this slot (SetUp_ObjAttributesSlotted)
 
 .notDPLC
-		bset	#status.npc.defeated,status(a1)
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 		moveq	#0,d0
 		move.w	(Chain_bonus_counter).w,d0
 		addq.w	#2,(Chain_bonus_counter).w					; add 2 to item bonus counter
@@ -881,7 +881,7 @@ HyperTouch_DestroyEnemy:
 		bclr	d0,(a2)								; turn off this slot (SetUp_ObjAttributesSlotted)
 
 .notDPLC
-		bset	#status.npc.defeated,status(a1)
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 		moveq	#0,d0
 		move.w	(Chain_bonus_counter).w,d0					; get copy of chain bonus counter
 		addq.w	#2,(Chain_bonus_counter).w					; add 2 to chain bonus counter
