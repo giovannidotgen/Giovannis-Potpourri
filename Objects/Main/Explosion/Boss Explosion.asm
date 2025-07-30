@@ -139,7 +139,7 @@ Obj_NormalExpControl:
 		lea	Child6_MakeNormalExplosion(pc),a2
 		jsr	(CreateChild6_Simple).w
 		bne.s	locret_83EC0
-		bset	#high_priority_bit,art_tile(a1)
+		bset	#high_priority_bit,art_tile(a1)					; high priority
 		bra.s	loc_83E90
 
 ; ----------------------------------------------------------------------------

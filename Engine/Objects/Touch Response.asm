@@ -643,7 +643,7 @@ Kill_Character:
 		movea.l	(sp)+,a4
 
 .notp1
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 		jsr	(Play_SFX).w
 
 .dontdie

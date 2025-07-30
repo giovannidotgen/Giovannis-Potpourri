@@ -22,9 +22,9 @@ Obj_RobotnikHead3:
 		or.w	d0,art_tile(a0)							; set VRAM
 
 		; check
-		btst	#high_priority_bit,art_tile(a1)
-		beq.s	.main
-		bset	#high_priority_bit,art_tile(a0)
+		btst	#high_priority_bit,art_tile(a1)					; is parent object has high priority?
+		beq.s	.main								; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 
 .main
 		movea.w	parent3(a0),a1							; a1=parent object
