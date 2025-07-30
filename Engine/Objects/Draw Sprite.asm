@@ -33,7 +33,7 @@ Draw_Sprite:
 ; =============== S U B R O U T I N E =======================================
 
 Child_Draw_Sprite:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		bra.s	Draw_Sprite
@@ -41,7 +41,7 @@ Child_Draw_Sprite:
 ; =============== S U B R O U T I N E =======================================
 
 Child_DrawTouch_Sprite:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		bra.s	Draw_And_Touch_Sprite
@@ -49,7 +49,7 @@ Child_DrawTouch_Sprite:
 ; =============== S U B R O U T I N E =======================================
 
 Child_CheckParent:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		rts
@@ -57,7 +57,7 @@ Child_CheckParent:
 ; =============== S U B R O U T I N E =======================================
 
 Child_AddToTouchList:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		bra.w	Add_SpriteToCollisionResponseList
@@ -65,7 +65,7 @@ Child_AddToTouchList:
 ; =============== S U B R O U T I N E =======================================
 
 Child_Remember_Draw_Sprite:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.s	loc_84984
 		bra.s	Draw_Sprite
@@ -78,7 +78,7 @@ loc_84984:
 ; =============== S U B R O U T I N E =======================================
 
 Child_Draw_Sprite2:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#4,objoff_38(a1)
 		bne.w	Go_Delete_Sprite_2
 		bra.w	Draw_Sprite
@@ -86,7 +86,7 @@ Child_Draw_Sprite2:
 ; =============== S U B R O U T I N E =======================================
 
 Child_DrawTouch_Sprite2:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#4,objoff_38(a1)
 		bne.w	Go_Delete_Sprite_2
 		btst	#status.npc.defeated,status(a1)
@@ -99,7 +99,7 @@ loc_849BC:
 ; =============== S U B R O U T I N E =======================================
 
 Child_Draw_Sprite_FlickerMove:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.s	loc_849D8
 		bra.w	Draw_Sprite
@@ -115,7 +115,7 @@ loc_849D8:
 ; =============== S U B R O U T I N E =======================================
 
 Child_Draw_Sprite2_FlickerMove:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#4,objoff_38(a1)
 		bne.s	loc_849D8
 		bra.w	Draw_Sprite
@@ -123,7 +123,7 @@ Child_Draw_Sprite2_FlickerMove:
 ; =============== S U B R O U T I N E =======================================
 
 Child_DrawTouch_Sprite_FlickerMove:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.s	loc_849D8
 
@@ -133,7 +133,7 @@ loc_84A3C:
 ; =============== S U B R O U T I N E =======================================
 
 Child_DrawTouch_Sprite2_FlickerMove:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#4,objoff_38(a1)
 		bne.s	loc_849D8
 		btst	#status.npc.defeated,status(a1)
@@ -144,7 +144,7 @@ Child_DrawTouch_Sprite2_FlickerMove:
 ; =============== S U B R O U T I N E =======================================
 
 Child_DrawTouch_Sprite2_FlickerMove2:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#4,objoff_38(a1)
 		bne.s	loc_849D8
 		bra.s	loc_84A3C

@@ -162,7 +162,7 @@ Sprite_ChildCheckDeleteXY:
 
 Sprite_ChildCheckDeleteY:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		bra.w	Draw_Sprite
@@ -174,7 +174,7 @@ Sprite_ChildCheckDeleteXY_NoDraw:
 
 Sprite_ChildCheckDeleteY_NoDraw:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 
@@ -209,7 +209,7 @@ Sprite_ChildCheckDeleteTouchXY:
 
 Sprite_ChildCheckDeleteTouchY:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#status.npc.defeated,status(a1)
 		bne.w	Go_Delete_Sprite
 		bra.w	Draw_And_Touch_Sprite

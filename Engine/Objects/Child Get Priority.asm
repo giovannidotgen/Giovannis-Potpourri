@@ -5,7 +5,7 @@
 ; =============== S U B R O U T I N E =======================================
 
 Child_GetPriority:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		bclr	#high_priority_bit,art_tile(a0)
@@ -20,7 +20,7 @@ Child_GetPriority:
 ; =============== S U B R O U T I N E =======================================
 
 Child_GetPriorityOnce:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		btst	#high_priority_bit,art_tile(a1)
@@ -34,7 +34,7 @@ Child_GetPriorityOnce:
 ; =============== S U B R O U T I N E =======================================
 
 Child_GetPriority2:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		btst	#high_priority_bit,art_tile(a1)
@@ -47,7 +47,7 @@ Child_GetPriority2:
 ; =============== S U B R O U T I N E =======================================
 
 Child_GetVRAMPriorityOnce:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		move.w	art_tile(a1),d0
@@ -62,7 +62,7 @@ Child_GetVRAMPriorityOnce:
 ; =============== S U B R O U T I N E =======================================
 
 Child_SyncDraw:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		btst	#6,objoff_38(a1)
@@ -84,7 +84,7 @@ Child_SyncDraw:
 ; =============== S U B R O U T I N E =======================================
 
 Child_GetCollisionPriorityOnce:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 .skipp
 		btst	#high_priority_bit,art_tile(a1)

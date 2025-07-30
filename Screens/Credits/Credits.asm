@@ -865,7 +865,7 @@ Obj_CreditsEggRobo_Eyes:
 
 .setf
 		move.l	#.refresh,address(a0)
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		bset	#2,objoff_38(a1)
 		rts
 ; ---------------------------------------------------------------------------
@@ -875,7 +875,7 @@ Obj_CreditsEggRobo_Eyes:
 
 .refresh
 		moveq	#-20,d0
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		tst.b	mapping_frame(a1)
 		beq.s	.refreshs
 		addq.b	#1,d0

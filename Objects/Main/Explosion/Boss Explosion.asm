@@ -70,7 +70,7 @@ CreateBossExpParameterIndex:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_WaitForParent:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#5,objoff_38(a1)
 		bne.s	loc_83EC2
 		tst.l	address(a1)							; is object RAM slot empty?
