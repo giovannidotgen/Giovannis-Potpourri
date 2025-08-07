@@ -49,7 +49,7 @@ Game_Program:
 		jsr	(SndDrvInit).w
 		jsr	(Init_Controllers).w
 
-	if SCEDebug
+	ifdef __DEBUG__
 		move.w	#1,(Player_option).w						; set Sonic Alone player
 		move.b	#GameModeID_LevelSelectScreen,(Game_mode).w			; set screen mode to Level Select (SCE)
 	else
