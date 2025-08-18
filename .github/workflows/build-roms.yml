@@ -16,10 +16,10 @@ jobs:
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Run build.bat
-        run: build.bat
+        run: cmd /c build.bat
 
       - name: Run build_debug.bat
-        run: build_debug.bat
+        run: cmd /c build_debug.bat
 
       - name: Upload ROMs
         uses: actions/upload-artifact@v4
