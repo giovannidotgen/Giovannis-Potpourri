@@ -22,7 +22,7 @@ jobs:
         run: build_debug.bat
 
       - name: Upload ROMs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ROMs-${{ env.BRANCH_NAME }}
           path: |
