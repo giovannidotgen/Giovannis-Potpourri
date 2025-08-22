@@ -7,7 +7,6 @@ on:
       - Clone-Driver-v2
 
     paths-ignore:
-      - '.github/workflows/**'
       - 'README.md'
       - '_CD/**'
       - 'Engine/_examples/**'
