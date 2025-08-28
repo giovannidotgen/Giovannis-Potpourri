@@ -26,5 +26,5 @@ Obj_SoundStillSprite:
 
 .index
 
-		; GHZ (Waterfall)								; 0
+		; GHZ (Waterfall)							; 0
 		dc.b sfx_Waterfall, $F							; play water sound every 16th frame
