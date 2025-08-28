@@ -136,6 +136,18 @@ locVRAM macro loc,controlport=(VDP_control_port).l
     endm
 
 ; ---------------------------------------------------------------------------
+; calc VDP address
+; input: 16-bit VRAM address (default is d0)
+; ---------------------------------------------------------------------------
+
+CalcVRAM macro reg=d0
+	lsl.l	#2,reg
+	lsr.w	#2,reg
+	ori.w	#vdpComm(0,VRAM,WRITE)>>16,reg
+	swap	reg
+    endm
+
+; ---------------------------------------------------------------------------
 ; Macro to check button presses
 ; Arguments:
 ; 1 - buttons to check
