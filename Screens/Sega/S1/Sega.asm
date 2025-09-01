@@ -102,8 +102,12 @@ SegaScreen:
 .anipal
 		move.b	#VintID_Main,(V_int_routine).w
 		jsr	(Wait_VSync).w
+
+		; palette cycle process
 		movea.l	(Palette_cycle_counters+4).w,a0
 		jsr	(a0)
+
+		; check done
 		bne.s	.anipal
 
 		; next
