@@ -86,6 +86,10 @@ You can use this source code as a base for your projects, or just as an example 
 
 ## Additional links
 
+#### If you are interested in the source code with the Sonic 2 Clone Driver v2 (Mega PCM 2.0 version):
+
+- [Sonic-1-in-Sonic-3-S.C.E.-Clone-Driver-v2-](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-Extended-/tree/Clone-Driver-v2)
+
 #### Main source code:
 
 - [Sonic-Clean-Engine-S.C.E.-](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-)
