@@ -218,12 +218,13 @@ levartptrs macro \
 	rings2, \
 	palette, \
 	wpalette, \
-	music
+	music, \
+	water=FALSE
 
 	dc.l (palette)<<24|((art1)&$FFFFFF),art2
 	dc.l (wpalette)<<24|((map16x16r)&$FFFFFF),map16x161,map16x162
 	dc.l (music)<<24|((map128x128r)&$FFFFFF),map128x1281,map128x1282
-	dc.l layoutr,layout1,layout2
+	dc.l (water)<<24|((layoutr)&$FFFFFF),layout1,layout2
 	dc.l solidr,solid1,solid2
 	dc.l objectsr,objects1,objects2
 	dc.l ringsr,rings1,rings2
@@ -284,6 +285,11 @@ subObjMainData macro address=FALSE,render,routine,height,width,prio,vram,pal,pri
     ifnb collision
 	dc.b collision
     endif
+    endm
+
+; macro to declare DPLC data
+DPLCEntry macro art, mappings
+	dc.l dmaSource(art), mappings
     endm
 ; ---------------------------------------------------------------------------
 
