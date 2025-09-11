@@ -1328,11 +1328,11 @@ mappingsTableEntry macro ptr
 spriteHeader macro {INTLABEL}
 __LABEL__ label *
 	if SonicMappingsVer=1
-		dc.b ((__LABEL___End - __LABEL___Begin) / 5)
+		dc.b ((__LABEL___end - __LABEL___Begin) / 5)
 	elseif SonicMappingsVer=2
-		dc.w ((__LABEL___End - __LABEL___Begin) / 8)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 8)
 	else
-		dc.w ((__LABEL___End - __LABEL___Begin) / 6)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 6)
 	endif
 __LABEL___Begin label *
     endm
@@ -1378,11 +1378,11 @@ spritePiece2P macro xpos,ypos,width,height,tile,xflip,yflip,pal,pri,tile2,xflip2
 dplcHeader macro {INTLABEL}
 __LABEL__ label *
 	if SonicDplcVer=1
-		dc.b ((__LABEL___End - __LABEL___Begin) / 2)
+		dc.b ((__LABEL___end - __LABEL___Begin) / 2)
 	elseif SonicDplcVer=3
-		dc.w (((__LABEL___End - __LABEL___Begin) / 2)-1)
+		dc.w (((__LABEL___end - __LABEL___Begin) / 2)-1)
 	else
-		dc.w ((__LABEL___End - __LABEL___Begin) / 2)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 2)
 	endif
 __LABEL___Begin label *
     endm
