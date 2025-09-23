@@ -9,7 +9,7 @@ TitleLevelSelect_VRAM:			= $C50F
 ; Variables
 TitleLevelSelect_MaxCount:		= 22
 TitleLevelSelect_SpecialStageCount:	= 19
-TitleLevelSelect_MaxSpecialStages:	= ChaosEmer_Count
+TitleLevelSelect_MaxSpecialStages:	= ChaosEmeralds_Count
 TitleLevelSelect_MaxCharacters:		= 5
 TitleLevelSelect_MaxMusicNumber:	= ((mus__End-mus__First)-1) + ((sfx__End-sfx__First)-1)
 
