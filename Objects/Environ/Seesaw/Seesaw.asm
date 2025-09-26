@@ -336,11 +336,10 @@ Child6_See_Spikeball:
 		dc.l Obj_See_Spikeball
 
 See_Speeds:		dc.w -8, -28, -47, -28, -8	; low, balanced, high, balanced, low
+; ---------------------------------------------------------------------------
 
-See_DataSlope:	binclude "Objects/Environ/Seesaw/Object Data/Slope.bin"
-	even
-See_DataFlat:	binclude "Objects/Environ/Seesaw/Object Data/Flat.bin"
-	even
+		incfile.b	See_DataSlope, "Objects/Environ/Seesaw/Object Data/Slope.bin"
+		incfile.b	See_DataFlat, "Objects/Environ/Seesaw/Object Data/Flat.bin"
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Seesaw/Object Data/Map - Seesaw.asm"

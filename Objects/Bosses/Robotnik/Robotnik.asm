@@ -229,13 +229,11 @@ Child1_MakeRoboShipFlame:
 Child6_MakeRobotnikShipPieces:
 		dc.w 4-1
 		dc.l Obj_RobotnikShipPieces
+; ---------------------------------------------------------------------------
 
-AngleLookup_1:	binclude "Objects/Bosses/Robotnik/Object Data/AngleLookup1.bin"
-	even
-AngleLookup_2:	binclude "Objects/Bosses/Robotnik/Object Data/AngleLookup2.bin"
-	even
-AngleLookup_3:	binclude "Objects/Bosses/Robotnik/Object Data/AngleLookup3.bin"
-	even
+		incfile.b	AngleLookup_1, "Objects/Bosses/Robotnik/Object Data/AngleLookup1.bin"
+		incfile.b	AngleLookup_2, "Objects/Bosses/Robotnik/Object Data/AngleLookup2.bin"
+		incfile.b	AngleLookup_3, "Objects/Bosses/Robotnik/Object Data/AngleLookup3.bin"
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Bosses/Robotnik/Object Data/Anim - Robotnik.asm"
