@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------------
-; Display 8x8 text on the plan
+; Display 8x8 text on the plane
 ;
 ; Inputs:
 ; d1 = plane address

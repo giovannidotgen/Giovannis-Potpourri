@@ -542,5 +542,6 @@ Monitor_Give_SuperSonic:
 	endif
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Monitor/Object Data/Anim - Monitor.asm"
 		include "Objects/Main/Monitor/Object Data/Map - Monitor.asm"

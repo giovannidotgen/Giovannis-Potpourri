@@ -1619,7 +1619,7 @@ dScroll_Data macro pixel,size,velocity,plane
 	elseif upstring("plane")="BG"
 		dc.w (H_scroll_buffer+2)+(pixel<<2)
 	else
-		fatal "Error! Non-existent plan."
+		fatal "Error! Non-existent plane."
 	endif
     endm
 ; ---------------------------------------------------------------------------

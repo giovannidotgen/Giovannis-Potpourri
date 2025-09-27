@@ -153,7 +153,7 @@ Obj_LargeGrass:
 
 ; =============== S U B R O U T I N E =======================================
 
-; object data
+; init
 ObjDat_LargeGrass:	subObjMainData Obj_LargeGrass.action, setBit(render_flags.level), 0, 128, 0, 5, 0, 2, FALSE, Map_LGrass
 ; ---------------------------------------------------------------------------
 
