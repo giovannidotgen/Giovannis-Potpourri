@@ -301,7 +301,7 @@ Credits_DrawSmallText:
 .exit
 
 		; fix odd address
-		move.w	a1,d0										; load ROM address
+		move.w	a1,d0										; load ROM address (lower 16 bits)
 		andi.w	#1,d0										; (0 = even, 1 = odd)
 		adda.w	d0,a1										; add 1 if it was odd, else add 0
 
