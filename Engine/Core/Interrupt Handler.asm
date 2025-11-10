@@ -55,7 +55,7 @@ VInt_Done:
 ; =============== S U B R O U T I N E =======================================
 
 VInt_Lag:
-		addq.w	#4,sp
+		addq.w	#4,sp								; do not execute "VInt_Done" twice
 
 VInt_Lag_Main:
 		addq.w	#1,(Lag_frame_count).w
@@ -69,6 +69,8 @@ VInt_Lag_Main:
 		bne.s	VInt_Done							; if not, return from V-int
 
 VInt_Lag_Level:
+
+		; check water
 		tst.b	(Water_flag).w
 		beq.s	VInt_Lag_NoWater
 
