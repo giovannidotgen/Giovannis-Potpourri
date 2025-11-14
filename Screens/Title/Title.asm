@@ -234,7 +234,7 @@ TitleScreen:
 .notexit
 		bsr.w	Title_Code
 		jsr	(DeformBgLayer).w
-		jsr	(Screen_Events).w
+		jsr	(Level_Events).w
 		jsr	(Animate_Palette).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		jsr	(Render_Sprites).w

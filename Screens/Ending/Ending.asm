@@ -213,7 +213,7 @@ EndingScreen:
 		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		jsr	(DeformBgLayer).w
-		jsr	(Screen_Events).w
+		jsr	(Level_Events).w
 		jsr	(Animate_Palette).w
 		jsr	(Animate_Tiles).w
 		jsr	(Process_KosPlus_Module_Queue).w
@@ -239,7 +239,7 @@ EndingScreen:
 		jsr	(Load_Objects).w
 		jsr	(Process_Sprites).w
 		jsr	(DeformBgLayer).w
-		jsr	(Screen_Events).w
+		jsr	(Level_Events).w
 		jsr	(Animate_Tiles).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		jsr	(Render_Sprites).w
