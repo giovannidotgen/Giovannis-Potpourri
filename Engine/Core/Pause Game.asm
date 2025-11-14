@@ -34,6 +34,7 @@ Pause_Game:
 		move.l	#VInt_Pause,(V_int_ptr).w					; set new VInt pointer
 
 .loop
+		st	(V_int_flag).w							; set VInt flag
 		bsr.s	Wait_VSync
 
     if GameDebug

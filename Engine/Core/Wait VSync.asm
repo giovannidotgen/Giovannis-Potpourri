@@ -5,7 +5,6 @@
 ; =============== S U B R O U T I N E =======================================
 
 Wait_VSync:
-		st	(V_int_flag).w
 
 		; lagometer is only available in DEBUG builds
 		ifdebug	move.w	#$9100,(VDP_control_port).l				; window H position at default

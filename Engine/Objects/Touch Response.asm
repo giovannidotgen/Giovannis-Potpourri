@@ -927,3 +927,13 @@ HyperTouch_Special:
 		move.b	#AniIDSonAni_Roll,(Player_2+anim).w				; put sidekick in his rolling animation
 		bset	#status.player.in_air,(Player_2+status).w
 		rts
+
+; ---------------------------------------------------------------------------
+; Reset collision (Object)
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Obj_ResetCollisionResponseList:
+		clr.w	(Collision_response_list).w
+		rts

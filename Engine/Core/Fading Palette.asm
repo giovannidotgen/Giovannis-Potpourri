@@ -37,6 +37,7 @@ Pal_FadeFromBlack:
 
 .nextframe
 		move.w	d4,-(sp)
+		st	(V_int_flag).w							; set VInt flag
 		bsr.w	Process_KosPlus_Queue
 		bsr.w	Wait_VSync
 		bsr.s	Pal_FromBlack
@@ -130,6 +131,7 @@ Pal_FadeToBlack:
 
 .nextframe
 		move.w	d4,-(sp)
+		st	(V_int_flag).w							; set VInt flag
 		bsr.w	Process_KosPlus_Queue
 		bsr.w	Wait_VSync
 		bsr.s	Pal_ToBlack
@@ -235,6 +237,7 @@ Pal_FadeFromWhite:
 
 .nextframe
 		move.w	d4,-(sp)
+		st	(V_int_flag).w							; set VInt flag
 		bsr.w	Process_KosPlus_Queue
 		bsr.w	Wait_VSync
 		bsr.s	Pal_FromWhite
@@ -331,6 +334,7 @@ Pal_FadeToWhite:
 
 .nextframe
 		move.w	d4,-(sp)
+		st	(V_int_flag).w							; set VInt flag
 		bsr.w	Process_KosPlus_Queue
 		bsr.w	Wait_VSync
 		bsr.s	Pal_ToWhite

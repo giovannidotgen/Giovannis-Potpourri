@@ -23,6 +23,7 @@ LoadLevelLoadBlock:
 		move.l	#VInt_Fade,(V_int_ptr).w					; set VInt pointer
 
 .waitplc
+		st	(V_int_flag).w							; set VInt flag
 		bsr.w	Process_KosPlus_Queue
 		bsr.w	Wait_VSync
 		bsr.w	Process_KosPlus_Module_Queue
