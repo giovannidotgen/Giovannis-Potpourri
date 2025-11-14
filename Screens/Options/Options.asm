@@ -92,7 +92,7 @@ OptionsScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
@@ -133,13 +133,11 @@ OptionsScreen:
 
 		; next
 		move.l	#VInt_LevelSelect,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		enableScreen
 		jsr	(Pal_FadeFromBlack).w
 
 .loop
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		moveq	#palette_line_0,d3
 		bsr.w	Options_MarkFields

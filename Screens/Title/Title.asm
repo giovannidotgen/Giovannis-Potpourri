@@ -82,7 +82,7 @@ TitleScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
@@ -112,7 +112,7 @@ TitleScreen:
 		move.l	#VInt_Menu,(V_int_ptr).w					; set VInt pointer
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w
@@ -122,7 +122,7 @@ TitleScreen:
 .tloop
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w
@@ -199,20 +199,20 @@ TitleScreen:
 		; next
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w
-		enableScreen
-		jsr	(Pal_FadeFromBlack).w
 
 		; set
 		move.l	#VInt_Level,(V_int_ptr).w					; set VInt pointer
+		enableScreen
+		jsr	(Pal_FadeFromBlack).w
 
 .loop
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		addq.w	#1,(Level_frame_counter).w
 		jsr	(Process_Sprites).w
 

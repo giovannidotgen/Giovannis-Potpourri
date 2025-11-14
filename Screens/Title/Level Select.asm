@@ -95,7 +95,6 @@ TitleLevelSelectScreen:
 		move.l	#VInt_LevelSelect,(V_int_ptr).w					; set VInt pointer
 
 .loop
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		moveq	#palette_line_0,d3
 		bsr.w	TitleLevelSelect_MarkFields

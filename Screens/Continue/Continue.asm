@@ -71,7 +71,7 @@ ContinueScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
@@ -137,7 +137,6 @@ ContinueScreen:
 		jsr	(Render_Sprites).w
 		music	mus_Continue
 		move.l	#VInt_Continue,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		enableScreen
 		jsr	(Pal_FadeFromBlack).w
@@ -145,7 +144,7 @@ ContinueScreen:
 .loop
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w

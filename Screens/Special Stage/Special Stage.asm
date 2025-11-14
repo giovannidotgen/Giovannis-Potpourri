@@ -194,7 +194,7 @@ SpecialStageScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
@@ -243,18 +243,16 @@ SpecialStageScreen:
 
 		music	mus_SpecialStage						; play Special Stage BG music
 		move.l	#VInt_Main,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		bsr.w	GetDemoPtr
-		enableScreen
-		jsr	(Pal_FadeFromWhite).w
 
 		; set
 		move.l	#VInt_SpecialStage,(V_int_ptr).w				; set VInt pointer
+		enableScreen
+		jsr	(Pal_FadeFromWhite).w
 
 .loop
 		jsr	(Pause_Game).w
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		bsr.w	Demo_PlayRecord
 		bsr.w	Process_SSSprites
@@ -295,7 +293,6 @@ SpecialStageScreen:
 		clr.w	(Pal_fade_delay).w
 
 .finloop
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		bsr.w	Process_SSSprites
 		move.w	(Camera_X_pos).w,(Camera_X_pos_copy).w
@@ -397,17 +394,17 @@ SpecialStageScreen:
 		move.w	#tiles_to_bytes($4E0),d2
 		jsr	(Queue_KosPlus_Module).w
 
+		; set
+		move.l	#VInt_SpecialStageResults,(V_int_ptr).w				; set VInt pointer
+
 		; load object
 		move.l	#Obj_SpecialStage_Results,(Dynamic_object_RAM+(object_size*29)+address).w	; load results screen object
 		jsr	(Pal_FadeFromWhite).w
 
-		; set
-		move.l	#VInt_SpecialStageResults,(V_int_ptr).w				; set VInt pointer
-
 .results
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		addq.w	#1,(Level_frame_counter).w
 		move.w	(Emerald_flicker_flag).w,d1
 		addq.w	#1,d1

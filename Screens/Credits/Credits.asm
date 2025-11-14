@@ -84,7 +84,7 @@ CreditsScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
@@ -102,13 +102,11 @@ CreditsScreen:
 		move.w	#3*60,(Credits_process_time).w
 		move.l	#Credits_Process_LoadText,(Credits_process).w
 		move.l	#VInt_Main,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		enableScreen
 		jsr	(Pal_FadeFromBlack).w
 
 .loopt
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 
 		; load process
@@ -143,7 +141,6 @@ CreditsScreen:
 		jsr	(Pal_FadeFromBlack).w
 
 .loope
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		addq.w	#1,(Level_frame_counter).w
 

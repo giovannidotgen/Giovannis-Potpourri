@@ -73,14 +73,13 @@ SegaScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
 
 		; next
 		move.l	#VInt_Main,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		enableScreen
 
@@ -89,7 +88,6 @@ SegaScreen:
 		move.w	#3*60,(Demo_timer).w						; set to wait for 3 seconds
 
 .loop
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		bsr.s	AnPal_SegaProto
 

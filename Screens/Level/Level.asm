@@ -133,7 +133,7 @@ LevelScreen:
 .wait
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_Sprites).w
 		jsr	(Render_Sprites).w
 		jsr	(Process_KosPlus_Module_Queue).w
@@ -230,7 +230,7 @@ LevelScreen:
 		jsr	(Pause_Game).w
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		addq.w	#1,(Level_frame_counter).w
 		jsr	(Random_Number).w
 		bsr.w	Demo_PlayRecord

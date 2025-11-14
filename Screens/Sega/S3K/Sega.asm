@@ -76,14 +76,13 @@ SegaScreen:
 .waitplc
 		st	(V_int_flag).w							; set VInt flag
 		jsr	(Process_KosPlus_Queue).w
-		jsr	(Wait_VSync).w
+		jsr	(Wait_VSync.skip).w
 		jsr	(Process_KosPlus_Module_Queue).w
 		tst.w	(KosPlus_modules_left).w
 		bne.s	.waitplc							; wait for KosPlusM queue to clear
 
 		; next
 		move.l	#VInt_Main,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 		enableScreen
 		jsr	(Pal_FadeFromBlack).w
@@ -94,7 +93,6 @@ SegaScreen:
 		move.l	#VInt_Sega,(V_int_ptr).w					; set VInt pointer
 
 .loop
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 
 		; check exit
@@ -108,7 +106,6 @@ SegaScreen:
 
 		; wait stop SEGA sound
 		move.l	#VInt_Main,(V_int_ptr).w					; set VInt pointer
-		st	(V_int_flag).w							; set VInt flag
 		jsr	(Wait_VSync).w
 
 		; credits cheat
