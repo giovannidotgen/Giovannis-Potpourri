@@ -76,7 +76,7 @@ Obj_BossPlasma:
 		jsr	(Animate_Sprite).w
 
 		; check draw
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; load Eggman address
 		btst	#4,objoff_38(a1)
 		bne.s	.defeated
 		jmp	(Draw_Sprite).w
@@ -136,7 +136,7 @@ Obj_BossPlasma_Ball:
 		sub.w	d0,x_pos(a0)							; devon fix
 		clr.w	x_vel(a0)
 
-		; load plasma address
+		; load Plasma address
 		movea.w	parent3(a0),a1
 		subq.b	#1,obBFZBP_Count(a1)
 
@@ -195,7 +195,7 @@ Obj_BossPlasma_Ball:
 
 ; mapping
 ObjDat_BossPlasma:		subObjData Map_PLaunch, $300, 0, 0, 16, 16, 3, 0, 0
-ObjDat_BossPlasmaBall:		subObjData Map_Plasma, $300, 1, 0, 24, 24, 3, 0, $1A|$80
+ObjDat_BossPlasmaBall:		subObjData Map_Plasma, $300, 1, 0, 24, 24, 3, 0, $1A|collision_flags.npc.hurt
 
 Child6_BossPlasma:
 		dc.w 1-1

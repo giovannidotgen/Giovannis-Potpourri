@@ -298,7 +298,7 @@ Obj_ChainStomp_Spikes:
 
 .main
 		moveq	#0,d0
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.b	objoff_32(a1),d0
 		add.w	objoff_40(a0),d0
 		move.w	d0,y_pos(a0)
@@ -332,7 +332,7 @@ Obj_ChainStomp_Spikes:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_ChainStomp:		subObjMainData Obj_ChainStomp.action, rfCoord+rfMulti, 0, 424, 112, 4, $328, 0, 0, Map_CStom
+ObjDat_ChainStomp:		subObjMainData Obj_ChainStomp.action, setBit(render_flags.level)|setBit(render_flags.multi_sprite), 0, 424, 112, 4, $328, 0, 0, Map_CStom
 ObjDat_ChainStomp_Spikes:	subObjData FALSE, FALSE, 0, 0, 32, 96, 5, 2, 0
 
 Child6_ChainStomp_Spikes:

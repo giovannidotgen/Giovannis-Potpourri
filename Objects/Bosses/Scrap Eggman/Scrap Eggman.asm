@@ -21,10 +21,10 @@ Obj_ScrapEggman:
 		; init
 		lea	ObjDat_ScrapEggman(pc),a1
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w			; is Knuckles?
-		bne.s	.notknux							; if not, branch
+		bne.s	.notKnux							; if not, branch
 		lea	ObjDat_ScrapEggRobo(pc),a1
 
-.notknux
+.notKnux
 		jsr	(SetUp_ObjAttributes).w
 		st	objoff_3A(a0)							; reset DPLC frame
 		move.l	#.checkxcam,address(a0)
@@ -56,10 +56,10 @@ Obj_ScrapEggman:
 		; DPLC
 		lea	PLCPtr_ScrapEggman(pc),a2
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w			; is Knuckles?
-		bne.s	.notknux2							; if not, branch
+		bne.s	.notKnux2							; if not, branch
 		lea	PLCPtr_ScrapEggRobo(pc),a2
 
-.notknux2
+.notKnux2
 		jsr	(Perform_DPLC).w
 
 .draw
@@ -126,14 +126,14 @@ Obj_ScrapEggman_Block:
 		; init
 		lea	ObjDat_ScrapEggman_Block(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#rbStatic,render_flags(a0)					; set static mapping flag
-		bset	#7,status(a0)							; disable player's balance animation
+		bset	#render_flags.static_mappings,render_flags(a0)			; set static mapping flag
+		bset	#status.npc.no_balancing,status(a0)				; disable player's balance animation
 		move.l	#.fwait,address(a0)
 
 .fwait
 
 		; check flag
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		tst.b	sEggman_Block(a1)
 		beq.w	.solid
 		move.l	#.twait,address(a0)
@@ -152,9 +152,9 @@ Obj_ScrapEggman_Block:
 		beq.s	.notp1
 		lea	(Player_1).w,a1							; a1=character
 		move.b	#1,prev_anim(a1)
-		bclr	#Status_OnObj,status(a1)
-		bclr	#Status_Push,status(a1)
-		bset	#Status_InAir,status(a1)
+		bclr	#status.player.on_object,status(a1)
+		bclr	#status.player.pushing,status(a1)
+		bset	#status.player.in_air,status(a1)
 		bne.s	.notp1								; if the player is already in the air, branch
 		move.b	#AniIDSonAni_Hurt,anim(a1)
 		clr.b	spin_dash_flag(a1)						; clear spin dash flag
@@ -166,9 +166,9 @@ Obj_ScrapEggman_Block:
 		beq.s	.notrelease
 		lea	(Player_2).w,a1							; a1=character
 		move.b	#1,prev_anim(a1)
-		bclr	#Status_OnObj,status(a1)
-		bclr	#Status_Push,status(a1)
-		bset	#Status_InAir,status(a1)
+		bclr	#status.player.on_object,status(a1)
+		bclr	#status.player.pushing,status(a1)
+		bset	#status.player.in_air,status(a1)
 		bne.s	.notrelease							; if the player is already in the air, branch
 		move.b	#AniIDSonAni_Hurt,anim(a1)
 		clr.b	spin_dash_flag(a1)						; clear spin dash flag

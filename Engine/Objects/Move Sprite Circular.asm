@@ -13,7 +13,7 @@ MoveSprite_Circular:
 		swap	d2
 		muls.w	d1,d3
 		swap	d3
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	x_pos(a1),d0
 		add.w	d2,d0
 		move.b	child_dx(a0),d4
@@ -39,7 +39,7 @@ MoveSprite_CircularSimple:
 		clr.w	d1
 		asr.l	d2,d0
 		asr.l	d2,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.l	x_pos(a1),d2
 		move.l	y_pos(a1),d3
 		add.l	d0,d2
@@ -59,10 +59,10 @@ MoveSprite_CircularSimpleCheckFlip:
 		clr.w	d1
 		asr.l	d2,d0
 		asr.l	d2,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.l	x_pos(a1),d2
 		move.l	y_pos(a1),d3
-		btst	#0,render_flags(a1)				; check flipx
+		btst	#render_flags.x_flip,render_flags(a1)				; check flipx
 		beq.s	.notflipx
 		neg.l	d0
 
@@ -84,7 +84,7 @@ MoveSprite_CircularSimpleOffset:
 		clr.w	d1
 		asr.l	d2,d0
 		asr.l	d2,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.l	x_pos(a1),d2
 		move.l	y_pos(a1),d3
 		move.b	child_dx(a0),d4
@@ -112,13 +112,13 @@ MoveSprite_CircularLookup:
 		andi.w	#$3F,d0
 		lsr.w	#5,d1
 		andi.w	#6,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		lea	$40(a2),a3
 		move.w	x_pos(a1),d2
 		move.w	y_pos(a1),d3
 		move.b	child_dx(a0),d4
 		ext.w	d4
-		btst	#0,render_flags(a0)				; check flipx
+		btst	#render_flags.x_flip,render_flags(a0)				; check flipx
 		beq.s	.notflipx
 		neg.w	d4
 
@@ -130,7 +130,7 @@ MoveSprite_CircularLookup:
 		move.w	d0,d4
 		not.w	d4
 		jsr	MoveSprite_AtAngleLookup.index(pc,d1.w)
-		btst	#0,render_flags(a0)				; check flipx
+		btst	#render_flags.x_flip,render_flags(a0)				; check flipx
 		beq.s	.notflipx2
 		neg.w	d5
 
@@ -150,7 +150,7 @@ MoveSprite_AtAngleLookup:
 		andi.w	#$3F,d0
 		lsr.w	#5,d1
 		andi.w	#6,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		lea	$40(a2),a3
 		move.w	x_pos(a1),d2
 		move.w	y_pos(a1),d3
@@ -165,12 +165,12 @@ MoveSprite_AtAngleLookup:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	AtAngle_00_3F		; 0
-		bra.s	AtAngle_40_7F		; 2
-		bra.s	AtAngle_80_BF		; 4
+		bra.s	AtAngle_00_3F							; 0
+		bra.s	AtAngle_40_7F							; 2
+		bra.s	AtAngle_80_BF							; 4
 ; ---------------------------------------------------------------------------
 
-		; AtAngle_C0_FF:		; 6
+		; AtAngle_C0_FF:							; 6
 		moveq	#0,d5
 		move.b	(a3,d4.w),d5
 		neg.w	d5
@@ -214,7 +214,7 @@ MoveSprite_AngleYLookup:
 		andi.w	#$3F,d0
 		lsr.w	#5,d1
 		andi.w	#6,d1
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		lea	$40(a2),a3
 		move.w	y_pos(a1),d3
 		move.w	d0,d4
@@ -226,12 +226,12 @@ MoveSprite_AngleYLookup:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	loc_84E16		; 0
-		bra.s	loc_84E1E		; 2
-		bra.s	loc_84E28		; 4
+		bra.s	loc_84E16							; 0
+		bra.s	loc_84E1E							; 2
+		bra.s	loc_84E28							; 4
 ; ---------------------------------------------------------------------------
 
-						; 6
+											; 6
 		moveq	#0,d1
 		move.b	(a2,d0.w),d1
 		rts
@@ -302,15 +302,15 @@ Calc_ObjAngle:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	loc_86280		; 2
-		bra.s	loc_86288		; 4
-		bra.s	loc_86290		; 6
-		bra.s	loc_86296		; 8
-		bra.s	loc_8629A		; A
-		bra.s	loc_862A0		; C
+		bra.s	loc_86280							; 2
+		bra.s	loc_86288							; 4
+		bra.s	loc_86290							; 6
+		bra.s	loc_86296							; 8
+		bra.s	loc_8629A							; A
+		bra.s	loc_862A0							; C
 ; ---------------------------------------------------------------------------
 
-						; E
+											; E
 		subi.w	#$C0,d0
 		neg.w	d0
 
@@ -361,24 +361,24 @@ MoveSprite_AngleXLookupOffset:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	loc_84E58		; 0
-		bra.s	loc_84E60		; 2
-		bra.s	loc_84E6C		; 4
+		bra.s	loc_84E58							; 0
+		bra.s	loc_84E60							; 2
+		bra.s	loc_84E6C							; 4
 ; ---------------------------------------------------------------------------
 
-						; 6
+											; 6
 		move.w	#$FF,d1
 		sub.w	d0,d1
 		move.b	(a1,d1.w),d1
 		neg.w	d1
 
 loc_84E8C:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	x_pos(a1),d2
 		move.b	child_dx(a0),d3
 		ext.w	d3
 		add.w	d3,d2
-		btst	#0,render_flags(a1)				; check flipx
+		btst	#render_flags.x_flip,render_flags(a1)				; check flipx
 		beq.s	.notflipx
 		neg.w	d1
 
@@ -424,19 +424,19 @@ MoveSprite_AngleXLookupOffset2:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	loc_84EDC		; 0
-		bra.s	loc_84EE4		; 2
-		bra.s	loc_84EF0		; 4
+		bra.s	loc_84EDC							; 0
+		bra.s	loc_84EE4							; 2
+		bra.s	loc_84EF0							; 4
 ; ---------------------------------------------------------------------------
 
-						; 6
+											; 6
 		move.w	#$FF,d1
 		sub.w	d0,d1
 		move.w	(a1,d1.w),d1
 		neg.w	d1
 
 loc_84F10:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	x_pos(a1),d2
 		move.b	child_dx(a0),d3
 		ext.w	d3

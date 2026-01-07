@@ -69,19 +69,21 @@ Obj_EndSign:
 		; init
 		lea	ObjSlot_EndSigns(pc),a1
 		jsr	(SetUp_ObjAttributesSlotted).w
-		btst	#high_priority_bit,(Player_1+art_tile).w
-		beq.s	.nothighpriority
-		bset	#high_priority_bit,art_tile(a0)					; signs have same priority as Sonic
+
+		; check priority
+		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
+		beq.s	.nothighpriority						; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; signs have same priority as Sonic (high priority)
 
 .nothighpriority
 		move.w	a0,(Signpost_addr).w						; put RAM address here for use by hidden monitor object
 		move.w	#bytes_to_word(60/2,48/2),y_radius(a0)				; set y_radius and x_radius
 		move.l	#AniRaw_EndSigns1,d0
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux
+		blo.s	.notKnux
 		move.l	#AniRaw_EndSigns2,d0
 
-.notknux
+.notKnux
 		move.l	d0,objoff_30(a0)
 
 		; create stub
@@ -210,10 +212,10 @@ Obj_EndSign:
 
 .signresults
 		lea	(Player_1).w,a1							; a1=character
-		btst	#Status_InAir,status(a1)
+		btst	#status.player.in_air,status(a1)
 		bne.s	.draw2								; if player is not standing on the ground, wait until he is
 		move.l	#.signafter,address(a0)
-		st	(Ctrl_1_locked).w						; null sonic's input
+		st	(Ctrl_1_locked).w						; null Sonic's input
 		jsr	(Set_PlayerEndingPose).w
 		jsr	(Create_New_Sprite).w
 		bne.s	.draw2
@@ -238,13 +240,13 @@ Obj_EndSign:
 		; load second main plc
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux2
+		blo.s	.notKnux2
 
 .kplc2		:= PLC2_Knuckles-PLC2_Sonic						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
 		lea	(.kplc2)(a5),a5
 
-.notknux2
+.notKnux2
 		jsr	(LoadPLC_Raw_KosPlusM).w
 
 		; exit from dplc slot
@@ -265,9 +267,11 @@ Obj_SignpostSparkle:
 		; init
 		lea	ObjDat_SignpostSparkle(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		btst	#high_priority_bit,(Player_1+art_tile).w
-		beq.s	.nothighpriority
-		bset	#high_priority_bit,art_tile(a0)					; sparkles have same priority as Sonic
+
+		; check priority
+		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
+		beq.s	.nothighpriority						; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; sparkles have same priority as Sonic (high priority)
 
 .nothighpriority
 		move.l	#.main,address(a0)
@@ -312,11 +316,13 @@ Obj_SignpostStub:
 		; init
 		lea	ObjDat_SignpostStub(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#rbStatic,render_flags(a0)					; set flag to "static mappings flag"
+		bset	#render_flags.static_mappings,render_flags(a0)			; set flag to "static mappings flag"
 		move.l	#.main,address(a0)
-		btst	#high_priority_bit,(Player_1+art_tile).w
-		beq.s	.main
-		bset	#high_priority_bit,art_tile(a0)					; stub have same priority as Sonic
+
+		; check priority
+		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
+		beq.s	.main								; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; stub have same priority as Sonic (high priority)
 
 .main
 		jsr	(Refresh_ChildPosition).w

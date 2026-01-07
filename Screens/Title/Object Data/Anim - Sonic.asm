@@ -3,6 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 Ani_TSon:
-		dc.w .sonic-Ani_TSon
-.sonic:	dc.b 7, 0, 1, 2, 3, 4, 5, 6, 7, afBack, 2
+		dc.w .Sonic-Ani_TSon
+
+.Sonic	dc.b 7, 0, 1, 2, 3, 4, 5, 6, 7, afBack, 2
 	even

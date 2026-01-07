@@ -277,7 +277,7 @@
 		include "Data/Objects Data.asm"
 
 ; ---------------------------------------------------------------------------
-; Sega screen subroutines
+; Sega screen Subroutine
 ; ---------------------------------------------------------------------------
 
 	if ~~SegaVer
@@ -294,19 +294,19 @@
 		include "Screens/Title/Level Select.asm"
 
 ; ---------------------------------------------------------------------------
-; Options screen subroutines
+; Options screen Subroutine
 ; ---------------------------------------------------------------------------
 
 		include "Screens/Options/Options.asm"
 
 ; ---------------------------------------------------------------------------
-; Level Select screen subroutines
+; Level Select screen Subroutine
 ; ---------------------------------------------------------------------------
 
 		include "Screens/Level Select/Level Select.asm"
 
 ; ---------------------------------------------------------------------------
-; Level Select RSDK screen subroutines
+; Level Select RSDK screen Subroutine
 ; ---------------------------------------------------------------------------
 
 		include "Screens/Level Select RSDK/Level Select.asm"
@@ -354,9 +354,9 @@
 ; ---------------------------------------------------------------------------
 
 		if GameDebugAlt
-			include "Objects/Players/Sonic/Debug Mode(Crackers).asm"
+			include "Objects/Players/Debug Mode/Debug Mode(Crackers).asm"
 		else
-			include "Objects/Players/Sonic/Debug Mode.asm"
+			include "Objects/Players/Debug Mode/Debug Mode.asm"
 			include "Data/Debug Pointers.asm"
 		endif
 
@@ -475,7 +475,7 @@
 		include "Data/Uncompressed Data.asm"
 
 ; ---------------------------------------------------------------------------
-; Flamewing sound driver subroutines
+; Flamewing sound driver Subroutine
 ; ---------------------------------------------------------------------------
 
 		include "Sound/Flamedriver.asm"

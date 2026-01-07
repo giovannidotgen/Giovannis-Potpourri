@@ -1,7 +1,11 @@
+; ===========================================================================
+; Macros setup
+; ===========================================================================
+
 	padding off		; we don't want AS padding out dc.b instructions
 	listing purecode	; want listing file, but only the final code in expanded macros
 	supmode on		; we don't need warnings about privileged instructions
-	page	0		; don't want form feeds
+	page 0			; don't want form feeds
 
 notZ80 function cpu,(cpu<>128)&&(cpu<>32988)
 
@@ -84,7 +88,7 @@ evenRAM macro
 ; lets you easily check what address a location in this disassembly assembles to
 trace macro optionalMessageWithoutQuotes
 	if MOMPASS=1
-		if ("ALLARGS"<>"")
+		ifnb ALLARGS
 			message "#\{tracenum/1.0}: line=\{MOMLINE/1.0} PC=$\{(*)&$FFFFFFFF} msg=ALLARGS"
 		else
 			message "#\{tracenum/1.0}: line=\{MOMLINE/1.0} PC=$\{(*)&$FFFFFFFF}"
@@ -102,109 +106,7 @@ signextendB function val,signextend(val,8)
 roundFloatToInteger function float,INT(float+0.5)
 min function a,b,b!((a!b)&(-(a<b)))
 max function a,b,a!((a!b)&(-(a<b)))
-
-    if ZeroOffsetOptimization=0
-    ; disable a space optimization in AS so we can build a bit-perfect ROM
-    ; (the hard way, but it requires no modification of AS itself)
-
-
 chkop function op,ref,(substr(lowstring(op),0,strlen(ref))<>ref)
-
-; 1-arg instruction that's self-patching to remove 0-offset optimization
-insn1op macro oper,x
-	  if (chkop("x","0(") && chkop("x","objoff_00(") && chkop("x","obid(") && chkop("x","id(") && chkop("x","address(") && chkop("x","smps_queue.v_playsnd1("))
-		!oper	x
-	  else
-		!oper	1+x
-		!org	*-1
-		!dc.b	0
-	  endif
-	 endm
-
-; 2-arg instruction that's self-patching to remove 0-offset optimization
-insn2op macro oper,x,y
-	  if (chkop("x","0(") && chkop("x","objoff_00(") && chkop("x","obid(") && chkop("x","id(") && chkop("x","address(") && chkop("x","smps_queue.v_playsnd1("))
-		  if (chkop("y","0(") && chkop("y","objoff_00(") && chkop("y","obid(") && chkop("y","id(") && chkop("y","address(") && chkop("y","smps_queue.v_playsnd1("))
-			!oper	x,y
-		  else
-			!oper	x,1+y
-			!org	*-1
-			!dc.b	0
-		  endif
-	  else
-		if chkop("y","d")
-		  if (chkop("y","0(") && chkop("y","objoff_00(") && chkop("y","obid(") && chkop("y","id(") && chkop("y","address(") && chkop("y","smps_queue.v_playsnd1("))
-.start
-			!oper	1+x,y
-.end
-			!org	.start+3
-			!dc.b	0
-			!org	.end
-		  else
-			!oper	1+x,1+y
-			!org	*-3
-			!dc.b	0
-			!org	*+1
-			!dc.b	0
-		  endif
-		else
-			!oper	1+x,y
-			!org	*-1
-			!dc.b	0
-		endif
-	  endif
-	 endm
-
-	; instructions that were used with 0(a#) syntax
-	; defined to assemble as they originally did
-_move macro
-		insn2op move.ATTRIBUTE, ALLARGS
-	endm
-_add macro
-		insn2op add.ATTRIBUTE, ALLARGS
-	endm
-_addq macro
-		insn2op addq.ATTRIBUTE, ALLARGS
-	endm
-_cmp macro
-		insn2op cmp.ATTRIBUTE, ALLARGS
-	endm
-_cmpi macro
-		insn2op cmpi.ATTRIBUTE, ALLARGS
-	endm
-_clr macro
-		insn1op clr.ATTRIBUTE, ALLARGS
-	endm
-_tst macro
-		insn1op tst.ATTRIBUTE, ALLARGS
-	endm
-
-	else
-
-	; regular meaning to the assembler; better but unlike original
-_move macro
-		!move.ATTRIBUTE ALLARGS
-	endm
-_add macro
-		!add.ATTRIBUTE ALLARGS
-	endm
-_addq macro
-		!addq.ATTRIBUTE ALLARGS
-	endm
-_cmp macro
-		!cmp.ATTRIBUTE ALLARGS
-	endm
-_cmpi macro
-		!cmpi.ATTRIBUTE ALLARGS
-	endm
-_clr macro
-		!clr.ATTRIBUTE ALLARGS
-	endm
-_tst macro
-		!tst.ATTRIBUTE ALLARGS
-	endm
-
-    endif
 
 ; push registers to the stack
 pushr macro op
@@ -225,12 +127,12 @@ popr macro op
     endm
 
 ; nop rept
-nops macro fill
+nop macro fill
       if ("fill"="0") || ("fill"="")
-		nop
+		!nop
       else
 	rept fill
-		nop
+		!nop
 	endr
       endif
     endm
@@ -246,6 +148,6 @@ incbin macro
     endm
 
 ; dcb from asm68k compiler
-dcb macro fill, byte
+dcb macro fill,byte
 	dc.ATTRIBUTE [fill]byte
     endm

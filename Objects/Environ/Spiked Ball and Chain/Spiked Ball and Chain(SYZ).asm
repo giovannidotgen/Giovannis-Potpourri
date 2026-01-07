@@ -63,7 +63,7 @@ Obj_SpikeBall:
 		move.b	render_flags(a0),render_flags(a1)
 		move.w	priority(a0),priority(a1)
 		move.w	height_pixels(a0),height_pixels(a1)				; set height and width
-		move.b	#$18|$80,collision_flags(a1)
+		move.b	#$18|collision_flags.npc.hurt,collision_flags(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		tst.w	d0								; object RAM slots ended?
@@ -81,7 +81,7 @@ Obj_SpikeBall:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_SpikeBall_Child:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.b	sball_angle(a1),sball_angle(a0)					; angle
 		moveq	#4,d2								; radius
 		jsr	(MoveSprite_CircularSimple).w
@@ -92,7 +92,7 @@ Obj_SpikeBall_Child:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SpikeBall:	subObjMainData Obj_SpikeBall.main, rfCoord+rfStatic, 0, 16, 16, 4, $3BA, 0, 0, Map_SBall
+ObjDat_SpikeBall:	subObjMainData Obj_SpikeBall.main, setBit(render_flags.level)|setBit(render_flags.static_mappings), 0, 16, 16, 4, $3BA, 0, 0, Map_SBall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (SYZ).asm"

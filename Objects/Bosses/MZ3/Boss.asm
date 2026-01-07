@@ -79,7 +79,7 @@ loc_183DE:
 
 loc_183E6:
 		move.l	#words_to_long($200,$100),x_vel(a0)				; x_vel + y_vel
-		btst	#0,render_flags(a0)
+		btst	#render_flags.x_flip,render_flags(a0)
 		bne.s	loc_183FE
 		neg.w	x_vel(a0)
 
@@ -120,7 +120,7 @@ loc_1844A:
 
 loc_1845C:
 		move.w	(Camera_max_X_pos).w,d0
-		btst	#0,render_flags(a0)
+		btst	#render_flags.x_flip,render_flags(a0)
 		beq.s	loc_18474
 		addi.w	#320-48,d0
 		cmp.w	x_pos(a0),d0
@@ -160,7 +160,7 @@ BossFire_AttackFire2:
 		beq.s	.skip
 		clr.w	y_vel(a0)
 		move.w	#$50,objoff_3E(a0)						; set wait
-		bchg	#0,render_flags(a0)
+		bchg	#render_flags.x_flip,render_flags(a0)
 		bset	#6,objoff_38(a0)						; set laugh flag
 
 		; create
@@ -169,7 +169,7 @@ BossFire_AttackFire2:
 		move.l	#Obj_BossFire_Fire,address(a1)					; load lava ball object
 		move.w	x_pos(a0),d0
 		moveq	#-1,d1
-		btst	#0,render_flags(a0)
+		btst	#render_flags.x_flip,render_flags(a0)
 		beq.s	.notflipx
 		neg.w	d1
 
@@ -232,7 +232,7 @@ BossFire_MainProcess:
 		bne.s	.flash								; if yes, branch
 		move.b	#$28,boss_invulnerable_time(a0)					; make boss invulnerable
 		sfx	sfx_BossHit							; play "boss hit" sound
-		bset	#6,status(a0)							; set "boss hit" flag
+		bset	#status.npc.touch,status(a0)					; set "boss hit" flag
 
 .flash
 		moveq	#0,d0								; load normal palette
@@ -244,7 +244,7 @@ BossFire_MainProcess:
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)							; clear "boss hit" flag
+		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
 		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
@@ -285,7 +285,7 @@ BossFire_Defeated:
 		move.w	d0,(Camera_stored_max_X_pos).w
 
 .notfree3
-		bset	#0,render_flags(a0)
+		bset	#render_flags.x_flip,render_flags(a0)
 		move.l	#words_to_long($400,0),x_vel(a0)
 
 		; return
@@ -394,13 +394,15 @@ Obj_BossFire_Fire:
 		jsr	(SetUp_ObjAttributes).w
 		clr.b	routine(a0)
 		move.w	height_pixels(a0),y_radius(a0)					; set y_radius and x_radius
-		bset	#Status_FireShield,shield_reaction(a0)
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.w	y_pos(a0),objoff_38(a0)
 		move.l	#Obj74_Drop,obBFF_Jump(a0)
 		move.l	#Obj74_Action,address(a0)
+
+		; check
 		tst.b	subtype(a0)
 		bne.s	loc_1870A
-		move.b	#$B|$80,collision_flags(a0)
+		move.b	#$B|collision_flags.npc.hurt,collision_flags(a0)
 		move.l	#loc_18886,address(a0)
 		bra.w	loc_18886
 ; ---------------------------------------------------------------------------
@@ -419,13 +421,13 @@ Obj74_Action:
 ; ---------------------------------------------------------------------------
 
 Obj74_Drop:
-		bset	#1,status(a0)
+		bset	#status.npc.y_flip,status(a0)
 		subq.b	#1,objoff_3F(a0)
 		bpl.s	.return
-		move.b	#$B|$80,collision_flags(a0)
+		move.b	#$B|collision_flags.npc.hurt,collision_flags(a0)
 		clr.b	subtype(a0)
 		addi.w	#$18,y_vel(a0)
-		bclr	#1,status(a0)
+		bclr	#status.npc.y_flip,status(a0)
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1
 		bpl.s	.return
@@ -437,7 +439,7 @@ Obj74_Drop:
 
 Obj74_MakeFlame:
 		subq.w	#2,y_pos(a0)
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 		move.l	#words_to_long($A0,0),x_vel(a0)
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	y_pos(a0),objoff_38(a0)
@@ -455,15 +457,11 @@ Obj74_MakeFlame:
 
 		set	.a,0
 
-	rept object_size/$24
-		movem.l	(a2)+,d0-d6/a4-a5
-		movem.l	d0-d6/a4-a5,.a(a3)						; copy $24 bytes
-		set	.a,.a + $24
+	rept object_size/$28
+		movem.l	(a2)+,d0-d6/a4-a6
+		movem.l	d0-d6/a4-a6,.a(a3)						; copy $28 bytes
+		set	.a,.a + $28
 	endr
-
-	if object_size&2
-		move.w	d0,.a(a3)							; copy 2 bytes
-	endif
 
 		neg.w	x_vel(a1)
 		move.l	#Obj74_Duplicate,obBFF_Jump(a1)
@@ -524,7 +522,7 @@ Obj74_Duplicate2:
 ; =============== S U B R O U T I N E =======================================
 
 Obj74_FallEdge:
-		bclr	#1,status(a0)
+		bclr	#status.npc.y_flip,status(a0)
 		addi.w	#$24,y_vel(a0)							; make flame fall
 		move.w	x_pos(a0),d0
 		sub.w	objoff_32(a0),d0
@@ -534,7 +532,7 @@ Obj74_FallEdge:
 .abs
 		cmpi.w	#18,d0
 		bne.s	.skip
-		bclr	#high_priority_bit,art_tile(a0)
+		bclr	#high_priority_bit,art_tile(a0)					; low priority
 
 .skip
 		jsr	(ObjCheckFloorDist).w
@@ -546,7 +544,7 @@ Obj74_FallEdge:
 		move.w	objoff_32(a0),x_pos(a0)
 		move.w	objoff_38(a0),y_pos(a0)
 		move.l	#Obj74_Duplicate,obBFF_Jump(a0)
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 
 .return
 		rts
@@ -558,7 +556,7 @@ Obj74_Delete:
 ; =============== S U B R O U T I N E =======================================
 
 loc_18886:
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 		subq.b	#1,objoff_3F(a0)
 		bne.s	.anim
 		move.b	#1,anim(a0)
@@ -583,7 +581,7 @@ Obj_BossFire_Scaled:
 		; init
 		lea	ObjDat_BossFire_Scaled(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#0,render_flags(a0)
+		bset	#render_flags.x_flip,render_flags(a0)
 		move.b	#$18,objoff_40(a0)
 		move.w	#$3F,objoff_2E(a0)
 		move.w	#$200,x_vel(a0)
@@ -602,7 +600,7 @@ Obj_BossFire_Scaled:
 		bne.s	.wait
 		move.l	#Child_Draw_Sprite,address(a1)
 		move.l	#Map_BossFire_Pillar,mappings(a1)
-		move.b	#rfCoord,render_flags(a1)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a1)			; use screen coordinates
 		move.w	#priority_3,priority(a1)
 		move.w	#$1C20,x_pos(a1)
 		move.w	#$240,y_pos(a1)

@@ -15,8 +15,8 @@ Obj_LavaWall:
 		; init
 		lea	ObjDat_LavaWall(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#Status_FireShield,shield_reaction(a0)
-		bset	#6,render_flags(a0)						; set multi-draw flag
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
+		bset	#render_flags.multi_sprite,render_flags(a0)			; set multi-draw flag
 		move.w	#1,mainspr_childsprites(a0)					; set sub objects
 
 		; set sub object xpos
@@ -93,7 +93,7 @@ Obj_LavaWall:
 
 .check
 		cmpi.b	#PlayerID_Hurt,(Player_1+routine).w				; is Sonic falling back from getting hurt?
-		bhs.s	.sonichurt							; if yes, branch
+		bhs.s	.Sonichurt							; if yes, branch
 
 		; move lava
 		move.w	lwall_x_vel(a0),d0
@@ -106,7 +106,7 @@ Obj_LavaWall:
 		add.w	lwall_child_dx(a0),d0
 		move.w	d0,sub2_x_pos(a0)
 
-.sonichurt
+.Sonichurt
 		tst.b	lwall_flag(a0)							; is object set to move?
 		bne.s	.draw								; if yes, branch
 		jmp	(Sprite_CheckDeleteTouch3).w
@@ -118,7 +118,7 @@ Obj_LavaWall:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_LavaWall:	subObjData Map_LWall, $36D, 3, 0, 64, 180, 1, 1, $14|$80
+ObjDat_LavaWall:	subObjData Map_LWall, $36D, 3, 0, 64, 180, 1, 1, $14|collision_flags.npc.hurt
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Lava Wall/Object Data/Map - Lava Wall.asm"

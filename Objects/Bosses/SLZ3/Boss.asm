@@ -60,7 +60,7 @@ BossSpikeBall_MoveRestore:
 BossSpikeBall_MoveLeftRight:
 		move.w	(Camera_max_X_pos).w,d0
 		move.w	#$200,x_vel(a0)
-		btst	#0,render_flags(a0)
+		btst	#render_flags.x_flip,render_flags(a0)
 		bne.s	.notflipx
 		neg.w	x_vel(a0)
 		addq.w	#8,d0
@@ -74,7 +74,7 @@ BossSpikeBall_MoveLeftRight:
 		bgt.s	.exit
 
 .setflipx
-		bchg	#0,render_flags(a0)
+		bchg	#render_flags.x_flip,render_flags(a0)
 
 .exit
 
@@ -183,7 +183,7 @@ BossSpikeBall_MainProcess:
 		bne.s	.flash								; if yes, branch
 		move.b	#$30,boss_invulnerable_time(a0)					; make boss invulnerable
 		sfx	sfx_BossHit							; play "boss hit" sound
-		bset	#6,status(a0)							; set "boss hit" flag
+		bset	#status.npc.touch,status(a0)					; set "boss hit" flag
 
 .flash
 		moveq	#0,d0								; load normal palette
@@ -195,7 +195,7 @@ BossSpikeBall_MainProcess:
 		jsr	(BossFlash2).w
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
-		bclr	#6,status(a0)							; clear "boss hit" flag
+		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
 		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
@@ -235,7 +235,7 @@ BossSpikeBall_Defeated:
 		move.w	d0,(Camera_stored_max_X_pos).w
 
 .notfree3
-		bset	#0,render_flags(a0)
+		bset	#render_flags.x_flip,render_flags(a0)
 		move.l	#words_to_long($400,0),x_vel(a0)
 
 		; return
@@ -298,8 +298,10 @@ Obj_BossSpikeBall_ShipTube:
 		jsr	(Refresh_ChildPositionAdjusted).w
 
 		; draw
-		movea.w	parent3(a0),a1
-		btst	#7,status(a1)
+		movea.w	parent3(a0),a1							; a1=parent object (boss)
+
+		; check defeated flag
+		btst	#status.npc.defeated,status(a1)
 		bne.s	.delete
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
@@ -350,20 +352,20 @@ Obj_BossSpikeBall_SpikeBall:
 		lea	ObjDat_See_SpikeBall(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		move.l	#.fall,address(a0)
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		move.w	x_pos(a1),see_origX(a0)
 		move.w	y_pos(a1),see_origY(a0)
-		bset	#0,status(a0)
+		bset	#status.npc.x_flip,status(a0)
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
 		bgt.s	.fall
-		bclr	#0,status(a0)
+		bclr	#status.npc.x_flip,status(a0)
 		move.b	#2,see_frame(a0)
 
 .fall
 		pea	.draw(pc)
 		jsr	(MoveSprite).w
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		lea	See_Speeds(pc),a2
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
@@ -378,9 +380,9 @@ Obj_BossSpikeBall_SpikeBall:
 		add.w	(a2,d0.w),d1
 		cmp.w	y_pos(a0),d1
 		bgt.w	.locret_18EA8
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		moveq	#2,d1
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.notflipx
 		moveq	#0,d1
 
@@ -392,7 +394,7 @@ Obj_BossSpikeBall_SpikeBall:
 ; ---------------------------------------------------------------------------
 
 .loc_18DC6
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object (seesaw)
 		moveq	#0,d0
 		move.b	see_frame(a0),d0
 		sub.b	see_frame(a1),d0
@@ -477,8 +479,14 @@ Obj_BossSpikeBall_SpikeBall:
 ; ---------------------------------------------------------------------------
 
 .loc_18EAA
-		movea.w	parent4(a0),a1							; load boss address
-		moveq	#signextendB($40+$80),d0					; check 6 and 7 bit
+		movea.w	parent4(a0),a1							; a1=parent object (boss)
+
+		; check touch and defeated
+		moveq	#signextendB( \
+			setBit(status.npc.touch) | \
+			setBit(status.npc.defeated) \
+		),d0
+
 		and.b	status(a1),d0							; boss get hit or defeated?
 		bne.s	.loc_18F38							; if yes, branch
 
@@ -492,7 +500,7 @@ Obj_BossSpikeBall_SpikeBall:
 		clr.b	collision_flags(a1)
 		subq.b	#1,collision_property(a1)
 		bne.s	.loc_18F38
-		bset	#7,status(a1)
+		bset	#status.npc.defeated,status(a1)
 		clr.l	x_vel(a0)
 
 .loc_18F38
@@ -584,8 +592,8 @@ BossSpikeBall_SpikeBall_LaunchCharacter:
 		asr.w	y_vel(a2)
 
 .loc_18FDC
-		bset	#Status_InAir,status(a2)					; set character airborne flag
-		bclr	#Status_OnObj,status(a2)					; clear character on object flag
+		bset	#status.player.in_air,status(a2)				; set character airborne flag
+		bclr	#status.player.on_object,status(a2)				; clear character on object flag
 		clr.b	jumping(a2)							; clear character jumping flag
 		clr.b	spin_dash_flag(a2)						; clear spin dash flag
 
@@ -598,7 +606,7 @@ BossSpikeBall_SpikeBall_LaunchCharacter:
 
 .troll		:= Tails_ChkRoll-SonicKnux_ChkRoll					; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
-		lea	(.troll)(a3),a3			; Tails
+		lea	(.troll)(a3),a3							; Tails
 
 .proll
 		jsr	(a3)
@@ -657,9 +665,9 @@ Obj_BossSpikeBall_SpikeBall_Shrapnel:
 		; init
 		lea	ObjDat_RobotnikShip_SpikeBall_Shrapnel(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#3,shield_reaction(a0)						; bounce off all shields
+		bset	#shield_reaction.all_shields,shield_reaction(a0)		; bounce off all shields
 		move.l	#.action,address(a0)
-		bset	#rbOnscreen,render_flags(a0)
+		bset	#render_flags.on_screen,render_flags(a0)
 
 .action
 		MoveSprite a0, $18							; make obj fall
@@ -677,9 +685,9 @@ Obj_BossSpikeBall_SpikeBall_Shrapnel:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BossSpikeBall_Ship:			subObjData Map_RobotnikShip, $3B0, 1, 0, 64, 64, 4, $C, $F
+ObjDat_BossSpikeBall_Ship:			subObjData Map_RobotnikShip, $3B0, 1, 0, 64, 64, 4, $C, $F|collision_flags.npc.touch
 ObjDat_BossSpikeBall_ShipTube:			subObjData Map_BossSpikeBall_Tube, $440, 1, 0, 8, 32, 3, 0, 0
-ObjDat_RobotnikShip_SpikeBall_Shrapnel:		subObjData Map_Bomb, $4C1, 0, 1, 8, 8, 2, $A, $18|$80
+ObjDat_RobotnikShip_SpikeBall_Shrapnel:		subObjData Map_Bomb, $4C1, 0, 1, 8, 8, 2, $A, $18|collision_flags.npc.hurt
 
 Child1_BossSpikeBall_ShipTube:
 		dc.w 1-1

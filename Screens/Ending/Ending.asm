@@ -53,10 +53,13 @@ EndingScreen:
 
 	if GameDebug
 
-	if GameDebugCheat
-		tst.b	(Debug_cheat_flag).w
-		beq.s	.anotheld
-	endif
+		if GameDebugCheat
+			ifndef __DEBUG__
+				; check cheat
+				tst.b	(Debug_cheat_flag).w
+				beq.s	.anotheld
+			endif
+		endif
 
 		btst	#button_C,(Ctrl_1_held).w							; is C button held?
 		beq.s	.cnotheld									; if not, branch
@@ -81,10 +84,10 @@ EndingScreen:
 		; load player palette
 		lea	(Level_data_addr_RAM.SPal).w,a1							; load Sonic palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		blo.s	.notknux									; if not, branch
+		blo.s	.notKnux									; if not, branch
 		addq.w	#1,a1										; load Knuckles palette
 
-.notknux
+.notKnux
 		moveq	#0,d0
 		move.b	(a1),d0										; player palette
 		jsr	(LoadPalette).w									; load player's palette
@@ -104,8 +107,8 @@ EndingScreen:
 		; with emeralds
 		move.l	#words_to_long(0,$500),(Level_data_addr_RAM.xstart).w				; camerax (with emeralds)
 		move.w	#$620-$20,d0
-		move.w	d0,(Level_data_addr_RAM.SonLoc).w					; xpos (with emeralds)
-		move.w	d0,(Level_data_addr_RAM.KnuxLoc).w					; xpos (with emeralds)
+		move.w	d0,(Level_data_addr_RAM.SonLoc).w						; xpos (with emeralds)
+		move.w	d0,(Level_data_addr_RAM.KnuxLoc).w						; xpos (with emeralds)
 
 .noemer
 
@@ -155,7 +158,7 @@ EndingScreen:
 
 		; p1
 		lea	(Player_1).w,a1									; a1=character
-		bset	#Status_Facing,status(a1)							; make Sonic face left
+		bset	#status.player.x_flip,status(a1)						; make Sonic face left
 		move.w	#-$600,ground_vel(a1)								; set Sonic's speed
 		st	(Ctrl_1_locked).w								; lock controls
 		move.w	#bytes_to_word(btnL,0),(Ctrl_1_logical).w					; move Sonic to the left
@@ -165,7 +168,7 @@ EndingScreen:
 		tst.l	address(a1)									; is player RAM empty?
 		beq.s	.notp2										; if yes, branch
 		addi.w	#64,x_pos(a1)
-		bset	#Status_Facing,status(a1)							; make Tails face left
+		bset	#status.player.x_flip,status(a1)						; make Tails face left
 		move.w	#-$600,ground_vel(a1)								; set Tails's speed
 		st	(Ctrl_2_locked).w								; lock controls
 		move.w	#bytes_to_word(btnL,0),(Ctrl_2_logical).w					; move Tails to the left
@@ -281,7 +284,7 @@ Obj_Sonic_Ending:
 		; init (with emeralds)
 		lea	ObjDat_SonicEnding(pc),a1							; load Sonic data
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
-		bne.s	.notatails									; if not, branch
+		bne.s	.notTails									; if not, branch
 
 		; remove Tails tails
 		lea	(Tails_tails).w,a1
@@ -290,7 +293,7 @@ Obj_Sonic_Ending:
 		; init
 		lea	ObjDat_TailsEnding(pc),a1							; load Tails data
 
-.notatails
+.notTails
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
 		blo.s	.loadobja									; if not, branch
 		lea	ObjDat_KnuxEnding(pc),a1							; load Knuckles data
@@ -339,7 +342,7 @@ Obj_Sonic_Ending:
 ; ---------------------------------------------------------------------------
 
 .lookup
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		cmpi.w	#$2000,echa_radius(a1)
 		bne.w	.draw
 		sfx	sfx_SuperEmerald								; play sfx
@@ -356,7 +359,7 @@ Obj_Sonic_Ending:
 		bne.w	.draw
 
 		; delete chaos emeralds objects
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		move.l	#Go_Delete_Sprite,address(a1)
 		st	(Restart_level_flag).w								; set level to restart
 		move.w	#1*60,eson_time(a0)
@@ -432,10 +435,10 @@ Obj_Sonic_Ending:
 		; init (without emeralds)
 		lea	ObjDat_SonicEnding(pc),a1							; load Sonic data
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
-		bne.s	.notatails2									; if not, branch
+		bne.s	.notTails2									; if not, branch
 		lea	ObjDat_TailsEnding(pc),a1							; load Tails data
 
-.notatails2
+.notTails2
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
 		blo.s	.loadobja2									; if not, branch
 		lea	ObjDat_KnuxEnding(pc),a1							; load Knuckles data
@@ -512,7 +515,7 @@ Obj_EndChaos:
 		move.l	#.circular,address(a1)
 		move.l	#Map_ECha,mappings(a1)
 		move.w	#make_art_tile($3C5,0,1),art_tile(a1)
-		move.b	#rfCoord,render_flags(a1)							; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a1)					; use screen coordinates
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.l	#bytes_word_to_long(16/2,16/2,priority_1),height_pixels(a0)			; set height, width and priority
@@ -543,7 +546,7 @@ Obj_EndChaos:
 ; ---------------------------------------------------------------------------
 
 .circular
-		movea.w	parent3(a0),a1									; load parent
+		movea.w	parent3(a0),a1									; a1=parent object
 		move.w	echa_speed(a1),d0
 		add.w	d0,angle(a0)
 		move.b	angle(a0),d0

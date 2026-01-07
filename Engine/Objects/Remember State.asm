@@ -68,7 +68,7 @@ Sprite_CheckDelete:
 		bclr	#7,(a2)
 
 .delete
-		bset	#7,status(a0)
+		bset	#status.npc.defeated,status(a0)					; set "boss defeated" flag
 		move.l	#Delete_Current_Sprite,address(a0)
 		rts
 
@@ -100,7 +100,7 @@ Sprite_CheckDelete2:
 		bclr	#7,(a2)
 
 .delete
-		bset	#4,objoff_38(a0)
+		bset	#4,objoff_38(a0)						; set "delete child object" flag
 		move.l	#Delete_Current_Sprite,address(a0)
 
 .return
@@ -162,9 +162,9 @@ Sprite_ChildCheckDeleteXY:
 
 Sprite_ChildCheckDeleteY:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
-		btst	#7,status(a1)
-		bne.w	Go_Delete_Sprite
+		movea.w	parent3(a0),a1							; a1=parent object
+		btst	#status.npc.defeated,status(a1)					; is boss defeated?
+		bne.w	Go_Delete_Sprite						; if yes, branch
 		bra.w	Draw_Sprite
 
 ; =============== S U B R O U T I N E =======================================
@@ -174,9 +174,9 @@ Sprite_ChildCheckDeleteXY_NoDraw:
 
 Sprite_ChildCheckDeleteY_NoDraw:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
-		btst	#7,status(a1)
-		bne.w	Go_Delete_Sprite
+		movea.w	parent3(a0),a1							; a1=parent object
+		btst	#status.npc.defeated,status(a1)					; is boss defeated?
+		bne.w	Go_Delete_Sprite						; if yes, branch
 
 .return
 		rts
@@ -209,9 +209,9 @@ Sprite_ChildCheckDeleteTouchXY:
 
 Sprite_ChildCheckDeleteTouchY:
 		out_of_yrange.w	Go_Delete_Sprite
-		movea.w	parent3(a0),a1
-		btst	#7,status(a1)
-		bne.w	Go_Delete_Sprite
+		movea.w	parent3(a0),a1							; a1=parent object
+		btst	#status.npc.defeated,status(a1)					; is boss defeated?
+		bne.w	Go_Delete_Sprite						; if yes, branch
 		bra.w	Draw_And_Touch_Sprite
 
 ; =============== S U B R O U T I N E =======================================
@@ -229,7 +229,7 @@ Go_Delete_SpriteSlotted:
 		bclr	#7,(a2)
 
 Go_Delete_SpriteSlotted2:
-		bset	#7,status(a0)
+		bset	#status.npc.defeated,status(a0)					; set "boss defeated" flag
 
 Go_Delete_SpriteSlotted3:
 		move.l	#Delete_Current_Sprite,address(a0)
@@ -237,7 +237,7 @@ Go_Delete_SpriteSlotted3:
 Remove_From_TrackingSlot:
 		move.b	ros_bit(a0),d0							; slot bit
 		movea.w	ros_addr(a0),a1							; slot address
-		bclr	d0,(a1)								; turn off this slot
+		bclr	d0,(a1)								; turn off this slot (SetUp_ObjAttributesSlotted)
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -267,7 +267,7 @@ Obj_WaitOffscreen:
 
 		; init
 		move.l	#Map_Offscreen,mappings(a0)
-		bset	#rbCoord,render_flags(a0)					; use screen coordinates
+		bset	#render_flags.level,render_flags(a0)				; use screen coordinates
 		move.w	#bytes_to_word(64/2,64/2),height_pixels(a0)			; set height and width
 		move.l	(sp)+,objoff_34(a0)						; save address after bsr/jsr
 		move.l	#.main,address(a0)

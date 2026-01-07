@@ -8,7 +8,7 @@ RAM_start:						= *
 Chunk_table:						ds.b $100*$80					; chunk (128x128) definitions, $80 bytes per definition
 Chunk_table_end						= *
 
-; object variables
+; object variables (110 objects)
 Object_RAM:						= *
 Player_1:						ds.b object_size				; main character in 1 player mode
 Player_2:						ds.b object_size				; Tails in a Sonic and Tails game
@@ -29,7 +29,6 @@ Invincibility_stars_end					= *
 							ds.b object_size*2				; unused
 Water_Splash:						ds.b object_size				; Obj_WaterSplash is loaded here
 Wave_Splash:						ds.b object_size				; Obj_WaveSplash is loaded here
-							ds.b $34					; unused
 Object_RAM_end						= *
 
 ; kosinski plus moduled buffer variables
@@ -126,7 +125,7 @@ Scroll_force_positions:					ds.b 1						; if this is set scrolling will be based
 							ds.b 1						; even
 Scroll_forced_X_pos:					ds.l 1						; replace player xpos
 Scroll_forced_Y_pos:					ds.l 1						; replace player ypos
-Glide_screen_shake:					ds.w 1						; alternate screen shaking flag only used when hyper knuckles hits a wall after gliding
+Glide_screen_shake:					ds.w 1						; alternate screen shaking flag only used when Hyper Knuckles hits a wall after gliding
 Screen_shaking_flag:					ds.w 1						; flag for enabling screen shake. Negative values cause screen to shake infinitely, positive values make the screen shake for a short amount of time
 Screen_shaking_offset:					ds.w 1						; vertical offset when screen_shaking_flag is enabled. This is added to camera position later
 Screen_shaking_last_offset:				ds.w 1						; value of Screen_shaking_offset for the previous frame
@@ -462,6 +461,7 @@ Debug_saved_art_tile:					ds.w 1						; player 1 art_tile before entering debug 
 Last_star_post_hit:					ds.b 1
 Current_music:						ds.w 1
 Palette_fade_timer:					ds.w 1						; the palette gets faded in until this timer expires
+							ds.b 1						; even
 Respawn_table_keep:					ds.b 1						; if set, respawn table is not reset during level load
 Intro_flag:						ds.b 1
 Music_disable_flag:					ds.b 1
@@ -473,7 +473,6 @@ SBZ2_player_roll:					ds.b 1
 Japan_credits_flag:					ds.b 1
 Debug_cheat_flag:					ds.b 1
 Game_mode_last:						ds.b 1
-							ds.b 1						; even
 
 ; HUD data variables
 Time_over_flag:						ds.b 1

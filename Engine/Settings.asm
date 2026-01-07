@@ -6,7 +6,6 @@
 ZoneCount:				= 6	; discrete zones are: GHZ, MZ, SYZ, LZ, SLZ, SBZ
 LevelSelectCheat:			= 1	; if 1, enable level select cheat check
 GameDebugCheat:				= 1	; if 1, enable debug mode cheat check
-SCEDebug:				= 0	; if 1, enable debug level select
 GameDebug:				= 1	; if 1, enable debug mode for player
 GameDebugAlt:				= 0	; if 1, enable alt debug mode for player
 BossDebug:				= 0	; if 1, set one hit on all bosses
@@ -22,7 +21,6 @@ ExtendedCamera:				= 0	; if 1, enable extended camera
 RollInAir:				= 1	; if 1, enable roll in air for players
 PlayerMoveLock:				= 0	; if 1, lock control during the fall animation (Android, Mania, Origins style...)
 OptimiseStopZ80:			= 2	; if 1, remove stopZ80 and startZ80, if 2, use only for controllers (no effect on sound driver)
-ZeroOffsetOptimization:			= 1	; if 1, makes a handful of zero-offset instructions smaller
 ChecksumCheck:				= 0	; if 1, enable checksum checking
 EnableSRAM:				= 0	; if 1, enable SRAM
 BackupSRAM:				= 0

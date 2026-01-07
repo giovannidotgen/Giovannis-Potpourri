@@ -48,7 +48,7 @@ Obj_Pole:
 		; check p1
 		lea	(Player_1).w,a1							; a1=character
 		move.w	(Ctrl_1).w,d1
-		moveq	#0,d2								; WindTunnel_holding_flag
+		moveq	#WindTunnel_holding_flag.player_1,d2
 		bsr.s	.control
 
 		; check p2
@@ -57,7 +57,7 @@ Obj_Pole:
 		tst.l	address(a1)							; is player RAM empty?
 		beq.s	.rcheck								; if yes, branch
 		move.w	(Ctrl_2).w,d1
-		moveq	#1,d2
+		moveq	#WindTunnel_holding_flag.player_2,d2
 		bsr.s	.control
 
 .rcheck
@@ -188,7 +188,7 @@ Obj_Pole:
 		moveq	#20,d0
 		add.w	x_pos(a0),d0
 		move.w	d0,x_pos(a1)
-		bclr	#Status_Facing,status(a1)
+		bclr	#status.player.x_flip,status(a1)
 		move.b	#AniIDSonAni_Hang,anim(a1)					; set player's animation to "hanging" ($11)
 		move.b	#1,object_control(a1)						; lock controls
 		bset	d2,(WindTunnel_holding_flag).w					; disable wind tunnel
@@ -198,7 +198,7 @@ Obj_Pole:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Pole:		subObjMainData Obj_Pole.action, rfCoord, 0, 64, 16, 4, $3DE, 2, 0, Map_Pole
+ObjDat_Pole:		subObjMainData Obj_Pole.action, setBit(render_flags.level), 0, 64, 16, 4, $3DE, 2, 0, Map_Pole
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Pole that Breaks/Object Data/Map - Pole that Breaks.asm"

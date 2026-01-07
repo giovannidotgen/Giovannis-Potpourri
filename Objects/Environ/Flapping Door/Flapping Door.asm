@@ -13,7 +13,7 @@ Obj_FlapDoor:
 		; init
 		move.l	#Map_Flap,mappings(a0)
 		move.w	#make_art_tile($328,2,0),art_tile(a0)
-		ori.b	#rfCoord,render_flags(a0)					; use screen coordinates
+		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.w	#bytes_to_word(80/2,80/2),height_pixels(a0)			; set height and width
 		move.l	#.openclose,address(a0)
 		moveq	#0,d0
@@ -43,7 +43,12 @@ Obj_FlapDoor:
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0							; has Sonic passed through the door?
 		bhs.s	.display							; if yes, branch
-		move.b	#3,(WindTunnel_holding_flag).w					; Player_1 + Player_2 (bit set 0 + 1) ; disable wind tunnel
+
+		; disable wind tunnel
+		move.b	#( \
+			setBit(WindTunnel_holding_flag.player_1) | \
+			setBit(WindTunnel_holding_flag.player_2) \
+		),(WindTunnel_holding_flag).w
 
 .solid
 		moveq	#(16/2)+$B,d1							; width

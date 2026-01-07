@@ -35,12 +35,12 @@ Obj_Newtron:
 
 .chkdistance
 		jsr	(Find_SonicTails).w
-		bset	#0,status(a0)
+		bset	#status.npc.x_flip,status(a0)
 		tst.w	d0
-		bne.s	.sonicisright
-		bclr	#0,status(a0)
+		bne.s	.Sonicisright
+		bclr	#status.npc.x_flip,status(a0)
 
-.sonicisright
+.Sonicisright
 		cmpi.w	#128,d2								; is Sonic within $80 pixels of the newtron?
 		bhs.s	.outofrange							; if not, branch
 		move.l	#.type00,objoff_34(a0)						; goto .type00 next
@@ -60,19 +60,19 @@ Obj_Newtron:
 		cmpi.b	#4,mapping_frame(a0)						; has "appearing" animation finished?
 		bhs.s	.fall								; is yes, branch
 		jsr	(Find_SonicTails).w
-		bset	#0,status(a0)
+		bset	#status.npc.x_flip,status(a0)
 		tst.w	d0
-		bne.s	.sonicisright
-		bclr	#0,status(a0)
+		bne.s	.Sonicisright
+		bclr	#status.npc.x_flip,status(a0)
 
-.sonicisright2
+.Sonicisright2
 		rts
 ; ---------------------------------------------------------------------------
 
 .fall
 		cmpi.b	#1,mapping_frame(a0)
 		bne.s	.loc_DE42
-		move.b	#$C,collision_flags(a0)
+		move.b	#$C|collision_flags.npc.touch,collision_flags(a0)
 
 .loc_DE42
 		jsr	(MoveSprite).w
@@ -84,13 +84,13 @@ Obj_Newtron:
 		move.l	#.matchfloor,objoff_34(a0)
 		move.b	#2,anim(a0)
 		btst	#5,art_tile(a0)							; palette_line_1
-		beq.s	.pppppppp
+		beq.s	.notgreen
 		addq.b	#1,anim(a0)
 
-.pppppppp
-		move.b	#$D,collision_flags(a0)
+.notgreen
+		move.b	#$D|collision_flags.npc.touch,collision_flags(a0)
 		move.w	#$200,x_vel(a0)							; move newtron horizontally
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		bne.s	.keepfalling
 		neg.w	x_vel(a0)
 
@@ -118,7 +118,7 @@ Obj_Newtron:
 .type01
 		cmpi.b	#1,mapping_frame(a0)
 		bne.s	.firemissile
-		move.b	#$C,collision_flags(a0)
+		move.b	#$C|collision_flags.npc.touch,collision_flags(a0)
 
 .firemissile
 		cmpi.b	#2,mapping_frame(a0)
@@ -139,7 +139,7 @@ Obj_Newtron:
 		subq.w	#8,y_pos(a1)
 		move.w	#$200,x_vel(a1)
 		moveq	#20,d0
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		bne.s	.noflip
 		neg.w	d0
 		neg.w	x_vel(a1)

@@ -146,7 +146,7 @@ GameModeID_CreditsScreen =					id(GameMode_CreditsScreen)			; 28
 
 DemoScreen =							LevelScreen
 GameModeFlag_TitleCard =					7						; flag bit
-GameModeID_TitleCard =						1<<GameModeFlag_TitleCard			; flag mask
+GameModeID_TitleCard =						setBit(GameModeFlag_TitleCard)			; flag mask
 
 ; ---------------------------------------------------------------------------
 ; Player IDs
@@ -317,21 +317,21 @@ button_start:							equ 7
 ; Buttons masks (1 << x == pow(2, x))
 ; ---------------------------------------------------------------------------
 
-button_up_mask:							equ 1<<button_up				; $01
-button_down_mask:						equ 1<<button_down				; $02
-button_left_mask:						equ 1<<button_left				; $04
-button_right_mask:						equ 1<<button_right				; $08
-button_B_mask:							equ 1<<button_B					; $10
-button_C_mask:							equ 1<<button_C					; $20
-button_A_mask:							equ 1<<button_A					; $40
-button_start_mask:						equ 1<<button_start				; $80
+button_up_mask:							equ setBit(button_up)				; $01
+button_down_mask:						equ setBit(button_down)				; $02
+button_left_mask:						equ setBit(button_left)				; $04
+button_right_mask:						equ setBit(button_right)			; $08
+button_B_mask:							equ setBit(button_B)				; $10
+button_C_mask:							equ setBit(button_C)				; $20
+button_A_mask:							equ setBit(button_A)				; $40
+button_start_mask:						equ setBit(button_start)			; $80
 
 ; ---------------------------------------------------------------------------
 ; Joypad input
 ; ---------------------------------------------------------------------------
 
 btnABCS:							equ %11110000					; A, B, C or Start ($F0)
-btnStart:							equ %10000000					; Start button	($80)
+btnStart:							equ %10000000					; Start button ($80)
 btnABC:								equ %01110000					; A, B or C ($70)
 btnAC:								equ %01100000					; A or C ($60)
 btnAB:								equ %01010000					; A or B ($50)
@@ -353,7 +353,7 @@ btnUL:								equ %00000101					; Up or Left ($05)
 btnL:								equ %00000100					; Left ($04)
 btnUD:								equ %00000011					; Up or Down ($03)
 btnDn:								equ %00000010					; Down ($02)
-btnUp:								equ %00000001					; Up	($01)
+btnUp:								equ %00000001					; Up ($01)
 
 ; ---------------------------------------------------------------------------
 ; Joypad bits
@@ -369,6 +369,16 @@ bitDn:								equ 1
 bitUp:								equ 0
 
 ; ---------------------------------------------------------------------------
+; Condition Code Register (CCR) bits
+; ---------------------------------------------------------------------------
+
+ccr_x_bit							= 4						; extend ($10)
+ccr_n_bit							= 3						; negative ($08)
+ccr_z_bit							= 2						; zero ($04)
+ccr_v_bit							= 1						; overflow ($02)
+ccr_c_bit							= 0						; carry ($01)
+
+; ---------------------------------------------------------------------------
 ; Unknown or inconsistently used offsets that are not applicable to Sonic
 ; ---------------------------------------------------------------------------
 
@@ -382,7 +392,8 @@ bitUp:								equ 0
  nextenum	objoff_31,objoff_32,objoff_33,objoff_34,objoff_35,objoff_36,objoff_37
  nextenum	objoff_38,objoff_39,objoff_3A,objoff_3B,objoff_3C,objoff_3D,objoff_3E
  nextenum	objoff_3F,objoff_40,objoff_41,objoff_42,objoff_43,objoff_44,objoff_45
- nextenum	objoff_46,objoff_47,objoff_48,objoff_49
+ nextenum	objoff_46,objoff_47,objoff_48,objoff_49,objoff_4A,objoff_4B,objoff_4C
+ nextenum	objoff_4D,objoff_4E,objoff_4F
 
 ; ---------------------------------------------------------------------------
 ; property of all objects
@@ -438,7 +449,7 @@ collision_flags =						objoff_28					; byte ; TT SSSSSS ; TT = collision type, S
 collision_property =						objoff_29					; byte ; usage varies, bosses use it as a hit counter
 shield_reaction =						objoff_2B					; byte ; bit 3 = bounces off shield, bit 4 = negated by fire shield, bit 5 = negated by lightning shield, bit 6 = negated by bubble shield
 subtype =							objoff_2C					; byte
-wait =								objoff_2E					; word
+wait_timer =							objoff_2E					; word
 aniraw =							objoff_30					; long
 jump =								objoff_34					; long
 count =								objoff_39					; byte
@@ -452,7 +463,7 @@ child_dy =							objoff_43					; byte ; Y offset of child relative to parent
 parent4 =							objoff_44					; word
 parent3 =							objoff_46					; word ; parent of child objects
 parent2 =							objoff_48					; word ; several objects use this instead
-respawn_addr =							objoff_48					; word ; the address of this object's entry in the respawn table
+respawn_addr =							objoff_4E					; word ; the address of this object's entry in the respawn table
 
 ; ---------------------------------------------------------------------------
 ; Conventions specific to Sonic/Tails/Knuckles
@@ -505,7 +516,7 @@ boss_hitcount2 =						objoff_29					; byte ; usage varies, bosses use it as a hi
 obId =								address						; long
 obRender =							render_flags					; byte ; bitfield for x/y flip, display mode
 obRoutine =							routine						; byte ; routine number
-obHeight	 =						height_pixels					; byte ; height/2
+obHeight =							height_pixels					; byte ; height/2
 obWidth =							width_pixels					; byte ; width/2
 obPriority =							priority					; word ; sprite stack priority -- 0 is front
 obGfx =								art_tile					; word ; palette line & VRAM setting (2 bytes)
@@ -514,7 +525,7 @@ obX =								x_pos						; word ; x-axis position (2-4 bytes)
 obY =								y_pos						; word ; y-axis position (2-4 bytes)
 obVelX =							x_vel						; word ; x-axis velocity (2 bytes)
 obVelY =							y_vel						; word ; y-axis velocity (2 bytes)
-obInertia	 =						ground_vel					; word ; potential speed (2 bytes)
+obInertia =							ground_vel					; word ; potential speed (2 bytes)
 obAnim =							anim						; byte ; current animation
 obNextAni =							next_anim					; byte ; next animation
 obFrame =							mapping_frame					; byte ; current frame displayed
@@ -525,7 +536,7 @@ obColType =							collision_flags					; byte ; collision response type
 obColProp =							collision_property				; byte ; collision extra property
 obStatus =							status						; byte ; orientation or mode
 obSubtype =							subtype						; byte ; object subtype
-obTimer =							wait						; word ; object timer
+obTimer =							wait_timer					; word ; object timer
 obParent =							parent						; word ; parent of child objects
 obParent4 =							parent4						; word ; parent of child objects
 obParent3 =							parent3						; word ; parent of child objects
@@ -563,6 +574,9 @@ sub8_mapframe							= objoff_41
 sub9_x_pos							= objoff_42
 sub9_y_pos							= objoff_44
 sub9_mapframe							= objoff_47
+subA_x_pos							= objoff_48
+subA_y_pos							= objoff_4A
+subA_mapframe							= objoff_4D
 
 next_subspr							= 6						; size
 
@@ -573,13 +587,13 @@ next_subspr							= 6						; size
 
 p1_standing_bit							= 3
 p2_standing_bit							= p1_standing_bit + 1
-p1_standing							= 1<<p1_standing_bit
-p2_standing							= 1<<p2_standing_bit
+p1_standing							= setBit(p1_standing_bit)
+p2_standing							= setBit(p2_standing_bit)
 pushing_bit_delta						= 2
 p1_pushing_bit							= p1_standing_bit + pushing_bit_delta
 p2_pushing_bit							= p1_pushing_bit + 1
-p1_pushing							= 1<<p1_pushing_bit
-p2_pushing							= 1<<p2_pushing_bit
+p1_pushing							= setBit(p1_pushing_bit)
+p2_pushing							= setBit(p2_pushing_bit)
 standing_mask							= p1_standing|p2_standing
 pushing_mask							= p1_pushing|p2_pushing
 
@@ -590,45 +604,84 @@ pushing_mask							= p1_pushing|p2_pushing
 
 p1_touch_side_bit						= 0
 p2_touch_side_bit						= p1_touch_side_bit + 1
-p1_touch_side							= 1<<p1_touch_side_bit
-p2_touch_side							= 1<<p2_touch_side_bit
+p1_touch_side							= setBit(p1_touch_side_bit)
+p2_touch_side							= setBit(p2_touch_side_bit)
 touch_side_mask							= p1_touch_side|p2_touch_side
 p1_touch_bottom_bit						= p1_touch_side_bit + pushing_bit_delta
 p2_touch_bottom_bit						= p1_touch_bottom_bit + 1
-p1_touch_bottom							= 1<<p1_touch_bottom_bit
-p2_touch_bottom							= 1<<p2_touch_bottom_bit
+p1_touch_bottom							= setBit(p1_touch_bottom_bit)
+p2_touch_bottom							= setBit(p2_touch_bottom_bit)
 touch_bottom_mask						= p1_touch_bottom|p2_touch_bottom
 p1_touch_top_bit						= p1_touch_bottom_bit + pushing_bit_delta
 p2_touch_top_bit						= p1_touch_top_bit + 1
-p1_touch_top							= 1<<p1_touch_top_bit
-p2_touch_top							= 1<<p2_touch_top_bit
+p1_touch_top							= setBit(p1_touch_top_bit)
+p2_touch_top							= setBit(p2_touch_top_bit)
 touch_top_mask							= p1_touch_top|p2_touch_top
+
+; ---------------------------------------------------------------------------
+; Sprite priority
+; ---------------------------------------------------------------------------
+
+priority_0							= sprite_priority(0)				; high priority
+priority_1							= sprite_priority(1)
+priority_2							= sprite_priority(2)
+priority_3							= sprite_priority(3)
+priority_4							= sprite_priority(4)
+priority_5							= sprite_priority(5)
+priority_6							= sprite_priority(6)
+priority_7							= sprite_priority(7)				; low priority
+
+; ---------------------------------------------------------------------------
+; Sprite render screen bits
+; ---------------------------------------------------------------------------
+
+render_flags.x_flip						= 0						; sprite mirrored horizontally
+render_flags.y_flip						= 1						; sprite mirrored vertically
+render_flags.level						= 2						; move with level
+
+render_flags.static_mappings					= 5						; mappings pointer points directly to a lone sprite piece instead of a list of sprites
+render_flags.multi_sprite					= 6						; object SST holds metadata for multiple sprites
+render_flags.on_screen						= 7						; object is on-screen and was rendered on the previous frame
 
 ; ---------------------------------------------------------------------------
 ; Player status variables
 ; ---------------------------------------------------------------------------
 
-Status_Facing							= 0
-Status_InAir							= 1
-Status_Roll							= 2
-Status_OnObj							= 3
+status.player.x_flip						= render_flags.x_flip				; facing left
+status.player.in_air						= 1						; airborne
+status.player.rolling						= 2						; spinning, i.e. jumping or rolling
+status.player.on_object						= 3						; stood on an object rather than the level
 
-Status_Push							= 5
-Status_Underwater						= 6
-Status_DropDashLock						= 7	; GIO: Used only by Sonic. Prevents him from initiating a Drop Dash.
+status.player.pushing						= 5						; pressing against an object
+status.player.underwater					= 6						; submersed
+status.player.prevent_tails_respawn				= 7						; prevents AI Tails from respawning (GIO: doesn't work if EnableDropDash is enabled)
+status.player.dropdashlock					= 7						; GIO: When set on Sonic, prevents him from initiating a Drop Dash.
 
 
 ; ---------------------------------------------------------------------------
 ; Player status secondary variables
 ; ---------------------------------------------------------------------------
 
-Status_Shield							= 0
-Status_Invincible						= 1
-Status_SpeedShoes						= 2
-Status_DropDash							= 3 ; GIO: Used only by Sonic. Determines whether or not a Drop Dash Charge was initiated.
-Status_FireShield						= 4
-Status_LtngShield						= 5
-Status_BublShield						= 6
+status_secondary.shield						= 0
+status_secondary.invincible					= 1
+status_secondary.speed_shoes					= 2
+status_secondary.dropdash					= 3						; GIO: Used only by Sonic. Determines whether or not a Drop Dash Charge was initiated.
+status_secondary.fire_shield					= 4
+status_secondary.lightning_shield				= 5
+status_secondary.bubble_shield					= 6
+status_secondary.sliding					= 7
+
+; ---------------------------------------------------------------------------
+; Player shield reaction variables
+; ---------------------------------------------------------------------------
+
+shield_reaction.shield						= 0
+shield_reaction.invincible					= 1
+shield_reaction.speed_shoes					= 2
+shield_reaction.all_shields					= 3
+shield_reaction.fire_shield					= 4
+shield_reaction.lightning_shield				= 5
+shield_reaction.bubble_shield					= 6
 
 Status_FireShieldByte					= 1<<Status_FireShield
 Status_LtngShieldByte					= 1<<Status_LtngShield
@@ -638,10 +691,37 @@ Status_BublShieldByte					= 1<<Status_BublShield
 ; Object status variables
 ; ---------------------------------------------------------------------------
 
-Status_FlipX							= 0						; used by Animate_Sprite
-Status_FlipY							= 1						; used by Animate_Sprite
-Status_Touch							= 6						; some/most bosses
-Status_Defeated							= 7						; some/most bosses
+status.npc.x_flip						= render_flags.x_flip				; facing right ; used by Animate_Sprite
+status.npc.y_flip						= render_flags.y_flip				; facing up ; used by Animate_Sprite
+status.npc.dplc_slot						= 2						; set if DPLC is used ; used by SetUp_ObjAttributesSlotted
+status.npc.p1_standing						= 3						; stood on by player 1
+status.npc.p2_standing						= 4						; stood on by player 2
+status.npc.p1_pushing						= 5						; pushed by player 1
+status.npc.p2_pushing						= 6						; pushed by player 2
+status.npc.no_balancing						= 7						; prevents player from performing their balancing animation whilst stood upon this object
+
+; bosses
+status.npc.touch						= 6						; set if a player hit the boss
+status.npc.defeated						= 7						; set if a player defeated the enemy or boss
+
+; ---------------------------------------------------------------------------
+; Object collision variables
+; ---------------------------------------------------------------------------
+
+collision_flags.npc.touch					= (0<<6)
+collision_flags.npc.item					= (1<<6)
+collision_flags.npc.hurt					= (2<<6)
+collision_flags.npc.special					= (3<<6)
+
+collision_flags.npc.size_mask					= $3F
+collision_flags.npc.type_mask					= $C0
+
+; ---------------------------------------------------------------------------
+; Water wind tunnels variables
+; ---------------------------------------------------------------------------
+
+WindTunnel_holding_flag.player_1				= 0
+WindTunnel_holding_flag.player_2				= 1
 
 ; ---------------------------------------------------------------------------
 ; Universal (used on all standard levels)
@@ -664,6 +744,18 @@ ArtTile_Shield_Sparks						= ArtTile_Shield+$1F
 ArtTile_LifeIcon						= $7D4
 ArtTile_DashDust						= $7E0
 ArtTile_DashDust_P2						= $7F0
+
+; ---------------------------------------------------------------------------
+; Values for the type and rwd argument
+; ---------------------------------------------------------------------------
+
+VRAM = %100001
+CRAM = %101011
+VSRAM = %100101
+
+READ = %001100
+WRITE = %000111
+DMA = %100111
 
 ; ---------------------------------------------------------------------------
 ; VRAM and tile art base addresses
@@ -722,46 +814,13 @@ palette_line3							= (3<<13)
 palette_line_3							= (3<<13)
 palette_line_size						= 16*2						; 16 word entries
 high_priority_bit						= 7
-high_priority							= (1<<15)
+high_priority							= setBit(15)
 palette_mask							= $6000
 tile_size							= 8*8/2
 plane_size_64x32						= 64*32*2
 tile_mask							= $7FF
 nontile_mask							= $F800
 drawing_mask							= $7FFF
-
-; ---------------------------------------------------------------------------
-; Sprite priority
-; ---------------------------------------------------------------------------
-
-priority_0							= sprite_priority(0)				; high priority
-priority_1							= sprite_priority(1)
-priority_2							= sprite_priority(2)
-priority_3							= sprite_priority(3)
-priority_4							= sprite_priority(4)
-priority_5							= sprite_priority(5)
-priority_6							= sprite_priority(6)
-priority_7							= sprite_priority(7)				; low priority
-
-; ---------------------------------------------------------------------------
-; Sprite render screen flags
-; ---------------------------------------------------------------------------
-
-rfCoord								= %00000100					; screen coordinates flag ($04)
-
-rfStatic							= %00100000					; static mappings flag ($20)
-rfMulti								= %01000000					; multi-draw flag ($40)
-rfOnscreen							= %10000000					; on-screen flag ($80)
-
-; ---------------------------------------------------------------------------
-; Sprite render screen bits
-; ---------------------------------------------------------------------------
-
-rbCoord								= 2						; screen coordinates bit
-
-rbStatic							= 5						; static mappings bit
-rbMulti								= 6						; multi-draw bit
-rbOnscreen							= 7						; on-screen bit
 
 ; ---------------------------------------------------------------------------
 ; Animation flags

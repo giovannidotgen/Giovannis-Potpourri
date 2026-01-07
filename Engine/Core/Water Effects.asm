@@ -109,10 +109,10 @@ CheckLevelForWater:
 		; load player water palette
 		lea	(Level_data_addr_RAM.WaterSPal).w,a1					; load Sonic's palette
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notwaterknux
+		blo.s	.notwaterKnux
 		addq.w	#1,a1									; load Knuckles's palette
 
-.notwaterknux
+.notwaterKnux
 		moveq	#0,d0
 		move.b	(a1),d0									; player water palette
 		move.w	d0,d1
@@ -149,28 +149,32 @@ Water_WindTunnels:
 		tst.w	(Debug_placement_mode).w						; is debug mode on?
 		bne.s	LoadWaterPalette.return							; if yes, branch
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w					; is Tails?
-		beq.s	loc_6F82								; if yes, branch
+		beq.s	.isTails								; if yes, branch
 
-		; check
+		; check p1
 		lea	(Player_1).w,a1								; a1=character
 		lea	(WindTunnel_flag).w,a3
 		move.b	(Ctrl_1_logical).w,d6
-		moveq	#0,d5
+		moveq	#WindTunnel_holding_flag.player_1,d5
 		bsr.s	LZ_WaterTunnels
+
+		; check p2
 		addq.w	#1,a3
 		lea	(Player_2).w,a1								; a1=character
 		tst.l	address(a1)								; is player RAM empty?
 		beq.s	LoadWaterPalette.return							; if yes, branch
 		move.b	(Ctrl_2_logical).w,d6
-		moveq	#1,d5
+		moveq	#WindTunnel_holding_flag.player_2,d5
 		bra.s	LZ_WaterTunnels
 ; ---------------------------------------------------------------------------
 
-loc_6F82:
+.isTails
+
+		; check p1
 		lea	(Player_1).w,a1								; a1=character
 		lea	(WindTunnel_flag_P2).w,a3
 		move.b	(Ctrl_1_logical).w,d6
-		moveq	#0,d5
+		moveq	#WindTunnel_holding_flag.player_1,d5
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -221,7 +225,7 @@ LZ_WaterTunnels:
 		addq.w	#4,x_pos(a1)
 		move.l	#words_to_long($400,0),x_vel(a1)
 		move.b	#AniIDSonAni_Float2,anim(a1)
-		bset	#Status_InAir,status(a1)
+		bset	#status.player.in_air,status(a1)
 
 		; clear
 		moveq	#0,d0
@@ -274,9 +278,9 @@ Water_WaterSlides:
 		move.b	(Ctrl_2_logical).w,d2
 
 sub_71E4:
-		btst	#Status_InAir,status(a1)						; is the player in the air?
+		btst	#status.player.in_air,status(a1)					; is the player in the air?
 		bne.s	loc_3F6A								; if yes, branch
-		btst	#Status_OnObj,status(a1)
+		btst	#status.player.on_object,status(a1)
 		bne.s	loc_3F6A
 
 		; calc chunk
@@ -337,10 +341,10 @@ loc_7254:
 		addi.w	#$40,ground_vel(a1)
 
 loc_725E:
-		bclr	#Status_Facing,status(a1)
+		bclr	#status.player.x_flip,status(a1)
 		tst.b	d1
 		bpl.s	loc_3F9A
-		bset	#Status_Facing,status(a1)
+		bset	#status.player.x_flip,status(a1)
 
 loc_3F9A:
 		move.b	#AniIDSonAni_Slide,anim(a1)						; use Sonic's "sliding" animation
@@ -356,7 +360,7 @@ loc_728A:
 		btst	#button_left,d2
 		beq.s	loc_72AC
 		clr.b	anim(a1)
-		bset	#Status_Facing,status(a1)
+		bset	#status.player.x_flip,status(a1)
 		sub.w	d1,d0
 		tst.w	d0
 		bpl.s	loc_72AC
@@ -366,7 +370,7 @@ loc_72AC:
 		btst	#button_right,d2
 		beq.s	loc_72C6
 		clr.b	anim(a1)
-		bclr	#Status_Facing,status(a1)
+		bclr	#status.player.x_flip,status(a1)
 		add.w	d1,d0
 		tst.w	d0
 		bmi.s	loc_72C6

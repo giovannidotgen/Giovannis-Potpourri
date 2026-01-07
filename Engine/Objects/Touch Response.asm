@@ -9,14 +9,23 @@ TouchResponse:
 		bsr.w	ShieldTouchResponse
 		tst.b	character_id(a0)						; is the player Sonic?
 		bne.s	.Touch_NoInstaShield						; if not, branch
-		moveq	#$73,d0								; does the player have any shields or is invincible?
+
+		; does the player have any shields or is invincible?
+		moveq	#signextendB( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.invincible) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),d0
+
 		and.b	status_secondary(a0),d0
 		bne.s	.Touch_NoInstaShield						; if so, branch
 
 		; by this point, we're focussing purely on the Insta-Shield
 		cmpi.b	#1,double_jump_flag(a0)						; is the Insta-Shield currently in its 'attacking' mode?
 		bne.s	.Touch_NoInstaShield						; if not, branch
-		bset	#Status_Invincible,status_secondary(a0)				; make the player invincible
+		bset	#status_secondary.invincible,status_secondary(a0)		; make the player invincible
 		moveq	#-24,d2								; subtract width of Insta-Shield
 		add.w	x_pos(a0),d2							; get player's x_pos
 		moveq	#-24,d3								; subtract height of Insta-Shield
@@ -24,7 +33,7 @@ TouchResponse:
 		moveq	#48,d4								; player's width
 		moveq	#48,d5								; player's height
 		bsr.s	.Touch_Process
-		bclr	#Status_Invincible,status_secondary(a0)				; make the player vulnerable again
+		bclr	#status_secondary.invincible,status_secondary(a0)		; make the player vulnerable again
 
 .alreadyinvincible
 		moveq	#0,d0
@@ -107,9 +116,9 @@ Touch_Height:
 
 ; ---------------------------------------------------------------------------
 ; collision sizes $00-$3F (width,height)
-; $00-$3F	- touch collision
-; $40-$7F	- ring/monitor collision
-; $80-$BF	- enemy(hurt) collision
+; $00-$3F	- touch collision (enemy/boss)
+; $40-$7F	- item collision (ring/monitor)
+; $80-$BF	- hurt collision (spikes)
 ; $C0-$FF	- special collision
 ; ---------------------------------------------------------------------------
 
@@ -190,7 +199,8 @@ Touch_ChkValue:
 		cmpi.b	#6,d0								; is touch response $46?
 		beq.s	Touch_Monitor							; if yes, branch
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Touch_Ring:
 		move.b	(Player_1+invulnerability_timer).w,d0				; get the main character's invulnerability_timer
@@ -200,7 +210,8 @@ Touch_Ring:
 
 .locret
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Touch_Monitor:
 		move.w	y_vel(a0),d0							; get player's y_vel
@@ -209,7 +220,7 @@ Touch_Monitor:
 		neg.w	d0								; negate player's y_vel
 
 .normalgravity
-		btst	#1,render_flags(a1)						; is the monitor upside down?
+		btst	#render_flags.y_flip,render_flags(a1)				; is the monitor upside down?
 		beq.s	.monitornotupsidedown						; if not, branch
 		tst.w	d0
 		beq.s	.checkdestroy							; if player isn't moving up or down at all, branch
@@ -224,9 +235,9 @@ Touch_Monitor:
 .checkfall
 
 		; this check is responsible for S&K's monitors not falling if hit from below (but only in regular gravity. see below)
-		btst	#1,status(a1)							; is the monitor upside down (different way of checking)?
+		btst	#status.npc.y_flip,status(a1)					; is the monitor upside down (different way of checking)?
 		beq.s	.checkdestroy							; if not, branch
-		btst	#1,render_flags(a1)						; is the monitor upside down?
+		btst	#render_flags.y_flip,render_flags(a1)				; is the monitor upside down?
 		bne.s	.monitorupsidedown						; if so, branch
 		moveq	#-16,d0								; subtract height of monitor from it
 		add.w	y_pos(a0),d0							; get player's y_pos
@@ -286,10 +297,11 @@ Touch_Monitor:
 
 .return
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Touch_Enemy:
-		btst	#Status_Invincible,status_secondary(a0)				; is player invincible?
+		btst	#status_secondary.invincible,status_secondary(a0)		; is player invincible?
 		bne.s	.checkhurtenemy							; if so, branch
 		cmpi.b	#AniIDSonAni_SpinDash,anim(a0)					; is player in their spin dash animation?
 		beq.s	.checkhurtenemy							; if so, branch
@@ -304,7 +316,7 @@ Touch_Enemy:
 		
 .notsonic:		
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)				; is player Knuckles?
-		bne.s	.notknuckles							; if not, branch
+		bne.s	.notKnuckles							; if not, branch
 		cmpi.b	#1,double_jump_flag(a0)						; is Knuckles gliding?
 		beq.s	.checkhurtenemy							; if so, branch
 		cmpi.b	#3,double_jump_flag(a0)						; is Knuckles sliding across the ground after gliding?
@@ -312,12 +324,12 @@ Touch_Enemy:
 		bra.w	Touch_ChkHurt
 ; ---------------------------------------------------------------------------
 
-.notknuckles
+.notKnuckles
 		cmpi.b	#PlayerID_Tails,character_id(a0)				; is player Tails?
 		bne.w	Touch_ChkHurt							; if not, branch
 		tst.b	double_jump_flag(a0)						; is Tails flying? ("gravity-affected")
 		beq.w	Touch_ChkHurt							; if not, branch
-		btst	#Status_Underwater,status(a0)					; is Tails underwater?
+		btst	#status.player.underwater,status(a0)				; is Tails underwater?
 		bne.w	Touch_ChkHurt							; if not, branch
 		move.w	x_pos(a0),d1
 		move.w	y_pos(a0),d2
@@ -348,7 +360,7 @@ Touch_Enemy:
 		bne.s	.bossnotdefeated
 	endif
 
-		bset	#7,status(a1)
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 
 .bossnotdefeated
 		cmpi.b	#PlayerID_Knuckles,character_id(a0)				; is player Knuckles?
@@ -359,27 +371,32 @@ Touch_Enemy:
 		move.b	#$21,anim(a0)							; put Knuckles in his falling animation
 
 		; decide which direction to make Knuckles face
-		bclr	#Status_Facing,status(a0)
+		bclr	#status.player.x_flip,status(a0)
 		tst.w	x_vel(a0)
 		bmi.s	.directiondecided
-		bset	#Status_Facing,status(a0)
+		bset	#status.player.x_flip,status(a0)
 
 .directiondecided
 		move.w	default_y_radius(a0),y_radius(a0)				; set default_y_radius and default_x_radius
 
 .return
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Touch_EnemyNormal:
-		btst	#2,status(a1)							; should the object remember that it's been destroyed (Remember Sprite State flag)?
-		beq.s	.dontremember							; if not, branch
-		move.b	ros_bit(a1),d0
-		movea.w	ros_addr(a1),a2
-		bclr	d0,(a2)								; mark object as destroyed
 
-.dontremember
-		bset	#7,status(a1)
+		; check DPLC slot
+		btst	#status.npc.dplc_slot,status(a1)				; was this object slot turned on?
+		beq.s	.notDPLC							; if not, branch
+
+		; Remove_From_TrackingSlot
+		move.b	ros_bit(a1),d0							; slot bit
+		movea.w	ros_addr(a1),a2							; slot address
+		bclr	d0,(a2)								; turn off this slot (SetUp_ObjAttributesSlotted)
+
+.notDPLC
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 		moveq	#0,d0
 		move.w	(Chain_bonus_counter).w,d0
 		addq.w	#2,(Chain_bonus_counter).w					; add 2 to item bonus counter
@@ -427,19 +444,28 @@ Enemy_Points:	dc.w 10, 20, 50, 100							; points awarded div 10
 ; =============== S U B R O U T I N E =======================================
 
 React_Caterkiller:
-		bset	#6,status(a1)
+		bset	#status.npc.touch,status(a1)
 
 Touch_ChkHurt:
-		moveq	#$73,d0								; does player have any shields or is invincible?
+
+		; does player have any shields or is invincible?
+		moveq	#signextendB( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.invincible) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),d0
+
 		and.b	status_secondary(a0),d0
 		beq.s	Touch_ChkHurt_NoPowerUp						; if not, branch
 		and.b	shield_reaction(a1),d0						; does one of the player's shields grant immunity to this object??
 		bne.s	Touch_ChkHurt_Return						; if so, branch
-		btst	#Status_Shield,status_secondary(a0)				; does the player have a shield (strange time to ask)
+		btst	#status_secondary.shield,status_secondary(a0)			; does the player have a shield (strange time to ask)
 		bne.s	Touch_ChkHurt_HaveShield					; if so, branch
 
 Touch_ChkHurt2:
-		btst	#Status_Invincible,status_secondary(a0)				; does Sonic have invincibility?
+		btst	#status_secondary.invincible,status_secondary(a0)		; does Sonic have invincibility?
 		beq.s	Touch_Hurt							; if not, branch
 
 Touch_ChkHurt_Return:
@@ -457,7 +483,7 @@ Touch_ChkHurt_NoPowerUp:
 		bne.s	Touch_ChkHurt2							; if not, branch
 
 Touch_ChkHurt_HaveShield:
-		moveq	#1<<3,d0							; should the object be bounced away by a shield?
+		moveq	#setBit(shield_reaction.all_shields),d0				; should the object be bounced away by a shield?
 		and.b	shield_reaction(a1),d0
 		beq.s	Touch_ChkHurt2							; if not, branch
 
@@ -482,7 +508,7 @@ Touch_ChkHurt_Bounce_Projectile:
 Touch_Hurt:
 		tst.b	invulnerability_timer(a0)					; is the player invulnerable?
 		bne.s	Touch_ChkHurt_Return						; if so, branch
-		movea.w	a1,a2
+		movea.w	a1,a2								; load current object to a2
 
 ; continue straight to HurtCharacter
 ; ---------------------------------------------------------------------------
@@ -496,7 +522,7 @@ HurtCharacter:
 		cmpa.w	#Player_1,a0
 		bne.s	.bounce
 
-		btst	#Status_Shield,status_secondary(a0)				; does Sonic have shield?
+		btst	#status_secondary.shield,status_secondary(a0)			; does Sonic have shield?
 		bne.s	.hasshield							; if yes, branch
 		tst.b	status_tertiary(a0)
 		bmi.s	.bounce
@@ -510,14 +536,20 @@ HurtCharacter:
 		move.w	a0,objoff_3E(a1)
 
 .hasshield
-		andi.b	#$8E,status_secondary(a0)
+
+		andi.b	#~( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),status_secondary(a0)
 
 .bounce
 		move.b	#PlayerID_Hurt,routine(a0)
 		bsr.w	Player_TouchFloor
-		bset	#Status_InAir,status(a0)
+		bset	#status.player.in_air,status(a0)
 		move.l	#words_to_long(-$200,-$400),x_vel(a0)				; make Sonic bounce away from the object
-		btst	#Status_Underwater,status(a0)					; is Sonic underwater?
+		btst	#status.player.underwater,status(a0)				; is Sonic underwater?
 		beq.s	.isdry								; if not, branch
 		move.l	#words_to_long(-$100,-$200),x_vel(a0)				; slower bounce
 
@@ -532,15 +564,17 @@ HurtCharacter:
 
 		; set anim
 ;		moveq	#AniIDSonAni_Hurt2,d0						; normal anim
-;		btst	#Status_FireShield,shield_reaction(a2)
+;		btst	#status_secondary.fire_shield,shield_reaction(a2)
 ;		beq.s	.notfire
 ;		moveq	#AniIDSonAni_HurtBW,d0						; fire anim
 
 ;.notfire
 ;		move.b	d0,anim(a0)							; set hurt anim
 
-		move.b	#AniIDSonAni_Hurt2,anim(a0)					; set hurt anim
+		move.b	#AniIDSonAni_Hurt2,anim(a0)
 		move.b	#2*60,invulnerability_timer(a0)					; set temp invincible time to 2 seconds
+
+		; check
 		moveq	#signextendB(sfx_SpikeHit),d0					; load spikes damage sound
 		move.l	mappings(a2),d1
 		cmpi.l	#Map_Spikes,d1							; was damage caused by spikes?
@@ -556,6 +590,8 @@ HurtCharacter:
 ; ---------------------------------------------------------------------------
 
 .norings
+
+		; check
 		moveq	#signextendB(sfx_SpikeHit),d0					; load spikes damage sound
 		move.l	mappings(a2),d1
 		cmpi.l	#Map_Spikes,d1							; was damage caused by spikes?
@@ -585,21 +621,21 @@ Kill_Character:
 		move.w	d0,-(sp)
 		bsr.w	Player_TouchFloor
 		move.w	(sp)+,d0
-		bset	#Status_InAir,status(a0)
+		bset	#status.player.in_air,status(a0)
 		move.w	#-$700,y_vel(a0)
 		clr.w	x_vel(a0)
 		clr.w	ground_vel(a0)
 
 		; set anim
 ;		moveq	#AniIDSonAni_Death,d1						; normal anim
-;		btst	#Status_FireShield,shield_reaction(a2)
+;		btst	#status_secondary.fire_shield,shield_reaction(a2)
 ;		beq.s	.notfire
 ;		moveq	#AniIDSonAni_DeathBW,d1						; fire anim
 
 ;.notfire
 ;		move.b	d1,anim(a0)							; set death anim
 
-		move.b	#AniIDSonAni_Death,anim(a0)					; set death anim
+		move.b	#AniIDSonAni_Death,anim(a0)
 		cmpa.w	#Player_1,a0							; is this the main character?
 		bne.s	.notp1								; if not, branch
 		move.l	priority(a0),(Debug_saved_priority).w				; save priority and art_tile
@@ -623,13 +659,14 @@ Kill_Character:
 		movea.l	(sp)+,a4
 
 .notp1
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 		jsr	(Play_SFX).w
 
 .dontdie
 		moveq	#-1,d0
 		rts
-; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
 
 Touch_Special:
 		moveq	#$3F,d1								; get only collision size (but that doesn't seems to be its use here)
@@ -663,7 +700,7 @@ React_Yadrin:
 		bhs.s	.normalenemy
 		move.w	x_pos(a1),d0
 		subq.w	#4,d0
-		btst	#0,status(a1)
+		btst	#status.npc.x_flip,status(a1)
 		beq.s	.noflip
 		subi.w	#16,d0
 
@@ -700,7 +737,15 @@ loc_103FA:
 ; =============== S U B R O U T I N E =======================================
 
 ShieldTouchResponse:
-		moveq	#$71,d0								; does the player have any shields?
+
+		; does the player have any shields?
+		moveq	#signextendB( \
+			setBit(status_secondary.shield) | \
+			setBit(status_secondary.fire_shield) | \
+			setBit(status_secondary.lightning_shield) | \
+			setBit(status_secondary.bubble_shield) \
+		),d0
+
 		and.b	status_secondary(a0),d0
 		beq.s	ShieldTouch_Return
 		moveq	#-24,d2								; subtract width of shield
@@ -769,7 +814,7 @@ ShieldTouch_Height:
 		bhi.s	ShieldTouch_NextObj						; if so, loop and check next object
 
 .checkdeflect
-		moveq	#8,d0								; should the object be bounced away by a shield?
+		moveq	#setBit(shield_reaction.all_shields),d0				; should the object be bounced away by a shield?
 		and.b	shield_reaction(a1),d0
 		beq.s	ShieldTouch_NextObj						; if not, branch
 		move.w	x_pos(a0),d1
@@ -838,17 +883,21 @@ HyperTouch_Enemy:
 		rts
 ; ---------------------------------------------------------------------------
 
-; Similar to other enemy destruction subroutines, but this one doesn't make the player bounce
+; similar to other enemy destruction subroutines, but this one doesn't make the player bounce
 
 HyperTouch_DestroyEnemy:
-		btst	#2,status(a1)							; should the object remember that it's been destroyed (Remember Sprite State flag)?
-		beq.s	.dontremember							; if not, branch
-		move.b	ros_bit(a1),d0
-		movea.w	ros_addr(a1),a2
-		bclr	d0,(a2)								; mark object as destroyed
 
-.dontremember
-		bset	#7,status(a1)
+		; check DPLC slot
+		btst	#status.npc.dplc_slot,status(a1)				; was this object slot turned on?
+		beq.s	.notDPLC							; if not, branch
+
+		; Remove_From_TrackingSlot
+		move.b	ros_bit(a1),d0							; slot bit
+		movea.w	ros_addr(a1),a2							; slot address
+		bclr	d0,(a2)								; turn off this slot (SetUp_ObjAttributesSlotted)
+
+.notDPLC
+		bset	#status.npc.defeated,status(a1)					; set "boss defeated" flag
 		moveq	#0,d0
 		move.w	(Chain_bonus_counter).w,d0					; get copy of chain bonus counter
 		addq.w	#2,(Chain_bonus_counter).w					; add 2 to chain bonus counter
@@ -871,7 +920,7 @@ HyperTouch_DestroyEnemy:
 ; ---------------------------------------------------------------------------
 
 HyperTouch_Harmful:
-		moveq	#8,d0								; should the object be bounced away by a shield?
+		moveq	#setBit(shield_reaction.all_shields),d0				; should the object be bounced away by a shield?
 		and.b	shield_reaction(a1),d0
 		bne.w	Touch_ChkHurt_Bounce_Projectile					; if so, branch
 		rts
@@ -880,11 +929,11 @@ HyperTouch_Harmful:
 HyperTouch_Special:
 		ori.b	#3,collision_property(a1)
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w				; are we in Knuckles Alone mode?
-		blo.s	.sonicortails							; if not, branch
+		blo.s	.SonicorTails							; if not, branch
 		move.w	x_pos(a1),(Player_2+x_pos).w					; ???
 		move.w	y_pos(a1),(Player_2+y_pos).w					; ???
 
-.sonicortails
+.SonicorTails
 		move.b	#AniIDSonAni_Roll,(Player_2+anim).w				; put sidekick in his rolling animation
-		bset	#Status_InAir,(Player_2+status).w
+		bset	#status.player.in_air,(Player_2+status).w
 		rts

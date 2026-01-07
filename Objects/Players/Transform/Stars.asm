@@ -13,18 +13,30 @@ Obj_SuperSonicKnux_Stars:
 
 		; init
 		move.l	#Map_SuperSonic_Stars,mappings(a0)
-		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)		; set screen coordinates flag and height and width
+
+		; set priority and art_tile
+		move.l	#words_to_long( \
+		priority_1, \
+			make_art_tile(ArtTile_Shield,0,0) \
+		),priority(a0)
+
+		; set screen coordinates flag and height and width
+		move.l	#bytes_to_long( \
+			setBit(render_flags.level), \
+		0,48/2,48/2 \
+		),render_flags(a0)
+
+		; check priority
+		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
+		beq.s	.nothighpriority						; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; stars have same priority as Sonic (high priority)
+
+.nothighpriority
+		move.l	#.main,address(a0)
+
+.main
 
 		; check
-		btst	#high_priority_bit,(Player_1+art_tile).w
-		beq.s	loc_1919E
-		bset	#high_priority_bit,art_tile(a0)
-
-loc_1919E:
-		move.l	#loc_191A4,address(a0)
-
-loc_191A4:
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.s	loc_19230
 		tst.b	objoff_34(a0)
@@ -123,8 +135,19 @@ Obj_HyperSonic_Stars_Init:
 
 		; init
 		move.l	#Map_HyperSonicStars,mappings(a0)
-		move.l	#words_to_long(priority_1,make_art_tile(ArtTile_Shield,0,0)),priority(a0)	; set priority and art_tile
-		move.l	#bytes_to_long(rfCoord,0,48/2,48/2),render_flags(a0)		; set screen coordinates flag and height and width
+
+		; set priority and art_tile
+		move.l	#words_to_long( \
+		priority_1, \
+			make_art_tile(ArtTile_Shield,0,0) \
+		),priority(a0)
+
+		; set screen coordinates flag and height and width
+		move.l	#bytes_to_long( \
+			setBit(render_flags.level), \
+		0,48/2,48/2 \
+		),render_flags(a0)
+
 		move.b	#6,mapping_frame(a0)
 		cmpa.w	#Invincibility_stars,a0
 		beq.s	.isParent
@@ -177,7 +200,7 @@ loc_1941C:
 		add.w	d1,objoff_34(a0)
 		move.b	objoff_30(a0),d2
 		ext.w	d2
-		btst	#Status_Facing,(Player_1+status).w
+		btst	#status.player.x_flip,(Player_1+status).w
 		beq.s	loc_19458
 		neg.w	d2
 

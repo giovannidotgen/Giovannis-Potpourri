@@ -119,7 +119,7 @@ Obj_LevelResults:
 		move.b	(a2)+,width_pixels(a1)
 		move.w	(a2)+,d2
 		move.b	d2,objoff_28(a1)
-		move.b	#rfMulti,render_flags(a1)
+		move.b	#setBit(render_flags.multi_sprite),render_flags(a1)
 		move.l	#Map_Results,mappings(a1)
 		move.w	#make_art_tile($500,0,0),art_tile(a1)
 		move.w	a0,parent2(a1)
@@ -324,7 +324,7 @@ LevResults_DisplayScore:
 ; =============== S U B R O U T I N E =======================================
 
 LevelResults_MoveElement:
-		movea.w	parent2(a0),a1
+		movea.w	parent2(a0),a1							; a1=parent object
 		move.w	objoff_32(a1),d0
 		beq.s	.loc_2DE38
 		tst.b	render_flags(a0)						; object visible on the screen?
@@ -381,8 +381,16 @@ LevResults_GetDecimalScore:
 .found
 		lea	(DecimalScoreRAM2).w,a2
 
-		addi.w	#0,d0								; clear carry bit for extend
-;		move	#0,ccr								; "
+		; we need to clear the extend bit for abcd
+		; otherwise, we will get incorrect results
+
+		; clear x-bit of the ccr (fast)
+		addi.w	#0,d0
+
+		; clear x-bit of the ccr (slow)
+;		andi	#~( \
+;			setBit(ccr_x_bit) \
+;		),ccr
 
 	rept 3	; 3 bytes
 		abcd	-(a1),-(a2)

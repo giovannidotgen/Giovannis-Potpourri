@@ -261,10 +261,10 @@ Obj_Continue_SonicWTails:
 		move.b	d0,anim_frame(a0)
 		lea	.aniraw(pc,d0.w),a2
 		move.b	(a2)+,mapping_frame(a0)
-		bclr	#0,render_flags(a0)								; clear flipx
+		bclr	#render_flags.x_flip,render_flags(a0)						; clear flipx
 		tst.b	(a2)
 		beq.s	.draw
-		bset	#0,render_flags(a0)								; set flipx
+		bset	#render_flags.x_flip,render_flags(a0)						; set flipx
 
 .draw
 		clr.b	(Player_curr_bank).w								; GIO: I LOVE HARDCODED ANIMATIONS
@@ -281,7 +281,7 @@ Obj_Continue_SonicWTails:
 		bra.s	.draw
 ; ---------------------------------------------------------------------------
 
-.aniraw				; frame, flipx flag
+.aniraw		; frame, flipx flag
 		dc.b $5A, 1
 		dc.b $59, 1
 		dc.b $55, 0
@@ -418,7 +418,13 @@ Obj_Continue_TailsWSonic:
 .main
 		move.l	#.wait,address(a0)
 		move.l	#Map_Tails,mappings(a0)
-		move.l	#words_to_long(priority_5,make_art_tile(ArtTile_Player_2,0,0)),priority(a0)	; set priority and art_tile
+
+		; set priority and art_tile
+		move.l	#words_to_long( \
+		priority_5, \
+			make_art_tile(ArtTile_Player_2,0,0) \
+		),priority(a0)
+
 		clr.b	(Player_prev_frame_P2).w
 		move.w	#bytes_to_word(5,0),anim(a0)							; set anim and prev_anim
 		move.w	#bytes_to_word($AD,0),mapping_frame(a0)						; set frame and clear anim_frame
@@ -475,7 +481,7 @@ Obj_Continue_Knuckles:
 
 		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		bhs.s	.setknux									; if yes, branch
+		bhs.s	.setKnux									; if yes, branch
 
 		; for Sonic and Tails
 		move.w	#$80-64,x_pos(a0)
@@ -486,7 +492,7 @@ Obj_Continue_Knuckles:
 		bra.s	.main
 ; ---------------------------------------------------------------------------
 
-.setknux
+.setKnux
 
 		; init
 		movem.l	ObjDat_Continue_Knuckles(pc),d0-d3						; copy data to d0-d3
@@ -617,7 +623,7 @@ Obj_Continue_EggRobo:
 		; init
 		lea	ObjDat_919A6(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		move.b	#1,render_flags(a0)								; flipx
+		move.b	#render_flags.y_flip,render_flags(a0)						; flipx
 		move.l	#.main,address(a0)
 		move.w	#$80-32,x_pos(a0)
 		move.w	#$80+(224/2),y_pos(a0)
@@ -659,10 +665,10 @@ Obj_Continue_EggRobo_Legs:
 		move.l	#.main,address(a0)
 
 		; check
-		movea.w	parent3(a0),a1
-		btst	#2,render_flags(a1)								; is parent uses screen coordinates flag?
+		movea.w	parent3(a0),a1									; a1=parent object
+		btst	#render_flags.level,render_flags(a1)						; is parent uses screen coordinates flag?
 		bne.s	.main										; if yes, branch
-		bclr	#2,render_flags(a0)								; clear screen coordinates flag
+		bclr	#render_flags.level,render_flags(a0)						; clear screen coordinates flag
 
 .main
 		jsr	(Refresh_ChildPositionAdjusted).w
@@ -692,10 +698,10 @@ Obj_Continue_EggRobo_Gun:
 		move.l	#.main,address(a0)
 
 		; check
-		movea.w	parent3(a0),a1
-		btst	#2,render_flags(a1)								; is parent uses screen coordinates flag?
+		movea.w	parent3(a0),a1									; a1=parent object
+		btst	#render_flags.level,render_flags(a1)						; is parent uses screen coordinates flag?
 		bne.s	.main										; if yes, branch
-		bclr	#2,render_flags(a0)								; clear screen coordinates flag
+		bclr	#render_flags.level,render_flags(a0)						; clear screen coordinates flag
 
 .main
 		pea	(Child_Draw_Sprite).w
@@ -703,17 +709,17 @@ Obj_Continue_EggRobo_Gun:
 ; =============== S U B R O U T I N E =======================================
 
 Refresh_ChildPositionAdjusted_Continue:
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 
 .skipp
 		move.w	x_pos(a1),d0
 		move.b	child_dx(a0),d1
 		ext.w	d1
-		bclr	#0,render_flags(a0)
-		btst	#0,render_flags(a1)
+		bclr	#render_flags.x_flip,render_flags(a0)
+		btst	#render_flags.x_flip,render_flags(a1)
 		beq.s	.notflipx
 		neg.w	d1
-		bset	#0,render_flags(a0)
+		bset	#render_flags.x_flip,render_flags(a0)
 
 .notflipx
 		add.w	d1,d0
@@ -725,11 +731,11 @@ Refresh_ChildPositionAdjusted_Continue:
 .skipypos
 		move.b	child_dy(a0),d1
 		ext.w	d1
-		bclr	#1,render_flags(a0)
-		btst	#1,render_flags(a1)
+		bclr	#render_flags.y_flip,render_flags(a0)
+		btst	#render_flags.y_flip,render_flags(a1)
 		beq.s	.notflipy
 		neg.w	d1
-		bset	#1,render_flags(a0)
+		bset	#render_flags.y_flip,render_flags(a0)
 
 .notflipy
 		add.w	d1,d0
@@ -815,10 +821,10 @@ Obj_Continue_Icons:
 
 		; check
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux
+		blo.s	.notKnux
 		ori.w	#palette_line_3,art_tile(a0)							; for Knuckles
 
-.notknux
+.notKnux
 		bsr.s	Continue_Icons_GetPos
 		move.w	#$80+((224/2)-24),y_pos(a0)
 		bsr.s	Continue_Icons_LoadAnim
@@ -859,13 +865,13 @@ Continue_Icons_GetPos:
 Continue_Icons_LoadAnim:
 		move.w	(Player_mode).w,d4
 		cmpi.w	#PlayerModeID_Tails,d4								; is Tails?
-		bne.s	.nottails									; if not, branch
+		bne.s	.notTails									; if not, branch
 
 		; create tails tails icons
 		lea	Child6_Continue_Tails_tails_Icons(pc),a2
 		jsr	(CreateChild6_Simple).w
 
-.nottails
+.notTails
 		add.w	d4,d4
 		add.w	d4,d4
 		move.l	.index(pc,d4.w),objoff_30(a0)
@@ -939,7 +945,7 @@ ObjDat_Continue_SonicAlone:			subObjMainData Obj_Continue_SonicAlone.main, 0, 0,
 ObjDat_Continue_TailsWSonic:			subObjMainData Obj_Continue_TailsWSonic.waitstart, 0, 0, 40, 32, 4, $8C, 0, 0, Map_ContinueSprites
 ObjDat_Continue_Knuckles:			subObjMainData Obj_Continue_Knuckles.waitstart, 0, 0, 48, 32, 4, $8C, 3, 0, Map_ContinueSprites
 ObjDat_Continue_Knuckles2:			subObjMainData Obj_Continue_Knuckles.waitstart2, 0, 0, 96, 64, 1, ArtTile_CutsceneKnuckles, 3, 0, Map_Knuckles
-ObjDat_919A6:					subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6
+ObjDat_919A6:					subObjData Map_EggRoboBadnik, $500, 0, 1, 48, 40, 5, 1, 6|collision_flags.npc.touch
 ObjDat3_919BE:					subObjData FALSE, FALSE, 0, 0, 32, 24, 5, 6, 0
 ObjDat3_919C4:					subObjData FALSE, FALSE, 0, 0, 24, 32, 5, 2, 0
 ObjDat3_919CA:					subObjData FALSE, FALSE, 0, 0, 8, 64, 5, 7, 0

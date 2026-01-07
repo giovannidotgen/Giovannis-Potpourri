@@ -28,10 +28,10 @@ Obj_Flamethrower:
 		; init
 		lea	ObjDat_Flamethrower(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#Status_FireShield,shield_reaction(a0)
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.l	#.action,address(a0)
 		move.b	#10,flame_frame(a0)
-		btst	#1,status(a0)							; is flipy?
+		btst	#status.npc.y_flip,status(a0)					; is flipy?
 		beq.s	.action								; if not, branch
 		move.b	#21,flame_frame(a0)
 		move.b	#2,anim(a0)
@@ -64,7 +64,7 @@ Obj_Flamethrower:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Flamethrower:		subObjData Map_Flame, $562, 0, 1, 40, 24, 1, 0, $23|$80
+ObjDat_Flamethrower:		subObjData Map_Flame, $562, 0, 1, 40, 24, 1, 0, $23|collision_flags.npc.hurt
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Flamethrower/Object Data/Anim - Flamethrower.asm"

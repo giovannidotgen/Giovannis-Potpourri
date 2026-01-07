@@ -24,7 +24,7 @@ Obj_SwingingPlatform:
 		move.w	#make_art_tile($31A,0,0),d0
 
 .notMZ
-		move.b	#rfCoord,render_flags(a0)					; use screen coordinates
+		move.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(16/2,48/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),swing_origX(a0)
 		move.w	y_pos(a0),swing_origY(a0)
@@ -35,7 +35,7 @@ Obj_SwingingPlatform:
 		move.l	#Map_Swing_SLZ,d1
 		move.w	#make_art_tile($3A6,2,0),d0
 		move.w	#bytes_to_word(32/2,64/2),height_pixels(a0)			; set height and width
-		move.b	#$19|$80,collision_flags(a0)
+		move.b	#$19|collision_flags.npc.hurt,collision_flags(a0)
 
 .notSLZ
 
@@ -45,7 +45,7 @@ Obj_SwingingPlatform:
 		move.l	#Map_Swing_SBZ,d1
 		move.w	#make_art_tile($448,0,0),d0
 		move.w	#bytes_to_word(48/2,48/2),height_pixels(a0)			; set height and width
-		move.b	#6|$80,collision_flags(a0)
+		move.b	#6|collision_flags.npc.hurt,collision_flags(a0)
 
 .notSBZ
 		move.w	d0,art_tile(a0)
@@ -59,7 +59,7 @@ Obj_SwingingPlatform:
 		move.w	art_tile(a0),art_tile(a1)
 		move.b	render_flags(a0),render_flags(a1)
 		move.w	#priority_5,priority(a1)
-		bset	#6,render_flags(a1)						; set multi-draw flag
+		bset	#render_flags.multi_sprite,render_flags(a1)			; set multi-draw flag
 		move.w	a1,parent3(a0)							; save chain address
 		move.w	x_pos(a0),d2
 		move.w	d2,x_pos(a1)
@@ -158,13 +158,13 @@ SwingingPlatform_Move:
 		move.b	(AIZ_vine_angle).w,d0
 
 .normal
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.notflipx
 		neg.b	d0
 		addi.b	#$80,d0
 
 .notflipx
-		btst	#1,status(a0)
+		btst	#status.npc.y_flip,status(a0)
 		beq.s	.notflipy
 		neg.b	d0
 
@@ -172,7 +172,7 @@ SwingingPlatform_Move:
 		jsr	(GetSineCosine).w
 		move.w	swing_origY(a0),d2
 		move.w	swing_origX(a0),d3
-		movea.w	parent3(a0),a1							; load chain address
+		movea.w	parent3(a0),a1							; load chain address into a1
 		move.w	mainspr_childsprites(a1),d6
 		subq.w	#1,d6
 		blo.s	.return

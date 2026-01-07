@@ -209,7 +209,7 @@ Obj_SideStomp_Spikes:
 
 .move
 		moveq	#0,d0
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.b	objoff_32(a1),d0
 		neg.w	d0
 		add.w	objoff_40(a1),d0
@@ -219,7 +219,7 @@ Obj_SideStomp_Spikes:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SideStomp:		subObjMainData Obj_SideStomp.action, rfCoord+rfMulti, 0, 64, 256, 3, $328, 0, 0, Map_SStom
+ObjDat_SideStomp:		subObjMainData Obj_SideStomp.action, setBit(render_flags.level)|setBit(render_flags.multi_sprite), 0, 64, 256, 3, $328, 0, 0, Map_SStom
 ObjDat_SideStomp_Spikes:	subObjData FALSE, FALSE, 0, 0, 40, 32, 4, 2, 0
 
 Child6_SideStomp_Spikes:

@@ -3,7 +3,7 @@
 ; ---------------------------------------------------------------------------
 
 ; RAM
-vLavaMZBuffer		= RAM_start+$7E00						; buffer size is $200 bytes
+vMZLavaBuffer		= RAM_start+$7E00						; buffer size is $200 bytes
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -17,200 +17,173 @@ AnimateTiles_MZ:
 
 		; wait
 		subq.b	#1,(a1)								; decrement timer
-		bpl.s	.return								; if time remains, branch
+		bpl.s	Load_GHZ3Boss.return						; if time remains, branch
 		addq.b	#1+1,(a1)							; reset timer to 1 frames
 
 		; load art
 		lea	(ArtUnc_MZLava2).l,a4						; load lava patterns
 		move.b	-7(a1),d0							; get surface lava frame number
 		subq.b	#1,d0								; fix dbf
-		andi.w	#3,d0								; max number
-		ror.w	#7,d0								; multiply frame num by $200
+		andi.w	#3,d0								; maximum number
+		add.w	d0,d0								; multiply by 2
+		move.w	.frame(pc,d0.w),d0						; multiply frame number by $200
 		adda.w	d0,a4								; jump to appropriate tile
-		moveq	#0,d3
+		moveq	#0,d3								; we need to clear the register so that we can use the word values
 		move.b	(Oscillating_Data+8).w,d3					; get oscillating value
 
-	if ((vLavaMZBuffer)&$8000)
-		lea	(vLavaMZBuffer).w,a5
+		; load RAM buffer for DMA send
+	if ((vMZLavaBuffer)&$8000)
+		lea	(vMZLavaBuffer).w,a5
 	else
-		lea	(vLavaMZBuffer).l,a5
+		lea	(vMZLavaBuffer).l,a5
 	endif
 
-		moveq	#4-1,d2								; $80*4=$200
-
-.loop
-		lea	(a4),a1
-		moveq	#$F,d0
-		and.w	d3,d0
-		add.w	d0,d0
-		add.w	d0,d0
-		moveq	#($80/4)-1,d1							; size
-		jsr	AniArt_MZextra(pc,d0.w)
+	rept 3
+		bsr.s	.process							; "
 		addq.w	#4,d3								; next
-		dbf	d2,.loop
+	endr
 
 		; load art
-		QueueStaticDMA vLavaMZBuffer,tiles_to_bytes($10),tiles_to_bytes($2D2)
+		pea	.QueueStaticDMA(pc)						; do later
 
-.return
+		; process current mode below (last)
+
+; =============== S U B R O U T I N E =======================================
+
+.process
+
+		; get mode
+		lea	(a4),a1								; copy lava patterns to a1
+		moveq	#$F,d0								; maximum 16 modes
+		and.w	d3,d0								; get current mode
+		move.w	d0,d1								; copy RAM shift to d1
+		add.w	d0,d0								; multiply by 2
+
+		; get flag
+		move.w	.script(pc,d0.w),d0						; get flag
+		bmi.s	.load								; if RAM shift off flag, do nothing
+		adda.w	d1,a1								; RAM shift
+
+.load
+		andi.w	#$7FFF,d0							; clear RAM shift off flag
+		jmp	.script(pc,d0.w)
+; ---------------------------------------------------------------------------
+
+.frame
+		dc.w 0, 1*$200, 2*$200, 3*$200
+.script
+		dc.w (.mode00-.script)|setBit(15)	; mode offset, RAM shift off flag
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode01-.script)
+		dc.w (.mode00-.script)
+		dc.w (.mode02-.script)
+		dc.w (.mode03-.script)|setBit(15)
+		dc.w (.mode04-.script)|setBit(15)
+; ---------------------------------------------------------------------------
+
+.mode03
+
+		set	.a,0
+
+	rept $80/4									; 32
+		move.w	.a+$E(a1),(a5)+							; send to DMA buffer
+		move.w	.a(a1),(a5)+							; ^
+		set	.a,.a + $10							; next
+	endr
+
+		rts
+; ---------------------------------------------------------------------------
+
+.mode00
+
+		set	.a,0
+
+	rept $80/4									; 32
+		move.l	.a(a1),(a5)+							; send to DMA buffer
+		set	.a,.a + $10							; next
+	endr
+
+		rts
+; ---------------------------------------------------------------------------
+
+.mode02
+
+	rept bytesToXcnt($80,4)								; 32-1
+
+		; AABBCCDD to BBCCDDAA
+		rept 3
+			move.b	(a1)+,(a5)+						; send to DMA buffer
+		endr
+
+		move.b	-($D+3)(a1),(a5)+						; send first byte to DMA buffer
+		lea	$10-3(a1),a1							; next
+	endr
+
+	; AABBCCDD to BBCCDDAA (last)
+	rept 3
+		move.b	(a1)+,(a5)+							; send to DMA buffer
+	endr
+
+		move.b	-($D+3)(a1),(a5)+						; send first byte to DMA buffer
+		rts
+; ---------------------------------------------------------------------------
+
+.mode01
+
+	rept bytesToXcnt($80,4)								; 32-1
+
+		; AABBCCDD to DDAABBCC
+		rept 4
+			move.b	(a1)+,(a5)+						; send to DMA buffer
+		endr
+
+		lea	$10-4(a1),a1							; next
+	endr
+
+	; AABBCCDD to DDAABBCC (last)
+	rept 4
+		move.b	(a1)+,(a5)+							; send to DMA buffer
+	endr
+
+		rts
+; ---------------------------------------------------------------------------
+
+.mode04
+
+	rept bytesToXcnt($80,4)								; 32-1
+
+		; AABBCCDD to DDAABBCC
+		move.b	$F(a1),(a5)+							; send to DMA buffer
+
+		rept 3
+			move.b	(a1)+,(a5)+						; ^
+		endr
+
+		lea	$10-3(a1),a1							; next
+	endr
+
+		; AABBCCDD to DDAABBCC (last)
+		move.b	$F(a1),(a5)+							; send to DMA buffer
+
+	rept 3
+		move.b	(a1)+,(a5)+							; ^
+	endr
+
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
-AniArt_MZextra:
-		bra.s	loc_1C3EE	; 0
-		rts	; nop
-		bra.s	loc_1C3FA	; 4
-		rts	; nop
-		bra.s	loc_1C410	; 8
-		rts	; nop
-		bra.s	loc_1C41E	; C
-		rts	; nop
-		bra.w	loc_1C434	; 10
-		bra.w	loc_1C442	; 14
-		bra.w	loc_1C458	; 18
-		bra.w	loc_1C466	; 1C
-		bra.w	loc_1C47C	; 20
-		bra.w	loc_1C48A	; 24
-		bra.w	loc_1C4A0	; 28
-		bra.w	loc_1C4AE	; 2C
-		bra.w	loc_1C4C4	; 30
-		bra.w	loc_1C4D2	; 34
-		bra.w	loc_1C4E8	; 38
-; ---------------------------------------------------------------------------
+.QueueStaticDMA
 
-loc_1C4FA:				; 3C
-		move.l	(a1),d0
-		move.b	$F(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4FA
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C3EE:
-		move.l	(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C3EE
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C3FA:
-		move.l	2(a1),d0
-		move.b	1(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C3FA
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C410:
-		move.l	2(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C410
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C41E:
-		move.l	4(a1),d0
-		move.b	3(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C41E
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C434:
-		move.l	4(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C434
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C442:
-		move.l	6(a1),d0
-		move.b	5(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C442
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C458:
-		move.l	6(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C458
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C466:
-		move.l	8(a1),d0
-		move.b	7(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C466
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C47C:
-		move.l	8(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C47C
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C48A:
-		move.l	$A(a1),d0
-		move.b	9(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C48A
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C4A0:
-		move.l	$A(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4A0
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C4AE:
-		move.l	$C(a1),d0
-		move.b	$B(a1),d0
-		ror.l	#8,d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4AE
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C4C4:
-		move.l	$C(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4C4
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C4D2:
-		move.l	$C(a1),d0
-		rol.l	#8,d0
-		move.b	(a1),d0
-		move.l	d0,(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4D2
-		rts
-; ---------------------------------------------------------------------------
-
-loc_1C4E8:
-		move.w	$E(a1),(a5)+
-		move.w	(a1),(a5)+
-		lea	$10(a1),a1
-		dbf	d1,loc_1C4E8
+		; from RAM buffer to VRAM
+		QueueStaticDMA vMZLavaBuffer,tiles_to_bytes($10),tiles_to_bytes($2D2)
 		rts

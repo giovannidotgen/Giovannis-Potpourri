@@ -43,10 +43,10 @@ Obj_SmashBlock:
 .checkroll
 		lea	(Player_1).w,a1							; a1=character
 		move.b	objoff_34(a0),d0
-		bsr.s	.sonicroll
+		bsr.s	.Sonicroll
 		lea	(Player_2).w,a1							; a1=character
 		move.b	objoff_36(a0),d0
-		bsr.s	.sonicroll
+		bsr.s	.Sonicroll
 		bra.s	.getbonus
 ; ---------------------------------------------------------------------------
 
@@ -57,24 +57,24 @@ Obj_SmashBlock:
 		cmpi.b	#AniIDSonAni_Roll,objoff_34(a0)
 		bne.s	.draw
 		lea	(Player_1).w,a1							; a1=character
-		bsr.s	.tailsroll
+		bsr.s	.Tailsroll
 		bra.s	.getbonus
 
 ; =============== S U B R O U T I N E =======================================
 
-.sonicroll
+.Sonicroll
 		cmpi.b	#AniIDSonAni_Roll,d0
 		bne.s	.notroll
 
-.tailsroll
-		bset	#Status_Roll,status(a1)
+.Tailsroll
+		bset	#status.player.rolling,status(a1)
 		move.w	#bytes_to_word(28/2,14/2),y_radius(a1)				; set y_radius and x_radius
 		move.b	#AniIDSonAni_Roll,anim(a1)
 		move.w	#-$300,y_vel(a1)
 
 .notroll
-		bset	#Status_InAir,status(a1)
-		bclr	#Status_OnObj,status(a1)
+		bset	#status.player.in_air,status(a1)
+		bclr	#status.player.on_object,status(a1)
 		move.b	#PlayerID_Control,routine(a1)
 		rts
 
@@ -86,11 +86,11 @@ Obj_SmashBlock:
 		cmpi.b	#AniIDSonAni_Roll,objoff_36(a0)
 		bne.w	.draw
 		lea	(Player_2).w,a1							; a1=character
-		bsr.s	.tailsroll
+		bsr.s	.Tailsroll
 
 .getbonus
 		move.w	objoff_38(a0),(Chain_bonus_counter).w
-		andi.b	#$E7,status(a0)
+		andi.b	#~(standing_mask)&$FF,status(a0)
 		movea.l	objoff_3C(a0),a4						; Smab_Speeds
 		addq.b	#1,mapping_frame(a0)
 		move.l	#.fall,address(a0)
@@ -145,7 +145,7 @@ Smab_Speeds:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_SmashBlock:	subObjMainData Obj_SmashBlock.solid, rfCoord, 0, 32, 32, 5, $562, 2, 0, Map_Smab
+ObjDat_SmashBlock:	subObjMainData Obj_SmashBlock.solid, setBit(render_flags.level), 0, 32, 32, 5, $562, 2, 0, Map_Smab
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Smash Block/Object Data/Map - Smash Block.asm"

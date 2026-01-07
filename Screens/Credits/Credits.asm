@@ -207,10 +207,10 @@ Credits_Process_LoadText:
 		; load player palette
 		moveq	#PalID_Sonic,d0
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w						; is Knuckles?
-		blo.s	.notknux									; if not, branch
+		blo.s	.notKnux									; if not, branch
 		moveq	#PalID_Knuckles,d0
 
-.notknux
+.notKnux
 		jsr	(LoadPalette).w									; load player's palette
 		moveq	#PalID_Ending,d0
 		jmp	(LoadPalette).w
@@ -223,8 +223,8 @@ Credits_Process_LoadText:
 
 Credits_LoadText:
 		disableIntsSave
-		lea	(VDP_data_port).l,a6
-		lea	VDP_control_port-VDP_data_port(a6),a5
+		lea	(VDP_data_port).l,a6								; load VDP data address to a6
+		lea	VDP_control_port-VDP_data_port(a6),a5						; load VDP control address to a5
 		move.w	#$8F80,VDP_control_port-VDP_control_port(a5)					; VRAM increment at $80 bytes (vertical write)
 		move.l	#vdpCommDelta(planeLoc(64,1,0)),d4						; row increment value
 
@@ -476,7 +476,7 @@ Obj_CreditsRobotnik:
 		rts
 ; ---------------------------------------------------------------------------
 
-AniRaw_RobotnikEnd:		dc.b 7, 4, 5, 6, 5, 4, 5, 6, 5, 4, 5, 6, 5, 4, 5, 6, 5, arfEnd
+AniRaw_RobotnikEnd:	dc.b 7, 4, 5, 6, 5, 4, 5, 6, 5, 4, 5, 6, 5, 4, 5, 6, 5, arfEnd
 	even
 
 ; ---------------------------------------------------------------------------
@@ -865,7 +865,7 @@ Obj_CreditsEggRobo_Eyes:
 
 .setf
 		move.l	#.refresh,address(a0)
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		bset	#2,objoff_38(a1)
 		rts
 ; ---------------------------------------------------------------------------
@@ -875,7 +875,7 @@ Obj_CreditsEggRobo_Eyes:
 
 .refresh
 		moveq	#-20,d0
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1									; a1=parent object
 		tst.b	mapping_frame(a1)
 		beq.s	.refreshs
 		addq.b	#1,d0
@@ -946,12 +946,12 @@ Credits_ScreenShake:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_CreditsRobotnik:			subObjMainData Obj_CreditsRobotnik.defeated, rfCoord, 0, 64, 56, 3, $182, 0, 0, Map_CreditsRobotnik
-ObjDat_CreditsRobotnik_Emeralds:	subObjMainData Obj_CreditsRobotnik_Emeralds.main, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
-ObjDat_CreditsEggRobo:			subObjMainData Obj_CreditsEggRobo.animate, rfCoord, 0, 64, 56, 5, $232, 0, 0, Map_CreditsEggRobo
-ObjDat_CreditsEggRobo_Emeralds:		subObjMainData Obj_CreditsEggRobo_Emeralds.circular, rfCoord, 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
-ObjDat_CreditsEggRobo_ScrapMetal:	subObjMainData Draw_Sprite, rfCoord, 0, 64, 112, 4, $232, 0, 0, Map_CreditsEggRobo
-ObjDat_CreditsEggRobo_Eyes:		subObjMainData Obj_CreditsEggRobo_Eyes.refresh, rfCoord, 0, 16, 16, 3, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsRobotnik:			subObjMainData Obj_CreditsRobotnik.defeated, setBit(render_flags.level), 0, 64, 56, 3, $182, 0, 0, Map_CreditsRobotnik
+ObjDat_CreditsRobotnik_Emeralds:	subObjMainData Obj_CreditsRobotnik_Emeralds.main, setBit(render_flags.level), 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo:			subObjMainData Obj_CreditsEggRobo.animate, setBit(render_flags.level), 0, 64, 56, 5, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Emeralds:		subObjMainData Obj_CreditsEggRobo_Emeralds.circular, setBit(render_flags.level), 0, 16, 16, 1, $2D3, 0, 0, Map_ECha
+ObjDat_CreditsEggRobo_ScrapMetal:	subObjMainData Draw_Sprite, setBit(render_flags.level), 0, 64, 112, 4, $232, 0, 0, Map_CreditsEggRobo
+ObjDat_CreditsEggRobo_Eyes:		subObjMainData Obj_CreditsEggRobo_Eyes.refresh, setBit(render_flags.level), 0, 16, 16, 3, $232, 0, 0, Map_CreditsEggRobo
 
 PLC_Credits: plrlistheader
 		plreq 1, ArtKosPM_LargeTextCredits

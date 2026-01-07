@@ -18,7 +18,7 @@ Obj_HyperSonicKnux_Trail:
 .main
 
 		; check
-		tst.b	(Super_Sonic_Knux_flag).w					; are we in non-super/hyper state?
+		tst.b	(Super_Sonic_Knux_flag).w					; are we in non-Super/Hyper state?
 		beq.s	.delete								; if so, branch and delete
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
 		bne.s	.return								; if yes, branch
@@ -58,4 +58,7 @@ Obj_HyperSonicKnux_Trail:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_HyperSonicKnux_Trail:		subObjMainData Obj_HyperSonicKnux_Trail.main, rfCoord, 0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles
+ObjDat_HyperSonicKnux_Trail:		subObjMainData \
+					Obj_HyperSonicKnux_Trail.main, \
+						setBit(render_flags.level), \
+					0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles

@@ -180,7 +180,7 @@ TitleScreen:
 		; create "TM" object
 		lea	(Breathing_bubbles+address).w,a1
 		move.l	#Map_TTM,mappings(a1)
-		move.b	#rfStatic,render_flags(a1)							; set static mapping
+		move.b	#setBit(render_flags.static_mappings),render_flags(a1)				; set static mapping
 		move.w	#$178,x_pos(a1)
 		move.w	#$F8,y_pos(a1)
 		move.l	#Draw_Sprite,address(a1)
@@ -257,10 +257,11 @@ TitleScreen:
 		move.b	#GameModeID_LevelScreen,(Game_mode).w						; set screen mode to Level
 
 	if LevelSelectCheat
-
-		; check cheat
-		tst.b	(Level_select_flag).w								; check if level select code is on
-		beq.s	.return										; if not, play level
+		ifndef __DEBUG__
+			; check cheat
+			tst.b	(Level_select_flag).w							; check if level select code is on
+			beq.s	.return									; if not, play level
+		endif
 	endif
 
 		moveq	#btnDir+btnABC,d0								; don't check Start
@@ -365,7 +366,13 @@ Obj_TitleSonic:
 
 		; init
 		move.l	#Map_TSon,mappings(a0)
-		move.l	#words_to_long(priority_2,make_art_tile($300,1,0)),priority(a0)			; set priority and art_tile
+
+		; set priority and art_tile
+		move.l	#words_to_long( \
+		priority_2, \
+			make_art_tile($300,1,0) \
+		),priority(a0)
+
 		move.w	#$80+120,x_pos(a0)
 		move.w	#$80+94,y_pos(a0)								; position is fixed to screen
 		move.w	#30-1,objoff_2E(a0)								; set time delay to 0.5 seconds
@@ -524,8 +531,8 @@ Obj_TitlePSB:
 
 Title_DrawVIcon:
 		disableIntsSave
-		lea	(VDP_data_port).l,a6
-		lea	VDP_control_port-VDP_data_port(a6),a5
+		lea	(VDP_data_port).l,a6						; load VDP data address to a6
+		lea	VDP_control_port-VDP_data_port(a6),a5				; load VDP control address to a5
 
 .next
 		move.l	d1,VDP_control_port-VDP_control_port(a5)

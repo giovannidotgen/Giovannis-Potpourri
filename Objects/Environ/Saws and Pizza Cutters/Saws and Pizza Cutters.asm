@@ -20,7 +20,7 @@ Obj_Saws:
 		; check
 		cmpi.b	#3,subtype(a0)							; is object a ground saw?
 		bhs.s	.action								; if yes, branch
-		move.b	#$22|$80,collision_flags(a0)
+		move.b	#$22|collision_flags.npc.hurt,collision_flags(a0)
 
 .action
 		moveq	#7,d0
@@ -47,7 +47,7 @@ Saws_TypeIndex: offsetTable
 		moveq	#$60,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$C).w,d0
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.noflip01
 		neg.w	d0
 		add.w	d1,d0
@@ -82,7 +82,7 @@ Saws_TypeIndex: offsetTable
 		moveq	#$30,d1
 		moveq	#0,d0
 		move.b	(Oscillating_Data+4).w,d0
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.noflip02
 		neg.w	d0
 		addi.w	#$80,d0
@@ -127,7 +127,7 @@ Saws_TypeIndex: offsetTable
 		; set
 		st	saw_here(a0)
 		move.w	#$600,x_vel(a0)							; move object to the right
-		move.b	#$22|$80,collision_flags(a0)
+		move.b	#$22|collision_flags.npc.hurt,collision_flags(a0)
 		move.b	#2,mapping_frame(a0)
 		sfx	sfx_Saw								; play saw sound
 
@@ -172,7 +172,7 @@ Saws_TypeIndex: offsetTable
 		; set
 		st	saw_here(a0)
 		move.w	#-$600,x_vel(a0)						; move object to the left
-		move.b	#$22|$80,collision_flags(a0)
+		move.b	#$22|collision_flags.npc.hurt,collision_flags(a0)
 		move.b	#2,mapping_frame(a0)
 		sfx	sfx_Saw								; play saw sound
 
@@ -199,7 +199,7 @@ Saws_TypeIndex: offsetTable
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Saws:	subObjMainData Obj_Saws.action, rfCoord, 0, 64, 64, 4, $3A4, 2, 0, Map_Saw
+ObjDat_Saws:	subObjMainData Obj_Saws.action, setBit(render_flags.level), 0, 64, 64, 4, $3A4, 2, 0, Map_Saw
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Saws and Pizza Cutters/Object Data/Map - Saws and Pizza Cutters.asm"

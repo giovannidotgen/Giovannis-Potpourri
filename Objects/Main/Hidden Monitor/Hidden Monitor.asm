@@ -11,7 +11,7 @@ Obj_HiddenMonitor:
 		jsr	(SetUp_ObjAttributes).w
 		move.l	#.main,address(a0)
 		move.w	#bytes_to_word(30/2,30/2),y_radius(a0)				; set y_radius and x_radius
-		move.b	#6|$40,collision_flags(a0)
+		move.b	#6|collision_flags.npc.item,collision_flags(a0)
 		move.b	subtype(a0),anim(a0)						; set monitor content id
 		rts
 ; ---------------------------------------------------------------------------
@@ -42,9 +42,9 @@ Obj_HiddenMonitor:
 		move.b	#4,objoff_3C(a0)
 		move.w	#-$500,y_vel(a0)
 		sfx	sfx_BubbleAttack						; play sfx
-		bclr	#0,render_flags(a0)
+		bclr	#render_flags.x_flip,render_flags(a0)
 		beq.s	.draw
-		bset	#high_priority_bit,art_tile(a0)
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 		clr.b	status(a0)
 
 .draw

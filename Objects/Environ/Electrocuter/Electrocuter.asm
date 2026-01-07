@@ -19,7 +19,7 @@ Obj_Electro:
 		; init
 		lea	ObjDat_Electro(pc),a1
 		jsr	(SetUp_ObjAttributes).w
-		bset	#Status_LtngShield,shield_reaction(a0)
+		bset	#shield_reaction.lightning_shield,shield_reaction(a0)
 		move.l	#.shock,address(a0)
 
 .shock
@@ -47,7 +47,7 @@ Obj_Electro:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Electro:		subObjData Map_Elec, $529, 0, 0, 32, 80, 1, 0, $24|$80
+ObjDat_Electro:		subObjData Map_Elec, $529, 0, 0, 32, 80, 1, 0, $24|collision_flags.npc.hurt
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Electrocuter/Object Data/Anim - Electrocuter.asm"

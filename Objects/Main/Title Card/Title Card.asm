@@ -90,7 +90,7 @@ Obj_TitleCard:
 		move.b	(a2)+,width_pixels(a1)
 		move.w	(a2)+,d2
 		move.b	d2,objoff_28(a1)
-		move.b	#rfMulti,render_flags(a1)
+		move.b	#setBit(render_flags.multi_sprite),render_flags(a1)
 		move.l	#Map_TitleCard,mappings(a1)
 		move.w	#make_art_tile($500,0,0),art_tile(a1)
 		move.w	a0,parent2(a1)
@@ -160,13 +160,13 @@ Obj_TitleCard:
 		; load second main plc
 		lea	(PLC2_Sonic).l,a5
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux
+		blo.s	.notKnux
 
 .kplc2		:= PLC2_Knuckles-PLC2_Sonic						; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
 		lea	(.kplc2)(a5),a5
 
-.notknux
+.notKnux
 		jsr	(LoadPLC_Raw_KosPlusM).w
 		movea.l	(Level_data_addr_RAM.PLC2).w,a5
 		jsr	(LoadPLC_Raw_KosPlusM).w					; load main art
@@ -185,7 +185,7 @@ Obj_TitleCard:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_TitleCardRedBanner:
-		movea.w	parent2(a0),a1
+		movea.w	parent2(a0),a1							; a1=parent object
 		move.w	objoff_32(a1),d0
 		beq.s	.loc_2D90A
 		tst.b	render_flags(a0)						; is the object visible on the screen?
@@ -233,7 +233,7 @@ Obj_TitleCardName:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_TitleCardElement:
-		movea.w	parent2(a0),a1
+		movea.w	parent2(a0),a1							; a1=parent object
 		move.w	objoff_32(a1),d0
 		beq.s	.loc_2D984
 		tst.b	render_flags(a0)						; is the object visible on the screen?
@@ -267,8 +267,8 @@ Obj_TitleCardAct:
 		cmpi.w	#bytes_to_word(LevelID_SBZ,2),(Current_zone_and_act).w		; is level Final Zone?
 		bne.s	Obj_TitleCardElement						; if not, branch
 
-		; delete
-		movea.w	parent2(a0),a1							; remove a number of the act, if not needed
+		; remove a number of the act, if not needed
+		movea.w	parent2(a0),a1							; a1=parent object
 		subq.w	#1,objoff_30(a1)
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------

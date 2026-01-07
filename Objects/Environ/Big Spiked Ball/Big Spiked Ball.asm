@@ -15,7 +15,7 @@ Obj_BigSpikeBall:
 		; init
 		movem.l	ObjDat_BigSpikeBall(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.b	#6|$80,collision_flags(a0)
+		move.b	#6|collision_flags.npc.hurt,collision_flags(a0)
 		move.w	x_pos(a0),bball_origX(a0)
 		move.w	y_pos(a0),bball_origY(a0)
 
@@ -77,7 +77,7 @@ Obj_BigSpikeBall:
 .type01
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$C).w,d0
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.noflip1
 		neg.w	d0
 		addi.w	#$60,d0
@@ -94,7 +94,7 @@ Obj_BigSpikeBall:
 .type02
 		moveq	#0,d0
 		move.b	(Oscillating_Data+$C).w,d0
-		btst	#0,status(a0)
+		btst	#status.npc.x_flip,status(a0)
 		beq.s	.noflip2
 		neg.w	d0
 		addi.w	#$80,d0
@@ -108,7 +108,7 @@ Obj_BigSpikeBall:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BigSpikeBall:		subObjMainData Obj_BigSpikeBall.move, rfCoord, 0, 48, 48, 4, $396, 0, 0, Map_BBall
+ObjDat_BigSpikeBall:		subObjMainData Obj_BigSpikeBall.move, setBit(render_flags.level), 0, 48, 48, 4, $396, 0, 0, Map_BBall
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Big Spiked Ball/Object Data/Map - Big Spiked Ball.asm"

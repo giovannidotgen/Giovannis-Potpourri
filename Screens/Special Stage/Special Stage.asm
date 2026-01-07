@@ -158,13 +158,13 @@ SpecialStageScreen:
 		; load special stage palette
 		lea	(Pal_SSSonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux
+		blo.s	.notKnux
 
 .palssk		:= Pal_SSKnuckles-Pal_SSSonic								; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
 		lea	(.palssk)(a1),a1								; Pal_SSKnuckles
 
-.notknux
+.notKnux
 		lea	(Target_palette_line_1).w,a2
 		jsr	(PalLoad_Line16).w
 
@@ -201,8 +201,8 @@ SpecialStageScreen:
 		move.l	#Obj_PlayerSpecial,(Player_1+address).w						; load special stage player object
 
 		; update palette
-		lea	(VDP_data_port).l,a6
-		lea	VDP_control_port-VDP_data_port(a6),a5
+		lea	(VDP_data_port).l,a6								; load VDP data address to a6
+		lea	VDP_control_port-VDP_data_port(a6),a5						; load VDP control address to a5
 		bsr.w	PalCycle_SS
 
 		; set
@@ -216,10 +216,13 @@ SpecialStageScreen:
 
 	if GameDebug
 
-	if GameDebugCheat
-		tst.b	(Debug_cheat_flag).w
-		beq.s	.anotheld
-	endif
+		if GameDebugCheat
+			ifndef __DEBUG__
+				; check cheat
+				tst.b	(Debug_cheat_flag).w
+				beq.s	.anotheld
+			endif
+		endif
 
 		btst	#button_C,(Ctrl_1_held).w							; is C button held?
 		beq.s	.cnotheld									; if not, branch
@@ -329,13 +332,13 @@ SpecialStageScreen:
 		; load Special Stage palette
 		lea	(Pal_Sonic).l,a1
 		cmpi.w	#PlayerModeID_Knuckles,(Player_mode).w
-		blo.s	.notknux2
+		blo.s	.notKnux2
 
 .palk		:= Pal_Knuckles-Pal_Sonic								; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
 		lea	(.palk)(a1),a1									; Pal_Knuckles
 
-.notknux2
+.notKnux2
 		lea	(Target_palette_line_1).w,a2
 		jsr	(PalLoad_Line16).w
 
@@ -368,13 +371,13 @@ SpecialStageScreen:
 	if SuperHyperSonKnux
 		lea	(ArtKosPM_SSResultsHYPER).l,a1
 		cmpi.w	#PlayerModeID_Tails,(Player_mode).w						; is Tails?
-		bne.s	.nottails									; if not, branch
+		bne.s	.notTails									; if not, branch
 
 .artss		:= ArtKosPM_SSResultsSUPER-ArtKosPM_SSResultsHYPER					; Macro AS hack: if you use subtraction directly in lea it will slow down the assembly several times. So we will use :=/set
 
 		lea	(.artss)(a1),a1
 
-.nottails
+.notTails
 	else
 		lea	(ArtKosPM_SSResultsSUPER).l,a1
 	endif
@@ -421,31 +424,31 @@ SS_BGLoad:
 		EniDecomp	MapEni_SSBg1, RAM_start, ArtTile_SS_Background_Fish, 2, 0		; decompress Enigma mappings
 		locVRAM	$5000,d3									; set nametable address
 		lea	(RAM_start+$80).l,a2
-		moveq	#6,d7
+		moveq	#7-1,d7
 
 loc_48BE:
 		move.l	d3,d0
-		moveq	#3,d6
+		moveq	#4-1,d6
 		moveq	#0,d4
-		cmpi.w	#3,d7
+		cmpi.w	#4-1,d7
 		bhs.s	loc_48CC
 		moveq	#1,d4
 
 loc_48CC:
-		moveq	#7,d5
+		moveq	#8-1,d5
 
 loc_48CE:
 		lea	(a2),a1
 		eori.b	#1,d4
 		bne.s	loc_48E2
-		cmpi.w	#6,d7
+		cmpi.w	#7-1,d7
 		bne.s	loc_48F2
 		lea	(RAM_start).l,a1
 
 loc_48E2:
 		movem.l	d0-d4,-(sp)
-		moveq	#(64/8-1),d1
-		moveq	#(64/8-1),d2
+		moveq	#bytesToXcnt(64,8),d1
+		moveq	#bytesToXcnt(64,8),d2
 		jsr	(Plane_Map_To_VRAM).w
 		movem.l	(sp)+,d0-d4
 
@@ -555,7 +558,7 @@ loc_4C9A:
 		addq.w	#4,a3
 		moveq	#0,d1
 		move.b	(a2)+,d1
-		subq.w	#1,d1
+		subq.w	#1,d1										; dbf fix
 
 loc_4CA4:
 		move.l	d0,(a1,d2.w)
@@ -786,7 +789,12 @@ SS_AniWallsRings:
 		lsr.w	#2,d1										; /2 = $0100 (AssumeSourceAddressIsRAMSafe) ; $400>>1
 		addi.l	#dmaSource(ArtUnc_SSWalls),d1							; get next frame
 		move.w	#tiles_to_bytes(ArtTile_SS_Wall),d2						; load art destination
-		move.w	#tiles_to_bytes(dmaLength(16)),d3						; size of art (in words) ; we only need one frame
+
+		; size of art (in words) ; we only need one frame
+		move.w	#tiles_to_bytes( \
+		dmaLength(16) \
+		),d3
+
 		jsr	(Add_To_DMA_Queue).w
 
 .ranim
@@ -804,7 +812,12 @@ SS_AniWallsRings:
 		lsl.w	#6,d1
 		add.l	#dmaSource(ArtUnc_SSRing),d1							; get next frame
 		move.w	#tiles_to_bytes($7B2),d2							; load art destination
-		moveq	#tiles_to_bytes(dmaLength(4)),d3						; size of art (in words) ; we only need one frame
+
+		; size of art (in words) ; we only need one frame
+		moveq	#tiles_to_bytes( \
+		dmaLength(4) \
+		),d3
+
 		jsr	(Add_To_DMA_Queue).w
 
 loc_1B2C8:

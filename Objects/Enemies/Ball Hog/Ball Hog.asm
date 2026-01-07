@@ -59,7 +59,7 @@ Obj_BallHog:
 		bne.s	.fail
 		move.l	#words_to_long(-$100,0),x_vel(a1)				; cannonball bounces to the left
 		moveq	#-4,d0
-		btst	#0,render_flags(a0)						; is Ball Hog facing right?
+		btst	#render_flags.x_flip,render_flags(a0)				; is Ball Hog facing right?
 		beq.s	.noflip								; if not, branch
 		neg.w	d0
 		neg.w	x_vel(a1)							; cannonball bounces to the right
@@ -127,7 +127,7 @@ Obj_BallHog_Cannonball:
 		bpl.s	.animate							; if time is > 0, branch
 
 		; remove
-		bset	#7,status(a0)
+		bset	#status.npc.defeated,status(a0)
 		move.l	#Obj_Explosion.skipanimal,address(a0)				; change object to explosion
 		rts
 ; ---------------------------------------------------------------------------
@@ -144,8 +144,8 @@ Obj_BallHog_Cannonball:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_BallHog:			subObjData Map_Hog, $2EC, 1, 0, 38, 16, 4, 0, 5
-ObjDat3_BallHog_Cannonball:	subObjData FALSE, FALSE, 0, 0, 16, 16, 3, 4, 7|$80
+ObjDat_BallHog:			subObjData Map_Hog, $2EC, 1, 0, 38, 16, 4, 0, 5|collision_flags.npc.touch
+ObjDat3_BallHog_Cannonball:	subObjData FALSE, FALSE, 0, 0, 16, 16, 3, 4, 7|collision_flags.npc.hurt
 
 Child6_BallHog_Cannonball:
 		dc.w 1-1

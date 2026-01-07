@@ -9,7 +9,7 @@ Obj_Bumper:
 		; init
 		movem.l	ObjDat_Bumper(pc),d0-d3						; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.b	#$17|$C0,collision_flags(a0)
+		move.b	#$17|collision_flags.npc.special,collision_flags(a0)
 
 .hit
 		tst.b	collision_property(a0)
@@ -63,13 +63,13 @@ Obj_Bumper:
 		clr.b	object_control(a2)
 		clr.b	anim_frame(a2)
 		clr.b	anim_frame_timer(a2)
-		bset	#Status_InAir,status(a2)
+		bset	#status.player.in_air,status(a2)
 		clr.w	(Flying_carrying_Sonic_flag).w
 
 .notcarry
-		bset	#Status_InAir,status(a1)
-		bclr	#Status_Push,status(a1)
-		btst	#Status_Roll,status(a1)						; is the player rolling?
+		bset	#status.player.in_air,status(a1)
+		bclr	#status.player.pushing,status(a1)
+		btst	#status.player.rolling,status(a1)				; is the player rolling?
 		bne.s	.notroll							; if yes, branch
 		clr.b	anim(a1)							; AniIDSonAni_Walk
 
@@ -103,7 +103,7 @@ Obj_Bumper:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Bumper:		subObjMainData Obj_Bumper.hit, rfCoord, 0, 32, 32, 1, $372, 0, 0, Map_Bump
+ObjDat_Bumper:		subObjMainData Obj_Bumper.hit, setBit(render_flags.level), 0, 32, 32, 1, $372, 0, 0, Map_Bump
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Environ/Bumper/Object Data/Anim - Bumper.asm"

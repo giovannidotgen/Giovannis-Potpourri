@@ -56,9 +56,14 @@ loc_384F8:
 		move.w	d1,d0
 		add.w	d0,d0
 		add.w	d0,d1
-		addi.l	#dmaSource(ArtUnc_WaterSplash),d1
-		move.w	#tiles_to_bytes($36E),d2
-		move.w	#tiles_to_bytes(dmaLength(12)),d3
+		addi.l	#dmaSource(ArtUnc_WaterSplash),d1				; get next frame
+		move.w	#tiles_to_bytes($36E),d2					; load art destination
+
+		; size of art (in words) ; we only need one frame
+		move.w	#tiles_to_bytes( \
+		dmaLength(12) \
+		),d3
+
 		jsr	(Add_To_DMA_Queue).w
 
 .draw
@@ -76,10 +81,10 @@ sub_38534:
 		bsr.s	.control
 
 		; check
-		bclr	#0,render_flags(a0)
-		btst	#Status_Facing,status(a1)
+		bclr	#render_flags.x_flip,render_flags(a0)
+		btst	#status.player.x_flip,status(a1)
 		beq.s	.notflipx
-		bset	#0,render_flags(a0)
+		bset	#render_flags.x_flip,render_flags(a0)
 
 .notflipx
 		lea	(Player_2).w,a1							; a1=character
@@ -118,10 +123,10 @@ sub_38534:
 		move.w	x_pos(a1),sub2_x_pos-sub2_x_pos(a2)
 		move.w	(Water_level).w,sub2_y_pos-sub2_x_pos(a2)
 		clr.b	sub2_mapframe-sub2_x_pos(a2)
-		bclr	#Status_Facing,status(a1)
+		bclr	#status.player.x_flip,status(a1)
 		tst.w	x_vel(a1)
 		bpl.s	locret_385D0
-		bset	#Status_Facing,status(a1)
+		bset	#status.player.x_flip,status(a1)
 
 locret_385D0:
 		rts
@@ -147,7 +152,7 @@ loc_385D2:
 		move.w	(Water_level).w,sub2_y_pos-sub2_x_pos(a2)
 
 		; check
-		btst	#Status_InAir,status(a1)					; is the player in the air?
+		btst	#status.player.in_air,status(a1)				; is the player in the air?
 		beq.s	locret_38636							; if not, branch
 		andi.w	#bytes_to_word(btnLR,0),d5
 		bne.s	locret_38636
@@ -188,17 +193,21 @@ loc_38652:
 		bclr	d6,status(a0)
 		move.b	#5,sub2_mapframe-sub2_x_pos(a2)
 		move.w	#-$680,y_vel(a1)
-		bset	#Status_InAir,status(a1)
+		bset	#status.player.in_air,status(a1)
 		move.b	#1,jumping(a1)
 		move.w	#bytes_to_word(28/2,14/2),y_radius(a1)				; set y_radius and x_radius
 		move.b	#AniIDSonAni_Roll,anim(a1)
-		bset	#Status_Roll,status(a1)
+		bset	#status.player.rolling,status(a1)
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_WaterSplash:	subObjMainData Obj_WaterSplash.main, rfCoord+rfMulti, 0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
+ObjDat_WaterSplash:	subObjMainData \
+			Obj_WaterSplash.main, \
+				setBit(render_flags.level) | \
+				setBit(render_flags.multi_sprite), \
+			0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Main/Water Splash/Object Data/Map - Water Splash.asm"

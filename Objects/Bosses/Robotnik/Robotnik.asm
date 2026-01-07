@@ -12,29 +12,31 @@ Obj_RobotnikHead3:
 		move.l	#.main,address(a0)
 		move.l	#Ani_RobotnikHead,objoff_30(a0)
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w
-		bne.s	.notknux
+		bne.s	.notKnux
 		bsr.s	sub_67B14							; load Egg Robo art
 
-.notknux
-		movea.w	parent3(a0),a1
+.notKnux
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
 		or.w	d0,art_tile(a0)							; set VRAM
 
 		; check
-		btst	#high_priority_bit,art_tile(a1)
-		beq.s	.main
-		bset	#high_priority_bit,art_tile(a0)
+		btst	#high_priority_bit,art_tile(a1)					; is parent object has high priority?
+		beq.s	.main								; if not, branch
+		bset	#high_priority_bit,art_tile(a0)					; high priority
 
 .main
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 		; check defeated flag
-		btst	#7,status(a1)
+		btst	#status.npc.defeated,status(a1)
 		bne.s	.defeated
 
 		move.b	#2,anim(a0)							; hurt animate
-		btst	#6,status(a1)
+
+		; check touch flag
+		btst	#status.npc.touch,status(a1)
 		bne.s	.draw
 
 		; check laugh flag
@@ -71,7 +73,7 @@ loc_67B1C:
 		move.l	#Ani_EggRoboHead,objoff_30(a0)
 
 		; load art
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	art_tile(a1),d2
 		andi.w	#$7FF,d2
 		lsl.w	#5,d2
@@ -92,24 +94,26 @@ Obj_RobotnikHead4:
 		move.l	#.main,address(a0)
 		move.l	#Ani_RobotnikHead,objoff_30(a0)
 		cmpi.b	#PlayerID_Knuckles,(Player_1+character_id).w
-		bne.s	.notknux
+		bne.s	.notKnux
 		bsr.s	sub_67B14							; load Egg Robo art
 
-.notknux
-		movea.w	parent3(a0),a1
+.notKnux
+		movea.w	parent3(a0),a1							; a1=parent object
 		move.w	art_tile(a1),d0
 		andi.w	#$87FF,d0
 		or.w	d0,art_tile(a0)							; set VRAM
 
 .main
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 
 		; check defeated flag
-		btst	#7,status(a1)
+		btst	#status.npc.defeated,status(a1)
 		bne.s	.defeated
 
 		move.b	#2,anim(a0)							; hurt animate
-		btst	#6,status(a1)
+
+		; check touch flag
+		btst	#status.npc.touch,status(a1)
 		bne.s	.draw
 
 		; check laugh flag
@@ -132,7 +136,7 @@ Obj_RobotnikHead4:
 		jsr	(Animate_Sprite).w
 
 		; check delete flag
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#5,objoff_38(a1)
 		bne.s	.delete
 
@@ -164,7 +168,7 @@ Obj_RobotnikShipFlame:
 		move.l	#.main,address(a0)
 
 .main
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object
 		btst	#5,objoff_38(a1)						; 4
 		bne.s	Obj_RobotnikHead4.delete
 		jsr	(Refresh_ChildPositionAdjusted).w
@@ -202,10 +206,10 @@ Obj_RobotnikShipPieces:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_RobotnikShip:		subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, $C, $F
-ObjDat_RobotnikShip_Glass:	subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, 7, $F
-ObjDat_RobotnikShip2:		subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, $C, $F
-ObjDat_RobotnikShip2_Glass:	subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, 7, $F
+ObjDat_RobotnikShip:		subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, $C, $F|collision_flags.npc.touch
+ObjDat_RobotnikShip_Glass:	subObjData Map_RobotnikShip, $380, 0, 0, 64, 64, 4, 7, $F|collision_flags.npc.touch
+ObjDat_RobotnikShip2:		subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, $C, $F|collision_flags.npc.touch
+ObjDat_RobotnikShip2_Glass:	subObjData Map_RobotnikShip, $380, 1, 0, 64, 64, 4, 7, $F|collision_flags.npc.touch
 ObjDat_RobotnikHead:		subObjData Map_RobotnikShip, 0, 0, 0, 16, 32, 5, 0, 0
 ObjDat2_RoboShipFlame:		subObjData FALSE, FALSE, 0, 0, 8, 16, 5, 8, 0
 ObjDat_RobotnikShipPieces:	subObjData Map_RobotnikShipPieces, $380, 0, 1, 64, 64, 0, 0, 0

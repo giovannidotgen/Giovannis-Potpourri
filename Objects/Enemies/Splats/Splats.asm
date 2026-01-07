@@ -65,7 +65,7 @@ Obj_Splats:
 		bsr.s	Splats_CheckWall
 		beq.s	.return
 		neg.w	x_vel(a0)
-		bchg	#0,render_flags(a0)
+		bchg	#render_flags.x_flip,render_flags(a0)
 
 .return
 		rts
@@ -109,7 +109,7 @@ Splats_CheckWall:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_Splats:		subObjData Map_Splats, $400, 0, 0, 40, 24, 4, 0, 2
+ObjDat_Splats:		subObjData Map_Splats, $400, 0, 0, 40, 24, 4, 0, 2|collision_flags.npc.touch
 ; ---------------------------------------------------------------------------
 
 		include "Objects/Enemies/Splats/Object Data/Map - Splats.asm"

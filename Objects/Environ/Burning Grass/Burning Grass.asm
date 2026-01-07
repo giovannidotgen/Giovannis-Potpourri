@@ -14,12 +14,12 @@ Obj_GrassFire:
 		lea	ObjDat_GrassFire(pc),a1
 		jsr	(SetUp_ObjAttributes).w
 		sfx	sfx_Burning
-		bset	#Status_FireShield,shield_reaction(a0)
+		bset	#shield_reaction.fire_shield,shield_reaction(a0)
 		move.w	x_pos(a0),gfire_origX(a0)
 		move.l	#.main,address(a0)
 
 .main
-		movea.w	parent3(a0),a2
+		movea.w	parent3(a0),a2							; a2=parent object (Large Grassy Platforms)
 		movea.l	objoff_3C(a0),a1						; LGrass data pointer
 		move.w	x_pos(a0),d1
 		sub.w	gfire_origX(a0),d1
@@ -46,7 +46,8 @@ Obj_GrassFire:
 		lea	Child6_GrassFire_Fire(pc),a2
 		jsr	(CreateChild6_Simple).w
 		bne.s	Obj_GrassFire_Fire.anim
-		move.w	parent3(a0),parent3(a1)
+		move.b	shield_reaction(a0),shield_reaction(a1)
+		move.w	parent3(a0),parent3(a1)						; copy parent object
 		move.w	d3,gfire_origY(a1)
 		bra.s	Obj_GrassFire_Fire.anim
 
@@ -61,11 +62,10 @@ Obj_GrassFire_Fire:
 		; init
 		lea	ObjDat3_GrassFire_Fire(pc),a1
 		jsr	(SetUp_ObjAttributes3).w
-		bset	#Status_FireShield,shield_reaction(a0)
 		move.l	#.main,address(a0)
 
 .main
-		movea.w	parent3(a0),a1
+		movea.w	parent3(a0),a1							; a1=parent object (Large Grassy Platforms)
 		move.w	gfire_origY(a0),d0
 		add.w	objoff_32(a1),d0
 		move.w	d0,y_pos(a0)
@@ -89,8 +89,8 @@ Obj_GrassFire_Fire:
 ; =============== S U B R O U T I N E =======================================
 
 ; mapping
-ObjDat_GrassFire:		subObjData Map_Fire, $298, 0, 0, 16, 16, 1, 0, $B|$80
-ObjDat3_GrassFire_Fire:		subObjData FALSE, FALSE, 0, 0, 16, 16, 1, 0, $B|$80
+ObjDat_GrassFire:		subObjData Map_Fire, $298, 0, 0, 16, 16, 1, 0, $B|collision_flags.npc.hurt
+ObjDat3_GrassFire_Fire:		subObjData FALSE, FALSE, 0, 0, 16, 16, 1, 0, $B|collision_flags.npc.hurt
 
 Child6_GrassFire_Fire:
 		dc.w 1-1
