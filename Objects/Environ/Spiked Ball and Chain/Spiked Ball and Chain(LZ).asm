@@ -56,9 +56,8 @@ Obj_SpikeBall2:
 		lea	sub2_x_pos(a1),a2
 
 .loop
-		move.w	d2,(a2)+
-		move.w	d3,(a2)+
-		clr.w	(a2)+
+		movem.w	d2-d3,(a2)
+		addq.w	#next_subspr,a2							; next subsprite
 		dbf	d1,.loop
 		move.b	#2,mapping_frame(a1)
 
@@ -76,7 +75,7 @@ Obj_SpikeBall2:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete								; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete
 		movea.w	parent3(a0),a1							; load chain address into a1
@@ -131,8 +130,9 @@ SpikeBall2_Move:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_SpikeBall2:	subObjMainData Obj_SpikeBall2.main, setBit(render_flags.level), 0, 48, 48, 4, $310, 0, 0, Map_SBall2
+; init
+ObjDat_SpikeBall2:	subObjMainData Obj_SpikeBall2.main, setBit(render_flags.level), 0, 48, 48, 4, $310, 0, FALSE, Map_SBall2
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Spiked Ball and Chain/Object Data/Map - Spiked Ball and Chain (LZ).asm"

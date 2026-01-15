@@ -41,7 +41,7 @@ Obj_Basaran:
 		cmpi.w	#128,d3								; is Basaran height $80 pixels of Sonic?
 		bhs.s	.nodrop								; if not, branch
 
-		; check Debug
+		; check debug mode
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
 		bne.s	.nodrop								; if yes, branch
 		move.b	(V_int_run_count+3).w,d0
@@ -56,7 +56,7 @@ Obj_Basaran:
 ; ---------------------------------------------------------------------------
 
 .dropfly
-		MoveSprite a0, $18							; make basaran fall
+		MoveSpriteYOnly a0, $18							; make basaran fall
 
 		; check players
 		jsr	(Find_SonicTails).w
@@ -90,7 +90,7 @@ Obj_Basaran:
 
 		; play continuous sfx
 		sfxcont	sfx_Basaran,$F							; play flapping sound every 16th frame
-		jsr	(MoveSprite2).w
+		MoveSpriteXOnly a0
 
 		; check players
 		jsr	(Find_SonicTails).w
@@ -122,9 +122,10 @@ Obj_Basaran:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Basaran:		subObjData Map_Bas, $529, 0, 1, 24, 32, 2, 0, $B|collision_flags.npc.touch
+; init
+ObjDat_Basaran:		subObjData Map_Bas, $529, 0, TRUE, 24, 32, 2, 0, $B|collision_flags.npc.touch
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Basaran/Object Data/Anim - Basaran.asm"
 		include "Objects/Enemies/Basaran/Object Data/Map - Basaran.asm"

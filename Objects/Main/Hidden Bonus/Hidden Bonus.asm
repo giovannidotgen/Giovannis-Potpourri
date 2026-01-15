@@ -26,7 +26,7 @@ Obj_HiddenBonus:
 		jsr	(SetUp_ObjAttributes).w
 		move.l	#.draw,address(a0)
 		move.b	subtype(a0),mapping_frame(a0)
-		move.w	#120-1,bonus_timelen(a0)					; set display time to 2 seconds
+		move.w	#(2*60)-1,bonus_timelen(a0)					; set display time to 2 seconds
 		sfx	sfx_HiddenBonus							; play bonus sound
 
 		; add score
@@ -65,8 +65,9 @@ Obj_HiddenBonus:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_HiddenBonus:	subObjData Map_HiddenBonus, $460, 0, 1, 32, 32, 1, 0, 0
+; init
+ObjDat_HiddenBonus:	subObjData Map_HiddenBonus, $460, 0, TRUE, 32, 32, 1, 0, 0
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Hidden Bonus/Object Data/Map - Hidden Bonus.asm"

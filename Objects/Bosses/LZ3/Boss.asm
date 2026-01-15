@@ -338,7 +338,7 @@ BossWater_MainProcess:
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
 		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
+		move.b	boss_saved_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -364,8 +364,8 @@ BossWater_Defeated:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossWater_ShipGlass:	subObjData Map_RobotnikShip, $1F0, 1, 0, 64, 64, 4, 7, $F|collision_flags.npc.touch
+; init
+ObjDat_BossWater_ShipGlass:	subObjData Map_RobotnikShip, $1F0, 1, FALSE, 64, 64, 4, 7, $F|collision_flags.npc.touch
 
 PLC_BossWater: plrlistheader
 		plreq $1F0, ArtKosPM_RobotnikShip2

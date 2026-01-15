@@ -41,6 +41,11 @@ tele_player2_attached		= *
 ; =============== S U B R O U T I N E =======================================
 
 Obj_Teleport:
+
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
+		; set
 		move.l	#.main,address(a0)
 
 		; init
@@ -257,4 +262,5 @@ loc_273DE:
 		rts
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Teleporter/Object Data/Data - Teleporter.asm"

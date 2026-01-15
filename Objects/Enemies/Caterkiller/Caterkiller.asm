@@ -181,7 +181,7 @@ Obj_Caterkiller_BodySegments:
 
 		; calc count and xpos
 		moveq	#0,d0
-		movea.w	objoff_44(a0),a1						; head address
+		movea.w	parent4(a0),a1						; head address
 		move.w	x_pos(a1),d2
 		move.b	subtype(a0),d0
 		move.w	d0,d1
@@ -204,7 +204,7 @@ Obj_Caterkiller_BodySegments:
 		jsr	(SetUp_ObjAttributes3).w
 
 		; fix flip
-		movea.w	objoff_44(a0),a1						; head address
+		movea.w	parent4(a0),a1						; head address
 		move.b	status(a1),status(a0)
 		move.b	status(a1),render_flags(a0)
 		move.w	#bytes_to_word(14/2,16/2),y_radius(a0)				; set y_radius and x_radius
@@ -294,7 +294,7 @@ Cat_BodySeg1:
 		move.b	d1,cat_flag2(a0,d0.w)
 
 .loc_16C64
-		movea.w	objoff_44(a0),a2						; head address
+		movea.w	parent4(a0),a2						; head address
 		btst	#status.npc.touch,status(a2)
 		bne.s	Caterkiller_FragBody
 		jmp	(Child_DrawTouch_Sprite).w
@@ -324,7 +324,7 @@ Caterkiller_FragHead:									; head
 		move.l	#.main,address(a0)
 
 .main
-		jsr	(MoveSprite).w
+		MoveSprite a0
 		tst.w	y_vel(a0)
 		bmi.s	.draw
 		jsr	(ObjCheckFloorDist).w
@@ -338,14 +338,15 @@ Caterkiller_FragHead:									; head
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Caterkiller:		subObjData Map_Cat, $552, 1, 0, 32, 16, 4, 0, $B|collision_flags.npc.touch
-ObjDat3_Caterkiller_BodySeg:	subObjData FALSE, FALSE, 0, 0, 32, 16, 5, 8, $B|collision_flags.npc.special
+; init
+ObjDat_Caterkiller:		subObjData Map_Cat, $552, 1, FALSE, 32, 16, 4, 0, $B|collision_flags.npc.touch
+ObjDat3_Caterkiller_BodySeg:	subObjData FALSE, FALSE, 0, FALSE, 32, 16, 5, 8, $B|collision_flags.npc.special
 
 Child8_Caterkiller_FragBody:
 		dc.w 3-1
 		dc.l Obj_Caterkiller_BodySegments
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Caterkiller/Object Data/Anim - Caterkiller.asm"
 		include "Objects/Enemies/Caterkiller/Object Data/Map - Caterkiller.asm"

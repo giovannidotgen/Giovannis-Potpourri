@@ -9,6 +9,9 @@ origY2				= objoff_30
 
 Obj_MarbleBrick:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		movem.l	ObjDat_MarbleBrick(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
@@ -99,8 +102,13 @@ Obj_MarbleBrick:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_MarbleBrick:		subObjMainData Obj_MarbleBrick.action, setBit(render_flags.level)|setBit(render_flags.static_mappings), 0, 32, 32, 1, 0, 2, 0, Map_Brick
+; init
+ObjDat_MarbleBrick:	subObjMainData \
+				Obj_MarbleBrick.action, \
+					setBit(render_flags.level) | \
+					setBit(render_flags.static_mappings), \
+				0, 32, 32, 1, 0, 2, FALSE, Map_Brick
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Marble Brick/Object Data/Map - Marble Brick.asm"

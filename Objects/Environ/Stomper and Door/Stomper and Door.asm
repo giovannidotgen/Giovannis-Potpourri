@@ -35,7 +35,7 @@ Obj_ScrapStomp:
 		move.b	d0,mapping_frame(a0)
 		move.l	#.action,address(a0)
 		move.l	#Map_Stomp,mappings(a0)
-		move.w	#make_art_tile($2B2,1,0),art_tile(a0)
+		move.w	#make_art_tile($2B2,1,FALSE),art_tile(a0)
 
 		; check level
 		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ/SBZ3
@@ -48,7 +48,7 @@ Obj_ScrapStomp:
 ; ---------------------------------------------------------------------------
 
 .isSBZ3
-		move.w	#make_art_tile($41F0,2,0),art_tile(a0)				; LZ4
+		move.w	#make_art_tile($41F0,2,FALSE),art_tile(a0)			; LZ4
 		cmpi.w	#$A80,x_pos(a0)
 		bne.s	.isSBZ12
 
@@ -61,7 +61,7 @@ Obj_ScrapStomp:
 		clr.b	(Scrap_stomp_flag).w
 
 		; delete
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@ Obj_ScrapStomp:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete2							; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete2
 		jmp	(Delete_Current_Sprite).w
@@ -333,4 +333,5 @@ ScrapStomp_TypeIndex: offsetTable
 		sfx	sfx_Crash,1
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Stomper and Door/Object Data/Map - Stomper and Door.asm"

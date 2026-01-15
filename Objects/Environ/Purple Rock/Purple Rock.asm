@@ -6,6 +6,9 @@
 
 Obj_PurpleRock:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		movem.l	ObjDat_PurpleRock(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
@@ -23,8 +26,9 @@ Obj_PurpleRock:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_PurpleRock:	subObjMainData Obj_PurpleRock.solid, setBit(render_flags.level), 0, 40, 48, 4, $380, 3, 0, Map_PRock
+; init
+ObjDat_PurpleRock:	subObjMainData Obj_PurpleRock.solid, setBit(render_flags.level), 0, 40, 48, 4, $380, 3, FALSE, Map_PRock
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Purple Rock/Object Data/Map - Purple Rock.asm"

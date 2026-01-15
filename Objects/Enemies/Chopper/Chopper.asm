@@ -31,7 +31,7 @@ Obj_Chopper:
 		moveq	#0,d1								; use slow animation
 		tst.w	y_vel(a0)							; is Chopper at its highest point?
 		bmi.s	.setframe							; if not, branch
-		addq.b	#2,d1								; use stationary animation
+		moveq	#2,d1								; use stationary animation
 
 .setframe
 		move.b	d1,anim(a0)
@@ -42,9 +42,10 @@ Obj_Chopper:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Chopper:		subObjData Map_Chop, $4EC, 0, 0, 32, 32, 4, 0, 9|collision_flags.npc.touch
+; init
+ObjDat_Chopper:		subObjData Map_Chop, $4EC, 0, FALSE, 32, 32, 4, 0, 9|collision_flags.npc.touch
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Chopper/Object Data/Anim - Chopper.asm"
 		include "Objects/Enemies/Chopper/Object Data/Map - Chopper.asm"

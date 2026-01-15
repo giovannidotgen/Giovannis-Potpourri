@@ -353,38 +353,38 @@ Obj_Attracted_Ring:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.offscreen2							; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .offscreen2
-		move.w	objoff_30(a0),d0						; load ring RAM address
-		beq.s	.delete
-		movea.w	d0,a2
-		clr.w	(a2)
+		move.w	objoff_30(a0),d0						; get ring address
+		beq.s	.delete								; if it's zero, branch
+		movea.w	d0,a2								; load address into a2
+		clr.w	(a2)								; clear slot
 
 .delete
 		jmp	(Delete_Current_Sprite).w
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_Ring:			subObjMainData \
 				Sprite_OnScreen_Test_Collision, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.static_mappings), \
-				0, 16, 16, 2, ArtTile_Ring, 1, 1, Map_Ring_10+2
+				0, 16, 16, 2, ArtTile_Ring, 1, TRUE, Map_Ring_10+2
 
 ObjDat_Ring2:			subObjMainData \
 				Obj_Attracted_Ring.main, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.static_mappings), \
-				0, 16, 16, 2, ArtTile_Ring, 1, 1, Map_Ring_10+2
+				0, 16, 16, 2, ArtTile_Ring, 1, TRUE, Map_Ring_10+2
 
 ObjDat3_BouncingRing:		subObjMainData \
 				FALSE, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.static_mappings) | \
 					setBit(render_flags.on_screen), \
-				0, 16, 16, 3, ArtTile_Ring, 1, 1, Map_Ring_10+2
+				0, 16, 16, 3, ArtTile_Ring, 1, TRUE, Map_Ring_10+2
 ; ---------------------------------------------------------------------------
 
 Rings_Velocity:
@@ -460,4 +460,5 @@ Rings_WaterVelocity:
 		dc.w $32, $FA		; 32
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Rings/Object Data/Map - Rings.asm"

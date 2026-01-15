@@ -29,7 +29,7 @@ Obj_BossFinal:
 		jsr	(SetUp_ObjAttributes).w
 		st	obBFZ_DPLC(a0)							; reset DPLC frame
 		st	(Boss_flag).w
-		move.l	(V_int_run_count).w,(RNG_seed).w				; set to RNG for more RNG
+		move.l	(V_int_run_count).w,(RNG_seed).w				; set to RNG seed for more RNG
 		move.b	#BossFinal_Hits,collision_property(a0)				; set hits
 		move.l	#BossFinal_Setup,address(a0)
 		move.l	#BossFinal_WaitXpos,obBFZ_Jump(a0)
@@ -164,7 +164,7 @@ BossFinal_CreatePlasmaBalls:
 
 		; enable plasma ball launcher
 		sfx	sfx_Electric							; play sfx
-		move.w	parent2(a0),a1							; load plasma ball launcher address
+		movea.w	parent2(a0),a1							; load plasma ball launcher address
 		st	obBFZBP_Enable(a1)						; create plasma balls
 		move.b	#1,obBFZ_Count(a0)
 
@@ -243,8 +243,13 @@ BossFinal_MainProcess:
 		beq.s	.return
 
 		; hurt boss
+	if BossDebug
+		clr.b	collision_property(a0)
+		bra.s	BossFinal_Defeated
+	else
 		subq.b	#1,collision_property(a0)
 		beq.s	BossFinal_Defeated
+	endif
 
 		; set flash anim
 		move.b	#100,boss_invulnerable_time(a0)
@@ -671,12 +676,12 @@ Obj_BossFinal_CheckPlayers:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossFZEggman:			subObjData Map_ScrapEggman, $2B0, 0, 0, 56, 56, 4, 0, 0
-ObjDat_BossFZEggRobo:			subObjData Map_ScrapEggRobo, $2B0, 0, 0, 56, 56, 4, 0, 0
-ObjDat_BossFZControlDesk:		subObjData Map_EggCyl, $300, 0, 0, 16, 32, 0, $B, 0
-ObjDat_BossFZRobotnikShip:		subObjData Map_RobotnikShip, $3A0, 0, 0, 64, 64, 4, $C, 0
-ObjDat_BossFZRobotnikShipStand:		subObjData Map_RobotnikShipStand, $420, 0, 0, 24, 56, 3, 0, 0
+; init
+ObjDat_BossFZEggman:			subObjData Map_ScrapEggman, $2B0, 0, FALSE, 56, 56, 4, 0, 0
+ObjDat_BossFZEggRobo:			subObjData Map_ScrapEggRobo, $2B0, 0, FALSE, 56, 56, 4, 0, 0
+ObjDat_BossFZControlDesk:		subObjData Map_EggCyl, $300, 0, FALSE, 16, 32, 0, $B, 0
+ObjDat_BossFZRobotnikShip:		subObjData Map_RobotnikShip, $3A0, 0, FALSE, 64, 64, 4, $C, 0
+ObjDat_BossFZRobotnikShipStand:		subObjData Map_RobotnikShipStand, $420, 0, FALSE, 24, 56, 3, 0, 0
 
 Child11_BossFinal_AfterBoss:
 		dc.w 3-1
@@ -690,4 +695,5 @@ Child1_BossFinal_RobotnikShipStand:
 		dc.b 0, 20
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/FZ/Object Data/Anim - Eggman.asm"

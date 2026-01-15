@@ -12,6 +12,13 @@
 ; Debugger and Error handler blob
 ; ---------------------------------------------------------------
 
+	ifdef __DEBUG__
+		include "Engine/Debugger/ErrorHandler/Modules/DMA Queue(Debug).asm"
+		include "Engine/Debugger/ErrorHandler/Modules/Kosinski Plus Module Decompression(Debug).asm"
+		include "Engine/Debugger/ErrorHandler/Modules/Load Objects(Debug).asm"
+		include "Engine/Debugger/ErrorHandler/Modules/Load Rings(Debug).asm"
+		include "Engine/Debugger/ErrorHandler/Modules/Render Sprites(Debug).asm"
+	endif
 
 ; ---------------------------------------------------------------
 ; Exception vectors

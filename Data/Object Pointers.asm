@@ -56,7 +56,7 @@ Obj_Index:
 		dc.l Obj_Button						; $32
 		dc.l Obj_PushableBlock					; $33
 		dc.l Obj_StarPost					; $34
-		dc.l Obj_ForegroundPlant				; $35
+		dc.l Obj_MovementStillSprite				; $35
 		dc.l Delete_Current_Sprite				; $36
 		dc.l Obj_SpikeBall2					; $37
 		dc.l Obj_Animal_Ending					; $38
@@ -76,7 +76,7 @@ Obj_Index:
 		dc.l Obj_MarbleBrick					; $46
 		dc.l Obj_Bumper						; $47
 		dc.l Delete_Current_Sprite				; $48
-		dc.l Obj_WaterSound					; $49
+		dc.l Obj_SoundStillSprite				; $49
 		dc.l Delete_Current_Sprite				; $4A
 		dc.l Obj_BigRing					; $4B
 		dc.l Obj_GeyserMaker					; $4C

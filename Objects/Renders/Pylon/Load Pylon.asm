@@ -7,7 +7,7 @@
 Render_Pylon:
 
 		; move pylon
-		move.w	#make_art_tile($36A,0,1),d5					; VRAM
+		move.w	#make_art_tile($36A,0,TRUE),d5					; VRAM
 		move.l	Camera_X_pos_copy-Camera_X_pos_copy(a3),d0
 		add.l	d0,d0
 		swap	d0
@@ -25,4 +25,5 @@ Render_Pylon:
 		jmp	(loc_1AF76).w							; draw
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Renders/Pylon/Object Data/Map - Pylon.asm"

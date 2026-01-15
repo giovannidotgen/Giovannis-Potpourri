@@ -12,7 +12,7 @@ sEggman_Frame				= objoff_3A	; .b ; reset DPLC frame
 
 Obj_ScrapEggman:
 
-		; load control desk palette
+		; set control desk palette
 		lea	(Normal_palette_line_2+$14).w,a1
 		move.l	#words_to_long($CAA,$A88),(a1)+
 		move.l	#words_to_long($866,$644),(a1)+
@@ -120,7 +120,7 @@ Obj_ScrapEggman_Block:
 		add.w	d0,x_pos(a0)							; +32 pixels
 
 		; set wait
-		lsl.w	#3,d1
+		lsl.w	#3,d1								; multiply by 8
 		move.w	d1,objoff_2E(a0)
 
 		; init
@@ -218,7 +218,7 @@ Obj_ScrapEggman_BlockPieces:
 		move.w	.speed(pc,d0.w),y_vel(a0)
 
 		; set frame
-		lsr.b	d0
+		lsr.b	d0								; division by 2
 		move.b	d0,mapping_frame(a0)
 
 .fall
@@ -230,16 +230,16 @@ Obj_ScrapEggman_BlockPieces:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_ScrapEggman:			subObjData Map_ScrapEggman, $320, 0, 1, 56, 40, 4, 0, 0
-ObjDat_ScrapEggRobo:			subObjData Map_ScrapEggRobo, $320, 0, 1, 56, 32, 4, 0, 0
-ObjDat_ScrapEggman_ControlDesk:		subObjData Map_ScrapControlDesk, $340, 1, 1, 56, 32, 3, 0, 0
-ObjDat_ScrapEggman_Block:		subObjData Map_FFloor, $364, 2, 1, 32, 32, 3, 0, 0
-ObjDat_ScrapEggman_BlockPieces:		subObjData Map_FFloor_Pieces, $364, 2, 1, 16, 16, 3, 0, 0
+; init
+ObjDat_ScrapEggman:			subObjData Map_ScrapEggman, $320, 0, TRUE, 56, 40, 4, 0, 0
+ObjDat_ScrapEggRobo:			subObjData Map_ScrapEggRobo, $320, 0, TRUE, 56, 32, 4, 0, 0
+ObjDat_ScrapEggman_ControlDesk:		subObjData Map_ScrapControlDesk, $340, 1, TRUE, 56, 32, 3, 0, 0
+ObjDat_ScrapEggman_Block:		subObjData Map_FFloor, $364, 2, TRUE, 32, 32, 3, 0, 0
+ObjDat_ScrapEggman_BlockPieces:		subObjData Map_FFloor_Pieces, $364, 2, TRUE, 16, 16, 3, 0, 0
 
 ; dplc
-PLCPtr_ScrapEggman:			dc.l dmaSource(ArtUnc_ScrapEggman), DPLC_ScrapEggman
-PLCPtr_ScrapEggRobo:			dc.l dmaSource(ArtUnc_ScrapEggRobo), DPLC_ScrapEggRobo
+PLCPtr_ScrapEggman:			DPLCEntry ArtUnc_ScrapEggman, DPLC_ScrapEggman
+PLCPtr_ScrapEggRobo:			DPLCEntry ArtUnc_ScrapEggRobo, DPLC_ScrapEggRobo
 
 Child1_ScrapEggman_ControlDesk:
 		dc.w 1-1
@@ -278,6 +278,7 @@ PLC_SE_ControlDesk: plrlistheader
 PLC_SE_ControlDesk_end
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/Scrap Eggman/Object Data/Map - Scrap Eggman.asm"
 		include "Objects/Bosses/Scrap Eggman/Object Data/DPLC - Scrap Eggman.asm"
 		include "Objects/Bosses/Scrap Eggman/Object Data/Map - Scrap Egg Robo.asm"

@@ -341,7 +341,7 @@ BossBlock_MainProcess:
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
 		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
+		move.b	boss_saved_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -633,9 +633,9 @@ BossBlock_BreakChunkBlock:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossBlock_Spike:		subObjData Map_BossSYZBlockSpike, $400, 0, 0, 32, 32, 5, 0, 4|collision_flags.npc.hurt
-ObjDat_BossBlock_Block:		subObjData Map_BossSYZBlock, $406, 2, 1, 32, 32, 4, 0, 0
+; init
+ObjDat_BossBlock_Spike:		subObjData Map_BossSYZBlockSpike, $400, 0, FALSE, 32, 32, 5, 0, 4|collision_flags.npc.hurt
+ObjDat_BossBlock_Block:		subObjData Map_BossSYZBlock, $406, 2, TRUE, 32, 32, 4, 0, 0
 
 Child1_BossBlock_Spike:
 		dc.w 1-1
@@ -653,5 +653,6 @@ PLC_BossBlock: plrlistheader
 PLC_BossBlock_end
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/SYZ3/Object Data/Map - Boss Block.asm"
 		include "Objects/Bosses/SYZ3/Object Data/Map - Boss Block(Spike).asm"

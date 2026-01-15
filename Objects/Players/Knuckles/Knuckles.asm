@@ -77,7 +77,7 @@ Knuckles_Init:										; Routine 0
 		bne.s	Knuckles_Init_Continued
 
 		; only happens when not starting at a checkpoint:
-		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Player_1,0,FALSE),art_tile(a0)
 		move.w	#bytes_to_word($C,$D),top_solid_bit(a0)
 
 		cmpi.b	#2,(Special_bonus_entry_flag).w
@@ -373,7 +373,11 @@ loc_167EA:
 ; =============== S U B R O U T I N E =======================================
 
 Knux_MdNormal:
+
+	if ~~OriginalMode
 		bsr.w	SonicKnux_Spindash
+	endif
+
 		bsr.w	Knux_Jump
 		bsr.w	Player_SlopeResist
 		bsr.w	Knux_InputAcceleration_Path
@@ -2984,7 +2988,7 @@ Knuckles_Load_PLC2:
 		move.b	d0,(Player_prev_frame).w
 
 		; load
-		add.w	d0,d0
+		add.w	d0,d0								; mapping frame * 2
 		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5

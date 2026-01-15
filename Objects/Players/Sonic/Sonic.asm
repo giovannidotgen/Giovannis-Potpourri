@@ -77,7 +77,7 @@ Sonic_Init:										; Routine 0
 		bne.s	Sonic_Init_Continued
 
 		; only happens when not starting at a checkpoint:
-		move.w	#make_art_tile(ArtTile_Player_1,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Player_1,0,FALSE),art_tile(a0)
 		move.w	#bytes_to_word($C,$D),top_solid_bit(a0)
 
 		cmpi.b	#2,(Special_bonus_entry_flag).w
@@ -478,7 +478,10 @@ loc_10F22:
 
 Sonic_MdNormal:
 		bsr.w	Sonic_CheckPeelout
+	if ~~OriginalMode
 		bsr.w	SonicKnux_Spindash
+	endif
+
 		bsr.w	Sonic_Jump
 		bsr.w	Player_SlopeResist
 		bsr.w	Sonic_Move
@@ -1702,7 +1705,7 @@ Sonic_LightningShield:
 ; ---------------------------------------------------------------------------
 
 Sonic_BubbleShield:
-		btst	#status_secondary.bubble_shield,status_secondary(a0)		; does Sonic have a Bubble Shield
+		btst	#status_secondary.bubble_shield,status_secondary(a0)		; does Sonic have a Bubble Shield?
 		beq.s	Sonic_CheckTransform						; if not, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
@@ -1732,12 +1735,15 @@ Sonic_CheckTransform:
 		endif
 
 Sonic_InstaShield:
+
+	if ~~OriginalMode
 		btst	#status_secondary.shield,status_secondary(a0)			; does Sonic have an S2 shield (The Elementals were already filtered out at this point)?
 		bne.s	locret_11A14							; if yes, branch
 		move.b	#1,(Shield+anim).w
 		move.b	#1,double_jump_flag(a0)
 		sfx	sfx_InstaAttack,1						; play Insta-Shield sound
 ; ---------------------------------------------------------------------------
+	endif
 
 locret_11A14:
 		rts
@@ -1810,6 +1816,12 @@ Sonic_DropCancel3:
 ; =============== S U B R O U T I N E =======================================
 
 Sonic_Transform:
+
+.artsize	:= (ArtUnc_SuperSonicLifeIcon_end-ArtUnc_SuperSonicLifeIcon)&$FFFF
+
+		; load Super Sonic life icon art
+		QueueStaticDMA ArtUnc_SuperSonicLifeIcon,.artsize,tiles_to_bytes(ArtTile_LifeIcon)
+
 		move.b	#1,(Super_palette_status).w					; set Super/Hyper palette status to 'fading'
 		move.b	#$F,(Palette_timer).w
 		move.w	#60,(Super_frame_count).w
@@ -1933,7 +1945,7 @@ SonicKnux_SuperHyper:
 
 .updateHUD
 		subq.w	#1,(Ring_count).w
-		bne.s	.return								; if rings aren't depleted, we're done here
+		bne.w	.return								; if rings aren't depleted, we're done here
 
 		; if rings depleted, return to normal
 
@@ -1946,6 +1958,11 @@ SonicKnux_SuperHyper:
 		tst.b	character_id(a0)						; is this Sonic?
 		bne.s	.notSonic
 		move.l	#Map_Sonic,mappings(a0)						; if so, load Sonic's normal mappings (was using Super/Hyper mappings)
+
+.artsize	:= (ArtUnc_SonicLifeIcon_end-ArtUnc_SonicLifeIcon)&$FFFF
+
+		; load Sonic life icon art
+		QueueStaticDMA ArtUnc_SonicLifeIcon,.artsize,tiles_to_bytes(ArtTile_LifeIcon)
 
 .notSonic
 		move.b	#1,prev_anim(a0)
@@ -2559,14 +2576,14 @@ SonicKnux_DoLevelCollision:
 		beq.w	Player_HitCeilingAndWalls
 		cmpi.b	#$C0,d0
 		beq.w	loc_12102
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	loc_11F44
 		sub.w	d1,x_pos(a0)
 		clr.w	x_vel(a0)							; stop Sonic since he hit a wall
 
 loc_11F44:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_11F56
 		add.w	d1,x_pos(a0)
@@ -2671,7 +2688,7 @@ ChooseChkFloorEdge:
 ; ---------------------------------------------------------------------------
 
 Player_HitLeftWall:
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	Player_HitCeiling						; branch if distance is positive (not inside wall)
 		sub.w	d1,x_pos(a0)
@@ -2700,7 +2717,7 @@ locret_12052:
 ; ---------------------------------------------------------------------------
 
 loc_12054:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	locret_12066
 		add.w	d1,x_pos(a0)
@@ -2738,14 +2755,14 @@ loc_12084:
 ; ---------------------------------------------------------------------------
 
 Player_HitCeilingAndWalls:
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	loc_120B0
 		sub.w	d1,x_pos(a0)
 		clr.w	x_vel(a0)							; stop Sonic since he hit a wall
 
 loc_120B0:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_120C2
 		add.w	d1,x_pos(a0)
@@ -2790,7 +2807,7 @@ locret_12100:
 ; ---------------------------------------------------------------------------
 
 loc_12102:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_1211A
 		add.w	d1,x_pos(a0)
@@ -3950,7 +3967,7 @@ Sonic_Load_PLC2:
 		move.b	d0,(Player_prev_frame).w
 
 		; load
-		add.w	d0,d0
+		add.w	d0,d0								; mapping frame * 2
 		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5

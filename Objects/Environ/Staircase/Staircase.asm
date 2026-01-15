@@ -13,7 +13,12 @@ stair_origY			= objoff_46 ; original y-axis position (2 bytes)
 Obj_Staircase:
 
 		; init
-		ori.b	#setBit(render_flags.level)|setBit(render_flags.static_mappings),render_flags(a0)	; set static mapping and screen coordinates flag
+		; set static mapping and screen coordinates flag
+		ori.b	#( \
+			setBit(render_flags.level) | \
+			setBit(render_flags.static_mappings) \
+		),render_flags(a0)
+
 		moveq	#7,d0
 		and.b	subtype(a0),d0
 		cmpi.w	#4,d0
@@ -59,7 +64,7 @@ Obj_Staircase:
 
 .load
 		move.l	#Map_Stair,mappings(a1)
-		move.w	#make_art_tile(0,2,0),art_tile(a1)
+		move.w	#make_art_tile(0,2,FALSE),art_tile(a1)
 		move.b	render_flags(a0),render_flags(a1)
 		move.l	#bytes_word_to_long(32/2,32/2,priority_3),height_pixels(a1)	; set height, width and priority
 		move.b	subtype(a0),subtype(a1)
@@ -222,4 +227,5 @@ Stair_Type03:
 		rts
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Staircase/Object Data/Map - Staircase.asm"

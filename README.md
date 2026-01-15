@@ -32,6 +32,7 @@ Original sprites sourced from Sonic 3 - Angel Island Revisited
 
 ![GitHub Release](https://img.shields.io/github/v/release/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub repo size](https://img.shields.io/github/repo-size/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub Repo stars](https://img.shields.io/github/stars/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub watchers](https://img.shields.io/github/watchers/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
 ![GitHub forks](https://img.shields.io/github/forks/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-?style=flat-square)
@@ -42,87 +43,127 @@ Original sprites sourced from Sonic 3 - Angel Island Revisited
 
 - [Current version](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/archive/refs/heads/flamedriver.zip)
 - [Releases](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/releases)
+- [ROMs](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/actions)
 
 ## Disclaimer
 
-This is a port of Sonic The Hedgehog (1991) to Sonic Clean Engine (S.C.E.), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
+This is a port of Sonic The Hedgehog (1991) to [Sonic Clean Engine (S.C.E.) Extended version](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-Extended-), our heavily modified and improved Sonic 3 & Knuckles engine, which we have been using for a long time for our MD projects (such as Hellfire Saga and Sonic 3 & Knuckles: Epilogue).
 
-Free use. You use it at your own risk. All code is provided “as is”. This source code uses software from other authors. Check their licenses before using it. You assume any and all responsibility for using this content responsibly. I claims no responsibility or warranty. Commercial usage is expressly prohibited.
-
-You can use this source code as a base for your projects, or just as an example for optimizations of your source code.
+Please read the [license](LICENSE) before using this project.
 
 ## Screenshots
 
 <details>
-<summary>Screenshots</summary>
- 
-![1]
-![2]
-![3]
-![4]
-![5]
-![6]
-![7]
-![8]
-![9]
-![10]
-![11]
-![12]
-![13]
-![14]
-![15]
-![16]
-![17]
-![18]
-![19]
-![20]
-![21]
-![22]
-![23]
-![24]
-![25]
+<summary>Show screenshots</summary>
 
-[1]: https://i.imgur.com/EqCmjSK.png
-[2]: https://i.imgur.com/rtzOHYb.png
-[3]: https://i.imgur.com/6YTWpYb.png
-[4]: https://i.imgur.com/MLsX9YQ.png
-[5]: https://i.imgur.com/MlrJwEI.png
-[6]: https://i.imgur.com/l0QAfCO.png
-[7]: https://i.imgur.com/dRpyxOJ.png
-[8]: https://i.imgur.com/Ta9my76.png
-[9]: https://i.imgur.com/FtrAkRO.png
-[10]: https://i.imgur.com/6bGlgfN.png
-[11]: https://i.imgur.com/fn5ETM9.png
-[12]: https://i.imgur.com/K0HpIgu.png
-[13]: https://i.imgur.com/BD7Uuzq.png
-[14]: https://i.imgur.com/haLN95q.png
-[15]: https://i.imgur.com/JT05cue.png
-[16]: https://i.imgur.com/X1m8pXp.png
-[17]: https://i.imgur.com/V6AfKYw.png
-[18]: https://i.imgur.com/D0Eapq5.png
-[19]: https://i.imgur.com/QM5eUop.png
-[20]: https://i.imgur.com/82Rdk6v.png
-[21]: https://i.imgur.com/r6eKElG.png
-[22]: https://i.imgur.com/rmrbD5b.png
-[23]: https://i.imgur.com/g0tqv5L.png
-[24]: https://i.imgur.com/Xp8CwYa.png
-[25]: https://i.imgur.com/v39oNGQ.png
+<p align="center">
+  <img src="https://i.imgur.com/EqCmjSK.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/rtzOHYb.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/6YTWpYb.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/MLsX9YQ.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/MlrJwEI.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/l0QAfCO.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/dRpyxOJ.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/Ta9my76.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/FtrAkRO.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/6bGlgfN.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/fn5ETM9.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/K0HpIgu.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/BD7Uuzq.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/haLN95q.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/JT05cue.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/X1m8pXp.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/V6AfKYw.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/D0Eapq5.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/QM5eUop.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/82Rdk6v.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/r6eKElG.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/rmrbD5b.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/g0tqv5L.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/Xp8CwYa.png" style="max-width:100%;">
+  <img src="https://i.imgur.com/v39oNGQ.png" style="max-width:100%;">
+</p>
 
 </details>
 
+## Features
+
+- Cleaned up and optimized disassembly of Sonic 3 & Knuckles:
+
+    - There are no hardcoded things as there were in the original Sonic 3 & Knuckles. Complete freedom in your work;
+
+- Changed level layout format. Now there are two bytes for chunk IDs:
+
+    - This will allow you to create more chunks for levels because there will be no one-byte limit here. This will allow you to port levels even from Sonic CD;
+
+- All current level settings in one file:
+    - No more searching through the entire Sonic disassembly to replace chunks, layout, palette, music, and other things. Just open [Pointer.asm](Levels/GHZ/Pointers) located in each level folder;
+
+- Many original subroutines have been replaced with faster equivalents. These new subroutines do not break compatibility with the original Sonic 3 & Knuckles. Therefore, there is no need to worry about this:
+
+    - Updated Ultra DMA Queue subroutines and compression algorithms(Kosinski Plus, Kosinski Plus Module, Updated Enigma) have optimized S3K's performance very well;
+
+- I rewrote the code of all the screens, objects, and other things to get maximum performance:
+
+    - Poorly written object code can significantly reduce game performance, regardless of whether other subroutines have been optimized very well. All code has been rewritten in S3K style. If you are familiar with Sonic 3 & Knuckles disassembly, you will have no problems with the S1S3/SCE code;
+
+- The size of the object slots is now 0x50 bytes:
+    - Additional free bytes will facilitate work on complex objects;
+
+- Various sound drivers:
+    - There are Z80 Sound Flamedriver and M68K Sonic 2 Clone Driver v2 (Mega PCM 2.0 version). It all depends on your tasks.
+
+## Changes for the Sonic 1 in Sonic 3 & Knuckles (S.C.E. Version)
+
+- New game engine. The original Sonic 1 has serious performance issues, so the game runs much better now;
+
+- Some things are kept in the style of Sonic 3 & Knuckles. There is a mix of graphics and music from Sonic 1 and Sonic 3 & Knuckles;
+
+- Playable Tails and Knuckles. You can play as Sonic and Tails or Knuckles and Tails. The villain switches between Eggman and Eggrobo depending on which character you choose to play;
+
+- All level layouts have been updated to match Sonic 1 2013 and Sonic Origins. New paths for Tails and Knuckles in MZ3, SYZ2 and SLZ1, new secrets pretty much everywhere else;
+
+- New artwork for bosses and other stuff;
+
+- New settings menu;
+
+- Seven Special Stages. Special Stages are now only available through Star Posts, but only if you have 50 rings. The player will lose 50 rings for entering the stage;
+
+- You can get 7 Chaos Emeralds and use Super/Hyper Transformations;
+
+- Many minor improvements in polish, such as added SFX or boss intros.
+
+## Cheats and Secrets
+
+- S1 Level Select: U, D, L, R, A+Start on the Title Screen;
+
+- S.C.E. Level Select: U, D, L, R, A+C+Start on the Title Screen;
+
+- Hidden Credits: Hold A+C on the Sega Screen;
+
+- Debug Mode: 1, 9, 9, 1, 0, 6, 2, 3 in the Sound Test of any Level Select;
+
+- All Emeralds: 4, 1, 2, 6 in the Sound Test of any Level Select;
+
+- Results skip: A, B or C during Got Through/Special Stage screens.
+
 ## Additional links
 
-#### Main source code:
+#### If you are interested in the Sonic 1 in Sonic 3 & Knuckles (S.C.E. Version) with the Sonic 2 Clone Driver v2 (Mega PCM 2.0 version):
+
+- [Sonic-1-in-Sonic-3-S.C.E.-Clone-Driver-v2-](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/Clone-Driver-v2)
+
+#### Main repository:
 
 - [Sonic-Clean-Engine-S.C.E.-](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-)
 
-#### Extended source code:
+#### Sonic Clean Engine (S.C.E.) Extended version:
 
 - [Sonic-Clean-Engine-S.C.E.-Extended-](https://github.com/TheBlad768/Sonic-Clean-Engine-S.C.E.-Extended-)
 
 ## How to build the ROM
 
-To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S1S3.gen'. Use build_debug for debug things. The built ROM will be called 'S1S3.Debug.gen'.
+To build this, use build.bat if you're a Windows user, or build.sh if you're a Linux user. The built ROM will be called 'S1S3.gen'. Use build_debug for debug things. The built ROM will be called 'S1S3.debug.gen'.
 
 ## Quick start
 
@@ -132,11 +173,15 @@ To build this, use build.bat if you're a Windows user, or build.sh if you're a L
 
 - To convert SMPS music to asm format you can use [smps2asm](https://forums.sonicretro.org/index.php?threads/smps2asm-and-improved-s-k-driver.26876).
 
+- For counting instruction cycles you can use [68kCounter](https://68kcounter.grahambates.com).
+
+- Recommended emulators for debugging: [BizHawk](https://github.com/TASEmulators/BizHawk/releases), [BlastEm](https://www.retrodev.com/blastem/nightlies/), [ClownMDEmu](https://github.com/Clownacy/clownmdemu-frontend/releases), [Exodus](https://www.exodusemulator.com/downloads/current-release), [Gens KMod](https://segaretro.org/Gens_KMod), [Regen](https://segaretro.org/Regen).
+
 ## Current issues
 
 1. S.C.E. uses [Kosinski Plus algorithm](https://github.com/flamewing/mdcomp/blob/master/src/asm/KosinskiPlus.asm), but **Flex2** program does not support **Kosinski Plus Module**. Therefore, **Flex2.json** project file is partially useless. **SonMapEd** program does not support **Kosinski Plus** at all. You can only open uncompressed graphics.
 
-### Solution: Fork the program from Nichloya:
+### Solution: Use the fork from Nichloya:
 
 - [Flex2](https://github.com/Nichloya/Flex2/releases)
 
@@ -149,12 +194,14 @@ To build this, use build.bat if you're a Windows user, or build.sh if you're a L
 
 #### How do I add levels from previous Sonic games?
 
-- If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Utilities/Layout).
+- If you want to convert levels from previous Sonic games, you have to use [LevelConverter](https://info.sonicretro.org/LevelConverter) from [SonLVL](https://info.sonicretro.org/SonLVL). Then change the layout format using [Layout converter](Utilities/Layout).
 
 #### How do I make different text for Title Card?
 
-- If you want to make a different text for Title Card, you need to create a file of letters from [List.unc](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Objects/Main/Title%20Card/KosinskiPM%20Art/Levels). This will be loaded before the level starts.
-You don't have to add the letters **'ENOZ' (ZONE)** because those letters are already in VRAM. Then you have to create a mapping of your zone name in [Map - Title Card.asm](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-/tree/flamedriver/Objects/Main/Title%20Card/Object%20Data).
+- If you want to make a different text for Title Card, you need to create a file of letters from [List.unc](Objects/Main/Title%20Card/KosinskiPM%20Art/Levels). This will be loaded before the level starts.
+You don't have to add the letters **'ENOZ' (ZONE)** because those letters are already in VRAM. Then you have to create a mapping of your zone name in [Map - Title Card.asm](Objects/Main/Title%20Card/Object%20Data).
+
+Now you can use a Python script to create Title Card mappings [S3TCG](https://github.com/RobiTheGit/S3TCG).
 
 #### Where can I find other SMPS music?
 
@@ -216,7 +263,8 @@ Example of correct code:
 - [Sonic Retro](https://forums.sonicretro.org/index.php?threads/guide-to-common-as-assembler-errors.43731/)
 - [SSRG](https://sonicresearch.org/community/index.php?threads/guide-to-common-as-assembler-errors.7201/)
 
-### <code style="color : RED">For God's sake, always specify the jump sizes for instructions. Don't try to play around with Macro Assembler AS. Sometimes you may see random and meaningless errors just because you didn't specify the code size. You will try to fix something that wasn't actually broken, but these errors were caused only because you didn't specify the jump size in instruction.</code>
+> [!WARNING]\
+> Please always specify the jump sizes for instructions. Macro Assembler AS may display random and misleading errors if the jump size is not specified. You will try to fix something that wasn’t actually broken, but these errors are caused only because you didn’t specify the jump size in the instruction.
 
 ### Macro Assembler AS Passes
 
@@ -273,15 +321,86 @@ Try to keep 2 passes at all times. If you see 3, 4 or more passes, you should fi
 - [Telegram channel](http://t.me/theblad768channel)
 - [Red Miso Studios Discord](https://discords.com/servers/redmisostudios)
 
-## These projects are based on this source code
+## These projects are based on the Sonic Clean Engine (S.C.E.)
 
-- Sonic 3 Rebuilt by TomatoWave_0
-- [Sonic The Hedgehog in Hellfire Saga](https://github.com/TheBlad768/Hellfire-Saga-Public-Source)
-- [Sonic 3 & Knuckles: Epilogue](https://github.com/TheBlad768/Sonic-3-Knuckles-Epilogue-Public-Source)
-- TishaProject (2019)
-- Sonic Virtual Adventure (2017) (Cancelled) — In the past I made this source code specifically for this project (:
+<details>
+<summary><b>Sonic Vania (2025 Demo)</b> by JvneTh</summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2025/1212" target="_blank">SHC Page</a>
+  <br><br>
+  <img src="https://i.imgur.com/rLUkT3j.png" style="max-width:100%;">
+</p>
+</details>
 
-## Check out the Sonic Retro source code
+<details>
+<summary><b>Sonic 3 Rebuilt</b> by TomatoWave_0</summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2025/1224" target="_blank">SHC Page</a>
+  <br><br>
+  <img src="https://i.imgur.com/GgXGebt.png" style="max-width:100%;">
+</p>
+</details>
+
+<details>
+<summary><b>Sonic The Hedgehog in Hellfire Saga (2023)</b></summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2023/916" target="_blank">SHC Page</a> &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/TheBlad768/Hellfire-Saga-Public-Source" target="_blank">Source</a>
+  <br><br>
+  <img src="https://i.imgur.com/GRyUeZD.png" style="max-width:100%;">
+</p>
+</details>
+
+<details>
+<summary><b>Sonic 3 & Knuckles: Epilogue (2021)</b></summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2021/477" target="_blank">SHC Page</a> &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/TheBlad768/Sonic-3-Knuckles-Epilogue-Public-Source" target="_blank">Source</a>
+  <br><br>
+  <img src="https://i.imgur.com/bawDZSn.png" style="max-width:100%;">
+</p>
+</details>
+
+<details>
+<summary><b>TishaProject (2019)</b></summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2019/50" target="_blank">SHC Page</a>
+  <br><br>
+  <img src="https://i.imgur.com/fV2d77k.png" style="max-width:100%;">
+</p>
+</details>
+
+<details>
+<summary><b>Sonic Virtual Adventure (2017)</b> Cancelled</summary>
+  <br>
+  In the past I made the Sonic Clean Engine (S.C.E.) specifically for this project (:
+  <br><br>
+<p align="center">
+  <img src="https://i.imgur.com/2S9MEIj.png" style="max-width:100%;">
+</p>
+</details>
+
+#### Mini projects
+
+<details>
+<summary><b>Sonic With A Pogo Stick</b> by RobiWanKenobi</summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2025/1358" target="_blank">SHC Page</a>
+  <br><br>
+  <img src="https://i.imgur.com/iJzZzI0.png" style="max-width:100%;">
+</p>
+</details>
+
+<details>
+<summary><b>Sunky MD</b> by RobiWanKenobi</summary>
+<p align="center">
+  <a href="https://shc.zone/entries/contest2025/1336" target="_blank">SHC Page</a>
+  <br><br>
+  <img src="https://i.imgur.com/M9CwAkX.png" style="max-width:100%;">
+</p>
+</details>
+
+## Check out the Sonic Retro Disassemblies
 
 - [s1disasm](https://github.com/sonicretro/s1disasm)
 - [s2disasm](https://github.com/sonicretro/s2disasm)

@@ -76,7 +76,7 @@ Obj_BuzzBomber:
 .chknearsonic
 		subq.w	#1,buzz_timedelay(a0)						; subtract 1 from time delay
 		bmi.s	.chgdirection
-		jsr	(MoveSprite2).w
+		MoveSpriteXOnly a0
 		tst.b	buzz_buzzstatus(a0)
 		bne.s	.keepgoing
 		jsr	(Find_SonicTails).w
@@ -166,11 +166,12 @@ Obj_Missile:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BuzzBomber:		subObjData Map_Buzz, $440, 0, 0, 48, 48, 3, 0, 8|collision_flags.npc.touch
-ObjDat_BuzzBomber_Missile:	subObjData Map_Missile, $440, 1, 0, 16, 16, 3, 0, 0
+; init
+ObjDat_BuzzBomber:		subObjData Map_Buzz, $440, 0, FALSE, 48, 48, 3, 0, 8|collision_flags.npc.touch
+ObjDat_BuzzBomber_Missile:	subObjData Map_Missile, $440, 1, FALSE, 16, 16, 3, 0, 0
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Buzz Bomber/Object Data/Anim - Buzz Bomber.asm"
 		include "Objects/Enemies/Buzz Bomber/Object Data/Anim - Buzz Bomber Missile.asm"
 		include "Objects/Enemies/Buzz Bomber/Object Data/Map - Buzz Bomber.asm"

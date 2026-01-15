@@ -65,11 +65,21 @@ Obj_LevelResults:
 ; ---------------------------------------------------------------------------
 
 .tbonus	dc.w 5000, 5000, 1000, 500, 400, 300, 100, 10					; time bonus
+.tbonus_end
 ; ---------------------------------------------------------------------------
 
 .nottb
-		divu.w	#30,d0								; divide time by 30
-		moveq	#7,d1
+
+		; using magic numbers is very dangerous
+		; if you change the maximum timer, you will most likely have to revert
+		; to the standard division by 30
+
+		; divide time by 30
+		mulu.w	#ceil(65536,30),d0						; here we will use 'magic number'
+		swap	d0								; get the result
+
+		; check
+		moveq	#((.tbonus_end-.tbonus)/2)-1,d1
 		cmp.w	d1,d0								; if result is above 7, make it 7
 		blo.s	.gettb
 		move.w	d1,d0
@@ -121,7 +131,7 @@ Obj_LevelResults:
 		move.b	d2,objoff_28(a1)
 		move.b	#setBit(render_flags.multi_sprite),render_flags(a1)
 		move.l	#Map_Results,mappings(a1)
-		move.w	#make_art_tile($500,0,0),art_tile(a1)
+		move.w	#make_art_tile($500,0,FALSE),art_tile(a1)
 		move.w	a0,parent2(a1)
 		jsr	(Create_New_Sprite4).w
 		dbne	d1,.loop
@@ -385,7 +395,7 @@ LevResults_GetDecimalScore:
 		; otherwise, we will get incorrect results
 
 		; clear x-bit of the ccr (fast)
-		addi.w	#0,d0
+		sub.w	d1,d1								; d1 is not used here, so we can safely clear it
 
 		; clear x-bit of the ccr (slow)
 ;		andi	#~( \
@@ -422,4 +432,5 @@ ObjArray_LevResults: titlecardresultsheader
 ObjArray_LevResults_end
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Results/Object Data/Map - Results.asm"

@@ -45,7 +45,7 @@ Obj_SuperTailsBirds_Init:
 		; set priority and art_tile
 		move.l	#words_to_long( \
 		priority_1, \
-			make_art_tile(ArtTile_Player_1,0,1) \
+			make_art_tile(ArtTile_Player_1,0,TRUE) \
 		),priority(a0)
 
 		; set screen coordinates flag and height and width
@@ -226,14 +226,14 @@ Obj_SuperTailsBirds_GetDestination:
 		; boss related? could be special enemies in general
 		tst.b	collision_property(a1)
 		beq.s	.destroy_enemy
-		move.b	collision_flags(a1),boss_backup_collision(a1)			; save current collision
+		move.b	collision_flags(a1),boss_saved_collision(a1)			; save current collision
 		move.b	#Player_2&$FF,objoff_1C(a1)					; save value of RAM address of which player hit the boss
 		clr.b	collision_flags(a1)
 
 	if BossDebug
-		clr.b	boss_hitcount2(a1)
+		clr.b	boss_hitcount(a1)
 	else
-		subq.b	#1,boss_hitcount2(a1)
+		subq.b	#1,boss_hitcount(a1)
 		bne.s	.skip
 	endif
 
@@ -338,28 +338,33 @@ loc_1A3E2:
 Obj_SuperTailsBirds_FindTarget:
 		moveq	#0,d1
 		lea	(Collision_response_list).w,a4
-		move.w	(a4)+,d6
-		beq.s	.return
+		move.w	(a4)+,d6							; get number of objects queued
+		beq.s	.return								; if there are none, return
+
+		; check
 		moveq	#0,d0
-		addq.b	#2,(_unkF66C).w
-		cmp.b	(_unkF66C).w,d6
+		move.b	(_unkF66C).w,d0
+		addq.b	#2,d0
+		cmp.b	d0,d6
 		bhi.s	.noreset
-		clr.b	(_unkF66C).w
+		moveq	#0,d0
 
 .noreset
-		move.b	(_unkF66C).w,d0
+		move.b	d0,(_unkF66C).w
 		sub.w	d0,d6
 		adda.w	d0,a4
 
 .loop
-		movea.w	(a4)+,a1
-		move.b	collision_flags(a1),d0
-		beq.s	.ignore_object
+		movea.w	(a4)+,a1							; get address of first object's RAM
+		tst.b	render_flags(a1)						; is the object visible on the screen?
+		bpl.s	.ignore_object							; if not, branch
+		move.b	collision_flags(a1),d0						; get its collision flags
+		beq.s	.ignore_object							; if there is no collision here, branch
 		bsr.s	.check_if_object_valid
 
 .ignore_object
-		subq.w	#2,d6
-		bne.s	.loop
+		subq.w	#2,d6								; count the object as done
+		bne.s	.loop								; if there are still objects left, loop
 
 .return
 		rts
@@ -367,8 +372,6 @@ Obj_SuperTailsBirds_FindTarget:
 ; =============== S U B R O U T I N E =======================================
 
 .check_if_object_valid
-		tst.b	render_flags(a1)						; object visible on the screen?
-		bpl.s	.invalid							; if not, branch
 		tst.b	objoff_2D(a1)
 		bne.s	.invalid
 		andi.b	#$C0,d0
@@ -389,4 +392,5 @@ Obj_SuperTailsBirds_FindTarget:
 		rts
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Players/Transform/Object Data/Map - Super Tails birds.asm"

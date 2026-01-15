@@ -45,7 +45,8 @@ Obj_BombBadnik:
 		bsr.s	.chksonic
 		subq.w	#1,bom_time(a0)							; subtract 1 from time delay
 		bmi.s	.stopwalking							; if time expires, branch
-		jmp	(MoveSprite2).w
+		MoveSpriteXOnly a0
+		rts
 ; ---------------------------------------------------------------------------
 
 .stopwalking
@@ -79,6 +80,8 @@ Obj_BombBadnik:
 		move.w	y_pos(a0),bom_origY(a1)
 		move.b	render_flags(a0),render_flags(a1)
 		move.w	bom_time(a0),bom_time(a1)					; set fuse time
+
+		; set y_vel
 		move.w	#$10,y_vel(a1)
 		btst	#status.npc.y_flip,status(a0)					; is bomb upside-down?
 		beq.s	.outofrange							; if not, branch
@@ -129,7 +132,8 @@ Obj_BombBadnik_Fuse:
 .wait
 		subq.w	#1,bom_time(a0)
 		bmi.s	.create
-		jmp	(MoveSprite2).w
+		MoveSprite2YOnly a0
+		rts
 ; ---------------------------------------------------------------------------
 
 .create
@@ -162,7 +166,7 @@ Obj_BombBadnik_Shrapnel:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		add.w	d0,d0
-		move.l	Bom_ShrSpeed(pc,d0.w),x_vel(a0)
+		move.l	Bom_ShrSpeed(pc,d0.w),x_vel(a0)					; x_vel and y_vel
 
 		; init
 		lea	ObjDat3_Bomb_Shrapnel(pc),a1
@@ -186,10 +190,10 @@ Obj_BombBadnik_Shrapnel:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Bomb:			subObjData Map_Bomb, $500, 0, 0, 40, 24, 3, 0, $1A|collision_flags.npc.hurt
-ObjDat3_Bomb_Fuse:		subObjData FALSE, FALSE, 0, 0, 16, 8, 3, 8, 0
-ObjDat3_Bomb_Shrapnel:		subObjData FALSE, FALSE, 0, 0, 8, 8, 3, $A, $18|collision_flags.npc.hurt
+; init
+ObjDat_Bomb:			subObjData Map_Bomb, $500, 0, FALSE, 40, 24, 3, 0, $1A|collision_flags.npc.hurt
+ObjDat3_Bomb_Fuse:		subObjData FALSE, FALSE, 0, FALSE, 16, 8, 3, 8, 0
+ObjDat3_Bomb_Shrapnel:		subObjData FALSE, FALSE, 0, FALSE, 8, 8, 3, $A, $18|collision_flags.npc.hurt
 
 Child6_BombBadnik_Fuse:
 		dc.w 1-1
@@ -199,5 +203,6 @@ Child6_BombBadnik_Shrapnel:
 		dc.l Obj_BombBadnik_Shrapnel
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Bomb/Object Data/Anim - Bomb.asm"
 		include "Objects/Enemies/Bomb/Object Data/Map - Bomb.asm"

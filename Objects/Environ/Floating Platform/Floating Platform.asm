@@ -8,7 +8,7 @@ Obj_FloatingPlatform:
 
 		; init
 		move.l	#Map_Plat_GHZ,d0
-		move.w	#make_art_tile(0,2,0),art_tile(a0)
+		move.w	#make_art_tile(0,2,FALSE),art_tile(a0)
 		cmpi.b	#LevelID_SYZ,(Current_zone).w					; check if level is SYZ
 		bne.s	.notSYZ								; if not, branch
 		move.l	#Map_Plat_SYZ,d0
@@ -69,7 +69,7 @@ loc_25642:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete								; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete
 		jmp	(Delete_Current_Sprite).w
@@ -326,6 +326,7 @@ FloatingPlatform_Large:									; type0A
 		rts
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(GHZ).asm"
 		include "Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SYZ).asm"
 		include "Objects/Environ/Floating Platform/Object Data/Map - Floating Platform(SLZ).asm"

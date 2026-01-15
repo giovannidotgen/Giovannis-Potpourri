@@ -14,6 +14,9 @@ Gar_SpitRate:	dc.b 30, 60, 90, 120, 150, 180, 210, 240
 
 Obj_Gargoyle:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		lea	ObjDat_Gargoyle(pc),a1
 		jsr	(SetUp_ObjAttributes).w
@@ -48,6 +51,10 @@ Obj_Gargoyle:
 
 .draw
 		jmp	(Sprite_OnScreen_Test).w
+
+; ---------------------------------------------------------------------------
+; Gargoyle fire ball
+; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -98,9 +105,10 @@ Obj_Gargoyle_FireBall:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Gargoyle:		subObjData Map_Gar, $2E9, 2, 0, 32, 32, 3, 0, 0
-ObjDat_Gargoyle_FireBall:	subObjData Map_Gar, $2E9, 0, 0, 16, 16, 4, 2, $18|collision_flags.npc.hurt
+; init
+ObjDat_Gargoyle:		subObjData Map_Gar, $2E9, 2, FALSE, 32, 32, 3, 0, 0
+ObjDat_Gargoyle_FireBall:	subObjData Map_Gar, $2E9, 0, FALSE, 16, 16, 4, 2, $18|collision_flags.npc.hurt
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Gargoyle/Object Data/Map - Gargoyle.asm"

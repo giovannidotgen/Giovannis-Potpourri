@@ -9,7 +9,7 @@ Obj_TensionBridge:
 		; init
 		move.l	#sub_387E0,address(a0)						; normal bridge
 		move.l	#Map_TensionBridge,mappings(a0)
-		move.w	#make_art_tile($33E,2,0),art_tile(a0)
+		move.w	#make_art_tile($33E,2,FALSE),art_tile(a0)
 		tst.b	subtype(a0)
 		bpl.s	.plus
 		move.l	#sub_387B6,address(a0)						; bridge explosion
@@ -74,7 +74,7 @@ sub_38756:
 .loop
 		move.w	d3,(a2)+							; xpos
 		move.w	d2,(a2)+							; ypos
-		clr.w	(a2)+								; mapping frame
+		addq.w	#next_subspr-4,a2						; mapping frame
 		addi.w	#16,d3								; width of a log, x_pos for next log
 		dbf	d1,.loop
 
@@ -185,7 +185,7 @@ loc_38822:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete								; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete
 		jmp	(Delete_Current_Sprite).w
@@ -457,10 +457,10 @@ locret_38D72:
 		rts
 ; ---------------------------------------------------------------------------
 
-BridgeDepression:	binclude "Objects/Environ/Bridge/Object Data/Depression.bin"
-	even
-BridgeBendData:		binclude "Objects/Environ/Bridge/Object Data/Bend.bin"
-	even
+		; data
+		incfile.b	BridgeDepression, "Objects/Environ/Bridge/Object Data/Depression.bin"
+		incfile.b	BridgeBendData, "Objects/Environ/Bridge/Object Data/Bend.bin"
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Bridge/Object Data/Map - Tension Bridge.asm"

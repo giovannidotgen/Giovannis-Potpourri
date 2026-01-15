@@ -9,7 +9,6 @@ Obj_AirCountdown:
 		; init
 		movem.l	ObjDat_AirCountdown(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.b	#1,objoff_37(a0)
 
 		; check player
 		tst.b	parent+1(a0)							; is Tails?
@@ -22,8 +21,10 @@ Obj_AirCountdown:
 		bne.w	loc_1857C
 		cmpi.b	#PlayerID_Death,routine(a2)					; has player just died?
 		bhs.w	locret_1857A							; if yes, branch
-		btst	#status_secondary.bubble_shield,status_secondary(a2)
-		bne.w	locret_1857A
+		btst	#status_secondary.bubble_shield,status_secondary(a2)		; does Sonic have a Bubble Shield?
+		bne.w	locret_1857A							; if yes, branch
+		tst.b	(Super_Sonic_Knux_flag).w					; is Sonic/Knux Hyper?
+		bmi.w	locret_1857A							; if yes, branch
 		btst	#status.player.underwater,status(a2)
 		beq.w	locret_1857A
 
@@ -52,9 +53,13 @@ Obj_AirCountdown:
 		music	mus_Drowning							; play drowning music
 
 loc_184E8:
-		subq.b	#1,objoff_36(a0)
-		bpl.s	AirCountdown_ReduceAir
-		move.b	objoff_37(a0),objoff_36(a0)
+
+		; wait
+		subq.b	#1,objoff_36(a0)						; decrement timer
+		bpl.s	AirCountdown_ReduceAir						; if time remains, branch
+		addq.b	#1+1,objoff_36(a0)						; reset timer to 1 frames
+
+		; set
 		bset	#7,objoff_3A(a0)
 		bra.s	AirCountdown_ReduceAir
 ; ---------------------------------------------------------------------------
@@ -406,7 +411,7 @@ Player_ResetAirTimer:
 		moveq	#signextendB(mus_Invincible),d0					; prepare to play invincibility music
 
 .notinvincible
-		jsr	(Play_Music).w
+		jsr	(Play_Music).w							; play music
 
 .end
 		move.b	#30,air_left(a1)						; reset air to full
@@ -418,17 +423,17 @@ Player_ResetAirTimer:
 
 ; =============== S U B R O U T I N E =======================================
 
-AirCountdown_WobbleData:	binclude "Objects/Main/Count Down/Object Data/Wobble Data.bin"
-	even
+		incfile.b	AirCountdown_WobbleData, "Objects/Main/Count Down/Object Data/Wobble Data.bin"
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_AirCountdown:		subObjMainData \
 				Obj_AirCountdown.countdown, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.on_screen), \
-				0, 32, 32, 1, $348, 0, 0, Map_Bubbler
+				0, 32, 32, 1, $348, 0, FALSE, Map_Bubbler
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Count Down/Object Data/Anim - Air Countdown.asm"

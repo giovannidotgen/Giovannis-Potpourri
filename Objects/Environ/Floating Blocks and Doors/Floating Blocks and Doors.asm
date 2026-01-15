@@ -30,7 +30,7 @@ Obj_FloatingBlock:
 		; check
 		cmpi.b	#LevelID_LZ,(Current_zone).w					; check if level is LZ
 		bne.s	.notLZ								; if not, branch
-		move.w	#make_art_tile($3C4,2,0),art_tile(a0)				; LZ specific code
+		move.w	#make_art_tile($3C4,2,FALSE),art_tile(a0)			; LZ specific code
 
 .notLZ
 
@@ -138,7 +138,7 @@ Obj_FloatingBlock:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete2							; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete2
 		jmp	(Delete_Current_Sprite).w
@@ -522,8 +522,9 @@ BlocksDoors_TypeIndex: offsetTable
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_FloatingBlock:		subObjMainData Obj_FloatingBlock.action, setBit(render_flags.level), 0, 0, 0, 3, 0, 2, 0, Map_FBlock
+; init
+ObjDat_FloatingBlock:		subObjMainData Obj_FloatingBlock.action, setBit(render_flags.level), 0, 0, 0, 3, 0, 2, FALSE, Map_FBlock
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Floating Blocks and Doors/Object Data/Map - Floating Blocks and Doors.asm"

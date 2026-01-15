@@ -16,7 +16,7 @@ Obj_Girder:
 
 		; init
 		move.l	#Map_Gird,mappings(a0)
-		move.w	#make_art_tile($2DA,2,0),art_tile(a0)
+		move.w	#make_art_tile($2DA,2,FALSE),art_tile(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(48/2,192/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.w	x_pos(a0),gird_origX(a0)
@@ -44,6 +44,7 @@ Obj_Girder:
 		tst.b	render_flags(a0)						; is the object visible on the screen?
 		bpl.s	.chkdel								; if not, branch
 
+		; solid
 		moveq	#$B,d1
 		add.b	width_pixels(a0),d1
 		moveq	#0,d2
@@ -66,17 +67,20 @@ Gird_ChgMove:
 
 		; get par
 		lea	.settings(pc,d0.w),a1
-		move.l	(a1)+,x_vel(a0)
+		move.l	(a1)+,x_vel(a0)							; x_vel and y_vel
 		move.w	(a1),gird_time(a0)
 		move.w	#7,gird_delay(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-.settings	; x-speed, y-speed, duration, unused
+.settings
+
+		; x-speed, y-speed, duration, unused
 		dc.w $100, 0, $60, 0			; right		; 0
 		dc.w 0, $100, $30, 0			; down		; 8
 		dc.w -$100, -$40, $60, 0		; up/left	; $10
 		dc.w 0, -$100, $18, 0			; up		; $18
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Girder Block/Object Data/Map - Girder Block.asm"

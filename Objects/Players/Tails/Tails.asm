@@ -87,7 +87,7 @@ Tails_Init:										; Routine 0
 		bne.s	Tails_Init_Continued
 
 		; only happens when not starting at a checkpoint:
-		move.w	#make_art_tile(ArtTile_Player_2,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Player_2,0,FALSE),art_tile(a0)
 		move.w	#bytes_to_word($C,$D),top_solid_bit(a0)
 
 		cmpi.b	#2,(Special_bonus_entry_flag).w
@@ -102,7 +102,7 @@ Tails_Init:										; Routine 0
 ; ---------------------------------------------------------------------------
 
 loc_1375E:
-		move.w	#make_art_tile(ArtTile_Player_2,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Player_2,0,FALSE),art_tile(a0)
 		move.w	(Player_1+top_solid_bit).w,top_solid_bit(a0)
 		tst.w	(Player_1+art_tile).w
 		bpl.s	Tails_Init_Continued
@@ -1467,7 +1467,11 @@ Tails_MdNormal:
 		clr.w	(Flying_carrying_Sonic_flag).w
 
 loc_14760:
+
+	if ~~OriginalMode
 		bsr.w	Tails_Spindash
+	endif
+
 		bsr.w	Tails_Jump
 		bsr.w	Player_SlopeResist
 		bsr.w	Tails_InputAcceleration_Path
@@ -2825,14 +2829,14 @@ loc_153D6:
 		beq.w	loc_15538
 		cmpi.b	#$C0,d0
 		beq.w	loc_1559C
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	loc_1541A
 		sub.w	d1,x_pos(a0)
 		clr.w	x_vel(a0)
 
 loc_1541A:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_1542C
 		add.w	d1,x_pos(a0)
@@ -2894,7 +2898,7 @@ locret_154AA:
 ; ---------------------------------------------------------------------------
 
 loc_154AC:
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	loc_154C4
 		sub.w	d1,x_pos(a0)
@@ -2923,7 +2927,7 @@ locret_154EC:
 ; ---------------------------------------------------------------------------
 
 loc_154EE:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	locret_15500
 		add.w	d1,x_pos(a0)
@@ -2956,14 +2960,14 @@ loc_1551E:
 ; ---------------------------------------------------------------------------
 
 loc_15538:
-		bsr.w	CheckLeftWallDist
+		jsr	(CheckLeftWallDist).w
 		tst.w	d1
 		bpl.s	loc_1554A
 		sub.w	d1,x_pos(a0)
 		clr.w	x_vel(a0)
 
 loc_1554A:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_1555C
 		add.w	d1,x_pos(a0)
@@ -3000,7 +3004,7 @@ locret_1559A:
 ; ---------------------------------------------------------------------------
 
 loc_1559C:
-		bsr.w	CheckRightWallDist
+		jsr	(CheckRightWallDist).w
 		tst.w	d1
 		bpl.s	loc_155B4
 		add.w	d1,x_pos(a0)
@@ -3603,7 +3607,7 @@ Tails_Tail_Load_PLC:
 		cmp.b	(Player_prev_frame_P2_tail).w,d0
 		beq.s	loc_15A92.return
 		move.b	d0,(Player_prev_frame_P2_tail).w
-		add.w	d0,d0
+		add.w	d0,d0								; mapping frame * 2
 		lea	(DPLC_Tails_Tail).l,a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
@@ -3650,7 +3654,7 @@ Tails_Load_PLC2:
 		move.b	d0,(Player_prev_frame_P2).w
 
 		; load
-		add.w	d0,d0
+		add.w	d0,d0								; mapping frame * 2
 		movea.l	8(a3),a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5

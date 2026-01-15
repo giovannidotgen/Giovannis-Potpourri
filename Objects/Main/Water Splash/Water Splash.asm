@@ -202,12 +202,13 @@ loc_38652:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_WaterSplash:	subObjMainData \
 			Obj_WaterSplash.main, \
 				setBit(render_flags.level) | \
 				setBit(render_flags.multi_sprite), \
-			0, 256, 320, 6, $36E, 0, 0, Map_WaterSplash
+			0, 256, 320, 6, $36E, 0, FALSE, Map_WaterSplash
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Water Splash/Object Data/Map - Water Splash.asm"

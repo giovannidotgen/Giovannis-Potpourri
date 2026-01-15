@@ -199,8 +199,13 @@ Jun_ChkSwitch:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Junction:	subObjMainData Obj_Junction.action, setBit(render_flags.level)|setBit(render_flags.multi_sprite), 0, 112, 112, 4, $31B, 2, 0, Map_Jun
+; init
+ObjDat_Junction:	subObjMainData \
+				Obj_Junction.action, \
+					setBit(render_flags.level) | \
+					setBit(render_flags.multi_sprite), \
+				0, 112, 112, 4, $31B, 2, FALSE, Map_Jun
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Rotating Junction/Object Data/Map - Rotating Junction.asm"

@@ -165,8 +165,13 @@ Disc_MovePlayer:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_RunningDisc:	subObjMainData Obj_RunningDisc.action, setBit(render_flags.level)|setBit(render_flags.static_mappings), 0, 16, 16, 4, 0, 0, 0, Map_Disc
+; init
+ObjDat_RunningDisc:	subObjMainData \
+				Obj_RunningDisc.action, \
+					setBit(render_flags.level) | \
+					setBit(render_flags.static_mappings), \
+				0, 16, 16, 4, 0, 0, FALSE, Map_Disc
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Running Disc/Object Data/Map - Running Disc.asm"

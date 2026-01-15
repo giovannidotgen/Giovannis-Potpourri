@@ -40,7 +40,7 @@ Obj_StartNewLevel:
 		; set priority and art_tile
 		move.l	#words_to_long( \
 		priority_4, \
-			make_art_tile(ArtTile_Monitors,0,1) \
+			make_art_tile(ArtTile_Monitors,0,TRUE) \
 		),priority(a0)
 
 		move.l	#.main,address(a0)
@@ -82,7 +82,7 @@ Obj_StartNewLevel:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete								; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete
 		jmp	(Delete_Current_Sprite).w

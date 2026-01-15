@@ -17,7 +17,7 @@ Obj_SuperSonicKnux_Stars:
 		; set priority and art_tile
 		move.l	#words_to_long( \
 		priority_1, \
-			make_art_tile(ArtTile_Shield,0,0) \
+			make_art_tile(ArtTile_Shield,0,FALSE) \
 		),priority(a0)
 
 		; set screen coordinates flag and height and width
@@ -139,7 +139,7 @@ Obj_HyperSonic_Stars_Init:
 		; set priority and art_tile
 		move.l	#words_to_long( \
 		priority_1, \
-			make_art_tile(ArtTile_Shield,0,0) \
+			make_art_tile(ArtTile_Shield,0,FALSE) \
 		),priority(a0)
 
 		; set screen coordinates flag and height and width
@@ -224,5 +224,6 @@ loc_19486:
 		jmp	(Delete_Current_Sprite).w
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Players/Transform/Object Data/Map - Super Sonic Stars.asm"
 		include "Objects/Players/Transform/Object Data/Map - Hyper Sonic Stars.asm"

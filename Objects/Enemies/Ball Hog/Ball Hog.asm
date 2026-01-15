@@ -57,14 +57,15 @@ Obj_BallHog:
 		lea	Child6_BallHog_Cannonball(pc),a2
 		jsr	(CreateChild6_Simple).w
 		bne.s	.fail
-		move.l	#words_to_long(-$100,0),x_vel(a1)				; cannonball bounces to the left
+		move.w	#-$100,d1							; cannonball bounces to the left
 		moveq	#-4,d0
 		btst	#render_flags.x_flip,render_flags(a0)				; is Ball Hog facing right?
 		beq.s	.noflip								; if not, branch
 		neg.w	d0
-		neg.w	x_vel(a1)							; cannonball bounces to the right
+		neg.w	d1								; cannonball bounces to the right
 
 .noflip
+		move.w	d1,x_vel(a1)
 		add.w	d0,x_pos(a1)
 		addi.w	#12,y_pos(a1)
 		move.b	subtype(a0),subtype(a1)						; copy object type from Ball Hog
@@ -143,9 +144,9 @@ Obj_BallHog_Cannonball:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BallHog:			subObjData Map_Hog, $2EC, 1, 0, 38, 16, 4, 0, 5|collision_flags.npc.touch
-ObjDat3_BallHog_Cannonball:	subObjData FALSE, FALSE, 0, 0, 16, 16, 3, 4, 7|collision_flags.npc.hurt
+; init
+ObjDat_BallHog:			subObjData Map_Hog, $2EC, 1, FALSE, 38, 16, 4, 0, 5|collision_flags.npc.touch
+ObjDat3_BallHog_Cannonball:	subObjData FALSE, FALSE, 0, FALSE, 16, 16, 3, 4, 7|collision_flags.npc.hurt
 
 Child6_BallHog_Cannonball:
 		dc.w 1-1
@@ -155,4 +156,5 @@ AniRaw_Hog:	dc.b 9, 0, 0, 2, 2, 3, 2, 0, 0, 2, 2, 3, 2, 0, 0, 2, 2, 3, 2, 0, 0, 
 	even
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Ball Hog/Object Data/Map - Ball Hog.asm"

@@ -9,6 +9,9 @@ obStatusTron		= objoff_32
 
 Obj_Newtron:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		lea	ObjDat_Newtron(pc),a1
 		jsr	(SetUp_ObjAttributes).w
@@ -26,7 +29,7 @@ Obj_Newtron:
 ; ---------------------------------------------------------------------------
 
 .action2
-		jsr	(MoveSprite2).w
+		MoveSpriteXOnly a0
 		lea	Ani_Newt(pc),a1
 		jsr	(Animate_Sprite).w
 		jmp	(Sprite_CheckDeleteTouch).w
@@ -71,11 +74,11 @@ Obj_Newtron:
 
 .fall
 		cmpi.b	#1,mapping_frame(a0)
-		bne.s	.loc_DE42
+		bne.s	.checkfall
 		move.b	#$C|collision_flags.npc.touch,collision_flags(a0)
 
-.loc_DE42
-		jsr	(MoveSprite).w
+.checkfall
+		MoveSpriteYOnly a0
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1								; has newtron hit the floor?
 		bpl.s	.keepfalling							; if not, branch
@@ -99,7 +102,7 @@ Obj_Newtron:
 ; ---------------------------------------------------------------------------
 
 .matchfloor
-		jsr	(MoveSprite2).w
+		MoveSpriteXOnly a0
 		jsr	(ObjCheckFloorDist).w
 		cmpi.w	#-8,d1
 		blt.s	.nextroutine
@@ -161,9 +164,10 @@ Obj_Newtron:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Newtron:		subObjData Map_Newt, $50C, 0, 0, 32, 40, 4, 0, 0
+; init
+ObjDat_Newtron:		subObjData Map_Newt, $50C, 0, FALSE, 32, 40, 4, 0, 0
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Newtron/Object Data/Anim - Newtron.asm"
 		include "Objects/Enemies/Newtron/Object Data/Map - Newtron.asm"

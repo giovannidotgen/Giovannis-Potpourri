@@ -193,9 +193,9 @@ Obj_BossPlasma_Ball:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossPlasma:		subObjData Map_PLaunch, $300, 0, 0, 16, 16, 3, 0, 0
-ObjDat_BossPlasmaBall:		subObjData Map_Plasma, $300, 1, 0, 24, 24, 3, 0, $1A|collision_flags.npc.hurt
+; init
+ObjDat_BossPlasma:		subObjData Map_PLaunch, $300, 0, FALSE, 16, 16, 3, 0, 0
+ObjDat_BossPlasmaBall:		subObjData Map_Plasma, $300, 1, FALSE, 24, 24, 3, 0, $1A|collision_flags.npc.hurt
 
 Child6_BossPlasma:
 		dc.w 1-1
@@ -205,6 +205,7 @@ Child6_BossPlasmaBall:
 		dc.l Obj_BossPlasma_Ball
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/FZ/Object Data/Anim - Plasma Ball Launcher.asm"
 		include "Objects/Bosses/FZ/Object Data/Anim - Plasma Balls.asm"
 		include "Objects/Bosses/FZ/Object Data/Map - Plasma Ball Launcher.asm"

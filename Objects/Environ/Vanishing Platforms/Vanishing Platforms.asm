@@ -12,7 +12,7 @@ Obj_VanishPlatform:
 
 		; init
 		move.l	#Map_VanP,mappings(a0)
-		move.w	#make_art_tile($364,2,0),art_tile(a0)
+		move.w	#make_art_tile($364,2,FALSE),art_tile(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(32/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.l	#.main,address(a0)
@@ -26,7 +26,6 @@ Obj_VanishPlatform:
 		subq.w	#1,d0
 		move.w	d0,vanp_timer(a0)
 		move.w	d0,vanp_timelen(a0)
-		moveq	#0,d0								; clear d0 for mul
 		move.b	subtype(a0),d0							; get object type
 		andi.w	#$F0,d0								; read only the 1st digit
 		addi.w	#$80,d1
@@ -92,5 +91,6 @@ Obj_VanishPlatform:
 		jmp	(Displace_PlayerOffObject).w					; release Sonic from object
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Vanishing Platforms/Object Data/Anim - Vanishing Platforms.asm"
 		include "Objects/Environ/Vanishing Platforms/Object Data/Map - Vanishing Platforms.asm"

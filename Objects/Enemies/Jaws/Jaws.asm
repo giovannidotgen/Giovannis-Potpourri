@@ -70,8 +70,9 @@ Obj_Jaws:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Jaws:	subObjData Map_Jaws, $4F0, 1, 0, 32, 64, 4, 0, $A|collision_flags.npc.touch
+; init
+ObjDat_Jaws:	subObjData Map_Jaws, $4F0, 1, FALSE, 32, 64, 4, 0, $A|collision_flags.npc.touch
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Jaws/Object Data/Map - Jaws.asm"

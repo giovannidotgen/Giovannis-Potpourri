@@ -245,7 +245,7 @@ BossFire_MainProcess:
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
 		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
+		move.b	boss_saved_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -369,7 +369,7 @@ Obj_BossFire_ShipTubeFlame:
 		bne.s	.setf
 		tst.w	x_vel(a1)
 		beq.s	.setf
-		addq.b	#1,d0
+		moveq	#2,d0
 
 .setf
 		move.b	d0,mapping_frame(a0)
@@ -444,6 +444,8 @@ Obj74_MakeFlame:
 		move.w	x_pos(a0),objoff_30(a0)
 		move.w	y_pos(a0),objoff_38(a0)
 		move.b	#3,objoff_3F(a0)
+
+		; create flame
 		jsr	(Create_New_Sprite3).w
 		bne.s	.notfree
 		lea	(a1),a3
@@ -566,8 +568,10 @@ loc_18886:
 .anim
 		lea	Ani_Fire(pc),a1
 		jsr	(Animate_Sprite).w
-		tst.b	routine(a0)
+		tst.b	routine(a0)							; changed by Animate_Sprite
 		bne.s	Obj74_Delete
+
+		; draw
 		jmp	(Draw_And_Touch_Sprite).w
 
 ; ---------------------------------------------------------------------------
@@ -645,11 +649,11 @@ Obj_BossFire_Scaled:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossFire_Fire:			subObjData Map_Fire, $298, 0, 0, 16, 16, 5, 0, 0
-ObjDat_BossFire_ShipTube:		subObjData Map_BossFire_Tube, $420, 1, 0, 32, 48, 3, 0, 0
-ObjDat_BossFire_ShipTubeFlame:		subObjData Map_BossFire_Tube, $420, 1, 0, 8, 16, 5, 1, 0
-ObjDat_BossFire_Scaled:			subObjData Map_ScaledArt, $340, 0, 0, 128, 128, 6, 0, 0
+; init
+ObjDat_BossFire_Fire:			subObjData Map_Fire, $298, 0, FALSE, 16, 16, 5, 0, 0
+ObjDat_BossFire_ShipTube:		subObjData Map_BossFire_Tube, $420, 1, FALSE, 32, 48, 3, 0, 0
+ObjDat_BossFire_ShipTubeFlame:		subObjData Map_BossFire_Tube, $420, 1, FALSE, 8, 16, 5, 1, 0
+ObjDat_BossFire_Scaled:			subObjData Map_ScaledArt, $340, 0, FALSE, 128, 128, 6, 0, 0
 
 Child1_BossFire_ShipTube:
 		dc.w 2-1
@@ -665,5 +669,6 @@ PLC_BossFire: plrlistheader
 PLC_BossFire_end
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/MZ3/Object Data/Map - Tube.asm"
 		include "Objects/Bosses/MZ3/Object Data/Map - Pillar.asm"

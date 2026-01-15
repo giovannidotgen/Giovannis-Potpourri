@@ -6,6 +6,9 @@
 
 Obj_SmashBlock:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		movem.l	ObjDat_SmashBlock(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
@@ -144,8 +147,9 @@ Smab_Speeds:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_SmashBlock:	subObjMainData Obj_SmashBlock.solid, setBit(render_flags.level), 0, 32, 32, 5, $562, 2, 0, Map_Smab
+; init
+ObjDat_SmashBlock:	subObjMainData Obj_SmashBlock.solid, setBit(render_flags.level), 0, 32, 32, 5, $562, 2, FALSE, Map_Smab
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Smash Block/Object Data/Map - Smash Block.asm"

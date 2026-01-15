@@ -9,15 +9,15 @@ TitleLevelSelect_VRAM:			= $C50F
 ; Variables
 TitleLevelSelect_MaxCount:		= 22
 TitleLevelSelect_SpecialStageCount:	= 19
-TitleLevelSelect_MaxSpecialStages:	= ChaosEmer_Count
+TitleLevelSelect_MaxSpecialStages:	= ChaosEmeralds_Count
 TitleLevelSelect_MaxCharacters:		= 5
 TitleLevelSelect_MaxMusicNumber:	= ((mus__End-mus__First)-1) + ((sfx__End-sfx__First)-1)
 
 ; RAM
 	phase ramaddr(RAM_start)
 
-TitleLevelSelect_buffer:		ds.b $1000							; background buffer (copy)
-TitleLevelSelect_buffer2:		ds.b $1000							; background buffer (main)
+TitleLevelSelect_buffer:		ds.b $1000					; background buffer (copy)
+TitleLevelSelect_buffer2:		ds.b $1000					; background buffer (main)
 TitleLevelSelect_buffer3:		ds.b $1000
 
 	dephase
@@ -29,8 +29,8 @@ TitleLevelSelect_sound_count:		ds.w 1
 TitleLevelSelect_sample_count:		ds.w 1
 TitleLevelSelect_control_timer:		ds.w 1
 TitleLevelSelect_saved_act:		ds.w 1
-TitleLevelSelect_cheat_counter:		ds.w 1								; debug mode
-TitleLevelSelect_cheat_counter2:	ds.w 1								; emeralds
+TitleLevelSelect_cheat_counter:		ds.w 1						; debug mode
+TitleLevelSelect_cheat_counter2:	ds.w 1						; emeralds
 TitleLevelSelect_vertical_count:	ds.w 1
 
 	dephase
@@ -41,15 +41,15 @@ TitleLevelSelect_vertical_count:	ds.w 1
 TitleLevelSelectScreen:
 
 		; clear
-		clearRAM RAM_start, (RAM_start+$2000)							; clear foreground buffers
-		clearRAM Object_RAM, Object_RAM_end							; clear the object RAM
-		clearRAM Lag_frame_count, Lag_frame_count_end						; clear variables
-		clearRAM Camera_RAM, Camera_RAM_end							; clear the camera RAM
-		clearRAM H_scroll_buffer, V_scroll_buffer_end						; clear hvscroll buffer
+		clearRAM RAM_start, (RAM_start+$2000)					; clear foreground buffers
+		clearRAM Object_RAM, Object_RAM_end					; clear the object RAM
+		clearRAM Lag_frame_count, Lag_frame_count_end				; clear variables
+		clearRAM Camera_RAM, Camera_RAM_end					; clear the camera RAM
+		clearRAM H_scroll_buffer, V_scroll_buffer_end				; clear hvscroll buffer
 
 		; clear
-		move.l	d0,(V_scroll_value).w								; clear VScroll value
-		move.l	d0,(H_scroll_value).w								; clear HScroll value
+		move.l	d0,(V_scroll_value).w						; clear VScroll value
+		move.l	d0,(H_scroll_value).w						; clear HScroll value
 
 		; load text
 		bsr.w	TitleLevelSelect_LoadText
@@ -60,10 +60,10 @@ TitleLevelSelectScreen:
 		move.w	#palette_line_0+TitleLevelSelect_VRAM,d3
 		bsr.w	TitleLevelSelect_MarkFields.drawplayer
 
-		; we need to switch plans
+		; we need to switch planes
 		disableInts
-		lea	(VDP_data_port).l,a6								; load VDP data address to a6
-		lea	VDP_control_port-VDP_data_port(a6),a5						; load VDP control address to a5
+		lea	(VDP_data_port).l,a6						; load VDP data address to a6
+		lea	VDP_control_port-VDP_data_port(a6),a5				; load VDP control address to a5
 
 		; copy foreground buffer from VRAM to RAM
 		lea	(TitleLevelSelect_buffer3).l,a1
@@ -74,13 +74,13 @@ TitleLevelSelectScreen:
 		lea	-$4E8(a1),a1
 
 	rept 7
-		move.l	d0,(a1)+									; clear "Start Game"
+		move.l	d0,(a1)+							; clear "Start Game"
 	endr
 
 		lea	$EC(a1),a1
 
 	rept 4
-		move.l	d0,(a1)+									; clear "Options"
+		move.l	d0,(a1)+							; clear "Options"
 	endr
 
 		; send foreground buffer to background
@@ -91,8 +91,10 @@ TitleLevelSelectScreen:
 		lea	(Normal_palette).w,a2
 		jsr	(PalLoad_Line64).w
 
+		; set
+		move.l	#VInt_LevelSelect,(V_int_ptr).w					; set VInt pointer
+
 .loop
-		move.b	#VintID_LevelSelect,(V_int_routine).w
 		jsr	(Wait_VSync).w
 		moveq	#palette_line_0,d3
 		bsr.w	TitleLevelSelect_MarkFields
@@ -105,9 +107,9 @@ TitleLevelSelectScreen:
 		bhi.s	.exit
 
 		; set
-		move.w	(Player_option).w,(Player_mode).w						; move selected character to active character
-		move.b	#GameModeID_LevelSelectScreen,(Game_mode_last).w				; save current Game mode
-		move.b	#3,(Life_count).w								; set life count
+		move.w	(Player_option).w,(Player_mode).w				; move selected character to active character
+		move.b	#GameModeID_LevelSelectScreen,(Game_mode_last).w		; save current Game mode
+		move.b	#3,(Life_count).w						; set life count
 		move.l	#5000,(Next_extra_life_score).w
 
 		; clear
@@ -127,7 +129,7 @@ TitleLevelSelectScreen:
 		move.b	d0,(Current_special_stage).w
 
 		; load zone and act
-		move.b	#GameModeID_LevelScreen,(Game_mode).w						; set screen mode to Level
+		move.b	#GameModeID_LevelScreen,(Game_mode).w				; set screen mode to Level
 		move.w	(TitleLevelSelect_vertical_count).w,d2
 		add.w	d2,d2
 		move.w	.index(pc,d2.w),d2
@@ -143,12 +145,12 @@ TitleLevelSelectScreen:
 ; ---------------------------------------------------------------------------
 
 .exit
-		move.b	#GameModeID_TitleScreen,(Game_mode).w						; set screen mode to Title Screen
+		move.b	#GameModeID_TitleScreen,(Game_mode).w				; set screen mode to Title Screen
 		rts
 ; ---------------------------------------------------------------------------
 
 .special
-		move.b	#GameModeID_SpecialStageScreen,(Game_mode).w					; set screen mode to Special Stage
+		move.b	#GameModeID_SpecialStageScreen,(Game_mode).w			; set screen mode to Special Stage
 
 		; clear emeralds RAM
 		lea	(Collected_emeralds_array).w,a1
@@ -201,16 +203,16 @@ TitleLevelSelect_Controls:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.getss										; 0
-		bra.s	.getcharacter									; 2
-		bra.s	.getmusic									; 4
+		bra.s	.getss								; 0
+		bra.s	.getcharacter							; 2
+		bra.s	.getmusic							; 4
 
 ; ---------------------------------------------------------------------------
 ; Load character
 ; ---------------------------------------------------------------------------
 
 .getcharacter
-		moveq	#TitleLevelSelect_MaxCharacters-1,d2						; set max count
+		moveq	#TitleLevelSelect_MaxCharacters-1,d2				; set max count
 		move.w	(Player_option).w,d3
 		lea	(TitleLevelSelect_control_timer).w,a3
 		bsr.w	Options_FindLeftRightControls
@@ -224,7 +226,7 @@ TitleLevelSelect_Controls:
 ; ---------------------------------------------------------------------------
 
 .getss
-		moveq	#TitleLevelSelect_MaxSpecialStages-1,d2						; set max count
+		moveq	#TitleLevelSelect_MaxSpecialStages-1,d2				; set max count
 		moveq	#0,d3
 		move.b	(Current_special_stage).w,d3
 		lea	(TitleLevelSelect_control_timer).w,a3
@@ -237,7 +239,7 @@ TitleLevelSelect_Controls:
 ; ---------------------------------------------------------------------------
 
 .getmusic
-		moveq	#TitleLevelSelect_MaxMusicNumber,d2						; set max count
+		moveq	#TitleLevelSelect_MaxMusicNumber,d2				; set max count
 		move.w	(TitleLevelSelect_music_count).w,d3
 		lea	(TitleLevelSelect_control_timer).w,a3
 		bsr.w	LevelSelect_FindLeftRightControls
@@ -250,11 +252,11 @@ TitleLevelSelect_Controls:
 
 		; check stop music
 		btst	#button_B,d1
-		bne.s	.stop										; branch if B is pressed
+		bne.s	.stop								; branch if B is pressed
 
 		; play music
 		move.w	d3,d0
-		addq.w	#mus__First,d0									; $00 is reserved for silence
+		addq.w	#mus__First,d0							; $00 is reserved for silence
 
 		; check music or sfx
 		lea	(Play_Music).w,a1
@@ -264,22 +266,22 @@ TitleLevelSelect_Controls:
 		lea	(Play_SFX).w,a1
 
 .play
-		jsr	(a1)										; play music/sfx
+		jsr	(a1)								; play music/sfx
 
 		; get current music for cheats
 		move.w	d3,d0
 
 		; check debug mode cheat
-		lea	LevelSelect_Code.dcodedat(pc),a1						; load cheat code
-		lea	(TitleLevelSelect_cheat_counter).w,a2						; load cheat counter
-		lea	LevelSelect_Code.debugcheat(pc),a3						; jmp to activation
-		bsr.w	LevelSelect_Code								; branch to check cheat
+		lea	LevelSelect_Code.dcodedat(pc),a1				; load cheat code
+		lea	(TitleLevelSelect_cheat_counter).w,a2				; load cheat counter
+		lea	LevelSelect_Code.debugcheat(pc),a3				; jmp to activation
+		bsr.w	LevelSelect_Code						; branch to check cheat
 
 		; check emeralds cheat
-		lea	LevelSelect_Code.ecodedat(pc),a1						; load cheat code
-		lea	(TitleLevelSelect_cheat_counter2).w,a2						; load cheat counter
-		lea	LevelSelect_Code.emeraldcheat(pc),a3						; jmp to activation
-		bra.w	LevelSelect_Code								; branch to check cheat
+		lea	LevelSelect_Code.ecodedat(pc),a1				; load cheat code
+		lea	(TitleLevelSelect_cheat_counter2).w,a2				; load cheat counter
+		lea	LevelSelect_Code.emeraldcheat(pc),a3				; jmp to activation
+		bra.w	LevelSelect_Code						; branch to check cheat
 ; --------------------------------------------------------------------------
 
 .stop
@@ -371,7 +373,7 @@ TitleLevelSelect_MarkFields:
 
 	rept 8
 		move.w	(a1)+,d0
-		add.w	d3,d0										; VRAM shift
+		add.w	d3,d0								; VRAM shift
 		move.w	d0,(a2)+
 	endr
 
@@ -390,14 +392,14 @@ TitleLevelSelect_MarkFields:
 ; ---------------------------------------------------------------------------
 
 .index
-		bra.s	.drawss										; 0
-		bra.s	.drawplayer									; 2
+		bra.s	.drawss								; 0
+		bra.s	.drawplayer							; 2
 
 ; ---------------------------------------------------------------------------
 ; Draw music
 ; ---------------------------------------------------------------------------
 
-.drawmusic												; 4
+.drawmusic										; 4
 		lea	(TitleLevelSelect_buffer2+planeLoc(64,25,25)).l,a5
 		move.w	(TitleLevelSelect_music_count).w,d0
 		bra.s	.drawnumbers
@@ -428,9 +430,9 @@ TitleLevelSelect_MarkFields:
 
 .getnumber
 		andi.w	#$F,d0
-		cmpi.b	#10,d0										; is digit $A-$F?
-		blo.s	.skipsymbols									; if not, branch
-		addq.b	#6,d0										; use alpha characters
+		cmpi.b	#10,d0								; is digit $A-$F?
+		blo.s	.skipsymbols							; if not, branch
+		addq.b	#6,d0								; use alpha characters
 
 .skipsymbols
 		addq.b	#1,d0
@@ -488,13 +490,13 @@ TitleLevelSelect_LoadText:
 
 .load
 		moveq	#0,d2
-		move.b	(a2)+,d2									; text size
-		move.w	(a0)+,d0									; offset
-		lea	(a1,d0.w),a3									; RAM shift
+		move.b	(a2)+,d2							; text size
+		move.w	(a0)+,d0							; offset
+		lea	(a1,d0.w),a3							; RAM shift
 
 .copy
 		moveq	#0,d0
-		move.b	(a2)+,d0									; load letter
+		move.b	(a2)+,d0							; load letter
 		add.w	d3,d0
 		move.w	d0,(a3)+
 		dbf	d2,.copy

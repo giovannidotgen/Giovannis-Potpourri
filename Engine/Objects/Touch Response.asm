@@ -26,12 +26,12 @@ TouchResponse:
 		cmpi.b	#1,double_jump_flag(a0)						; is the Insta-Shield currently in its 'attacking' mode?
 		bne.s	.Touch_NoInstaShield						; if not, branch
 		bset	#status_secondary.invincible,status_secondary(a0)		; make the player invincible
-		moveq	#-24,d2								; subtract width of Insta-Shield
+		moveq	#-(48/2),d2							; subtract width of Insta-Shield
 		add.w	x_pos(a0),d2							; get player's x_pos
-		moveq	#-24,d3								; subtract height of Insta-Shield
+		moveq	#-(48/2),d3							; subtract height of Insta-Shield
 		add.w	y_pos(a0),d3							; get player's y_pos
-		moveq	#48,d4								; player's width
-		moveq	#48,d5								; player's height
+		moveq	#96/2,d4							; player's width
+		moveq	#96/2,d5							; player's height
 		bsr.s	.Touch_Process
 		bclr	#status_secondary.invincible,status_secondary(a0)		; make the player vulnerable again
 
@@ -43,27 +43,29 @@ TouchResponse:
 .Touch_NoInstaShield
 		move.w	x_pos(a0),d2							; get player's x_pos
 		move.w	y_pos(a0),d3							; get player's y_pos
-		subq.w	#8,d2
+		subq.w	#16/2,d2
 		moveq	#0,d5
-		move.b	y_radius(a0),d5							; load Sonic's height
-		subq.b	#3,d5
+		move.b	y_radius(a0),d5							; load player's height
+		subq.b	#6/2,d5
 		sub.w	d5,d3
 		cmpi.b	#AniIDSonAni_Duck,anim(a0)					; is player ducking?
 		bne.s	.Touch_NotDuck							; if not, branch
-		addi.w	#$C,d3
-		moveq	#$A,d5
+		addi.w	#24/2,d3							; fix player's y_pos
+		moveq	#20/2,d5							; set player's height
 
 .Touch_NotDuck
-		moveq	#$10,d4								; player's collision width
-		add.w	d5,d5
+		moveq	#32/2,d4							; player's collision width
+		add.w	d5,d5								; double player's height value
 
 .Touch_Process
 		lea	(Collision_response_list).w,a4
 		move.w	(a4)+,d6							; get number of objects queued
-		beq.s	locret_FF1C							; if there are none, return
+		beq.s	Touch_Return							; if there are none, return
 
 Touch_Loop:
 		movea.w	(a4)+,a1							; get address of first object's RAM
+		tst.b	render_flags(a1)						; is the object visible on the screen?
+		bpl.s	Touch_NextObj							; if not, branch
 		move.b	collision_flags(a1),d0						; get its collision flags
 		bne.s	Touch_Width							; if it actually has collision, branch
 
@@ -72,7 +74,7 @@ Touch_NextObj:
 		bne.s	Touch_Loop							; if there are still objects left, loop
 		moveq	#0,d0
 
-locret_FF1C:
+Touch_Return:
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -255,16 +257,16 @@ Touch_Monitor:
 .monitorfall
 
 		; fun fact: In S3, like the games before it, hitting a monitor from below would make it fall
-		; in S&K, that was removed, and they are destroyed as normal.
+		; in S&K, that was removed, and they are destroyed as normal
 		; however, according to this code, if a monitor is upside down, and player is in reverse gravity,
-		; hitting the monitor from below will still make it fall.
-		; playing with Debug Mode confirms this.
+		; hitting the monitor from below will still make it fall
+		; playing with Debug Mode confirms this
 
 		neg.w	y_vel(a0)							; reverse Sonic's y-motion
 		move.w	#-$180,y_vel(a1)
 		tst.b	routine_secondary(a1)
 		bne.s	.locret
-		move.b	#4,routine_secondary(a1)					; set the monitor's routine_secondary counter
+		st	routine_secondary(a1)						; set the monitor's routine_secondary counter
 
 .locret
 		rts
@@ -343,20 +345,20 @@ Touch_Enemy:
 .checkhurtenemy
 
 		; boss related? could be special enemies in general
-		tst.b	boss_hitcount2(a1)
+		tst.b	boss_hitcount(a1)
 		beq.s	Touch_EnemyNormal
 		neg.w	x_vel(a0)							; bounce player directly off boss
 		neg.w	y_vel(a0)
 		neg.w	ground_vel(a0)
-		move.b	collision_flags(a1),boss_backup_collision(a1)			; save current collision
+		move.b	collision_flags(a1),boss_saved_collision(a1)			; save current collision
 		move.w	a0,d0								; save value of RAM address of which player hit the boss
 		move.b	d0,objoff_1C(a1)						; $00 for main character, $4A for sidekick
 		clr.b	collision_flags(a1)
 
 	if BossDebug
-		clr.b	boss_hitcount2(a1)
+		clr.b	boss_hitcount(a1)
 	else
-		subq.b	#1,boss_hitcount2(a1)
+		subq.b	#1,boss_hitcount(a1)
 		bne.s	.bossnotdefeated
 	endif
 
@@ -748,18 +750,20 @@ ShieldTouchResponse:
 
 		and.b	status_secondary(a0),d0
 		beq.s	ShieldTouch_Return
-		moveq	#-24,d2								; subtract width of shield
+		moveq	#-(48/2),d2								; subtract width of shield
 		add.w	x_pos(a0),d2							; get player's x_pos
-		moveq	#-24,d3								; subtract height of shield
+		moveq	#-(48/2),d3								; subtract height of shield
 		add.w	y_pos(a0),d3							; get player's y_pos
-		moveq	#48,d4								; player's width
-		moveq	#48,d5								; player's height
+		moveq	#96/2,d4								; player's width
+		moveq	#96/2,d5								; player's height
 		lea	(Collision_response_list).w,a4
 		move.w	(a4)+,d6							; get number of objects queued
 		beq.s	ShieldTouch_Return						; if there are none, return
 
 ShieldTouch_Loop:
 		movea.w	(a4)+,a1							; get address of first object's RAM
+		tst.b	render_flags(a1)						; is the object visible on the screen?
+		bpl.s	ShieldTouch_NextObj						; if not, branch
 		moveq	#signextendB($C0),d0						; get its collision flags
 		and.b	collision_flags(a1),d0						; get only collision type bits
 		cmpi.b	#$80,d0								; is only the high bit set ("harmful")?
@@ -848,6 +852,8 @@ HyperAttackTouchResponse:
 
 HyperTouch_Loop:
 		movea.w	(a4)+,a1							; get address of first object's RAM
+		tst.b	render_flags(a1)						; is the object visible on the screen?
+		bpl.s	HyperTouch_NextObj						; if not, branch
 		move.b	collision_flags(a1),d0						; get its collision_flags
 		beq.s	HyperTouch_NextObj						; if it doesn't have collision, branch
 		bsr.s	HyperTouch_ChkValue						; else, process object
@@ -936,4 +942,14 @@ HyperTouch_Special:
 .SonicorTails
 		move.b	#AniIDSonAni_Roll,(Player_2+anim).w				; put sidekick in his rolling animation
 		bset	#status.player.in_air,(Player_2+status).w
+		rts
+
+; ---------------------------------------------------------------------------
+; Reset collision (Object)
+; ---------------------------------------------------------------------------
+
+; =============== S U B R O U T I N E =======================================
+
+Obj_ResetCollisionResponseList:
+		clr.w	(Collision_response_list).w
 		rts

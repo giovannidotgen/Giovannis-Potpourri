@@ -57,7 +57,7 @@ Obj_Roller:
 
 .rollnochk
 		cmpi.b	#2,anim(a0)
-		beq.s	.loc_E0F8
+		beq.s	.next
 		subq.w	#1,roller_timedelay(a0)
 		bpl.s	.return
 		move.b	#1,anim(a0)
@@ -68,7 +68,7 @@ Obj_Roller:
 		rts
 ; ---------------------------------------------------------------------------
 
-.loc_E0F8
+.next
 		move.l	#.chkjump,objoff_34(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -130,9 +130,10 @@ Roll_Stop:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Roller:		subObjData Map_Roll, $4F0, 0, 0, 28, 32, 4, 0, 0
+; init
+ObjDat_Roller:		subObjData Map_Roll, $4F0, 0, FALSE, 28, 32, 4, 0, 0
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Enemies/Roller/Object Data/Anim - Roller.asm"
 		include "Objects/Enemies/Roller/Object Data/Map - Roller.asm"

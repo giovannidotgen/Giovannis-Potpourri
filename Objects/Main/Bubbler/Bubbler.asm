@@ -128,7 +128,7 @@ loc_2FB5C:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	Bubbler_Delete							; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 Bubbler_Delete:
 		jmp	(Delete_Current_Sprite).w
@@ -215,8 +215,8 @@ sub_2FBA8:
 
 .p2
 		lea	(Player_2).w,a1							; a1=character
-		tst.l	address(a1)
-		beq.s	.return
+		tst.l	address(a1)							; is the player RAM empty?
+		beq.s	.return								; if yes, branch
 
 .main
 		tst.b	object_control(a1)
@@ -269,14 +269,15 @@ sub_2FBA8:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_Bubbler:		subObjMainData \
 			Obj_Bubbler.main, \
 				setBit(render_flags.level) | \
 				setBit(render_flags.on_screen), \
-			0, 32, 32, 1, $348, 0, 0, Map_Bubbler
+			0, 32, 32, 1, $348, 0, FALSE, Map_Bubbler
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Bubbler/Object Data/Anim - Bubbler.asm"
 		include "Objects/Main/Bubbler/Object Data/Map - Bubbler2.asm"
 		include "Objects/Main/Bubbler/Object Data/Map - Bubbler.asm"

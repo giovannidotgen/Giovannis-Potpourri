@@ -58,13 +58,15 @@ Obj_StarPost:
 		and.b	subtype(a0),d2
 		cmp.b	d2,d1
 		bhs.s	.taken
+
+		; check debug mode
 		tst.w	(Debug_placement_mode).w					; is debug mode on?
 		bne.s	.return								; if yes, branch
 
 		; check xpos
 		move.w	(Player_1+x_pos).w,d0
 		sub.w	x_pos(a0),d0
-		addi.w	#8,d0
+		addq.w	#8,d0
 		cmpi.w	#16,d0
 		bhs.s	.return
 
@@ -82,7 +84,7 @@ Obj_StarPost:
 		move.w	#34,objoff_36(a0)						; rotation time
 
 		; check bonus
-		cmpi.b	#ChaosEmer_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
+		cmpi.b	#ChaosEmeralds_Count,(Chaos_emerald_count).w			; do you have all the emeralds?
 		beq.s	.notbonus							; if yes, branch
 		cmpi.w	#50,(Ring_count).w						; does Sonic have at least 50 rings?
 		blo.s	.notbonus							; if not, branch
@@ -117,7 +119,7 @@ Obj_StarPost:
 		moveq	#1,d0
 		btst	#2,(Level_frame_counter+1).w
 		beq.s	.cdraw
-		addq.b	#1,d0
+		moveq	#2,d0
 
 .cdraw
 		move.b	d0,sub2_mapframe(a0)
@@ -139,6 +141,8 @@ Obj_StarPost:
 		add.w	y_pos(a0),d0
 		subi.w	#20,d0
 		move.w	d0,sub2_y_pos(a0)
+
+		; draw
 		jmp	(Sprite_CheckDelete).w
 
 ; ---------------------------------------------------------------------------
@@ -288,7 +292,7 @@ Load_StarPost_Stars:
 .create
 		move.l	#Obj_StarPost_Stars,address(a1)
 		move.l	#Map_StarPostStars,mappings(a1)
-		move.w	#make_art_tile(ArtTile_StarPost+8,0,0),art_tile(a1)
+		move.w	#make_art_tile(ArtTile_StarPost+8,0,FALSE),art_tile(a1)
 		move.b	#setBit(render_flags.level),render_flags(a1)			; use screen coordinates
 		move.w	priority(a0),priority(a1)
 		move.w	#bytes_to_word(16/2,16/2),height_pixels(a1)			; set height and width
@@ -391,7 +395,7 @@ loc_2D50A:
 		move.w	objoff_34(a0),d2
 		andi.w	#$3E0,d2
 		lsr.w	#5,d2
-		moveq	#2,d5
+		moveq	#3-1,d5
 		moveq	#0,d4
 		cmpi.w	#16,d2
 		ble.s	loc_2D53A
@@ -450,7 +454,7 @@ loc_2D58C:
 		addq.b	#1,objoff_23(a0)
 		moveq	#6,d0
 		and.b	objoff_23(a0),d0
-		lsr.w	d0
+		lsr.b	d0
 		cmpi.b	#3,d0
 		bne.s	loc_2D5B6
 		moveq	#1,d0
@@ -465,14 +469,15 @@ loc_2D5C0:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_StarPost:	subObjMainData \
 				Obj_StarPost.main, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.multi_sprite), \
-				0, 80, 16, 5, ArtTile_StarPost+8, 0, 0, Map_StarPost
+				0, 80, 16, 5, ArtTile_StarPost, 0, FALSE, Map_StarPost
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/StarPost/Object Data/Map - StarPost.asm"
 		include "Objects/Main/StarPost/Object Data/Map - StarPost Stars.asm"
 		include "Objects/Main/StarPost/Object Data/Map - Enemy Points.asm"

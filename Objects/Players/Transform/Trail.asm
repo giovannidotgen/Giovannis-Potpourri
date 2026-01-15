@@ -57,8 +57,8 @@ Obj_HyperSonicKnux_Trail:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_HyperSonicKnux_Trail:		subObjMainData \
 					Obj_HyperSonicKnux_Trail.main, \
 						setBit(render_flags.level), \
-					0, 48, 48, 0, ArtTile_Player_1, 0, 0, Map_Knuckles
+					0, 48, 48, 0, ArtTile_Player_1, 0, FALSE, Map_Knuckles

@@ -3,10 +3,12 @@
 ; Based on https://codebase64.org/doku.php?id=base:8bit_atan2_8-bit_angle
 ; New version by Devon Artmeier
 ; ---------------------------------------------------------------------------
-; PARAMETERS:
-; d1.w - X value
-; d2.w - Y value
-; RETURNS:
+;
+; Inputs:
+; d1.w - x value
+; d2.w - y value
+;
+; Outputs:
 ; d0.b - 2-argument arctangent value (angle between (0,0) and (x,y))
 ; ---------------------------------------------------------------------------
 
@@ -86,9 +88,6 @@ GetArcTan:
 		dc.b %10111111							; -x, -y, |x|<|y|
 ; ---------------------------------------------------------------------------
 
-WordShiftTable:		binclude "Data/Misc/Angle/WordShift.bin"
-	even
-LogarithmTable:		binclude "Data/Misc/Angle/Logarithmic.bin"		; log base 2
-	even
-ArcTanTable:		binclude "Data/Misc/Angle/Arctan.bin"			; 2-argument
-	even
+		incfile.b	WordShiftTable, "Data/Misc/Angle/WordShift.bin"
+		incfile.b	LogarithmTable, "Data/Misc/Angle/Logarithmic.bin"	; log base 2
+		incfile.b	ArcTanTable, "Data/Misc/Angle/Arctan.bin"		; 2-argument

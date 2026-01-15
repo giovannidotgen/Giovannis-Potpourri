@@ -6,11 +6,13 @@
 
 Game_Program:
 		tst.w	(VDP_control_port).l						; test VDP
+
+		; set
 		move.w	#$4EF9,d0							; machine code for jmp
 		move.w	d0,(V_int_jump).w
 		move.w	d0,(H_int_jump).w
-		move.l	#VInt,(V_int_addr).w
-		move.l	#HInt,(H_int_addr).w
+		move.l	#VInt,(V_int_addr).w						; set VInt jump
+		move.l	#HInt,(H_int_addr).w						; set HInt jump
 
 .wait
 		moveq	#2,d0
@@ -47,7 +49,7 @@ Game_Program:
 		jsr	(Init_DMA_Queue).w
 		jsr	(Init_VDP).w
 		jsr	(SndDrvInit).w
-		jsr	(Init_Controllers).w
+		bsr.s	Init_Controllers
 
 	ifdef __DEBUG__
 		move.w	#1,(Player_option).w						; set Sonic Alone player

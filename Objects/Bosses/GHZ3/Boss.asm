@@ -164,7 +164,7 @@ BossBall_MainProcess:
 		subq.b	#1,boss_invulnerable_time(a0)					; decrease boss invincibility timer
 		bne.s	.return
 		bclr	#status.npc.touch,status(a0)					; clear "boss hit" flag
-		move.b	boss_backup_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
+		move.b	boss_saved_collision(a0),collision_flags(a0)			; if invincibility ended, allow collision again
 
 .return
 		rts
@@ -392,12 +392,6 @@ Obj_BossBall_Ball:
 		subq.w	#1,objoff_2E(a0)
 		bpl.s	.angle
 		move.b	#$F|collision_flags.npc.hurt,collision_flags(a0)		; set collision
-		move.l	#.wait,address(a0)
-
-.wait
-		movea.w	parent4(a0),a1							; load boss address
-		btst	#2,obBGB_Status(a1)						; wait boss attack flag
-		beq.s	.circular
 		move.l	#.circular,address(a0)
 
 .circular
@@ -507,14 +501,14 @@ Obj_BossBall_Scaled:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_BossBall_Crane:		subObjData Map_GiantBall_Crane, $494, 0, 0, 16, 16, 6, 0, 0
-ObjDat_BossBall_Chain:		subObjData Map_GiantBall_Crane, $498, 0, 0, 16, 16, 6, 0, 0
-ObjDat_BossBall_Ball:		subObjData Map_GiantBall, $49C, 2, 0, 64, 64, 5, 0, 0
-ObjDat_BossBall_Scaled:		subObjData Map_ScaledArt, $340, 0, 0, 128, 128, 1, 0, 0
+; init
+ObjDat_BossBall_Crane:		subObjData Map_GiantBall_Crane, $494, 0, FALSE, 16, 16, 6, 0, 0
+ObjDat_BossBall_Chain:		subObjData Map_GiantBall_Crane, $498, 0, FALSE, 16, 16, 6, 0, 0
+ObjDat_BossBall_Ball:		subObjData Map_GiantBall, $49C, 2, FALSE, 64, 64, 5, 0, 0
+ObjDat_BossBall_Scaled:		subObjData Map_ScaledArt, $340, 0, FALSE, 128, 128, 1, 0, 0
 
 ; dplc
-PLCPtr_BossBall_Ball:		dc.l dmaSource(ArtUnc_GiantBall), DPLC_GiantBall
+PLCPtr_BossBall_Ball:		DPLCEntry ArtUnc_GiantBall, DPLC_GiantBall
 
 Child9_GHZBall:
 		dc.w 6-1
@@ -529,6 +523,7 @@ PLC_BossBall: plrlistheader
 PLC_BossBall_end
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Bosses/GHZ3/Object Data/Map - Giant Ball Crane.asm"
 		include "Objects/Bosses/GHZ3/Object Data/Map - Giant Ball.asm"
 		include "Objects/Bosses/GHZ3/Object Data/DPLC - Giant Ball.asm"

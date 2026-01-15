@@ -12,8 +12,8 @@ S1S3.lst
 S1S3.debug.lst
 
 # Generated RAM assembler files
-Engine/_RAM.asm
-Engine/_RAM.debug.asm
+Engine/_RAM.lst
+Engine/_RAM.debug.lst
 
 # Personal to-do notes
 to-do.txt
@@ -23,6 +23,9 @@ to-do.txt
 
 # Temporary assembly files
 *.[ph]
+
+# Backup files
+*.bak
 
 # Cached DLL files in SonLVL INI Files directory
 Projects/SonLVL INI Files/dllcache/*

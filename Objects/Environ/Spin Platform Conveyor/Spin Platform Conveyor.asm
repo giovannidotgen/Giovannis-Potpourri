@@ -25,7 +25,7 @@ Obj_SpinConvey:
 
 		; init
 		move.l	#Map_Spin,mappings(a0)
-		move.w	#make_art_tile($3C8,0,0),art_tile(a0)
+		move.w	#make_art_tile($3C8,0,FALSE),art_tile(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(14/2,32/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.l	#sub_163D8,address(a0)
@@ -176,7 +176,7 @@ SpinC_CheckDelete:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.delete								; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		bclr	#7,(a2)
+		bclr	#respawn_addr.state,(a2)					; turn on the slot
 
 .delete
 		jmp	(Delete_Current_Sprite).w
@@ -229,5 +229,6 @@ loc_16484:
 		jmp	(MoveSprite2).w
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Spin Platform Conveyor/Object Data/Data - Spin Platform Conveyor.asm"
 		include "Objects/Environ/Spin Platform Conveyor/Object Data/Anim - Spin Platform Conveyor.asm"

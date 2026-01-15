@@ -44,24 +44,24 @@ bytes_to_long function byte1,byte2,byte3,byte4,(((byte1)<<24)&$FF000000)|(((byte
 bytesToXcnt function n,x,n/x-1
 
 ; calculates initial loop counter value for a dbf loop
-; that writes n bytes total at 4 bytes per iteration
-bytesToLcnt function n,bytesToXcnt(n,4)
-
-; calculates initial loop counter value for a dbf loop
 ; that writes n bytes total at 2 bytes per iteration
 bytesToWcnt function n,bytesToXcnt(n,2)
+
+; calculates initial loop counter value for a dbf loop
+; that writes n bytes total at 4 bytes per iteration
+bytesToLcnt function n,bytesToXcnt(n,4)
 
 ; calculates initial loop counter value for a normal loop
 ; that writes n bytes total at x bytes per iteration
 bytesTo2Xcnt function n,x,n/x
 
 ; calculates initial loop counter value for a normal loop
-; that writes n bytes total at 4 bytes per iteration
-bytesTo2Lcnt function n,bytesTo2Xcnt(n,4)
-
-; calculates initial loop counter value for a normal loop
 ; that writes n bytes total at 2 bytes per iteration
 bytesTo2Wcnt function n,bytesTo2Xcnt(n,2)
+
+; calculates initial loop counter value for a normal loop
+; that writes n bytes total at 4 bytes per iteration
+bytesTo2Lcnt function n,bytesTo2Xcnt(n,4)
 
 ; macros to convert from tile index to art tiles, block mapping or VRAM address
 sprite_priority function x,((x&7)<<7)
@@ -136,33 +136,15 @@ locVRAM macro loc,controlport=(VDP_control_port).l
     endm
 
 ; ---------------------------------------------------------------------------
-; Macro to check button presses
-; Arguments:
-; 1 - buttons to check
+; calc VDP address
+; input: 16-bit VRAM address (default is d0)
 ; ---------------------------------------------------------------------------
 
-tpress macro press,player
-	if player=2
-		move.b	(Ctrl_2_pressed).w,d0
-	else
-		move.b	(Ctrl_1_pressed).w,d0
-	endif
-	andi.b	#(press),d0
-    endm
-
-; ---------------------------------------------------------------------------
-; Macro to check if buttons are held
-; Arguments:
-; 1 - buttons to check
-; ---------------------------------------------------------------------------
-
-theld macro press,player
-	if player=2
-		move.b	(Ctrl_2_held).w,d0
-	else
-		move.b	(Ctrl_1_held).w,d0
-	endif
-	andi.b	#(press),d0
+CalcVRAM macro reg=d0
+	lsl.l	#2,reg
+	lsr.w	#2,reg
+	ori.w	#vdpComm(0,VRAM,WRITE)>>16,reg
+	swap	reg
     endm
 
 ; ---------------------------------------------------------------------------
@@ -206,12 +188,13 @@ levartptrs macro \
 	rings2, \
 	palette, \
 	wpalette, \
-	music
+	music, \
+	water=FALSE
 
 	dc.l (palette)<<24|((art1)&$FFFFFF),art2
 	dc.l (wpalette)<<24|((map16x16r)&$FFFFFF),map16x161,map16x162
 	dc.l (music)<<24|((map128x128r)&$FFFFFF),map128x1281,map128x1282
-	dc.l layoutr,layout1,layout2
+	dc.l (water)<<24|((layoutr)&$FFFFFF),layout1,layout2
 	dc.l solidr,solid1,solid2
 	dc.l objectsr,objects1,objects2
 	dc.l ringsr,rings1,rings2
@@ -273,6 +256,11 @@ subObjMainData macro address=FALSE,render,routine,height,width,prio,vram,pal,pri
 	dc.b collision
     endif
     endm
+
+; macro to declare DPLC data
+DPLCEntry macro art,mappings
+	dc.l dmaSource(art),mappings
+    endm
 ; ---------------------------------------------------------------------------
 
 ; macro to level select icons
@@ -284,19 +272,19 @@ setRSDKIcons macro pal,icon
     endm
 ; ---------------------------------------------------------------------------
 
-zoneAnimals macro first,second
-	dc.ATTRIBUTE (Obj_Animal_Properties_first - Obj_Animal_Properties), (Obj_Animal_Properties_second - Obj_Animal_Properties)
+zoneanimals macro first,second
+	dc.ATTRIBUTE (Obj_Animal_Properties_first - Obj_Animal_Properties),(Obj_Animal_Properties_second - Obj_Animal_Properties)
     endm
 
 objanimaldecl macro mappings,address,xvel,yvel,{INTLABEL}
 Obj_Animal_Properties___LABEL__: label *
-	dc.l mappings, address
-	dc.w xvel, yvel
+	dc.l mappings,address
+	dc.w xvel,yvel
     endm
 
 objanimalending macro address,mappings,vram,xvel,yvel
-	dc.l address, mappings
-	dc.w vram, xvel, yvel
+	dc.l address,mappings
+	dc.w vram,xvel,yvel
 	dc.w 0	; even
     endm
 ; ---------------------------------------------------------------------------
@@ -304,6 +292,14 @@ objanimalending macro address,mappings,vram,xvel,yvel
 LargeGrassEntry macro ptr,frame,width
 	offsetTableEntry.w ptr
 	dc.b frame,(width/2)
+    endm
+
+LavaEntry macro ptr,flag
+    if flag
+	offsetTableEntry.w (ptr)|setBit(15)
+    else
+	offsetTableEntry.w ptr
+    endif
     endm
 
 StillSpritesEntry macro prio,vram,pal,pri,height,width
@@ -328,7 +324,7 @@ titlecardresultsobjdata macro address,xdest,xpos,ypos,frame,width,exit
 ; macro to declare Special Stage data
 specialStageData macro frame,mappings,palette,vram
 	dc.l (frame)<<24|(mappings)
-	dc.w make_art_tile(vram,palette,0)
+	dc.w make_art_tile(vram,palette,FALSE)
     endm
 
 ; macro to declare Special Stage BG data
@@ -368,11 +364,11 @@ __LABEL__ label *
 clearRAM macro startaddr,endaddr
     if startaddr>endaddr
 	fatal "Starting address of clearRAM \{startaddr} is after ending address \{endaddr}."
-    elseif startaddr==endaddr
+    elseif startaddr=endaddr
 	warning "clearRAM is clearing zero bytes. Turning this into a nop instead."
 	exitm
     endif
-    if ((startaddr)&$8000)==0
+    if ((startaddr)&$8000)=0
 	lea	(startaddr).l,a1
     else
 	lea	(startaddr).w,a1
@@ -402,11 +398,11 @@ clearRAM macro startaddr,endaddr
 clearRAM2 macro startaddr,endaddr
     if startaddr>endaddr
 	fatal "Starting address of clearRAM2 \{startaddr} is after ending address \{endaddr}."
-    elseif startaddr==endaddr
+    elseif startaddr=endaddr
 	warning "clearRAM2 is clearing zero bytes. Turning this into a nop instead."
 	exitm
     endif
-    if ((startaddr)&$8000)==0
+    if ((startaddr)&$8000)=0
 	lea	(startaddr).l,a1
     else
 	lea	(startaddr).w,a1
@@ -430,11 +426,11 @@ clearRAM2 macro startaddr,endaddr
 clearRAM3 macro startaddr,endaddr
     if startaddr>endaddr
 	fatal "Starting address of clearRAM \{startaddr} is after ending address \{endaddr}."
-    elseif startaddr==endaddr
+    elseif startaddr=endaddr
 	warning "clearRAM is clearing zero bytes. Turning this into a nop instead."
 	exitm
     endif
-    if ((startaddr)&$8000)==0
+    if ((startaddr)&$8000)=0
 	lea	(startaddr).l,a1
     else
 	lea	(startaddr).w,a1
@@ -466,16 +462,16 @@ clearRAM3 macro startaddr,endaddr
 copyRAM macro startaddr,endaddr,startaddr2
     if startaddr>endaddr
 	fatal "Starting address of copyRAM \{startaddr} is after ending address \{endaddr}."
-    elseif startaddr==endaddr
+    elseif startaddr=endaddr
 	warning "copyRAM is copy zero bytes. Turning this into a nop instead."
 	exitm
     endif
-    if ((startaddr)&$8000)==0
+    if ((startaddr)&$8000)=0
 	lea	(startaddr).l,a1
     else
 	lea	(startaddr).w,a1
     endif
-    if ((startaddr2)&$8000)==0
+    if ((startaddr2)&$8000)=0
 	lea	(startaddr2).l,a2
     else
 	lea	(startaddr2).w,a2
@@ -505,16 +501,16 @@ copyRAM macro startaddr,endaddr,startaddr2
 copyRAM2 macro startaddr,endaddr,startaddr2
     if startaddr>endaddr
 	fatal "Starting address of copyRAM2 \{startaddr} is after ending address \{endaddr}."
-    elseif startaddr==endaddr
+    elseif startaddr=endaddr
 	warning "copyRAM2 is copy zero bytes. Turning this into a nop instead."
 	exitm
     endif
-    if ((startaddr)&$8000)==0
+    if ((startaddr)&$8000)=0
 	lea	(startaddr).l,a1
     else
 	lea	(startaddr).w,a1
     endif
-    if ((startaddr2)&$8000)==0
+    if ((startaddr2)&$8000)=0
 	lea	(startaddr2).l,a2
     else
 	lea	(startaddr2).w,a2
@@ -535,13 +531,32 @@ copyRAM2 macro startaddr,endaddr,startaddr2
     endm
 
 ; ---------------------------------------------------------------------------
-; load Kosinski Plus and Kosinski Plus Moduled
+; load Kosinski Plus
+; ---------------------------------------------------------------------------
+
+; load Kosinski Plus data to RAM
+KosPlusDecomp macro data,ram,terminate
+	lea	(data).l,a0
+    if ((ram)&$8000)=0
+	lea	(ram).l,a1
+    else
+	lea	(ram).w,a1
+    endif
+    if ("terminate"="0") || ("terminate"="")
+	jsr	(KosPlus_Decomp).w
+    else
+	jmp	(KosPlus_Decomp).w
+    endif
+    endm
+
+; ---------------------------------------------------------------------------
+; load Kosinski Plus and Kosinski Plus Moduled Queue
 ; ---------------------------------------------------------------------------
 
 ; load Kosinski Plus data to RAM
 QueueKosPlus macro data,ram,terminate
 	lea	(data).l,a1
-    if ((ram)&$8000)==0
+    if ((ram)&$8000)=0
 	lea	(ram).l,a2
     else
 	lea	(ram).w,a2
@@ -575,7 +590,7 @@ QueueKosPlusModule macro art,vram,terminate
 ; load Enigma data to RAM
 EniDecomp macro data,ram,vram,palette,pri,terminate
 	lea	(data).l,a0
-    if ((ram)&$8000)==0
+    if ((ram)&$8000)=0
 	lea	(ram).l,a1
     else
 	lea	(ram).w,a1
@@ -598,21 +613,21 @@ EniDecomp macro data,ram,vram,palette,pri,terminate
 
 ; load DMA
 AddToDMAQueue macro art,vram,size,terminate
-		move.l	#dmaSource(art),d1
+	move.l	#dmaSource(art),d1
     if ((vram)<=3)
 	moveq	#tiles_to_bytes(vram),d2
     else
 	move.w	#tiles_to_bytes(vram),d2
     endif
     if ((size/2)<=$7F)
-		moveq	#(size/2),d3
+	moveq	#(size/2),d3
     else
-		move.w	#(size/2),d3
+	move.w	#(size/2),d3
     endif
     if ("terminate"="0") || ("terminate"="")
-		jsr	(Add_To_DMA_Queue).w
+	jsr	(Add_To_DMA_Queue).w
     else
-		jmp	(Add_To_DMA_Queue).w
+	jmp	(Add_To_DMA_Queue).w
     endif
     endm
 
@@ -624,9 +639,9 @@ AddToDMAQueue macro art,vram,size,terminate
 out_of_xrange macro exit,xpos
 	moveq	#-$80,d0								; round down to nearest $80
     ifnb xpos
-		and.w	xpos,d0								; get object position (if specified as not x_pos)
+	and.w	xpos,d0									; get object position (if specified as not x_pos)
     else
-		and.w	x_pos(a0),d0							; get object position
+	and.w	x_pos(a0),d0								; get object position
     endif
 	out_of_xrange2.ATTRIBUTE	exit
     endm
@@ -645,9 +660,9 @@ out_of_xrange2 macro exit
 out_of_yrange macro exit,ypos
 	moveq	#-$80,d0								; round down to nearest $80
     ifnb ypos
-		and.w	ypos,d0								; get object position (if specified as not y_pos)
+	and.w	ypos,d0									; get object position (if specified as not y_pos)
     else
-		and.w	y_pos(a0),d0							; get object position
+	and.w	y_pos(a0),d0								; get object position
     endif
 	out_of_yrange2.ATTRIBUTE	exit
     endm
@@ -666,7 +681,7 @@ respawn_delete macro terminate
 	move.w	respawn_addr(a0),d0							; get address in respawn table
 	beq.s	.delete									; if it's zero, it isn't remembered
 	movea.w	d0,a2									; load address into a2
-	bclr	#7,(a2)
+	bclr	#respawn_addr.state,(a2)						; turn on the slot
 
 .delete
     if ("terminate"="0") <> ("terminate"="")
@@ -1159,7 +1174,7 @@ jmi macro loc
     endm
 ; ---------------------------------------------------------------------------
 
-_KosPlus_LoopUnroll := 3
+_KosPlus_LoopUnroll = 3
 
 _KosPlus_ReadBit macro
 	dbf	d2,.skip
@@ -1196,7 +1211,7 @@ zoneanimdeclanonid := zoneanimdeclanonid + 1
 start:
 	dc.l (duration&$FF)<<24|dmaSource(artaddr)
 	dc.w tiles_to_bytes(vramaddr)
-	dc.b numentries, numvramtiles
+	dc.b numentries,numvramtiles
 zoneanimcount := zoneanimcount + 1
     endm
 
@@ -1205,7 +1220,7 @@ zoneanimdeclanonid := zoneanimdeclanonid + 1
 start:
 	dc.l (duration&$FF)<<24|paladdr
 	dc.w ((palram)&$FFFF)
-	dc.b numentries, numcolors
+	dc.b numentries,numcolors
 zoneanimcount := zoneanimcount + 1
     endm
 ; ---------------------------------------------------------------------------
@@ -1221,28 +1236,28 @@ tribyte macro val
 
 ; macro to define a palette script pointer
 palscriptptr macro header,data
-	dc.w data-header, 0
+	dc.w data-header,0
 	dc.l header
-._headpos :=	header
+._headpos := header
     endm
 
 ; macro to define a palette script header
 palscripthdr macro palette,entries,value
 	dc.w (palette)&$FFFF
-	dc.b entries-1, value
+	dc.b entries-1,value
     endm
 
 ; macro to define a palette script data
-palscriptdata macro frames,data
-.framec :=	frames-1
+palscriptdata macro frames
+.framec := frames-1
 	shift
 	dc.w ALLARGS
 	dc.w .framec
     endm
 
 ; macro to define a palette script data from an external file
-palscriptfile macro frames,data
-.framec :=	frames-1
+palscriptfile macro frames
+.framec := frames-1
 	shift
 	binclude ALLARGS
 	dc.w .framec
@@ -1255,8 +1270,8 @@ palscriptrept macro header
 
 ; macro to define loop from start for x number of times, then initialize with new header
 palscriptloop macro header
-	dc.w -4, header-._headpos
-._headpos :=	header
+	dc.w -4,header-._headpos
+._headpos := header
     endm
 
 ; macro to run the custom script routine
@@ -1265,81 +1280,11 @@ palscriptrun macro header
     endm
 
 ; ---------------------------------------------------------------------------
-; play a sound effect or music
-; input: track, terminate routine, branch or jump, move operand size
-; ---------------------------------------------------------------------------
-
-music macro track,terminate,byte
-    if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(track),d0
-    else
-	move.w	#(track),d0
-    endif
-    if ("terminate"="0") || ("terminate"="")
-	jsr	(Play_Music).w
-    else
-	jmp	(Play_Music).w
-    endif
-    endm
-
-sfx macro track,terminate,byte
-    if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(track),d0
-    else
-	move.w	#(track),d0
-    endif
-    if ("terminate"="0") || ("terminate"="")
-	jsr	(Play_SFX).w
-    else
-	jmp	(Play_SFX).w
-    endif
-    endm
-
-sfxcont macro track,wait,terminate,byte
-    if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(track),d0
-    else
-	move.w	#(track),d0
-    endif
-	moveq	#signextendB(wait),d1
-    if ("terminate"="0") || ("terminate"="")
-	jsr	(Play_SFX_Continuous).w
-    else
-	jmp	(Play_SFX_Continuous).w
-    endif
-    endm
-
-tempo macro speed,terminate,byte
-    if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(speed),d0
-    else
-	move.w	#(speed),d0
-    endif
-    if ("terminate"="0") || ("terminate"="")
-	jsr	(Change_Music_Tempo).w
-    else
-	jmp	(Change_Music_Tempo).w
-    endif
-    endm
-
-sample macro id,terminate,byte
-    if ("byte"="0") || ("byte"="")
-	moveq	#signextendB(id),d0
-    else
-	move.w	#(id),d0
-    endif
-    if ("terminate"="0") || ("terminate"="")
-	jsr	(Play_Sample).w
-    else
-	jmp	(Play_Sample).w
-    endif
-    endm
-
-; ---------------------------------------------------------------------------
 ; macro to declare a mappings table (taken from Sonic 2 Hg disassembly)
 ; ---------------------------------------------------------------------------
 
 SonicMappingsVer := 3
+SonicDplcVer := 3
 
 mappingsTable macro {INTLABEL}
 __LABEL__ label *
@@ -1353,11 +1298,11 @@ mappingsTableEntry macro ptr
 spriteHeader macro {INTLABEL}
 __LABEL__ label *
 	if SonicMappingsVer=1
-		dc.b ((__LABEL___End - __LABEL___Begin) / 5)
+		dc.b ((__LABEL___end - __LABEL___Begin) / 5)
 	elseif SonicMappingsVer=2
-		dc.w ((__LABEL___End - __LABEL___Begin) / 8)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 8)
 	else
-		dc.w ((__LABEL___End - __LABEL___Begin) / 6)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 6)
 	endif
 __LABEL___Begin label *
     endm
@@ -1403,11 +1348,11 @@ spritePiece2P macro xpos,ypos,width,height,tile,xflip,yflip,pal,pri,tile2,xflip2
 dplcHeader macro {INTLABEL}
 __LABEL__ label *
 	if SonicDplcVer=1
-		dc.b ((__LABEL___End - __LABEL___Begin) / 2)
+		dc.b ((__LABEL___end - __LABEL___Begin) / 2)
 	elseif SonicDplcVer=3
-		dc.w (((__LABEL___End - __LABEL___Begin) / 2)-1)
+		dc.w (((__LABEL___end - __LABEL___Begin) / 2)-1)
 	else
-		dc.w ((__LABEL___End - __LABEL___Begin) / 2)
+		dc.w ((__LABEL___end - __LABEL___Begin) / 2)
 	endif
 __LABEL___Begin label *
     endm
@@ -1453,8 +1398,8 @@ gotoROM macro
 
 copyTilemap macro loc,width,height,terminate
 	locVRAM	loc,d0
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
+	moveq	#bytesToXcnt(((width)+7),8),d1
+	moveq	#bytesToXcnt(((height)+7),8),d2
     if ("terminate"="0") || ("terminate"="")
 	jsr	(Plane_Map_To_VRAM).w
     else
@@ -1469,8 +1414,8 @@ copyTilemap macro loc,width,height,terminate
 
 copyTilemap2 macro loc,address,width,height,terminate
 	locVRAM	loc,d0
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
+	moveq	#bytesToXcnt(((width)+7),8),d1
+	moveq	#bytesToXcnt(((height)+7),8),d2
     if ((address)<=$7F)
 	moveq	#(address),d3
     else
@@ -1488,10 +1433,10 @@ copyTilemap2 macro loc,address,width,height,terminate
 ; input: destination, width [cells], height [cells], terminate
 ; ---------------------------------------------------------------------------
 
-copyTilemap3	 macro loc,width,height,terminate
+copyTilemap3 macro loc,width,height,terminate
 	locVRAM	loc,d0
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
+	moveq	#bytesToXcnt(((width)+7),8),d1
+	moveq	#bytesToXcnt(((height)+7),8),d2
     if ("terminate"="0") || ("terminate"="")
 	jsr	(Plane_Map_To_VRAM_3).w
     else
@@ -1505,8 +1450,8 @@ copyTilemap3	 macro loc,width,height,terminate
 ; ---------------------------------------------------------------------------
 
 copyTilemapToRAM macro width,height,row,terminate
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
+	moveq	#bytesToXcnt(((width)+7),8),d1
+	moveq	#bytesToXcnt(((height)+7),8),d2
     if ((row)<=$7F)
 	moveq	#row,d3
     else
@@ -1526,51 +1471,13 @@ copyTilemapToRAM macro width,height,row,terminate
 
 clearTilemap macro loc,width,height,terminate
 	locVRAM	loc,d0
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
+	moveq	#bytesToXcnt(((width)+7),8),d1
+	moveq	#bytesToXcnt(((height)+7),8),d2
     if ("terminate"="0") || ("terminate"="")
 	jsr	(Clear_Plane_Map).w
     else
 	jmp	(Clear_Plane_Map).w
     endif
-    endm
-; ---------------------------------------------------------------------------
-
-LoadArtUnc macro offset,size,vram
-	lea	(VDP_data_port).l,a6							; load VDP data address to a6
-	lea	VDP_control_port-VDP_data_port(a6),a5					; load VDP control address to a5
-	locVRAM	vram,VDP_control_port-VDP_control_port(a5)
-	lea	(offset).l,a0
-	moveq	#(size>>5)-1,d0
-
-.load
-
-	rept 8
-		move.l	(a0)+,VDP_data_port-VDP_data_port(a6)
-	endr
-
-	dbf	d0,.load
-    endm
-; ---------------------------------------------------------------------------
-
-LoadMapUnc macro offset,size,arg,loc,width,height
-	lea	(offset).l,a0
-	move.w	#arg,d0
-	move.w	#((size)>>4),d1
-
-.load
-
-	rept 4
-		move.l	(a0)+,(a1)
-		add.w	d0,(a1)+
-		add.w	d0,(a1)+
-	endr
-
-	dbf	d1,.load
-	locVRAM	loc,d0
-	moveq	#bytesToXcnt(width,8),d1
-	moveq	#bytesToXcnt(height,8),d2
-	jsr	(Plane_Map_To_VRAM).w
     endm
 
 ; ---------------------------------------------------------------------------
@@ -1634,39 +1541,144 @@ offsetTableEntry macro ptr
 	dc.ATTRIBUTE ptr-current_offset_table
     endm
 
-ptrTableEntry macro loc,{GLOBALSYMBOLS}
-ptr_loc:	dc.ATTRIBUTE loc-current_offset_table
+ptrTableEntry macro loc
+ptr_loc:	label *
+	dc.ATTRIBUTE loc-current_offset_table
     endm
 
 offsetEntry macro ptr
 	dc.ATTRIBUTE ptr-*
     endm
 
-GameModeEntry macro ptr,{GLOBALSYMBOLS}
-GameMode_ptr:	dc.l ptr
+GameModeEntry macro ptr
+GameMode_ptr:	label *
+	dc.l ptr
     endm
 
-bincludeEntry macro {INTLABEL},{GLOBALSYMBOLS}
-__LABEL__:	binclude ALLARGS
-__LABEL___end
+incfile macro name,path
+	name:	label *
+    if substr(lowstring("ATTRIBUTE"),0,1)="b"
+	binclude path
+    elseif substr(lowstring("ATTRIBUTE"),0,1)="i"
+	include path
+    else
+	fatal "incfile: attribute must start with b or i"
+    endif
+    if substr(lowstring("ATTRIBUTE"),1,1)="o"
+	ObjectLayoutBoundary
+    elseif substr(lowstring("ATTRIBUTE"),1,1)="r"
+	RingLayoutBoundary
+    endif
+    if strstr(lowstring("ATTRIBUTE"),"e") >= 0
+	name_end:	label *
+	if strstr(lowstring("ATTRIBUTE"),"d") >= 0
+	    if (((name)+((name_end-name))-1)>>17)<>((name)>>17)
+		fatal "DMA crosses a 128kB boundary. You should either split the DMA manually or align the source adequately."
+	    endif
+	endif
+    endif
+    even
     endm
 ; ---------------------------------------------------------------------------
 
 dScroll_Header macro {INTLABEL}
 __LABEL__ label *
 	dc.w (((__LABEL___end - __LABEL__Scroll) / 6) - 1)
-__LABEL__Scroll:
+__LABEL__Scroll
     endm
 
 dScroll_Data macro pixel,size,velocity,plane
-	dc.w velocity, size
-	if upstring("plane")=="FG"
+	dc.w velocity,size
+	if upstring("plane")="FG"
 		dc.w H_scroll_buffer+(pixel<<2)
-	elseif upstring("plane")=="BG"
+	elseif upstring("plane")="BG"
 		dc.w (H_scroll_buffer+2)+(pixel<<2)
 	else
-		fatal "Error! Non-existent plan."
+		fatal "Error! Non-existent plane."
 	endif
+    endm
+; ---------------------------------------------------------------------------
+
+; macro for defining title card letters in conjunction with the remapped character set
+titlecardLetters macro opt,str
+	save
+	codepage TITLECARD
+.llookup := " ABCDEFGHIJKLMNOPQRSTUVWXYZ.()0123456789!"					; letter lookup string
+.ignore := " ZONE0"									; set to initial state
+.used := ""										; string to store already used characters
+    irpc char,.ignore
+.used := .used + "char"									; mark ignored characters as used
+    endm
+    if opt
+	; not sort letters (S2 style)
+	irpc char,str
+	    if strstr(.used,"char") < 0
+.used := .used + "char"									; mark as used
+		if strstr(.ignore,"char") < 0
+		    dc.b upstring("char")						; output letter code
+		endif
+	    endif
+	endm
+    else
+	; letters in alphabetical order (S3K style)
+	irpc char,str
+	    if strstr(.used,"char") < 0
+.used := .used + "char"									; mark as used
+	    endif
+	endm
+	irpc char,.llookup
+	    if strstr(.used,"char") >= 0
+		if strstr(.ignore,"char") < 0
+		    dc.b upstring("char")						; output letter code
+		endif
+	    endif
+	endm
+    endif
+	dc.b -1	; end marker
+	restore
+    endm
+; ---------------------------------------------------------------------------
+
+; macro for title card letters from a string
+creditsletters macro str
+	save
+	codepage CREDITSCREEN3
+.narrow := "IJL.1!"
+.wide := "MOQW069"
+    irpc char,str
+	if strstr(.narrow,"char") >= 0
+	    dc.w 'char', 1-1								; narrow (8x24)
+	elseif strstr(.wide,"char") >= 0
+	    dc.w 'char', 3-1								; wide (24x24)
+	else
+	    dc.w 'char', 2-1								; normal (16x24)
+	endif
+    endm
+	restore
+    endm
+
+; macro for generating credits strings
+creditstr macro plane,str
+    if plane<>0
+	dc.w plane
+    else
+	fatal "plane error!"
+    endif
+	save
+    if plane&$8000
+	codepage CREDITSCREEN
+    else
+	codepage CREDITSCREEN2
+    endif
+	dc.b str
+	restore
+	dc.b 0	; end marker
+	even
+    endm
+
+; macro for a credits text list header
+creditstr_end macro
+	dc.w 0	; end marker
     endm
 ; ---------------------------------------------------------------------------
 
@@ -1693,113 +1705,107 @@ optstr macro str
 	dc.b strlen(str)-1, str
 	restore
     endm
+; ---------------------------------------------------------------------------
 
 	; codepage for level select
 	save
 	codepage LEVELSCREEN
-	CHARSET ' ', 43
-	CHARSET '0','9', 1
-	CHARSET 'A','Z', 17
-	CHARSET 'a','z', 17
-	CHARSET '*', 11
-	CHARSET '@', 12
-	CHARSET ':', 13
-	CHARSET '-', 14
-	CHARSET '/', 15
-	CHARSET '.', 16
+	charset ' ', 43
+	charset '0','9', 1
+	charset 'A','Z', 17
+	charset 'a','z', 17
+	charset '*', 11
+	charset '@', 12
+	charset ':', 13
+	charset '-', 14
+	charset '/', 15
+	charset '.', 16
 	restore
-
-; macro for generating credits strings
-creditstr macro plane,str
-    if plane<>0
-	dc.w plane
-    else
-	fatal "plane error!"
-    endif
-	save
-    if plane&$8000
-	codepage CREDITSCREEN
-    else
-	codepage CREDITSCREEN2
-    endif
-	dc.b str
-	restore
-	dc.b 0	; end marker
-	even
-    endm
-
-; macro for a credits text list header
-creditstr_end macro
-	dc.w 0	; end marker
-    endm
 
 	; codepage for options
 	save
 	codepage OPTIONSCREEN
-	CHARSET ' ', 43
-	CHARSET '0','9', 1
-	CHARSET 'A','Z', 17
-	CHARSET 'a','z', 17
-	CHARSET '@', 11
-	CHARSET '*', 12
-	CHARSET ':', 13
-	CHARSET '-', 14
-	CHARSET '^', 15
-	CHARSET '.', 16
+	charset ' ', 43
+	charset '0','9', 1
+	charset 'A','Z', 17
+	charset 'a','z', 17
+	charset '@', 11
+	charset '*', 12
+	charset ':', 13
+	charset '-', 14
+	charset '^', 15
+	charset '.', 16
+	restore
+
+	; codepage for title card
+	save
+	codepage TITLECARD
+	charset ' ', 0
+	charset 'A','Z', 1
+	charset 'a','z', 1
+	charset '.', 27
+	charset '(', 28
+	charset ')', 29
+	charset '0','9', 30
+	charset '!', 40
 	restore
 
 	; codepage for credits
 	save
 	codepage CREDITSCREEN
-	CHARSET ' ', 63
-	CHARSET 'A','Z', 1
-	CHARSET 'a','z', 1
-	CHARSET '.', 27
-	CHARSET '(', 28
-	CHARSET ')', 29
-	CHARSET '0','9', 30
-	CHARSET '!', 40
+	charset ' ', 63
+	charset 'A','Z', 1
+	charset 'a','z', 1
+	charset '.', 27
+	charset '(', 28
+	charset ')', 29
+	charset '0','9', 30
+	charset '!', 40
 	restore
 
 	; codepage for credits
 	save
 	codepage CREDITSCREEN2
-	CHARSET ' ', 63
-	CHARSET 'A','Z', 1
-	CHARSET 'a','z', 1
-	CHARSET '0','9', 27
-	CHARSET ':', 37
-	CHARSET '.', 38
-	CHARSET '!', 39
-	CHARSET '?', 40
-	CHARSET '#', 41
-	CHARSET '%', 42
-	CHARSET '/', 43
-	CHARSET ';', 44
-	CHARSET ',', 45
-	CHARSET '*', 46
-	CHARSET '"', 47
-	CHARSET '$', 48
-	CHARSET '_', 49
-	CHARSET '-', 50
-	CHARSET '=', 51
+	charset ' ', 63
+	charset 'A','Z', 1
+	charset 'a','z', 1
+	charset '0','9', 27
+	charset ':', 37
+	charset '.', 38
+	charset '!', 39
+	charset '?', 40
+	charset '#', 41
+	charset '%', 42
+	charset '/', 43
+	charset ';', 44
+	charset ',', 45
+	charset '*', 46
+	charset '"', 47
+	charset '$', 48
+	charset '_', 49
+	charset '-', 50
+	charset '=', 51
+	restore
+
+	; codepage for credits
+	save
+	codepage CREDITSCREEN3
+	charset 'A',0
+	charset 'B',"\6\xC\x12\x18\x1E\x24\x2A\x30\x33\x36\x3C\x3F\x48\x4E\x57\x5D\x66\x6C\x72\x78\x7E\x84\x8D\x93\x99"
+	charset '.', $9F
+	charset '(', $A2
+	charset ')', $A8
+	charset '0', $4E
+	charset '1',"\xAE\xB1\xB7\xBD\xC3\xC9\xD2\xD8\xDE"
+	charset '!', $E7
 	restore
 
 	; codepage for HUD
 	save
 	codepage HUD
-	CHARSET ' ',$FF
-	CHARSET '0',0
-	CHARSET '1',2
-	CHARSET '2',4
-	CHARSET '3',6
-	CHARSET '4',8
-	CHARSET '5',$A
-	CHARSET '6',$C
-	CHARSET '7',$E
-	CHARSET '8',$10
-	CHARSET '9',$12
-	CHARSET '*',$14
-	CHARSET ':',$16
-	CHARSET 'E',$18
+	charset ' ',$FF
+	charset '0',"\0\2\4\6\8\xA\xC\xE\x10\x12"
+	charset '*',$14
+	charset ':',$16
+	charset 'E',$18
 	restore

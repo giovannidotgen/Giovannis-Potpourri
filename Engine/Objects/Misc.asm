@@ -274,8 +274,8 @@ Restore_LevelMusic:
 		move.b	(a2),d0
 		move.w	d0,(Current_music).w
 		btst	#status_secondary.invincible,(Player_1+status_secondary).w
-		beq.s	.play
-		moveq	#signextendB(mus_Invincible),d0					; if invincible, play invincibility music
+		beq.s	.play								; branch if Sonic is not invincible
+		moveq	#signextendB(mus_Invincible),d0					; prepare to play invincibility music
 
 .play
 		bra.w	Play_Music							; play music
@@ -309,7 +309,7 @@ HurtCharacter_Directly:
 
 EnemyDefeated:
 		bsr.s	EnemyDefeat_Score
-		movea.w	objoff_44(a0),a1
+		movea.w	parent4(a0),a1
 		tst.w	y_vel(a1)
 		bmi.s	.bouncedown
 		move.w	y_pos(a1),d0
@@ -438,7 +438,7 @@ Check_PlayerCollision:
 		andi.w	#3,d0
 		add.w	d0,d0
 		movea.w	.players(pc,d0.w),a1
-		move.w	a1,objoff_44(a0)
+		move.w	a1,parent4(a0)
 		moveq	#1,d1								; set touch
 
 .return

@@ -8,7 +8,7 @@ Obj_PathSwap:
 
 		; init
 		move.l	#Map_PathSwap,mappings(a0)
-		move.w	#make_art_tile(ArtTile_Ring,1,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Ring,1,FALSE),art_tile(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(128/2,128/2,priority_5),height_pixels(a0)	; set height, width and priority
 
@@ -92,7 +92,7 @@ sub_1CDDA:
 		bne.s	loc_1CE6C
 		cmp.w	x_pos(a1),d1
 		bhi.s	locret_1CE6A
-		move.b	#1,-1(a2)
+		st	-1(a2)
 		move.w	y_pos(a0),d2
 		move.w	d2,d3
 		move.w	objoff_32(a0),d4
@@ -203,7 +203,7 @@ sub_1CF42:
 		bne.s	loc_1CFD4
 		cmp.w	y_pos(a1),d1
 		bhi.s	locret_1CFD2
-		move.b	#1,-1(a2)
+		st	-1(a2)
 		move.w	x_pos(a0),d2
 		move.w	d2,d3
 		move.w	objoff_32(a0),d4
@@ -291,4 +291,5 @@ locret_1D058:
 		rts
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Path Swap/Object Data/Map - Path Swap.asm"

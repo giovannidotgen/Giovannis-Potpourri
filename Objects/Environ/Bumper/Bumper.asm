@@ -6,6 +6,9 @@
 
 Obj_Bumper:
 
+		; wait
+		jsr	(Obj_WaitOffscreen).w
+
 		; init
 		movem.l	ObjDat_Bumper(pc),d0-d3						; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
@@ -83,9 +86,11 @@ Obj_Bumper:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.addscore							; if it's zero, it isn't remembered
 		movea.w	d0,a2								; load address into a2
-		cmpi.b	#10+$80,(a2)							; has bumper been hit 10 times? ($80(bit 7) = draw flag)
+
+		; check
+		cmpi.b	#10+setBit(respawn_addr.state),(a2)				; has bumper been hit 10 times? (bit 7 = remember flag)
 		bhs.s	.return								; if yes, Sonic gets no points
-		addq.b	#1,(a2)
+		addq.b	#1,(a2)								; add 1 hit
 
 .addscore
 		moveq	#1,d0
@@ -102,9 +107,10 @@ Obj_Bumper:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_Bumper:		subObjMainData Obj_Bumper.hit, setBit(render_flags.level), 0, 32, 32, 1, $372, 0, 0, Map_Bump
+; init
+ObjDat_Bumper:		subObjMainData Obj_Bumper.hit, setBit(render_flags.level), 0, 32, 32, 1, $372, 0, FALSE, Map_Bump
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Bumper/Object Data/Anim - Bumper.asm"
 		include "Objects/Environ/Bumper/Object Data/Map - Bumper.asm"

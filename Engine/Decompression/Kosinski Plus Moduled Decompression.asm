@@ -13,11 +13,16 @@
 
 Queue_KosPlus:
 		move.w	(KosPlus_decomp_queue_count).w,d0
+		addq.w	#1,(KosPlus_decomp_queue_count).w
 		lsl.w	#3,d0											; multiply by 8
 		lea	(KosPlus_decomp_queue).w,a3
-		move.l	a1,(a3,d0.w)										; store source
-		move.l	a2,4(a3,d0.w)										; store destination
-		addq.w	#1,(KosPlus_decomp_queue_count).w
+		adda.w	d0,a3
+
+		; RaiseError is only available in DEBUG builds
+		ifdebug	jsr	(Queue_KosPlus_RaiseError).l							; raise an error if there is kosinski plus buffer overflow
+
+		move.l	a1,(a3)+										; store source
+		move.l	a2,(a3)+										; store destination
 		rts
 
 ; ---------------------------------------------------------------------------
@@ -46,11 +51,13 @@ LoadPLC_Raw_KosPlus:
 ; =============== S U B R O U T I N E =======================================
 
 Process_KosPlus_Module_Queue:
+
+		; check
 		tst.w	(KosPlus_modules_left).w
 		beq.s	.Done
 		bmi.s	.DecompressionStarted
-		cmpi.w	#(KosPlus_decomp_queue_end-KosPlus_decomp_queue)/8,(KosPlus_decomp_queue_count).w
-		bhs.s	.Done											; branch if the Kosinski Plus decompression queue is full
+
+		; set
 		movea.l	(KosPlus_module_queue).w,a1
 		lea	(KosPlus_decomp_buffer).w,a2
 		bsr.s	Queue_KosPlus										; add current module to decompression queue
@@ -77,7 +84,6 @@ Process_KosPlus_Module_Queue:
 		add.w	d3,d0
 		add.w	d3,d0
 		move.w	d0,(KosPlus_module_destination).w							; set new destination
-		move.l	(KosPlus_module_queue).w,d0
 		move.l	(KosPlus_decomp_queue).w,(KosPlus_module_queue).w					; set new source
 		move.l	#dmaSource(KosPlus_decomp_buffer),d1
 		disableIntsSave
@@ -108,7 +114,7 @@ Process_KosPlus_Module_Queue:
 		bra.s	Process_KosPlus_Module_Queue_Init
 
 ; ---------------------------------------------------------------------------
-; Adds pattern load requests to the Kosinski Plus Module decompression queue
+; Adds pattern load requests to the Kosinski Plus Moduled decompression queue
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================
@@ -148,6 +154,10 @@ Queue_KosPlus_Module:
 		addq.w	#6,a2											; otherwise, check next slot
 		tst.l	(a2)
 		bne.s	.findFreeSlot
+
+		; RaiseError is only available in DEBUG builds
+		ifdebug	jsr	(Queue_KosPlus_Module_RaiseError).l						; raise an error if there is kosinski plus moduled buffer overflow
+
 		move.l	a1,(a2)+										; store source address
 		move.w	d2,(a2)+										; store destination VRAM address
 		rts
@@ -160,14 +170,9 @@ Queue_KosPlus_Module:
 
 Process_KosPlus_Module_Queue_Init:
 		move.w	(a1)+,d3										; get uncompressed size
-		cmpi.w	#$A000,d3
-		bne.s	.Gotsize
-		move.w	#$8000,d3										; $A000 means $8000 for some reason
-
-.Gotsize
-		lsr.w	d3
 		move.w	d3,d0
-		rol.w	#5,d0
+		lsr.w	d3											; division by 2
+		rol.w	#4,d0
 		andi.w	#$1F,d0											; get number of complete modules
 		move.w	d0,(KosPlus_modules_left).w
 		andi.w	#$7FF,d3										; get size of last module in words
@@ -217,7 +222,7 @@ Process_KosPlus_Queue:
 		movem.l	(KosPlus_decomp_stored_registers+(2*6)).w,a0-a1/a5
 		move.l	(KosPlus_decomp_bookmark).w,-(sp)
 		move.w	(KosPlus_decomp_stored_SR).w,-(sp)
-		rte
+		rtr												; restore ccr
 ; ---------------------------------------------------------------------------
 
 .Main
@@ -249,7 +254,7 @@ Backup_KosPlus_Registers:
 		rts
 
 ; ---------------------------------------------------------------------------
-; Clears the Kosinski Plus Module decompression queue and its associated variables
+; Clears the Kosinski Plus Moduled decompression queue and its associated variables
 ; ---------------------------------------------------------------------------
 
 ; =============== S U B R O U T I N E =======================================

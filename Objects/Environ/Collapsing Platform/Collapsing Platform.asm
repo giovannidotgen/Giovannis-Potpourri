@@ -13,11 +13,11 @@ Obj_CollapsingPlatform:
 
 		; init
 		move.l	#Map_CollapsingPlatform,mappings(a0)
-		move.w	#make_art_tile(0,2,0),art_tile(a0)
+		move.w	#make_art_tile(0,2,FALSE),art_tile(a0)
 		move.l	#CFlo_Data1,objoff_30(a0)
 		move.l	#CPlat_Data,objoff_3C(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
-		move.l	#bytes_word_to_long(112/2,200/2,priority_4),height_pixels(a0)	; set height, width and priority
+		move.l	#bytes_word_to_long(112/2,96/2,priority_4),height_pixels(a0)	; set height, width and priority
 		move.b	#7,cplat_timedelay(a0)
 		move.b	subtype(a0),mapping_frame(a0)
 		ori.b	#$80,status(a0)
@@ -144,8 +144,8 @@ ObjPlatformCollapse_SmashObject:
 		move.w	respawn_addr(a0),d0						; get address in respawn table
 		beq.s	.playsfx							; if it's zero, it isn't remembered
 		movea.w	d0,a1								; load address into a1
-		bclr	#7,(a1)
-		clr.w	respawn_addr(a0)
+		bclr	#respawn_addr.state,(a1)					; turn on the slot
+		clr.w	respawn_addr(a0)				; clear the object respawn address (do not create this object again)
 
 .playsfx
 		sfx	sfx_Collapse,1
@@ -174,11 +174,11 @@ Obj_PlatformCollapseFall:
 
 .delete
 		jmp	(Delete_Current_Sprite).w
-
-; =============== S U B R O U T I N E =======================================
-
-CPlat_Data:		binclude "Objects/Environ/Collapsing Platform/Object Data/Heightmap.bin"
-	even
 ; ---------------------------------------------------------------------------
 
+		; data
+		incfile.b	CPlat_Data, "Objects/Environ/Collapsing Platform/Object Data/Heightmap.bin"
+; ---------------------------------------------------------------------------
+
+		; mappings
 		include "Objects/Environ/Collapsing Platform/Object Data/Map - Collapsing Platform.asm"

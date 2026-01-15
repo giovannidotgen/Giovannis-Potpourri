@@ -23,11 +23,7 @@ AnimateTiles_DoAniPLC:
 
 AnimateTiles_DoAniPLC_GetNumber:
 		move.w	(a2)+,d6							; get number of scripts in list
-		bpl.s	AnimateTiles_DoAniPLC_Part2					; if there are any, continue
-
-AnimateTiles_NULL:
-		rts
-; ---------------------------------------------------------------------------
+		bmi.s	AnimateTiles_NULL						; if no scripts, return
 
 AnimateTiles_DoAniPLC_Part2:
 
@@ -86,4 +82,6 @@ AnimateTiles_DoAniPLC_Part2:
 		lea	8(a2,d0.w),a2							; advance to next script in list
 		addq.w	#2,a3								; advance to next script's slot in a3 (usually Anim_Counters)
 		dbf	d6,.loop
+
+AnimateTiles_NULL:
 		rts

@@ -85,8 +85,13 @@ Obj_SpikePole:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_SpikePole:	subObjMainData Obj_SpikePole.action, setBit(render_flags.level)|setBit(render_flags.multi_sprite), 0, 16, (16*8), 3, $3B0, 2, 0, Map_SpikePole
+; init
+ObjDat_SpikePole:	subObjMainData \
+				Obj_SpikePole.action, \
+					setBit(render_flags.level) | \
+					setBit(render_flags.multi_sprite), \
+				0, 16, (16*8), 3, $3B0, 2, FALSE, Map_SpikePole
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Spike Pole/Object Data/Map - Spike Pole.asm"

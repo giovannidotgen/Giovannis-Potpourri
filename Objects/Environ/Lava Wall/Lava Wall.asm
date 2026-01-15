@@ -89,7 +89,7 @@ Obj_LavaWall:
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
 		bne.s	.check
-		move.b	#1,mapping_frame(a0)
+		subq.b	#4,mapping_frame(a0)						; reset to frame 1
 
 .check
 		cmpi.b	#PlayerID_Hurt,(Player_1+routine).w				; is Sonic falling back from getting hurt?
@@ -117,8 +117,9 @@ Obj_LavaWall:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_LavaWall:	subObjData Map_LWall, $36D, 3, 0, 64, 180, 1, 1, $14|collision_flags.npc.hurt
+; init
+ObjDat_LavaWall:	subObjData Map_LWall, $36D, 3, FALSE, 64, 180, 1, 1, $14|collision_flags.npc.hurt
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Lava Wall/Object Data/Map - Lava Wall.asm"

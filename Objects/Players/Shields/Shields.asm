@@ -2,11 +2,6 @@
 ; Shields (Object)
 ; ---------------------------------------------------------------------------
 
-; Elemental Shield DPLC variables
-LastLoadedDPLC				= objoff_34	; .b
-Art_Address				= objoff_38	; .l
-DPLC_Address				= objoff_3C	; .w
-
 ; ---------------------------------------------------------------------------
 ; Fire Shield
 ; ---------------------------------------------------------------------------
@@ -18,9 +13,6 @@ Obj_FireShield:
 		; init
 		movem.l	ObjDat_FireShield(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.l	#DPLC_FireShield,DPLC_Address(a0)				; used by PLCLoad_Shields
-		move.l	#dmaSource(ArtUnc_FireShield),Art_Address(a0)			; used by PLCLoad_Shields
-		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)			; used by PLCLoad_Shields
 
 		; check priority
 		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
@@ -29,7 +21,7 @@ Obj_FireShield:
 
 .nothighpriority
 		move.w	#1,anim(a0)							; clear anim and set prev_anim to 1
-		st	LastLoadedDPLC(a0)						; reset LastLoadedDPLC (used by PLCLoad_Shields)
+		st	objoff_3A(a0)							; reset objoff_3A (used by Perform_DPLC)
 
 .main
 		movea.w	parent(a0),a2							; a2=character
@@ -67,7 +59,10 @@ Obj_FireShield:
 
 .overplayer
 		move.w	d0,priority(a0)
-		bsr.w	PLCLoad_Shields
+
+		; draw
+		lea	PLCPtr_FireShield(pc),a2
+		jsr	(Perform_DPLC).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -109,9 +104,6 @@ Obj_LightningShield:
 		; init
 		movem.l	ObjDat_LightningShield(pc),d0-d3				; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.l	#DPLC_LightningShield,DPLC_Address(a0)				; used by PLCLoad_Shields
-		move.l	#dmaSource(ArtUnc_LightningShield),Art_Address(a0)		; used by PLCLoad_Shields
-		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)			; used by PLCLoad_Shields
 
 		; check priority
 		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
@@ -120,7 +112,7 @@ Obj_LightningShield:
 
 .nothighpriority
 		move.w	#1,anim(a0)							; clear anim and set prev_anim to 1
-		st	LastLoadedDPLC(a0)						; reset LastLoadedDPLC (used by PLCLoad_Shields)
+		st	objoff_3A(a0)							; reset objoff_3A (used by Perform_DPLC)
 
 .main
 		movea.w	parent(a0),a2							; a2=character
@@ -162,7 +154,10 @@ Obj_LightningShield:
 
 .overplayer
 		move.w	d0,priority(a0)
-		bsr.w	PLCLoad_Shields
+
+		; draw
+		lea	PLCPtr_LightningShield(pc),a2
+		jsr	(Perform_DPLC).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -287,9 +282,6 @@ Obj_BubbleShield:
 		; init
 		movem.l	ObjDat_BubbleShield(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.l	#DPLC_BubbleShield,DPLC_Address(a0)				; used by PLCLoad_Shields
-		move.l	#dmaSource(ArtUnc_BubbleShield),Art_Address(a0)			; used by PLCLoad_Shields
-		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)			; used by PLCLoad_Shields
 
 		; check priority
 		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
@@ -298,7 +290,7 @@ Obj_BubbleShield:
 
 .nothighpriority
 		move.w	#1,anim(a0)							; clear anim and set prev_anim to 1
-		st	LastLoadedDPLC(a0)						; reset LastLoadedDPLC (used by PLCLoad_Shields)
+		st	objoff_3A(a0)							; reset objoff_3A (used by Perform_DPLC)
 		movea.w	parent(a0),a1							; a1=character
 		jsr	(Player_ResetAirTimer).l
 
@@ -327,7 +319,10 @@ Obj_BubbleShield:
 .nothighpriority2
 		lea	Ani_BubbleShield(pc),a1
 		jsr	(Animate_Sprite).w
-		bsr.w	PLCLoad_Shields
+
+		; draw
+		lea	PLCPtr_BubbleShield(pc),a2
+		jsr	(Perform_DPLC).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -357,9 +352,6 @@ Obj_BlueShield:
 		; init
 		movem.l	ObjDat_BlueShield(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.l	#DPLC_BlueShield,DPLC_Address(a0)				; used by PLCLoad_Shields
-		move.l	#dmaSource(ArtUnc_BlueShield),Art_Address(a0)			; used by PLCLoad_Shields
-		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)			; used by PLCLoad_Shields
 
 		; check priority
 		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
@@ -368,7 +360,7 @@ Obj_BlueShield:
 
 .nothighpriority
 		move.w	#1,anim(a0)							; clear anim and set prev_anim to 1
-		st	LastLoadedDPLC(a0)						; reset LastLoadedDPLC (used by PLCLoad_Shields)
+		st	objoff_3A(a0)							; reset objoff_3A (used by Perform_DPLC)
 
 .main
 		movea.w	parent(a0),a2							; a2=character
@@ -395,7 +387,10 @@ Obj_BlueShield:
 .nothighpriority2
 		lea	Ani_BlueShield(pc),a1
 		jsr	(Animate_Sprite).w
-		bsr.w	PLCLoad_Shields
+
+		; draw
+		lea	PLCPtr_BlueShield(pc),a2
+		jsr	(Perform_DPLC).w
 		jmp	(Draw_Sprite).w
 ; ---------------------------------------------------------------------------
 
@@ -425,9 +420,6 @@ Obj_InstaShield:
 		; init
 		movem.l	ObjDat_InstaShield(pc),d0-d3					; copy data to d0-d3
 		movem.l	d0-d3,address(a0)						; set data from d0-d3 to current object
-		move.l	#DPLC_InstaShield,DPLC_Address(a0)				; used by PLCLoad_Shields
-		move.l	#dmaSource(ArtUnc_InstaShield),Art_Address(a0)			; used by PLCLoad_Shields
-		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)			; used by PLCLoad_Shields
 
 		; check priority
 		btst	#high_priority_bit,(Player_1+art_tile).w			; is Sonic has high priority?
@@ -436,11 +428,11 @@ Obj_InstaShield:
 
 .nothighpriority
 		move.w	#1,anim(a0)							; clear anim and set prev_anim to 1
-		st	LastLoadedDPLC(a0)						; reset LastLoadedDPLC (used by PLCLoad_Shields)
+		st	objoff_3A(a0)							; reset objoff_3A (used by Perform_DPLC)
 
 .main
 		movea.w	parent(a0),a2							; a2=character
-		btst	#status_secondary.invincible,status_secondary(a2)				; is the player invincible?
+		btst	#status_secondary.invincible,status_secondary(a2)		; is the player invincible?
 		bne.s	Obj_BlueShield.return						; if so, return
 		move.w	x_pos(a2),x_pos(a0)						; inherit player's x_pos
 		move.w	y_pos(a2),y_pos(a0)						; inherit player's y_pos
@@ -469,56 +461,16 @@ Obj_InstaShield:
 		tst.b	mapping_frame(a0)						; is this the first frame?
 		beq.s	.loadnewdplc							; if so, branch and load the DPLC for this and the next few frames
 		cmpi.b	#3,mapping_frame(a0)						; is this the third frame?
-		bne.s	.skipdplc							; if not, branch as we don't need to load another DPLC yet
+		bne.s	.draw								; if not, branch as we don't need to load another DPLC yet
 
 .loadnewdplc
-		bsr.s	PLCLoad_Shields
 
-.skipdplc
+		; dplc
+		lea	PLCPtr_InstaShield(pc),a2
+		jsr	(Perform_DPLC).w
+
+.draw
 		jmp	(Draw_Sprite).w
-
-; ---------------------------------------------------------------------------
-; Shields (DPLC)
-; ---------------------------------------------------------------------------
-
-; =============== S U B R O U T I N E =======================================
-
-PLCLoad_Shields:
-		moveq	#0,d0
-		move.b	mapping_frame(a0),d0
-		cmp.b	LastLoadedDPLC(a0),d0
-		beq.s	.return
-		move.b	d0,LastLoadedDPLC(a0)
-
-		; load
-		add.w	d0,d0
-		movea.l	DPLC_Address(a0),a2
-		adda.w	(a2,d0.w),a2
-		move.w	(a2)+,d5
-		subq.w	#1,d5
-		bmi.s	.return
-		move.w	vram_art(a0),d4
-		move.l	Art_Address(a0),d6
-
-.readentry
-		moveq	#0,d1
-		move.w	(a2)+,d1
-		move.w	d1,d3
-		move.w	d3,-(sp)
-		move.b	(sp)+,d3
-		andi.w	#$F0,d3
-		addi.w	#$10,d3
-		andi.w	#$FFF,d1
-		lsl.l	#4,d1
-		add.l	d6,d1
-		move.w	d4,d2
-		add.w	d3,d4
-		add.w	d3,d4
-		jsr	(Add_To_DMA_Queue).w
-		dbf	d5,.readentry
-
-.return
-		rts
 
 ; ---------------------------------------------------------------------------
 ; Invincibility
@@ -735,39 +687,47 @@ byte_18A1B:
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
+; init
 ObjDat_FireShield:		subObjMainData \
 				Obj_FireShield.main, \
 					setBit(render_flags.level), \
-				0, 48, 48, 1, ArtTile_Shield, 0, 0, Map_FireShield
+				0, 48, 48, 1, ArtTile_Shield, 0, FALSE, Map_FireShield
 
 ObjDat_LightningShield:		subObjMainData \
 				Obj_LightningShield.main, \
 					setBit(render_flags.level), \
-				0, 48, 48, 1, ArtTile_Shield, 0, 0, Map_LightningShield
+				0, 48, 48, 1, ArtTile_Shield, 0, FALSE, Map_LightningShield
 
 ObjDat_BubbleShield:		subObjMainData \
 				Obj_BubbleShield.main, \
 					setBit(render_flags.level), \
-				0, 48, 48, 1, ArtTile_Shield, 0, 0, Map_BubbleShield
+				0, 48, 48, 1, ArtTile_Shield, 0, FALSE, Map_BubbleShield
 
 ObjDat_BlueShield:		subObjMainData \
 				Obj_BlueShield.main, \
 					setBit(render_flags.level), \
-				0, 48, 48, 1, ArtTile_Shield, 0, 0, Map_BlueShield
+				0, 48, 48, 1, ArtTile_Shield, 0, FALSE, Map_BlueShield
 
 ObjDat_InstaShield:		subObjMainData \
 				Obj_InstaShield.main, \
 					setBit(render_flags.level), \
-				0, 48, 48, 1, ArtTile_Shield, 0, 0, Map_InstaShield
+				0, 48, 48, 1, ArtTile_Shield, 0, FALSE, Map_InstaShield
 
 ObjDat_Invincibility:		subObjMainData \
 				Obj_188E8, \
 					setBit(render_flags.level) | \
 					setBit(render_flags.multi_sprite), \
-				0, 32, 32, 1, ArtTile_Shield, 0, 0, Map_Invincibility
+				0, 32, 32, 1, ArtTile_Shield, 0, FALSE, Map_Invincibility
+
+; dplc
+PLCPtr_FireShield:		DPLCEntry ArtUnc_FireShield, DPLC_FireShield
+PLCPtr_LightningShield:		DPLCEntry ArtUnc_LightningShield, DPLC_LightningShield
+PLCPtr_BubbleShield:		DPLCEntry ArtUnc_BubbleShield, DPLC_BubbleShield
+PLCPtr_BlueShield:		DPLCEntry ArtUnc_BlueShield, DPLC_BlueShield
+PLCPtr_InstaShield:		DPLCEntry ArtUnc_InstaShield, DPLC_InstaShield
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Players/Shields/Object Data/Anim - Fire Shield.asm"
 		include "Objects/Players/Shields/Object Data/Anim - Lightning Shield.asm"
 		include "Objects/Players/Shields/Object Data/Anim - Bubble Shield.asm"

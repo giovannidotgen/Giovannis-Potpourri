@@ -8,7 +8,7 @@ Obj_Monitor:
 
 		; init
 		move.l	#Map_Monitor,mappings(a0)
-		move.w	#make_art_tile(ArtTile_Monitors,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Monitors,0,FALSE),art_tile(a0)
 		ori.b	#setBit(render_flags.level),render_flags(a0)			; use screen coordinates
 		move.l	#bytes_word_to_long(32/2,28/2,priority_3),height_pixels(a0)	; set height, width and priority
 
@@ -69,8 +69,8 @@ Obj_Monitor:
 ; =============== S U B R O U T I N E =======================================
 
 Obj_MonitorFall:
-		move.b	routine_secondary(a0),d0
-		beq.s	Obj_MonitorFallUpsideUp.return
+		tst.b	routine_secondary(a0)						; player hit the monitor from below?
+		beq.s	Obj_MonitorFallUpsideUp.return					; if not, return
 		btst	#render_flags.y_flip,render_flags(a0)				; is monitor upside down?
 		bne.s	Obj_MonitorFallUpsideDown					; if so, branch
 
@@ -261,7 +261,7 @@ Obj_MonitorAnimate:
 Obj_MonitorContents:
 
 		; init
-		move.w	#make_art_tile(ArtTile_Monitors,0,0),art_tile(a0)
+		move.w	#make_art_tile(ArtTile_Monitors,0,FALSE),art_tile(a0)
 
 		; set screen coordinates and static mapping flag
 		ori.b	#( \
@@ -325,7 +325,7 @@ loc_1D850:
 		move.l	#Obj_MonitorContents.waitdel,address(a0)
 
 		; give powerup
-		movea.w	parent(a0),a1							; a1=character
+		movea.w	parent(a0),a2							; a2=character
 		moveq	#0,d0
 		move.b	anim(a0),d0
 		add.w	d0,d0
@@ -360,11 +360,11 @@ loc_1D850:
 			setBit(status_secondary.fire_shield) | \
 			setBit(status_secondary.lightning_shield) | \
 			setBit(status_secondary.bubble_shield) \
-		),status_secondary(a1)
+		),status_secondary(a2)
 
-		bset	#status_secondary.shield,status_secondary(a1)
+		bset	#status_secondary.shield,status_secondary(a2)
 		move.l	#Obj_BlueShield,(Shield+address).w
-		move.w	a1,(Shield+parent).w
+		move.w	a2,(Shield+parent).w
 		sfx	sfx_BlueShield,1
 ; ---------------------------------------------------------------------------
 
@@ -379,12 +379,12 @@ Monitor_Give_1up:
 ; ---------------------------------------------------------------------------
 
 Monitor_Give_SpeedShoes:
-		bset	#status_secondary.speed_shoes,status_secondary(a1)
-		move.b	#(20*60)/8,speed_shoes_timer(a1)
+		bset	#status_secondary.speed_shoes,status_secondary(a2)
+		move.b	#(20*60)/8,speed_shoes_timer(a2)
 
 		; set player speed
 		lea	(Max_speed).w,a4
-		cmpi.b	#PlayerID_Tails,character_id(a1)				; is player Tails?
+		cmpi.b	#PlayerID_Tails,character_id(a2)				; is player Tails?
 		bne.s	.sets								; if not, branch
 		lea	(Max_speed_P2).w,a4
 
@@ -408,12 +408,12 @@ Monitor_Give_Fire_Shield:
 			setBit(status_secondary.fire_shield) | \
 			setBit(status_secondary.lightning_shield) | \
 			setBit(status_secondary.bubble_shield) \
-		),status_secondary(a1)
+		),status_secondary(a2)
 
-		bset	#status_secondary.shield,status_secondary(a1)
-		bset	#status_secondary.fire_shield,status_secondary(a1)
+		bset	#status_secondary.shield,status_secondary(a2)
+		bset	#status_secondary.fire_shield,status_secondary(a2)
 		move.l	#Obj_FireShield,(Shield+address).w
-		move.w	a1,(Shield+parent).w
+		move.w	a2,(Shield+parent).w
 		sfx	sfx_FireShield,1
 ; ---------------------------------------------------------------------------
 
@@ -425,12 +425,12 @@ Monitor_Give_Lightning_Shield:
 			setBit(status_secondary.fire_shield) | \
 			setBit(status_secondary.lightning_shield) | \
 			setBit(status_secondary.bubble_shield) \
-		),status_secondary(a1)
+		),status_secondary(a2)
 
-		bset	#status_secondary.shield,status_secondary(a1)
-		bset	#status_secondary.lightning_shield,status_secondary(a1)
+		bset	#status_secondary.shield,status_secondary(a2)
+		bset	#status_secondary.lightning_shield,status_secondary(a2)
 		move.l	#Obj_LightningShield,(Shield+address).w
-		move.w	a1,(Shield+parent).w
+		move.w	a2,(Shield+parent).w
 		sfx	sfx_LightningShield,1
 ; ---------------------------------------------------------------------------
 
@@ -442,12 +442,12 @@ Monitor_Give_Bubble_Shield:
 			setBit(status_secondary.fire_shield) | \
 			setBit(status_secondary.lightning_shield) | \
 			setBit(status_secondary.bubble_shield) \
-		),status_secondary(a1)
+		),status_secondary(a2)
 
-		bset	#status_secondary.shield,status_secondary(a1)
-		bset	#status_secondary.bubble_shield,status_secondary(a1)
+		bset	#status_secondary.shield,status_secondary(a2)
+		bset	#status_secondary.bubble_shield,status_secondary(a2)
 		move.l	#Obj_BubbleShield,(Shield+address).w
-		move.w	a1,(Shield+parent).w
+		move.w	a2,(Shield+parent).w
 		sfx	sfx_BubbleShield,1
 ; ---------------------------------------------------------------------------
 
@@ -456,19 +456,19 @@ Monitor_Give_Invincibility:
 		bne.s	.return								; if so, branch
 		tst.b	(Super_Tails_flag).w						; is Tails Super?
 		bne.s	.return								; if so, branch
-		bset	#status_secondary.invincible,status_secondary(a1)
-		move.b	#(20*60)/8,invincibility_timer(a1)
+		bset	#status_secondary.invincible,status_secondary(a2)
+		move.b	#(20*60)/8,invincibility_timer(a2)
 		tst.b	(Music_results_flag).w						; don't change music if level is end
 		bne.s	.skipmusic
 		tst.b	(Boss_flag).w
 		bne.s	.skipmusic
-		cmpi.b	#12,air_left(a1)
+		cmpi.b	#12,air_left(a2)
 		bls.s	.skipmusic
 		music	mus_Invincible							; if invincible, play invincibility music
 
 .skipmusic
 		move.l	#Obj_Invincibility,(Invincibility_stars+address).w
-		move.w	a1,(Invincibility_stars+parent).w
+		move.w	a2,(Invincibility_stars+parent).w
 
 .return
 		rts
@@ -497,18 +497,18 @@ Monitor_Give_SuperSonic:
 		move.b	#$F,(Palette_timer).w
 		move.b	#1,(Super_Sonic_Knux_flag).w
 		move.w	#60,(Super_frame_count).w
-		move.b	#AniIDSupSonAni_Transform,anim(a1)				; enter 'transformation' animation
+		move.b	#AniIDSupSonAni_Transform,anim(a2)				; enter 'transformation' animation
 
 		; check player
 		lea	(Max_speed).w,a4
-		cmpi.b	#PlayerID_Tails,character_id(a1)				; is player Tails?
+		cmpi.b	#PlayerID_Tails,character_id(a2)				; is player Tails?
 		bne.s	.notTails							; if not, branch
 		lea	(Max_speed_P2).w,a4
 
 		; Tails
 		clr.b	(Super_Sonic_Knux_flag).w
 		move.b	#1,(Super_Tails_flag).w
-		move.b	#AniIDTailsAni_Transform,anim(a1)				; enter 'transformation' animation
+		move.b	#AniIDTailsAni_Transform,anim(a2)				; enter 'transformation' animation
 		move.l	#Obj_SuperTailsBirds,(Invincibility_stars).w
 		bra.s	.speed
 ; ---------------------------------------------------------------------------
@@ -521,9 +521,14 @@ Monitor_Give_SuperSonic:
 		move.w	#$30,Acceleration-Max_speed(a4)					; set acceleration
 		move.w	#$100,Deceleration-Max_speed(a4)				; set deceleration
 
+.artsize	:= (ArtUnc_SuperSonicLifeIcon_end-ArtUnc_SuperSonicLifeIcon)&$FFFF
+
+		; load Super Sonic life icon art
+		QueueStaticDMA ArtUnc_SuperSonicLifeIcon,.artsize,tiles_to_bytes(ArtTile_LifeIcon)
+
 		; set
 		st	(Super_Sonic_Knux_flag).w
-	;	move.l	#Map_SuperSonic,mappings(a1)					; GIO: i am NOT doing that (yet)
+	;	move.l	#Map_SuperSonic,mappings(a2)					; GIO: now handled by the sprite bank system
 		move.l	#Obj_HyperSonic_Stars,(Invincibility_stars).w
 		move.l	#Obj_HyperSonicKnux_Trail,(Super_stars).w
 		bra.s	.continued
@@ -539,9 +544,9 @@ Monitor_Give_SuperSonic:
 		move.w	#$C0,Deceleration-Max_speed(a4)					; set deceleration
 
 .continued
-		move.b	#$81,object_control(a1)
-		clr.b	invincibility_timer(a1)
-		bset	#status_secondary.invincible,status_secondary(a1)
+		move.b	#$81,object_control(a2)
+		clr.b	invincibility_timer(a2)
+		bset	#status_secondary.invincible,status_secondary(a2)
 		sfx	sfx_SuperTransform
 		music	mus_Invincible,1						; play invincibility theme
 	else
@@ -549,5 +554,6 @@ Monitor_Give_SuperSonic:
 	endif
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Monitor/Object Data/Anim - Monitor.asm"
 		include "Objects/Main/Monitor/Object Data/Map - Monitor.asm"

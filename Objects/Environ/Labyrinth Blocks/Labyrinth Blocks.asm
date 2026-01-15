@@ -9,7 +9,9 @@ lblk_time			= objoff_36	; time delay for block movement
 lblk_untouched			= objoff_38	; flag block as untouched
 ; ---------------------------------------------------------------------------
 
-LBlk_Var:	; width/2, height/2
+LBlk_Var:
+
+		; width/2, height/2
 		dc.b 32/2, 32/2
 		dc.b 24/2, 64/2
 		dc.b 32/2, 32/2
@@ -39,7 +41,7 @@ Obj_LabyrinthBlock:
 		beq.s	.action								; branch if 0
 		cmpi.b	#7,d0
 		beq.s	.action								; branch if 7
-		move.b	#1,lblk_untouched(a0)
+		st	lblk_untouched(a0)
 
 .action
 		move.w	x_pos(a0),-(sp)
@@ -137,8 +139,7 @@ LabyrinthBlock_TypeIndex: offsetTable
 
 .type02
 .type06
-		moveq	#8,d1
-		jsr	(MoveSprite_CustomGravity).w					; make block fall
+		MoveSpriteYOnly a0, 8							; make block fall
 		jsr	(ObjCheckFloorDist).w
 		tst.w	d1								; has block hit the floor?
 		bpl.s	.nofloor02							; if not, branch
@@ -152,8 +153,7 @@ LabyrinthBlock_TypeIndex: offsetTable
 ; ---------------------------------------------------------------------------
 
 .type04
-		moveq	#-8,d1
-		jsr	(MoveSprite_CustomGravity).w					; make block rise
+		MoveSpriteYOnly a0, -8							; make block rise
 		jsr	(ObjCheckCeilingDist).w
 		tst.w	d1								; has block hit the ceiling?
 		bpl.s	.noceiling04							; if not, branch
@@ -213,8 +213,9 @@ LabyrinthBlock_TypeIndex: offsetTable
 
 ; =============== S U B R O U T I N E =======================================
 
-; mapping
-ObjDat_LabyrinthBlock:		subObjMainData Obj_LabyrinthBlock.action, setBit(render_flags.level), 0, 0, 0, 3, $3E6, 2, 0, Map_LBlock
+; init
+ObjDat_LabyrinthBlock:		subObjMainData Obj_LabyrinthBlock.action, setBit(render_flags.level), 0, 0, 0, 3, $3E6, 2, FALSE, Map_LBlock
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Environ/Labyrinth Blocks/Object Data/Map - Labyrinth Blocks.asm"

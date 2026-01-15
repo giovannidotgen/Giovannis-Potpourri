@@ -23,9 +23,9 @@ Obj_SpriteMask2:
 		move.b	d0,d1
 		andi.w	#7,d1
 		andi.w	#$F0,d0
-		lsr.w	#2,d0
+		lsr.w	#2,d0								; divide by 4
 		move.b	d0,height_pixels(a0)
-		lsr.w	#2,d0
+		lsr.w	#2,d0								; divide by 4
 		move.b	d0,mapping_frame(a0)
 		lsl.w	#7,d1								; multiply by $80
 		move.w	d1,priority(a0)
@@ -58,4 +58,5 @@ Child6_SpriteMask2:
 		dc.l Obj_SpriteMask2
 ; ---------------------------------------------------------------------------
 
+		; mappings
 		include "Objects/Main/Sprite Mask/Object Data/Map - Sprite Mask.asm"
