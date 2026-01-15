@@ -61,8 +61,9 @@ Obj_DashDust:
 		; check reset frame
 		tst.b	anim(a0)												; changed by Animate_Sprite
 		beq.w	.reset
-		bsr.w	DashDust_Load_DPLC
-		jmp	(Draw_Sprite).w	
+		lea	PLCPtr_DashDust(pc),a2
+		jsr	(Perform_DPLC).w
+		jmp	(Draw_Sprite).w
 		
 ; --------------------------------------------------------------------------	
 	
@@ -184,7 +185,7 @@ DashDust_CheckSkid:
 
 		; check
 		btst	#status.player.underwater,status(a2)				; is player underwater?
-		bne.s	.dplc								; if yes, branch
+		bne.s	DashDust_Load_DPLC						; if yes, branch
 
 		; create dust clouds
 		cmpi.b	#5,anim(a0)										; GIO: is the current Dust animation the Drop Dash?
@@ -193,7 +194,7 @@ DashDust_CheckSkid:
 		clr.w	mapping_frame(a0)
 .nodropdash:		
 		jsr	(Create_New_Sprite).w
-		bne.s	.dplc
+		bne.s	DashDust_Load_DPLC
 		move.l	#Obj_DashDust_SkidDust,address(a1)
 		move.w	x_pos(a2),x_pos(a1)
 		move.w	y_pos(a2),y_pos(a1)
@@ -217,7 +218,7 @@ DashDust_CheckSkid:
 		move.w	parent(a0),parent(a1)
 		andi.w	#drawing_mask,art_tile(a1)
 		tst.w	art_tile(a2)
-		bpl.s	.dplc
+		bpl.s	DashDust_Load_DPLC
 		ori.w	#high_priority,art_tile(a1)
 
 ; ---------------------------------------------------------------------------
@@ -227,40 +228,8 @@ DashDust_CheckSkid:
 ; =============== S U B R O U T I N E =======================================
 
 DashDust_Load_DPLC:
-		move.l	#dmaSource(ArtUnc_DashDust),d6
-
-SplashDrown_Load_DPLC:
-		moveq	#0,d0
-		move.b	mapping_frame(a0),d0
-		cmp.b	dashdust_prev_frame(a0),d0
-		beq.s	.return
-		move.b	d0,dashdust_prev_frame(a0)
-		add.w	d0,d0
-		lea	DPLC_DashSplashDrown(pc),a2
-		adda.w	(a2,d0.w),a2
-		move.w	(a2)+,d5
-		subq.w	#1,d5
-		bmi.s	.return
-		move.w	vram_art(a0),d4
-
-.loop
-		moveq	#0,d1
-		move.w	(a2)+,d1
-		move.w	d1,d3
-		lsr.w	#8,d3
-		andi.w	#$F0,d3
-		addi.w	#$10,d3
-		andi.w	#$FFF,d1
-		lsl.l	#4,d1
-		add.l	d6,d1
-		move.w	d4,d2
-		add.w	d3,d4
-		add.w	d3,d4
-		jsr	(Add_To_DMA_Queue).w
-		dbf	d5,.loop
-
-.return
-		rts
+		lea	PLCPtr_DashDust(pc),a2
+		jmp	(Perform_DPLC).w
 
 ; ---------------------------------------------------------------------------
 ; Dash Dust (Skid dust)
