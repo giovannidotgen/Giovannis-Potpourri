@@ -683,9 +683,35 @@ shield_reaction.fire_shield					= 4
 shield_reaction.lightning_shield				= 5
 shield_reaction.bubble_shield					= 6
 
-Status_FireShieldByte					= 1<<Status_FireShield
-Status_LtngShieldByte					= 1<<Status_LtngShield
-Status_BublShieldByte					= 1<<Status_BublShield
+Status_FireShieldByte					= 1<<shield_reaction.fire_shield
+Status_LtngShieldByte					= 1<<shield_reaction.lightning_shield
+Status_BublShieldByte					= 1<<shield_reaction.bubble_shield
+
+; ---------------------------------------------------------------------------
+; Player status variables (backward compatibility)
+; ---------------------------------------------------------------------------
+
+Status_Facing							= status.player.x_flip
+Status_InAir							= status.player.in_air
+Status_Roll							= status.player.rolling
+Status_OnObj							= status.player.on_object
+
+Status_Push							= status.player.pushing
+Status_Underwater						= status.player.underwater
+Status_DropDashLock						= status.player.dropdashlock	; GIO: Used only by Sonic. Prevents him from initiating a Drop Dash.
+
+
+; ---------------------------------------------------------------------------
+; Player status secondary variables (backward compatibility)
+; ---------------------------------------------------------------------------
+
+Status_Shield							= status_secondary.shield
+Status_Invincible						= status_secondary.invincible
+Status_SpeedShoes						= status_secondary.speed_shoes
+Status_DropDash							= status_secondary.dropdash ; GIO: Used only by Sonic. Determines whether or not a Drop Dash Charge was initiated.
+Status_FireShield						= status_secondary.fire_shield
+Status_LtngShield						= status_secondary.lightning_shield
+Status_BublShield						= status_secondary.bubble_shield
 
 ; ---------------------------------------------------------------------------
 ; Object status variables
