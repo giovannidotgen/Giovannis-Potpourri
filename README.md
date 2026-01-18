@@ -1,20 +1,19 @@
-# Giovanni's Potpourri
+# Sonic 1 SCE - Dotgen Edition
 
-This is a disassembly where I implement a variety of things onto Red Miso Studios' Sonic 1 in Sonic 3 of small to medium size.
+This project is a collection of smaller projects built off of the [Sonic 1 in Sonic 3 & Knuckles](https://github.com/TheBlad768/Sonic-1-in-Sonic-3-S.C.E.-) disassembly, either one-and-dones or for other projects. 
 
 ## Additions from source
-- Drop Dash, from Sonic Mania (the code for which was derived from my own Sonic 2 - Score Rush)
+- Drop Dash, from Sonic Mania (the code for which was derived from Sonic 2 - Score Rush)
 - Fast Air Moves, a feature that disables the vertical speed check that occurs during a jump, and before an air move
-
-## Known issues
-- Super Sonic's sprites have been disabled. I intend to address it through an approach distinct from that of the base game.
+- Super Peel-Out, from Sonic CD (the code for which was derived from Sonic 2 - Score Rush, and from [heyjoeway's Sonic 2 Community's Cut](https://github.com/heyjoeway/s2cx)
+- A Sprite bank system, enabling playable characters to have a theoretical maximum of tens of thousands of sprites
 
 ## Usage conditions
-Original code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions, as well as unoriginal assets and code, may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that giovanni.gen does not hold the power to grant you such permission in the first place. It is highly advised you triple check whether any line of code was written specifically for this project, or if it already existed, as there exists the chance you'll pull code directly originating from SEGA's Sonic the Hedgehog Mega Drive games.
+Original code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions, as well as unoriginal assets and code, may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that Dotgen Studios does not hold the power to grant you such permission in the first place. It is highly advised you triple check whether any line of code was written specifically for this project, or if it already existed, as there exists the chance you'll pull code directly originating from SEGA's Sonic the Hedgehog Mega Drive games.
 
 Credit is appreciated.
 
-## Giovanni's Potpourri - Credits
+## Sonic 1 SCE - Dotgen Edition - Credits
 
 Each mini-project has its own set of credits:
 ### Drop Dash in Sonic 1 in Sonic 3
