@@ -9,11 +9,7 @@ This project is a collection of smaller projects built off of the [Sonic 1 in So
 - A Sprite bank system, enabling playable characters to have a theoretical maximum of tens of thousands of sprites
 
 ## Usage conditions
-Original code contributions are free to reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions, as well as unoriginal assets and code, may be subject to separate conditions. You may not use any of the contents of the repository for commercial purposes without the explicit, written permission of giovanni.gen. Due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you will simply not be granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that Dotgen Studios does not hold the power to grant you such permission in the first place. It is highly advised you triple check whether any line of code was written specifically for this project, or if it already existed, as there exists the chance you'll pull code directly originating from SEGA's Sonic the Hedgehog Mega Drive games.
-
-The original project's [license](LICENSE) applies to this fork, too.
-
-Credit is appreciated.
+Original code contributions are free for reuse for the development of Sonic ROM Hacks, and, if applicable, non-commercial projects. Other original asset contributions, as well as unoriginal assets and code, may be subject to separate conditions. Per the terms of the [license](LICENSE), you may not use any of the contents of the repository for commercial purposes. Even if we could grant you permission to do so, due to the fact that this is a derivative of SEGA's Sonic the Hedgehog Mega Drive games, there is a 99.99999% likelihood you would've simply not been granted permission to use certain code and assets for commercial purposes anyway, on account of the fact that Dotgen Studios does not hold the power to grant you such permission in the first place. It is highly advised you triple check whether any line of code was written specifically for this project, or if it already existed, as there exists the chance you'll pull code directly originating from SEGA's Sonic the Hedgehog Mega Drive games.
 
 ## Sonic 1 SCE - Dotgen Edition - Credits
 
